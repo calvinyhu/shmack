@@ -9,7 +9,6 @@ class Layout extends Component {
         return (
             <Auxiliary>
                 {/* Toolbar */}
-                {/* Sidedrawer */}
                 <main>
                     {this.props.children}
                 </main>
