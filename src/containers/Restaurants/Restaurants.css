@@ -13,8 +13,16 @@
 
 .RestaurantsGridItem {
     background-image: url('../../assets/Placeholders/585be1aa1600002400bdf2a6.jpeg');
-    color: white;
+    color: rgb(226, 226, 226);
+    font-weight: bold;
+    font-size: 20px;
     /* TODO: Padding issue, avoid hard code later*/
     padding: 47% 0;
-    border: 1px solid rgba(0, 0, 0, 0.726);
+    border: 1px solid rgba(0, 0, 0, 0.7);
+}
+
+.RestaurantsGridItem:hover {
+    background-blend-mode: color;
+    background-color: rgba(0, 0, 0, 0.5);
+    transition: 250ms;
 }
