@@ -1,0 +1,20 @@
+.Restaurants {
+    padding: 0;
+    margin: 0;
+    text-align: center;
+}
+
+.RestaurantsGrid {
+    padding: 0;
+    margin: 0;
+    display: grid;
+    grid-template-columns: 1fr 1fr 1fr;
+}
+
+.RestaurantsGridItem {
+    background-image: url('../../assets/Placeholders/585be1aa1600002400bdf2a6.jpeg');
+    color: white;
+    /* TODO: Padding issue, avoid hard code later*/
+    padding: 47% 0;
+    border: 1px solid rgba(0, 0, 0, 0.726);
+}
