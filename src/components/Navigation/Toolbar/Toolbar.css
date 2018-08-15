@@ -1,6 +1,1 @@
-.Toolbar {
-    display: flex;
-    justify-content: center;
-    padding: 2rem;
-    background: white;
-}
+.Toolbar{display:flex;justify-content:space-between;align-items:center;width:100vw;padding:2rem;background:#fff}.Toolbar p{display:flex;margin:0;padding:0}
