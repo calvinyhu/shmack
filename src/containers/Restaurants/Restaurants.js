@@ -13,7 +13,7 @@ class Restaurants extends Component {
         let restaurants = [];
         for (let i = 1; i <= this.state.restaurants.count; i = i + 1) {
             restaurants.push(
-                <div key={i}className={classes.RestaurantsGridItem}>Restaurant Image {i}</div>
+                <div key={i}className={classes.RestaurantsGridItem}>{i}</div>
             );
         }
 
