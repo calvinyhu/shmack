@@ -3,6 +3,7 @@ const fs = require('fs')
 const path = require('path')
 const gulp = require('gulp')
 const sass = require('gulp-sass')
+const autoprefixer = require('gulp-autoprefixer')
 const minifyCSS = require('gulp-clean-css')
 const changed = require('gulp-changed')
 
@@ -36,6 +37,10 @@ gulp.task(COMPILE_SCSS, () => {
         let dir = path.dirname(file)
         gulp.src(path.join(dir, '*.scss'))
             .pipe(sass().on('error', sass.logError))
+            .pipe(autoprefixer({
+                browsers: ['last 99 versions'],
+                cascade: false
+            }))
             .pipe(minifyCSS())
             .pipe(changed(dir))
             .pipe(gulp.dest(dir))
@@ -48,6 +53,10 @@ gulp.task(COMPILE_SCSS_FORCE, () => {
         let dir = path.dirname(file)
         gulp.src(path.join(dir, '*.scss'))
             .pipe(sass().on('error', sass.logError))
+            .pipe(autoprefixer({
+                browsers: ['last 99 versions'],
+                cascade: false
+            }))
             .pipe(minifyCSS())
             .pipe(gulp.dest(dir))
     })

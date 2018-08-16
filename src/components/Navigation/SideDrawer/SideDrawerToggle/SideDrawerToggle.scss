@@ -4,8 +4,9 @@
 .SideDrawerToggle {
     display: flex;
     flex-direction: column;
-    justify-content: space-evenly;
+    justify-content: space-between;
     height: 2rem;
+    padding: 0.2rem;
     margin-left: $margin-default * 2;
     cursor: pointer;
 
@@ -21,16 +22,18 @@
     transition: $transition-default;
 }
 
-.Change .Bar1 {
-    -webkit-transform: rotate(-45deg) translate(-9px, 6px);
-    transform: rotate(-45deg) translate(-9px, 6px);
+.AnimateBar1 {
+    transform-origin: right;
+    -webkit-transform: rotate(-43deg);
+    transform: rotate(-43deg);
 }
 
-.Change .Bar2 {
+.AnimateBar2 {
     opacity: 0;
 }
 
-.Change .Bar3 {
-    -webkit-transform: rotate(45deg) translate(-8px, -8px);
-    transform: rotate(45deg) translate(-8px, -8px);
+.AnimateBar3 {
+    transform-origin: right;
+    -webkit-transform: rotate(43deg);
+    transform: rotate(43deg);
 }

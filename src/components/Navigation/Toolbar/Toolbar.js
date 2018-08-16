@@ -12,7 +12,7 @@ const toolbar = (props) => {
                 <input type='text' placeholder='Search' />
                 <input type='text' placeholder='Location' />
             </div>
-            <SideDrawerToggle toggleSideDrawer={props.toggleSideDrawer} />
+            <SideDrawerToggle toggleSideDrawer={props.toggleSideDrawer} showSideDrawer={props.showSideDrawer} />
             <nav>
                 <NavigationItems />
             </nav>
