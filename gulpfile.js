@@ -9,6 +9,7 @@ const changed = require('gulp-changed')
 // Tasks
 const WATCH_SCSS = 'watch_scss'
 const COMPILE_SCSS = 'compile-scss'
+const COMPILE_SCSS_FORCE = 'compile-scss-force'
 
 // Find files
 getFiles = (dir, filter, found) => {
@@ -41,10 +42,21 @@ gulp.task(COMPILE_SCSS, () => {
     })
 })
 
+// Force compile SCSS
+gulp.task(COMPILE_SCSS_FORCE, () => {
+    scss_files.forEach(file => {
+        let dir = path.dirname(file)
+        gulp.src(path.join(dir, '*.scss'))
+            .pipe(sass().on('error', sass.logError))
+            .pipe(minifyCSS())
+            .pipe(gulp.dest(dir))
+    })
+})
+
 // Watch SCSS
 gulp.task(WATCH_SCSS, () => {
     gulp.watch('./src/**/*.scss', [COMPILE_SCSS])
 })
 
-// Default task
 gulp.task('default', [WATCH_SCSS])
+gulp.task('force', [COMPILE_SCSS_FORCE])

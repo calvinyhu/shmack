@@ -5,8 +5,8 @@ import NavigationItem from './NavigationItem/NavigationItem'
 
 const navigationItems = (props) => (
     <ul className={classes.NavigationItems}>
-        <NavigationItem name='Menu'/>
-        <NavigationItem name='Login'/>
+        <NavigationItem className={classes.NavigationItemDefault} name='Login'/>
+        <NavigationItem className={classes.NavigationItemDefault} name='About'/>
     </ul>
 )
 

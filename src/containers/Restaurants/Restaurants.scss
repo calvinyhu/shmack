@@ -1,8 +1,5 @@
-@mixin media-min-width($width) {
-    @media (min-width: $width) {
-      @content;
-    }
-}
+@import './src/assets/scss/_variables.scss';
+@import './src/assets/scss/_mixins.scss';
 
 .Restaurants {
     display: flex;
@@ -14,8 +11,9 @@
     width: 100vw;
     grid-template-columns: 1fr 1fr 1fr;
     grid-auto-rows: 30vw;
+    grid-gap: 1px;
 
-    @include media-min-width(40rem) {
+    @include media-min-width($desktop-width) {
         width: 66vw;
         grid-auto-rows: 22vw;
     }
@@ -25,15 +23,14 @@
     display: flex;
     justify-content: center;
     align-items: center;
-    background-image: url('../../assets/Placeholders/585be1aa1600002400bdf2a6.jpeg');
-    color: rgb(226, 226, 226);
+    background-image: url('../../assets/placeholders/restaurantFood.jpeg');
+    color: white;
     font-weight: bold;
     font-size: 1.5rem;
-    border: 1px solid rgba(0, 0, 0, 0.7);
 
     &:hover {
         background-blend-mode: color;
         background-color: rgba(0, 0, 0, 0.5);
-        transition: 250ms;
+        transition: $transition-default;
     }
 }
