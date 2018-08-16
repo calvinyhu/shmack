@@ -1,0 +1,28 @@
+.SideDrawerToggle {
+    display: flex;
+    flex-direction: column;
+    justify-content: space-evenly;
+    height: 2rem;
+    cursor: pointer;
+}
+
+.Bar1, .Bar2, .Bar3 {
+    width: 2rem;
+    height: 0.2rem;
+    background-color: #333;
+    transition: 0.4s;
+}
+
+.Change .Bar1 {
+    -webkit-transform: rotate(-45deg) translate(-9px, 6px);
+    transform: rotate(-45deg) translate(-9px, 6px);
+}
+
+.Change .Bar2 {
+    opacity: 0;
+}
+
+.Change .Bar3 {
+    -webkit-transform: rotate(45deg) translate(-8px, -8px);
+    transform: rotate(45deg) translate(-8px, -8px);
+}

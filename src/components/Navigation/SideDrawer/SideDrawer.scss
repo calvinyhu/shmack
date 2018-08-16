@@ -1,0 +1,7 @@
+.SideDrawer {
+    display: flex;
+
+    @media (min-width: 40rem) {
+        display: none;
+    }
+}

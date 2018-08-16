@@ -1,1 +1,1 @@
-.Toolbar{display:flex;justify-content:space-between;align-items:center;width:100vw;padding:2rem;background:#fff}.Toolbar p{display:flex;margin:0;padding:0}
+.Toolbar{display:flex;justify-content:space-between;align-items:center;width:100vw;padding:2rem;background:#fff}.Toolbar p{margin:0;padding:.6rem 0}.Toolbar nav{display:none}@media (min-width:40rem){.Toolbar nav{display:flex}}
