@@ -1,3 +1,6 @@
+@import './src/assets/scss/_variables.scss';
+@import './src/assets/scss/_mixins.scss';
+
 .SideDrawerToggle {
     display: flex;
     flex-direction: column;
@@ -5,7 +8,7 @@
     height: 2rem;
     cursor: pointer;
 
-    @media (min-width: 40rem) {
+    @include media-min-width($desktop-width) {
         display: none;
     }
 }
@@ -14,7 +17,7 @@
     width: 2rem;
     height: 0.2rem;
     background-color: #333;
-    transition: 0.4s;
+    transition: $transition-default;
 }
 
 .Change .Bar1 {
