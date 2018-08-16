@@ -22,3 +22,44 @@
         }
     }
 }
+
+.ToolbarSearch {
+    display: flex;
+    justify-content: space-evenly;
+    align-items: center;
+    position: fixed;
+    // TODO: Avoid using TRBL
+    bottom: 1rem;
+    left: 5vw;
+    width: 90vw;
+    background: white;
+    padding: $padding-default;
+    padding-left: 0;
+    border-radius: $border-radius-default;
+
+    input {
+        min-width: 0;
+        width: 100%;
+        padding: $padding-tiny;
+        border: 1px solid #ccc;
+        border-radius: $border-radius-default;
+        margin-left: $margin-default;
+        text-align: center;
+
+        &:focus {
+            border-color: gray;
+            box-shadow: $box-shadow-default;
+            outline: none;
+        }
+
+        @include media-min-width($desktop-width) {
+            margin-left: $margin-default * 2;
+        }
+    }
+
+    @include media-min-width($desktop-width) {
+        position: static;
+        width: 100vw;
+        padding: 0;
+    }
+}

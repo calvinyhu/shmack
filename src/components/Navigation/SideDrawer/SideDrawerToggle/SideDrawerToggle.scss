@@ -6,6 +6,7 @@
     flex-direction: column;
     justify-content: space-evenly;
     height: 2rem;
+    margin-left: $margin-default * 2;
     cursor: pointer;
 
     @include media-min-width($desktop-width) {
