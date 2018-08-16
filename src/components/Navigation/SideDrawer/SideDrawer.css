@@ -1,1 +1,1 @@
-.SideDrawer{display:flex}@media (min-width:40rem){.SideDrawer{display:none}}
+.SideDrawer{display:flex;justify-content:center;width:100vw;background:#fff}@media (min-width:40rem){.SideDrawer{display:none}}

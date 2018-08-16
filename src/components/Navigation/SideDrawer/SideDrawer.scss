@@ -1,5 +1,8 @@
 .SideDrawer {
     display: flex;
+    justify-content: center;
+    width: 100vw;
+    background: white;
 
     @media (min-width: 40rem) {
         display: none;

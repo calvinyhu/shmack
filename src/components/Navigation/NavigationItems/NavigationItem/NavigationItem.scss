@@ -1,6 +1,14 @@
 .NavigationItem {
     display: inline-block;
-    margin-left: 2rem;
+    width: 80vw;
+    margin-bottom: 2rem;
+    text-align: center;
+    
+    @media (min-width: 40rem) {
+        margin-bottom: 0;
+        margin-left: 2rem;
+        width: auto;
+    }
 }
 
 .NavigationItem a {

@@ -1,19 +1,22 @@
 import React from 'react'
 
 import classes from './SideDrawer.css'
-import SideDrawerToggle from './SideDrawerToggle/SideDrawerToggle'
 import NavigationItems from '../NavigationItems/NavigationItems'
 
 const sideDrawer = (props) => {
-    return (
-        <div className={classes.SideDrawer}>
-            <SideDrawerToggle toggleSideDrawer={props.toggleSideDrawer} />
-            {/* <Backdrop /> */}
-            <nav>
-                <NavigationItems />
-            </nav>
-        </div>
-    )
+    let sideDrawer = null;
+    if (props.isOpen) {
+        sideDrawer = (
+            <div className={classes.SideDrawer}>
+                {/* <Backdrop /> */}
+                <nav>
+                    <NavigationItems />
+                </nav>
+            </div>
+        )
+    }
+
+    return sideDrawer
 }
 
 export default sideDrawer

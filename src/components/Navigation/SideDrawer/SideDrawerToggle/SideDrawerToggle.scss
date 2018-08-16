@@ -4,6 +4,10 @@
     justify-content: space-evenly;
     height: 2rem;
     cursor: pointer;
+
+    @media (min-width: 40rem) {
+        display: none;
+    }
 }
 
 .Bar1, .Bar2, .Bar3 {
