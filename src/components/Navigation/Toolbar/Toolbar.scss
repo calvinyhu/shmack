@@ -63,3 +63,24 @@
         padding: 0;
     }
 }
+
+#Logo {
+    display: inline-block;
+    margin: 0;
+    padding: $padding-tiny * 3 0;
+    text-align: left;
+
+    a {
+        display: inline-block;
+        background: none;
+        padding: 0;
+        border: none;
+        text-decoration: none;
+        box-shadow: none;
+        font-weight: 500;
+        &:hover {
+            color: gray;
+            transition: $transition-default;
+        }
+    }
+}

@@ -4,10 +4,13 @@ import classes from './SideDrawer.css'
 import NavigationItems from '../NavigationItems/NavigationItems'
 
 const sideDrawer = (props) => {
-    let sideDrawer = null;
+    let sideDrawerClasses = ''
+    let drawer = null
+
     if (props.isOpen) {
-        sideDrawer = (
-            <div className={classes.SideDrawer}>
+        sideDrawerClasses = classes.SideDrawer
+        drawer = (
+            <div className={sideDrawerClasses}>
                 {/* <Backdrop /> */}
                 <nav>
                     <NavigationItems />
@@ -16,7 +19,7 @@ const sideDrawer = (props) => {
         )
     }
 
-    return sideDrawer
+    return drawer
 }
 
 export default sideDrawer
