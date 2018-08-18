@@ -92,6 +92,7 @@
     "extends": "react-app"
   },
   "devDependencies": {
+    "axios": "^0.18.0",
     "gulp": "^3.9.1",
     "gulp-autoprefixer": "^5.0.0",
     "gulp-changed": "^3.2.0",
