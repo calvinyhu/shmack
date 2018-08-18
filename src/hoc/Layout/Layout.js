@@ -20,7 +20,9 @@ class Layout extends Component {
     render() {
         return (
             <Auxiliary>
-                <Toolbar toggleSideDrawer={this.sideDrawerToggleHandler} showSideDrawer={this.state.showSideDrawer} />
+                <Toolbar 
+                    toggleSideDrawer={this.sideDrawerToggleHandler} 
+                    showSideDrawer={this.state.showSideDrawer} />
                 <SideDrawer isOpen={this.state.showSideDrawer}/>
                 <main>
                     {this.props.children}

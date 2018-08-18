@@ -10,7 +10,7 @@ class App extends Component {
         let routes = (
             <Switch>
                 <Route path='/about' component={About} />
-                <Route path='/' component={Restaurants} />
+                <Route exact path='/' component={Restaurants} />
                 <Redirect to='/' />
             </Switch>
         )

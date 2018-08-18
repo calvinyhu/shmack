@@ -22,6 +22,10 @@ class Restaurants extends Component {
                 <div className={classes.RestaurantsGrid}>
                     {restaurants}
                 </div>
+                <div className={classes.Search}>
+                    <input type='text' placeholder='Search' />
+                    <input type='text' placeholder='Location' />
+                </div>
             </div>
         )
     }
