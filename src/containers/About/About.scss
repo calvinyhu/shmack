@@ -3,6 +3,7 @@
 
 .About {
     display: flex;
+    flex-direction: column;
     justify-content: center;
     align-items: center;
     height: 33vh;
@@ -13,5 +14,9 @@
 
     h1 {
         margin: 0 $margin-default;
+    }
+
+    @include media-min-width($desktop-width / 1.5) {
+        flex-direction: row;
     }
 }

@@ -30,7 +30,7 @@ class Layout extends Component {
                     closeSideDrawer={this.sideDrawerCloseHandler}/>
                 <SideDrawer 
                     isOpen={this.state.showSideDrawer}
-                    closeSideDrawer={this.sideDrawerCloseHandler}/>
+                    closeSelf={this.sideDrawerCloseHandler}/>
                 <main>
                     {this.props.children}
                 </main>
