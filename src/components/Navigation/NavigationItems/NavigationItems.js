@@ -3,10 +3,10 @@ import React from 'react'
 import classes from './NavigationItems.css'
 import NavigationItem from './NavigationItem/NavigationItem'
 
-const navigationItems = () => (
+const navigationItems = (props) => (
     <ul className={classes.NavigationItems}>
-        <NavigationItem link='/login'>Login</NavigationItem>
-        <NavigationItem link='/about'>About</NavigationItem>
+        <NavigationItem closeSideDrawer={props.closeSideDrawer} link='/login'>Login</NavigationItem>
+        <NavigationItem closeSideDrawer={props.closeSideDrawer} link='/about'>About</NavigationItem>
     </ul>
 )
 

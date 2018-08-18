@@ -11,9 +11,8 @@ const sideDrawer = (props) => {
         sideDrawerClasses = classes.SideDrawer
         drawer = (
             <div className={sideDrawerClasses}>
-                {/* <Backdrop /> */}
                 <nav>
-                    <NavigationItems />
+                    <NavigationItems closeSideDrawer={props.closeSideDrawer}/>
                 </nav>
             </div>
         )

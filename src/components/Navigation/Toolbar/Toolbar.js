@@ -8,7 +8,10 @@ import NavigationItem from '../NavigationItems/NavigationItem/NavigationItem';
 const toolbar = (props) => {
     return (
         <header className={classes.Toolbar}>
-            <NavigationItem id={classes.Logo} link='/'>3FINITY</NavigationItem>
+            <NavigationItem 
+                id={classes.Logo}
+                closeSideDrawer={props.closeSideDrawer}
+                link='/'>3FINITY</NavigationItem>
             <SideDrawerToggle toggleSideDrawer={props.toggleSideDrawer} showSideDrawer={props.showSideDrawer} />
             <nav>
                 <NavigationItems />
