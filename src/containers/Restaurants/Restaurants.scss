@@ -6,32 +6,20 @@
     justify-content: center;
 }
 
+.CTA {
+    margin: 0;
+}
+
 .RestaurantsGrid {
     display: grid;
     width: 100vw;
-    grid-template-columns: 1fr 1fr 1fr;
-    grid-auto-rows: 30vw;
+    grid-template-columns: repeat(3, 33.3%);
+    grid-auto-rows: 33.3vw;
     grid-gap: 1px;
 
     @include media-min-width($desktop-width) {
-        width: 66vw;
-        grid-auto-rows: 22vw;
-    }
-}
-
-.RestaurantsGridItem {
-    display: flex;
-    justify-content: center;
-    align-items: center;
-    background-image: url('../../assets/placeholders/restaurantFood.jpeg');
-    color: white;
-    font-weight: bold;
-    font-size: 1.5rem;
-
-    &:hover {
-        background-blend-mode: color;
-        background-color: rgba(0, 0, 0, 0.5);
-        transition: $transition-default;
+        width: 66.6vw;
+        grid-auto-rows: 22.2vw;
     }
 }
 

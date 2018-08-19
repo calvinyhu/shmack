@@ -1,15 +1,14 @@
 import React, { Component } from 'react'
-import axios from 'axios'
+import axios from '../../axios'
 
 import classes from './Restaurants.css'
+import Restaurant from '../../components/Restaurant/Restaurant'
 
 class Restaurants extends Component {
     state = {
         food: '',
         location: '',
-        restaurants: {
-            count: 50
-        }
+        restaurants: null
     }
 
     foodChangeHandler = (event) => {
@@ -20,40 +19,46 @@ class Restaurants extends Component {
         this.setState({ location: event.target.value })
     }
 
-    searchHandler = (event) => {
-        const cors = 'https://cors-anywhere.herokuapp.com/'
-        const query = `https://api.yelp.com/v3/businesses/search?term=${this.state.food}&location=${this.state.location}`
-        const apiKey = 'Xj6GzMkzzzCUC5j_494Gyv40BfT0xBzaGIxvPGwGkiiUp1qFYEyNEG9Xnfxr9t-v33TTWPn-kGypQy_ZAN1tScZk7jDUYKHLObbjDdR0TqtEHQqWAwUtlHTkzIB3W3Yx'
-        const config = {
-            headers: {
-                Authorization: 'Bearer: ' + apiKey
-            }
-        }
+    searchHandler = () => {
+        const query = `/businesses/search?term=${this.state.food}&location=${this.state.location}`
 
-        axios.get(cors + query, config)
+        axios.get(query)
             .then(response => {
-                console.log(response)
+                this.setState({
+                    restaurants: response.data.businesses
+                })
             })
             .catch(error => {
-                console.log(error)
+                console.log('LOGGING ERROR...\n', error)
             })
-
-        event.preventDefault();
     }
 
     render() {
-        let restaurants = [];
-        for (let i = 1; i <= this.state.restaurants.count; i = i + 1) {
-            restaurants.push(
-                <div key={i}className={classes.RestaurantsGridItem}>{i}</div>
-            );
+        let callToAction = <p className={classes.CTA}>Let's Eat!</p>
+
+        let restaurantsGrid = null
+        if (this.state.restaurants) {
+            let restaurants = []
+            this.state.restaurants.forEach(restaurant => {
+                if (restaurant.image_url) {
+                    restaurants.push(
+                        <Restaurant key={restaurant.id} img={restaurant.image_url}>{restaurant.name}</Restaurant>
+                    );
+                }
+            })
+
+            restaurantsGrid = (
+                <div className={classes.RestaurantsGrid}>
+                    {restaurants}
+                </div>
+            )
+            callToAction = null
         }
 
         return (
             <div className={classes.Restaurants}>
-                <div className={classes.RestaurantsGrid}>
-                    {restaurants}
-                </div>
+                {callToAction}
+                {restaurantsGrid}
                 <div className={classes.SearchBar}>
                     <input type='text' placeholder='Food' onChange={this.foodChangeHandler}/>
                     <input type='text' placeholder='Location' onChange={this.locationChangeHandler}/>

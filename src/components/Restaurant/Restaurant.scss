@@ -1,0 +1,45 @@
+@import './src/assets/scss/_variables.scss';
+@import './src/assets/scss/_mixins.scss';
+
+.Restaurant {
+    position: relative;
+    text-align: center;
+}
+
+.RestaurantImgContainer {
+    width: 100%;
+    height: 100%;
+    overflow: hidden;
+
+    img {
+        width: 100%;
+        height: 100%;
+        object-fit: cover;
+    }
+}
+
+.RestaurantInfo {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    position: absolute;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    background: rgba(0, 0, 0, 0.3);
+    border-radius: $border-radius-default / 2;
+    color: rgba(255, 255, 255, 0.8);
+    font-size: $font-size-default;
+    opacity: 1;
+    transition: $transition-default;
+
+    &:hover {
+        opacity: 1;
+    }
+
+    @include media-min-width($desktop-width) {
+        opacity: 0;
+        font-size: $font-size-default * 1.2;
+    }
+}
