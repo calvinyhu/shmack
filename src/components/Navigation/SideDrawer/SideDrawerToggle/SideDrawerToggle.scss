@@ -2,12 +2,9 @@
 @import './src/assets/scss/_mixins.scss';
 
 .SideDrawerToggle {
-    display: flex;
-    flex-direction: column;
-    justify-content: space-between;
-    height: 2rem;
-    padding: 0.2rem;
-    margin-left: $margin-default * 2;
+    position: relative;
+    height: 100%;
+    width: 100%;
     cursor: pointer;
 
     @include media-min-width($desktop-width) {
@@ -15,25 +12,45 @@
     }
 }
 
-.Bar1, .Bar2, .Bar3 {
-    width: 2rem;
-    height: 0.2rem;
-    background-color: #333;
+.Bar {
+    position: absolute;
+    width: 100%;
+    height: 3px;
+    background-color: black;
     transition: $transition-default;
 }
 
+.Position1 {
+    top: 0;
+}
+
+.Position2 {
+    top: 50%;
+    transform: translateY(-50%);
+}
+
+.Position3 {
+    top: 50%;
+    transform: translateY(-50%);
+}
+
+.Position4 {
+    bottom: 0;
+}
+
 .AnimateBar1 {
-    transform-origin: right;
-    -webkit-transform: rotate(-44deg);
-    transform: rotate(-44deg);
+    transform: scale(0);
 }
 
 .AnimateBar2 {
-    opacity: 0;
+    transform: rotate(-45deg);
 }
 
 .AnimateBar3 {
-    transform-origin: right;
-    -webkit-transform: rotate(44deg);
-    transform: rotate(44deg);
+    
+    transform: rotate(45deg);
+}
+
+.AnimateBar4 {
+    transform: scale(0);
 }

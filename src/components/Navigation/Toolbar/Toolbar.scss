@@ -43,3 +43,11 @@
         }
     }
 }
+
+.SideDrawerToggleContainer {
+    min-height: $height-default * 1.2;
+    height: $height-default * 1.2;
+    min-width: $width-default * 1.7;
+    width: $width-default * 1.7;
+    margin-left: $margin-default * 2;
+}

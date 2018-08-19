@@ -6,6 +6,7 @@
     justify-content: center;
     width: 100vw;
     background: white;
+    border-bottom: 1px solid #ccc;
 
     @include media-min-width($desktop-width) {
         display: none;

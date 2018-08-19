@@ -3,6 +3,8 @@ $desktop-width: 40rem;
 
 // Transitions
 $transition-default: 0.2s ease-in-out;
+$transition-default-duration: 0.2s;
+$transition-default-timing-func: ease-in-out;
 
 // Padding
 $padding-default: 1rem;
@@ -19,3 +21,9 @@ $box-shadow-default: 0px 2px 10px 0px #ccc;
 
 // Font
 $font-size-default: 1rem;
+
+// Height
+$height-default: 1rem;
+
+// Width
+$width-default: 1rem;

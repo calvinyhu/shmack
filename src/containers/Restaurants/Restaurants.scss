@@ -66,6 +66,14 @@
     }
 }
 
+.SideDrawerToggleContainer {
+    min-width: $width-default * 1.2;
+    width: $width-default * 1.2;
+    min-height: $height-default;
+    height: $height-default;
+    margin-left: 0.5rem;
+}
+
 .SearchButton {
     color: white;
     background: rgb(73, 73, 73);

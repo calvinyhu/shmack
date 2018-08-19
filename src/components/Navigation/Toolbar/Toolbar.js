@@ -12,7 +12,9 @@ const toolbar = (props) => {
                 id={classes.Logo}
                 closeSideDrawer={props.closeSideDrawer}
                 link='/'>3FINITY</NavigationItem>
-            <SideDrawerToggle toggleSideDrawer={props.toggleSideDrawer} showSideDrawer={props.showSideDrawer} />
+            <div className={classes.SideDrawerToggleContainer}>
+                <SideDrawerToggle toggleSideDrawer={props.toggleSideDrawer} showSideDrawer={props.showSideDrawer} />
+            </div>
             <nav>
                 <NavigationItems />
             </nav>

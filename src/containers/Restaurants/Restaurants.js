@@ -3,8 +3,9 @@ import axios from '../../axios'
 import { connect } from 'react-redux'
 
 import classes from './Restaurants.css'
-import Restaurant from '../../components/Restaurant/Restaurant'
 import * as actions from '../../store/actions/restaurantsActions'
+import Restaurant from '../../components/Restaurant/Restaurant'
+import SideDrawerToggle from '../../components/Navigation/SideDrawer/SideDrawerToggle/SideDrawerToggle'
 
 const mapStateToProps = (state) => {
     return {
@@ -26,6 +27,16 @@ const mapDispatchToProps = (dispatch) => {
 }
 
 class Restaurants extends Component {
+    state = {
+        showFilters: false
+    }
+
+    toggleFiltersHandler = () => {
+        this.setState(prevState => {
+            return { showFilters: !prevState.showFilters }
+        })
+    }
+
     searchHandler = () => {
         this.props.onSearchStart({ loading: true })
 
@@ -97,6 +108,9 @@ class Restaurants extends Component {
                 {callToAction}
                 {restaurantsGrid}
                 <div className={classes.SearchBar}>
+                    <div className={classes.SideDrawerToggleContainer}>
+                        <SideDrawerToggle toggleSideDrawer={this.toggleFiltersHandler} showSideDrawer={this.state.showFilters} />
+                    </div>
                     <input 
                         type='text'
                         placeholder='Food'
