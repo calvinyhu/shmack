@@ -1,52 +1,59 @@
 import React, { Component } from 'react'
 import axios from '../../axios'
+import { connect } from 'react-redux'
 
 import classes from './Restaurants.css'
 import Restaurant from '../../components/Restaurant/Restaurant'
+import * as actions from '../../store/actions/restaurantsActions'
+
+const mapStateToProps = (state) => {
+    return {
+        food: state.food,
+        location: state.location,
+        restaurants: state.restaurants,
+        loading: state.loading,
+        error: state.error
+    }
+}
+
+const mapDispatchToProps = (dispatch) => {
+    return {
+        onFoodChange: (payload) => dispatch(actions.foodChange(payload)),
+        onLocationChange: (payload) => dispatch(actions.locationChange(payload)),
+        onSearchStart: (payload) => dispatch(actions.searchStart(payload)),
+        onSearchEnd: (payload) => dispatch(actions.searchEnd(payload)),
+    }
+}
 
 class Restaurants extends Component {
-    state = {
-        food: '',
-        location: '',
-        restaurants: null,
-        loading: false,
-        error: false
-    }
-
-    foodChangeHandler = (event) => {
-        this.setState({ food: event.target.value })
-    }
-
-    locationChangeHandler = (event) => {
-        this.setState({ location: event.target.value })
-    }
-
     searchHandler = () => {
-        const query = `/businesses/search?term=${this.state.food}&location=${this.state.location}`
-        this.setState({ loading: true })
+        this.props.onSearchStart({ loading: true })
 
+        const query = `/businesses/search?term=${this.props.food}&location=${this.props.location}`
         axios.get(query)
             .then(response => {
-                this.setState({
+                this.props.onSearchEnd({
                     restaurants: response.data.businesses,
-                    loading: false
+                    loading: false,
+                    error: false
                 })
             })
             .catch(error => {
-                this.setState({ 
-                    error: true,
-                    loading: false
+                this.props.onSearchEnd({
+                    restaurants: null,
+                    loading: false,
+                    error: true
                 })
             })
     }
 
     render() {
         let callToAction = <p className={classes.CTA}>Let's Eat!</p>
-
         let restaurantsGrid = null
-        if (this.state.restaurants && !this.state.loading && !this.state.error) {
+        
+        if (this.props.restaurants && !this.props.loading && !this.props.error) {
             let restaurants = []
-            this.state.restaurants.forEach(restaurant => {
+            this.props.restaurants.forEach(restaurant => {
                 if (restaurant.image_url) {
                     restaurants.push(
                         <Restaurant key={restaurant.id} img={restaurant.image_url}>{restaurant.name}</Restaurant>
@@ -62,11 +69,11 @@ class Restaurants extends Component {
             callToAction = null
         }
 
-        if (this.state.loading) {
-            callToAction = <p className={classes.CTA}>Getting {this.state.food} in {this.state.location} for you...</p>
+        if (this.props.loading) {
+            callToAction = <p className={classes.CTA}>Getting {this.props.food} in {this.props.location} for you...</p>
         }
 
-        if (this.state.error) {
+        if (this.props.error) {
             callToAction = (
                 <div className={classes.CTA}>
                     <p>:(</p>
@@ -81,8 +88,16 @@ class Restaurants extends Component {
                 {callToAction}
                 {restaurantsGrid}
                 <div className={classes.SearchBar}>
-                    <input type='text' placeholder='Food' onChange={this.foodChangeHandler}/>
-                    <input type='text' placeholder='Location' onChange={this.locationChangeHandler}/>
+                    <input 
+                        type='text'
+                        placeholder='Food'
+                        value={this.props.food}
+                        onChange={(event) => this.props.onFoodChange({food: event.target.value})}/>
+                    <input
+                        type='text'
+                        placeholder='Location'
+                        value={this.props.location}
+                        onChange={(event) => this.props.onLocationChange({location: event.target.value})}/>
                     <button type='text' className={classes.SearchButton} onClick={this.searchHandler}>Go</button>
                 </div>
             </div>
@@ -90,4 +105,4 @@ class Restaurants extends Component {
     }
 }
 
-export default Restaurants
+export default connect(mapStateToProps, mapDispatchToProps)(Restaurants)
