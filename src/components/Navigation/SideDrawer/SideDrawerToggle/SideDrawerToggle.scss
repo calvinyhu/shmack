@@ -6,10 +6,6 @@
     height: 100%;
     width: 100%;
     cursor: pointer;
-
-    @include media-min-width($desktop-width) {
-        display: none;
-    }
 }
 
 .Bar {
