@@ -4,10 +4,15 @@
 .Restaurants {
     display: flex;
     justify-content: center;
+    align-items: center;
+    min-height: 33.3vh;
 }
 
 .CTA {
     margin: 0;
+    padding: $padding-default * 2;
+    font-size: $font-size-default * 2;
+    text-align: center;
 }
 
 .RestaurantsGrid {

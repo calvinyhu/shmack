@@ -8,7 +8,9 @@ class Restaurants extends Component {
     state = {
         food: '',
         location: '',
-        restaurants: null
+        restaurants: null,
+        loading: false,
+        error: false
     }
 
     foodChangeHandler = (event) => {
@@ -21,15 +23,20 @@ class Restaurants extends Component {
 
     searchHandler = () => {
         const query = `/businesses/search?term=${this.state.food}&location=${this.state.location}`
+        this.setState({ loading: true })
 
         axios.get(query)
             .then(response => {
                 this.setState({
-                    restaurants: response.data.businesses
+                    restaurants: response.data.businesses,
+                    loading: false
                 })
             })
             .catch(error => {
-                console.log('LOGGING ERROR...\n', error)
+                this.setState({ 
+                    error: true,
+                    loading: false
+                })
             })
     }
 
@@ -37,7 +44,7 @@ class Restaurants extends Component {
         let callToAction = <p className={classes.CTA}>Let's Eat!</p>
 
         let restaurantsGrid = null
-        if (this.state.restaurants) {
+        if (this.state.restaurants && !this.state.loading && !this.state.error) {
             let restaurants = []
             this.state.restaurants.forEach(restaurant => {
                 if (restaurant.image_url) {
@@ -53,6 +60,20 @@ class Restaurants extends Component {
                 </div>
             )
             callToAction = null
+        }
+
+        if (this.state.loading) {
+            callToAction = <p className={classes.CTA}>Getting {this.state.food} in {this.state.location} for you...</p>
+        }
+
+        if (this.state.error) {
+            callToAction = (
+                <div className={classes.CTA}>
+                    <p>:(</p>
+                    <p>We can't access Yelp.</p>
+                    <p>Please try again later!</p>
+                </div>
+            )
         }
 
         return (
