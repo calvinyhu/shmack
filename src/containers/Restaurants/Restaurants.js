@@ -70,17 +70,26 @@ class Restaurants extends Component {
         }
 
         if (this.props.loading) {
-            callToAction = <p className={classes.CTA}>Getting {this.props.food} in {this.props.location} for you...</p>
+            callToAction = (
+                <p className={classes.CTA}>
+                    Getting {this.props.food ? this.props.food : 'food'} in {this.props.location} for you...
+                </p>
+            )
         }
 
         if (this.props.error) {
             callToAction = (
                 <div className={classes.CTA}>
                     <p>:(</p>
-                    <p>We can't access Yelp.</p>
+                    <p>There was an error.</p>
                     <p>Please try again later!</p>
                 </div>
             )
+        }
+
+        let goButton = null
+        if (this.props.location) {
+            goButton = <button type='text' className={classes.SearchButton} onClick={this.searchHandler}>Go</button>
         }
 
         return (
@@ -98,7 +107,7 @@ class Restaurants extends Component {
                         placeholder='Location'
                         value={this.props.location}
                         onChange={(event) => this.props.onLocationChange({location: event.target.value})}/>
-                    <button type='text' className={classes.SearchButton} onClick={this.searchHandler}>Go</button>
+                    {goButton}
                 </div>
             </div>
         )
