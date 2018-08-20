@@ -8,11 +8,6 @@ Download the project to your directory by running
 ```
 git clone https://github.com/calvinyhu/3finity.git
 ```
-Create a `secrets.js` file in `/3finity/src` and copy
-```
-export const yelpApiKey = 'YELP_API_KEY'
-```
-into it.
 
 ### Prerequisites
 
@@ -25,6 +20,7 @@ You will need to have these installed on your machine for development:
 - Navigate to `/3finity`.
 - Install dependecies by running `npm install`.
 - Start the project on your local server by running `npm start`.
+- Add your own API keys to `src/secrets.js`.
 
 ## Testing
 
