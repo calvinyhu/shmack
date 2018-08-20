@@ -46,9 +46,10 @@
     "whatwg-fetch": "2.0.3"
   },
   "scripts": {
-    "start": "concurrently --kill-others \"node scripts/start.js\" \"npm run gulp\"",
+    "start": "npm run init && concurrently --kill-others \"node scripts/start.js\" \"npm run gulp\"",
     "build": "node scripts/build.js",
     "test": "node scripts/test.js --env=jsdom",
+    "init": "bash ./scripts/init.sh",
     "gulp": "gulp"
   },
   "jest": {
