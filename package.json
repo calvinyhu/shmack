@@ -46,9 +46,10 @@
     "whatwg-fetch": "2.0.3"
   },
   "scripts": {
-    "start": "node scripts/start.js",
+    "start": "concurrently --kill-others \"node scripts/start.js\" \"npm run gulp\"",
     "build": "node scripts/build.js",
-    "test": "node scripts/test.js --env=jsdom"
+    "test": "node scripts/test.js --env=jsdom",
+    "gulp": "gulp"
   },
   "jest": {
     "collectCoverageFrom": [
@@ -94,6 +95,7 @@
   },
   "devDependencies": {
     "axios": "^0.18.0",
+    "concurrently": "^3.6.1",
     "gulp": "^3.9.1",
     "gulp-autoprefixer": "^5.0.0",
     "gulp-changed": "^3.2.0",
