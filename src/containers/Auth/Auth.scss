@@ -1,0 +1,42 @@
+@import './src/assets/scss/_variables.scss';
+@import './src/assets/scss/_mixins.scss';
+
+.Auth {
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    align-items: center;
+
+    form {
+        display: flex;
+        flex-direction: column;
+        align-items: center;
+        width: 80vw;
+
+        input {
+            margin: $margin-default;
+            width: 100%;
+            max-width: $width-default * 20;
+        }
+
+        button {
+            margin: $margin-default;
+            appearance: none;
+            background: white;
+            border: 1px solid gray;
+            width: 80vw;
+            max-width: $width-default * 20;
+        }
+    }
+
+    p {
+        text-align: center;
+        margin: $margin-default 0;
+    }
+}
+
+#Login {
+    margin: 0;
+    width: auto;
+    max-width: $width-default * 20;
+}

@@ -10,7 +10,7 @@ const toolbar = (props) => {
         <header className={classes.Toolbar}>
             <NavigationItem 
                 id={classes.Logo}
-                closeSideDrawer={props.closeSideDrawer}
+                clicked={props.closeSideDrawer}
                 link='/'>shmack</NavigationItem>
             <div className={classes.SideDrawerToggleContainer}>
                 <SideDrawerToggle toggleSideDrawer={props.toggleSideDrawer} showSideDrawer={props.showSideDrawer} />
