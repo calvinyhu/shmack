@@ -21,13 +21,19 @@
             display: flex;
         }
     }
+
+    @include media-min-width($desktop-width) {
+        justify-content: space-around;
+    }
 }
 
 #Logo {
     display: inline-block;
     margin: 0;
-    padding: $padding-tiny * 3 0;
+    padding: $padding-tiny / 2 0;
     text-align: left;
+    font-size: $font-size-default * 1.5;
+    width: auto;
 
     a {
         display: inline-block;
@@ -36,7 +42,8 @@
         border: none;
         text-decoration: none;
         box-shadow: none;
-        font-weight: 500;
+        font-weight: bold;
+
         &:hover {
             color: gray;
             transition: $transition-default;

@@ -6,7 +6,7 @@ const about = () => {
     return (
         <div className={classes.About}>
             <h1>ABOUT</h1>
-            <h1>3FINITY</h1>
+            <h1>SHMACK</h1>
         </div>
     )
 }

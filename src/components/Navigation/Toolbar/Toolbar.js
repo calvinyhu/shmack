@@ -11,7 +11,7 @@ const toolbar = (props) => {
             <NavigationItem 
                 id={classes.Logo}
                 closeSideDrawer={props.closeSideDrawer}
-                link='/'>3FINITY</NavigationItem>
+                link='/'>shmack</NavigationItem>
             <div className={classes.SideDrawerToggleContainer}>
                 <SideDrawerToggle toggleSideDrawer={props.toggleSideDrawer} showSideDrawer={props.showSideDrawer} />
             </div>
