@@ -6,6 +6,7 @@
     justify-content: center;
     align-items: center;
     min-height: 33.3vh;
+    margin-bottom: $margin-default * 5;
 }
 
 .CTA {
@@ -21,7 +22,6 @@
     grid-template-columns: repeat(3, 33.3%);
     grid-auto-rows: 33.3vw;
     grid-gap: 1px;
-    padding-bottom: $padding-default * 5;
 
     @include media-min-width($desktop-width) {
         width: 66.6vw;

@@ -1,11 +1,11 @@
 import React, { Component } from 'react'
-import axios from '../../axios'
 import { connect } from 'react-redux'
 
 import classes from './Restaurants.css'
 import * as actions from '../../store/actions/restaurantsActions'
 import Restaurant from '../../components/Restaurant/Restaurant'
 import SideDrawerToggle from '../../components/Navigation/SideDrawer/SideDrawerToggle/SideDrawerToggle'
+import { searchYelp, handleYelpError } from '../../utilities/yelp'
 
 const mapStateToProps = (state) => {
     return {
@@ -38,30 +38,14 @@ class Restaurants extends Component {
     }
 
     searchHandler = () => {
-        this.props.onSearchStart({ loading: true })
-
-        const query = `/businesses/search?term=${this.props.food}&location=${this.props.location}`
-        axios.get(query)
-            .then(response => {
-                this.props.onSearchEnd({
-                    restaurants: response.data.businesses,
-                    loading: false,
-                    error: false
-                })
-            })
-            .catch(error => {
-                this.props.onSearchEnd({
-                    restaurants: null,
-                    loading: false,
-                    error: true
-                })
-            })
+        this.props.onSearchStart({ loading: true, error: null })
+        searchYelp(this.props.food, this.props.location, this.props.onSearchEnd)
     }
 
     render() {
         let callToAction = <p className={classes.CTA}>Let's Eat!</p>
         let restaurantsGrid = null
-        
+
         if (this.props.restaurants && !this.props.loading && !this.props.error) {
             let restaurants = []
             this.props.restaurants.forEach(restaurant => {
@@ -71,7 +55,6 @@ class Restaurants extends Component {
                     );
                 }
             })
-
             restaurantsGrid = (
                 <div className={classes.RestaurantsGrid}>
                     {restaurants}
@@ -89,11 +72,10 @@ class Restaurants extends Component {
         }
 
         if (this.props.error) {
+            const errorMessage = handleYelpError(this.props.error.data.error.code)
             callToAction = (
                 <div className={classes.CTA}>
-                    <p>:(</p>
-                    <p>There was an error.</p>
-                    <p>Please try again later!</p>
+                    {errorMessage}
                 </div>
             )
         }
@@ -111,16 +93,16 @@ class Restaurants extends Component {
                     <div className={classes.SideDrawerToggleContainer}>
                         <SideDrawerToggle toggleSideDrawer={this.toggleFiltersHandler} showSideDrawer={this.state.showFilters} />
                     </div>
-                    <input 
+                    <input
                         type='text'
                         placeholder='Food'
                         value={this.props.food}
-                        onChange={(event) => this.props.onFoodChange({food: event.target.value})}/>
+                        onChange={(event) => this.props.onFoodChange({ food: event.target.value })} />
                     <input
                         type='text'
                         placeholder='Location'
                         value={this.props.location}
-                        onChange={(event) => this.props.onLocationChange({location: event.target.value})}/>
+                        onChange={(event) => this.props.onLocationChange({ location: event.target.value })} />
                     {goButton}
                 </div>
             </div>
