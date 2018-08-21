@@ -44,19 +44,23 @@
     border-radius: $border-radius-default / 2;
 
     input {
+        outline: none;
         min-width: 0;
         width: 100%;
         padding: $padding-tiny;
-        border: 1px solid #ccc;
+        border: $border-default-input;
         border-radius: $border-radius-default / 2;
         margin-left: $margin-default / 2;
         text-align: center;
 
-        &:focus {
-            background: white;
+        &:hover {
             border-color: gray;
             box-shadow: $box-shadow-default;
-            outline: none;
+        }
+
+        &:focus {
+            border-color: gray;
+            box-shadow: $box-shadow-default;
         }
     }
 

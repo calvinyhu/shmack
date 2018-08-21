@@ -10,8 +10,9 @@ class App extends Component {
     render() {
         let routes = (
             <Switch>
-                <Route path='/login' component={Auth} />
-                <Route path='/about' component={About} />
+                <Route exact path='/about' component={About} />
+                <Route exact path='/auth/signup' component={Auth} />
+                <Route exact path='/auth/login' component={Auth} />
                 <Route exact path='/' component={Restaurants} />
                 <Redirect to='/' />
             </Switch>

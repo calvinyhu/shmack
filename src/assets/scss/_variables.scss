@@ -11,13 +11,15 @@ $padding-default: 1rem;
 $padding-tiny: 0.2rem;
 
 // Border
+$border-default-input: 1px solid #ccc;
+$border-default-button: 1px solid gray;
 $border-radius-default: 4px;
 
 // Margin
 $margin-default: 1rem;
 
 // Box Shadow
-$box-shadow-default: 0px 2px 3px 0px #ccc;
+$box-shadow-default: 0px 1px 3px 0px #ccc;
 
 // Font
 $font-size-default: 1rem;

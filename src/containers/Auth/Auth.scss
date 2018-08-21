@@ -6,37 +6,85 @@
     flex-direction: column;
     justify-content: center;
     align-items: center;
+    margin: $margin-default 0;
 
     form {
         display: flex;
         flex-direction: column;
         align-items: center;
         width: 80vw;
+        max-width: $width-default * 30;
 
         input {
-            margin: $margin-default;
+            outline: none;
+            padding: $padding-default / 2;
+            margin-bottom: $margin-default;
+            border: $border-default-input;
+            border-radius: $border-radius-default / 2;
             width: 100%;
-            max-width: $width-default * 20;
+
+            &:hover {
+                border-color: gray;
+                box-shadow: $box-shadow-default;
+            }
+
+            &:focus {
+                border-color: gray;
+                box-shadow: $box-shadow-default;
+            }
         }
 
         button {
-            margin: $margin-default;
             appearance: none;
             background: white;
-            border: 1px solid gray;
-            width: 80vw;
-            max-width: $width-default * 20;
-        }
-    }
+            padding: $padding-default $padding-default;
+            border: $border-default-button;
+            border-radius: $border-radius-default;
+            box-shadow: $box-shadow-default;
+            margin-bottom: $margin-default;
+            width: 100%;
+            transition: $transition-default;
+            font-weight: 600;
 
-    p {
-        text-align: center;
-        margin: $margin-default 0;
+            &:hover {
+                background: black;
+                color: white;
+                cursor: pointer;
+            }
+        }
     }
 }
 
-#Login {
-    margin: 0;
-    width: auto;
+.Switch {
+    display: flex;
+    justify-content: space-evenly;
+    align-items: center;
+    margin: $margin-default 0;
+    width: 80vw;
     max-width: $width-default * 20;
+
+    p {
+        text-align: center;
+        margin: 0;
+    }
+
+    #LogIn {
+        margin: 0;
+        width: auto;
+    
+        a {
+            background: white;
+            color: black;
+            padding: 0;
+            border: none;
+            text-decoration: none;
+            box-shadow: none;
+            font-weight: 600;
+            transition: $transition-default;
+    
+            &:hover {
+                color: gray;
+            }
+        }
+    }
 }
