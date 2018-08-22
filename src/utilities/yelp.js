@@ -1,13 +1,25 @@
 import React from 'react'
-import axios from '../axios'
+import axios from 'axios'
 
 import Auxiliary from '../hoc/Auxiliary/Auxiliary'
+import { yelpApiKey } from '../secrets';
 
+const TOKEN_MISSING = 'TOKEN_MISSING'
 const TOKEN_INVALID = 'TOKEN_INVALID'
 
+const cors = 'https://cors-anywhere.herokuapp.com/'
+const yelp = 'https://api.yelp.com/v3/'
+const base = cors + yelp
+const businesses = base + '/businesses/search?'
+const config = {
+    headers: {
+        Authorization: `Bearer ${yelpApiKey}`
+    }
+}
+
 export const searchYelp = (food, location, onSearchEnd) => {
-    const query = `/businesses/search?term=${food}&location=${location}`
-    axios.get(query)
+    const query = `term=${food}&location=${location}`
+    axios.get(businesses + query, config)
         .then(response => {
             onSearchEnd({
                 restaurants: response.data.businesses,
@@ -27,6 +39,15 @@ export const searchYelp = (food, location, onSearchEnd) => {
 export const handleYelpError = (error) => {
     let errorMessage = null
     switch (error) {
+        case TOKEN_MISSING:
+            errorMessage = (
+                <Auxiliary>
+                    <p>:(</p>
+                    <p>Looks like your Yelp API key is missing.</p>
+                    <p>Please supply one!</p>
+                </Auxiliary>
+            )
+            break;
         case TOKEN_INVALID:
             errorMessage = (
                 <Auxiliary>

@@ -2,7 +2,8 @@ import React, { Component } from 'react'
 
 import classes from './Auth.css'
 import NavigationItem from '../../components/Navigation/NavigationItems/NavigationItem/NavigationItem'
-import Auxiliary from '../../hoc/Auxiliary/Auxiliary'
+import axios from 'axios';
+import { firebaseApiKey } from '../../secrets'
 
 class Auth extends Component {
     state = {
@@ -37,8 +38,21 @@ class Auth extends Component {
         this.setState({ password: event.target.value })
     }
 
-    formSubmitHandler = () => {
-
+    formSubmitHandler = (event) => {
+        event.preventDefault()
+        const authEndpoint = `https://www.googleapis.com/identitytoolkit/v3/relyingparty/signupNewUser?key=${firebaseApiKey}`
+        const authData = {
+            email: this.state.email,
+            password: this.state.password,
+            returnSecureToken: true
+        }
+        axios.post(authEndpoint, authData)
+            .then(response => {
+                console.log(response)
+            })
+            .catch(error => {
+                console.log(error.response)
+            })
     }
 
     authChangeHandler = () => {
@@ -48,25 +62,12 @@ class Auth extends Component {
     }
 
     render() {
-        let formSignUpInputs = null
         let formButtonName = 'Log In'
         let switchCTA = 'Not shmackin\' ?'
         let switchLink = '/auth/signup'
         let switchName = 'Sign Up'
 
         if (this.state.signup) {
-            formSignUpInputs = (
-                <Auxiliary>
-                    <input
-                        type='text'
-                        placeholder='First Name'
-                        onChange={this.firstNameChangeHandler} />
-                    <input
-                        type='text'
-                        placeholder='Last Name'
-                        onChange={this.lastNameChangeHandler} />
-                </Auxiliary>
-            )
             formButtonName = 'Sign Up'
             switchCTA = 'Already shmackin\' ?'
             switchLink = '/auth/login'
@@ -76,7 +77,6 @@ class Auth extends Component {
         return (
             <div className={classes.Auth}>
                 <form onSubmit={this.formSubmitHandler}>
-                    {formSignUpInputs}
                     <input
                         type='email'
                         placeholder='Email'
