@@ -4,7 +4,6 @@ import { connect } from 'react-redux'
 import classes from './Auth.css'
 import * as actions from '../../store/actions/authActions'
 import NavigationItem from '../../components/Navigation/NavigationItems/NavigationItem/NavigationItem'
-import Auxiliary from '../../hoc/Auxiliary/Auxiliary';
 
 const mapStateToProps = (state) => {
     return {
@@ -68,21 +67,30 @@ class Auth extends Component {
     }
 
     render() {
+        let loadingPrompt = null
         let form = null
-        let formButtonName = 'Log In'
-        let switchCTA = 'Not shmackin\' ?'
-        let switchLink = '/auth/signup'
-        let switchName = 'Sign Up'
+        let formSwitch = null
+        
+        if (this.props.loading) {
+            loadingPrompt = (
+                <p className={classes.LoadingPrompt}>
+                    {this.state.signup ? 'Signing Up...' : 'Logging In...'}
+                </p>
+            )
+        } else {
+            let formButtonName = 'Log In'
+            let switchCTA = 'Not shmackin\' ?'
+            let switchLink = '/auth/signup'
+            let switchName = 'Sign Up'
+    
+            if (this.state.signup) {
+                formButtonName = 'Sign Up'
+                switchCTA = 'Already shmackin\' ?'
+                switchLink = '/auth/login'
+                switchName = 'Log In'
+            }
 
-        if (this.state.signup) {
-            formButtonName = 'Sign Up'
-            switchCTA = 'Already shmackin\' ?'
-            switchLink = '/auth/login'
-            switchName = 'Log In'
-        }
-
-        form = (
-            <Auxiliary>
+            form = (
                 <form onSubmit={this.formSubmitHandler}>
                     <input
                         type='email'
@@ -94,6 +102,9 @@ class Auth extends Component {
                         onChange={this.passwordChangeHandler} />
                     <button>{formButtonName}</button>
                 </form>
+            )
+
+            formSwitch = (
                 <div className={classes.Switch}>
                     <p>{switchCTA}</p>
                     <NavigationItem
@@ -101,19 +112,14 @@ class Auth extends Component {
                         clicked={this.authChangeHandler}
                         link={switchLink}>{switchName}</NavigationItem>
                 </div>
-            </Auxiliary>
-        )
-
-        let loadingPrompt = null
-        if (this.props.loading) {
-            loadingPrompt = <p className={classes.LoadingPrompt}>{this.state.signup ? 'Signing Up...' : 'Logging In...'}</p>
-            form = null
+            )
         }
 
         return (
             <div className={classes.Auth}>
                 {loadingPrompt}
                 {form}
+                {formSwitch}
             </div>
         )
     }
