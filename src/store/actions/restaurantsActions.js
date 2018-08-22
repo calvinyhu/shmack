@@ -1,31 +1,57 @@
+import axios from 'axios'
+
 import * as actionTypes from './actionTypes'
+import { getYelpQuery, yelpConfig } from '../../utilities/yelp'
 
-export const foodChange = (payload) => {
-    return {
-        type: actionTypes.FOOD_CHANGE,
-        food: payload.food,
+export const restaurantSearch = (food, location) => {
+    return dispatch => {
+        dispatch(restaurantSearchStart())
+
+        axios.get(getYelpQuery(food, location), yelpConfig)
+            .then(response => {
+                dispatch(restaurantSearchSuccess(response.data.businesses))
+            })
+            .catch(error => {
+                dispatch(restaurantSearchFail(error.response))
+            })
     }
 }
 
-export const locationChange = (payload) => {
+const restaurantSearchStart = () => {
     return {
-        type: actionTypes.LOCATION_CHANGE,
-        location: payload.location,
+        type: actionTypes.RESTAURANT_SEARCH_START,
+        loading: true
     }
 }
 
-export const searchStart = (payload) => {
+const restaurantSearchSuccess = (restaurants) => {
     return {
-        type: actionTypes.SEARCH_START,
-        loading: payload.loading,
+        type: actionTypes.RESTAURANT_SEARCH_SUCCESS,
+        restaurants: restaurants,
+        loading: false,
+        error: null
     }
 }
 
-export const searchEnd = (payload) => {
+export const restaurantSearchFail = (error) => {
     return {
-        type: actionTypes.SEARCH_END,
-        restaurants: payload.restaurants,
-        loading: payload.loading,
-        error: payload.error
+        type: actionTypes.RESTAURANT_SEARCH_FAIL,
+        restaurants: null,
+        loading: false,
+        error: error
+    }
+}
+
+export const restaurantFoodChange = (food) => {
+    return {
+        type: actionTypes.RESTAURANT_FOOD_CHANGE,
+        food: food
+    }
+}
+
+export const restaurantLocationChange = (location) => {
+    return {
+        type: actionTypes.RESTAURANT_LOCATION_CHANGE,
+        location: location
     }
 }

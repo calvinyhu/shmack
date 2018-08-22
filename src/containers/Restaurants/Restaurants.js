@@ -3,9 +3,9 @@ import { connect } from 'react-redux'
 
 import classes from './Restaurants.css'
 import * as actions from '../../store/actions/restaurantsActions'
-import Restaurant from '../../components/Restaurant/Restaurant'
+import { handleYelpError } from '../../utilities/yelp'
 import SideDrawerToggle from '../../components/Navigation/SideDrawer/SideDrawerToggle/SideDrawerToggle'
-import { searchYelp, handleYelpError } from '../../utilities/yelp'
+import Restaurant from '../../components/Restaurant/Restaurant'
 
 const mapStateToProps = (state) => {
     return {
@@ -19,10 +19,9 @@ const mapStateToProps = (state) => {
 
 const mapDispatchToProps = (dispatch) => {
     return {
-        onFoodChange: (payload) => dispatch(actions.foodChange(payload)),
-        onLocationChange: (payload) => dispatch(actions.locationChange(payload)),
-        onSearchStart: (payload) => dispatch(actions.searchStart(payload)),
-        onSearchEnd: (payload) => dispatch(actions.searchEnd(payload)),
+        onRestaurantFoodChange: (food) => dispatch(actions.restaurantFoodChange(food)),
+        onRestaurantLocationChange: (location) => dispatch(actions.restaurantLocationChange(location)),
+        onRestaurantSearch: (food, location) => dispatch(actions.restaurantSearch(food, location)),
     }
 }
 
@@ -37,16 +36,52 @@ class Restaurants extends Component {
         })
     }
 
-    searchHandler = () => {
-        this.props.onSearchStart({ loading: true, error: null })
-        searchYelp(this.props.food, this.props.location, this.props.onSearchEnd)
-    }
+    foodChangeHandler = (event) => this.props.onRestaurantFoodChange(event.target.value)
+    locationChangeHandler = (event) => this.props.onRestaurantLocationChange(event.target.value)
+    searchHandler = () => this.props.onRestaurantSearch(this.props.food, this.props.location)
 
     render() {
-        let callToAction = <p className={classes.CTA}>Let's Eat!</p>
+        let callToAction = null
         let restaurantsGrid = null
 
-        if (this.props.restaurants && !this.props.loading && !this.props.error) {
+        let goButton = null
+        if (this.props.location) {
+            goButton = <button type='text' className={classes.SearchButton} onClick={this.searchHandler}>Go</button>
+        }
+        let searchBar = (
+            <div className={classes.SearchBar}>
+                <div className={classes.SideDrawerToggleContainer}>
+                    <SideDrawerToggle toggleSideDrawer={this.toggleFiltersHandler} showSideDrawer={this.state.showFilters} />
+                </div>
+                <input
+                    type='text'
+                    placeholder='Food'
+                    value={this.props.food}
+                    onChange={this.foodChangeHandler} />
+                <input
+                    type='text'
+                    placeholder='Location'
+                    value={this.props.location}
+                    onChange={this.locationChangeHandler} />
+                {goButton}
+            </div>
+        )
+
+        if (this.props.loading) {
+            callToAction = (
+                <p className={classes.CTA}>
+                    Getting {this.props.food ? this.props.food : 'food'} in {this.props.location} for you...
+                </p>
+            )
+            searchBar = null
+        } else if (this.props.error) {
+            const errorMessage = handleYelpError(this.props.error.data.error.code)
+            callToAction = (
+                <div className={classes.CTA}>
+                    {errorMessage}
+                </div>
+            )
+        } else if (this.props.restaurants) {
             let restaurants = []
             this.props.restaurants.forEach(restaurant => {
                 if (restaurant.image_url) {
@@ -60,51 +95,14 @@ class Restaurants extends Component {
                     {restaurants}
                 </div>
             )
-            callToAction = null
-        }
-
-        if (this.props.loading) {
-            callToAction = (
-                <p className={classes.CTA}>
-                    Getting {this.props.food ? this.props.food : 'food'} in {this.props.location} for you...
-                </p>
-            )
-        }
-
-        if (this.props.error) {
-            const errorMessage = handleYelpError(this.props.error.data.error.code)
-            callToAction = (
-                <div className={classes.CTA}>
-                    {errorMessage}
-                </div>
-            )
-        }
-
-        let goButton = null
-        if (this.props.location) {
-            goButton = <button type='text' className={classes.SearchButton} onClick={this.searchHandler}>Go</button>
-        }
+        } else
+            callToAction = <p className={classes.CTA}>Let's Eat!</p>
 
         return (
             <div className={classes.Restaurants}>
                 {callToAction}
                 {restaurantsGrid}
-                <div className={classes.SearchBar}>
-                    <div className={classes.SideDrawerToggleContainer}>
-                        <SideDrawerToggle toggleSideDrawer={this.toggleFiltersHandler} showSideDrawer={this.state.showFilters} />
-                    </div>
-                    <input
-                        type='text'
-                        placeholder='Food'
-                        value={this.props.food}
-                        onChange={(event) => this.props.onFoodChange({ food: event.target.value })} />
-                    <input
-                        type='text'
-                        placeholder='Location'
-                        value={this.props.location}
-                        onChange={(event) => this.props.onLocationChange({ location: event.target.value })} />
-                    {goButton}
-                </div>
+                {searchBar}
             </div>
         )
     }

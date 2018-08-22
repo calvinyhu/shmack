@@ -1,5 +1,4 @@
 import React from 'react'
-import axios from 'axios'
 
 import Auxiliary from '../hoc/Auxiliary/Auxiliary'
 import { yelpApiKey } from '../secrets';
@@ -11,29 +10,15 @@ const cors = 'https://cors-anywhere.herokuapp.com/'
 const yelp = 'https://api.yelp.com/v3/'
 const base = cors + yelp
 const businesses = base + '/businesses/search?'
-const config = {
+
+export const yelpConfig = {
     headers: {
         Authorization: `Bearer ${yelpApiKey}`
     }
 }
 
-export const searchYelp = (food, location, onSearchEnd) => {
-    const query = `term=${food}&location=${location}`
-    axios.get(businesses + query, config)
-        .then(response => {
-            onSearchEnd({
-                restaurants: response.data.businesses,
-                loading: false,
-                error: null
-            })
-        })
-        .catch(error => {
-            onSearchEnd({
-                restaurants: null,
-                loading: false,
-                error: error.response
-            })
-        })
+export const getYelpQuery = (food, location) => {
+    return businesses + `term=${food}&location=${location}`
 }
 
 export const handleYelpError = (error) => {
