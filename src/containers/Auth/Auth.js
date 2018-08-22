@@ -11,17 +11,22 @@ class Auth extends Component {
         password: ''
     }
 
-    componentDidMount() {
-        console.log('[Auth.js] componentDidMount', this.props, this.state)
+    componentWillReceiveProps(nextProps) {
+        if (nextProps.location.pathname === '/auth/signup' && this.state.signup === false) {
+            this.setState({
+                signup: true
+            })
+        } else if (nextProps.location.pathname === '/auth/login' && this.state.signup === true) {
+            this.setState({
+                signup: false
+            })
+        }
     }
 
     shouldComponentUpdate(nextProps, nextState) {
-        console.log('[Auth.js] shouldComponentUpdate', nextProps, nextState)
-        return true
-    }
-
-    componentDidUpdate() {
-        console.log('[Auth.js] componentDidUpdate', this.props, this.state)
+        if (nextProps.location.pathname !== this.props.location.pathname || nextState.signup !== this.state.signup)
+            return true
+        return false
     }
 
     emailChangeHandler = (event) => {
@@ -33,7 +38,7 @@ class Auth extends Component {
     }
 
     formSubmitHandler = () => {
-        
+
     }
 
     authChangeHandler = () => {
@@ -44,7 +49,7 @@ class Auth extends Component {
 
     render() {
         let formSignUpInputs = null
-        let formButtonName = 'Log in'
+        let formButtonName = 'Log In'
         let switchCTA = 'Not shmackin\' ?'
         let switchLink = '/auth/signup'
         let switchName = 'Sign Up'
