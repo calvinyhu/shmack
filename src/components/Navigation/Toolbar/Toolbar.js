@@ -8,7 +8,7 @@ import NavigationItem from '../NavigationItems/NavigationItem/NavigationItem';
 const toolbar = (props) => {
     return (
         <header className={classes.Toolbar}>
-            <NavigationItem 
+            <NavigationItem
                 id={classes.Logo}
                 clicked={props.closeSideDrawer}
                 link='/'>shmack</NavigationItem>
@@ -16,7 +16,7 @@ const toolbar = (props) => {
                 <SideDrawerToggle toggleSideDrawer={props.toggleSideDrawer} showSideDrawer={props.showSideDrawer} />
             </div>
             <nav>
-                <NavigationItems />
+                <NavigationItems isAuth={props.isAuth} />
             </nav>
         </header>
     )

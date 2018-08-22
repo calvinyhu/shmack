@@ -12,7 +12,7 @@ const sideDrawer = (props) => {
         drawer = (
             <div className={sideDrawerClasses}>
                 <nav>
-                    <NavigationItems closeSideDrawer={props.closeSelf}/>
+                    <NavigationItems closeSideDrawer={props.closeSelf} isAuth={props.isAuth}/>
                 </nav>
             </div>
         )

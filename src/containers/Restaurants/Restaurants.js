@@ -9,11 +9,11 @@ import { searchYelp, handleYelpError } from '../../utilities/yelp'
 
 const mapStateToProps = (state) => {
     return {
-        food: state.food,
-        location: state.location,
-        restaurants: state.restaurants,
-        loading: state.loading,
-        error: state.error
+        food: state.restaurantsReducer.food,
+        location: state.restaurantsReducer.location,
+        restaurants: state.restaurantsReducer.restaurants,
+        loading: state.restaurantsReducer.loading,
+        error: state.restaurantsReducer.error
     }
 }
 

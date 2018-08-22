@@ -1,9 +1,25 @@
 import React, { Component } from 'react'
+import { connect } from 'react-redux'
 
 import classes from './Auth.css'
+import * as actions from '../../store/actions/authActions'
 import NavigationItem from '../../components/Navigation/NavigationItems/NavigationItem/NavigationItem'
-import axios from 'axios';
-import { firebaseApiKey } from '../../secrets'
+import Auxiliary from '../../hoc/Auxiliary/Auxiliary';
+
+const mapStateToProps = (state) => {
+    return {
+        token: state.authReducer.token,
+        userId: state.authReducer.userId,
+        loading: state.authReducer.loading,
+        error: state.authReducer.error
+    }
+}
+
+const mapDispatchToProps = (dispatch) => {
+    return {
+        onAuth: (email, password, signup) => dispatch(actions.auth(email, password, signup))
+    }
+}
 
 class Auth extends Component {
     state = {
@@ -25,9 +41,11 @@ class Auth extends Component {
     }
 
     shouldComponentUpdate(nextProps, nextState) {
-        if (nextProps.location.pathname !== this.props.location.pathname || nextState.signup !== this.state.signup)
-            return true
-        return false
+        return (
+            nextProps.location.pathname !== this.props.location.pathname 
+            || nextState.signup !== this.state.signup 
+            || nextProps.loading !== this.props.loading
+        )
     }
 
     emailChangeHandler = (event) => {
@@ -40,19 +58,7 @@ class Auth extends Component {
 
     formSubmitHandler = (event) => {
         event.preventDefault()
-        const authEndpoint = `https://www.googleapis.com/identitytoolkit/v3/relyingparty/signupNewUser?key=${firebaseApiKey}`
-        const authData = {
-            email: this.state.email,
-            password: this.state.password,
-            returnSecureToken: true
-        }
-        axios.post(authEndpoint, authData)
-            .then(response => {
-                console.log(response)
-            })
-            .catch(error => {
-                console.log(error.response)
-            })
+        this.props.onAuth(this.state.email, this.state.password, this.state.signup)
     }
 
     authChangeHandler = () => {
@@ -62,6 +68,7 @@ class Auth extends Component {
     }
 
     render() {
+        let form = null
         let formButtonName = 'Log In'
         let switchCTA = 'Not shmackin\' ?'
         let switchLink = '/auth/signup'
@@ -74,8 +81,8 @@ class Auth extends Component {
             switchName = 'Log In'
         }
 
-        return (
-            <div className={classes.Auth}>
+        form = (
+            <Auxiliary>
                 <form onSubmit={this.formSubmitHandler}>
                     <input
                         type='email'
@@ -94,9 +101,22 @@ class Auth extends Component {
                         clicked={this.authChangeHandler}
                         link={switchLink}>{switchName}</NavigationItem>
                 </div>
+            </Auxiliary>
+        )
+
+        let loadingPrompt = null
+        if (this.props.loading) {
+            loadingPrompt = <p className={classes.LoadingPrompt}>{this.state.signup ? 'Signing Up...' : 'Logging In...'}</p>
+            form = null
+        }
+
+        return (
+            <div className={classes.Auth}>
+                {loadingPrompt}
+                {form}
             </div>
         )
     }
 }
 
-export default Auth
+export default connect(mapStateToProps, mapDispatchToProps)(Auth)

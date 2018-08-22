@@ -1,8 +1,15 @@
 import React, { Component } from 'react'
+import { connect } from 'react-redux'
 
 import Auxiliary from '../Auxiliary/Auxiliary'
 import Toolbar from '../../components/Navigation/Toolbar/Toolbar'
 import SideDrawer from '../../components/Navigation/SideDrawer/SideDrawer'
+
+const mapStateToProps = (state) => {
+    return {
+        isAuth: state.authReducer.token
+    }
+}
 
 // @Layout holds the different pages or views of the app and will keep either a 
 // persistent toolbar or sidedrawer for user navigation.
@@ -24,13 +31,17 @@ class Layout extends Component {
     render() {
         return (
             <Auxiliary>
-                <Toolbar 
-                    toggleSideDrawer={this.sideDrawerToggleHandler} 
+                <Toolbar
+                    toggleSideDrawer={this.sideDrawerToggleHandler}
                     showSideDrawer={this.state.showSideDrawer}
-                    closeSideDrawer={this.sideDrawerCloseHandler}/>
-                <SideDrawer 
+                    closeSideDrawer={this.sideDrawerCloseHandler}
+                    isAuth={this.props.isAuth}
+                />
+                <SideDrawer
                     isOpen={this.state.showSideDrawer}
-                    closeSelf={this.sideDrawerCloseHandler}/>
+                    closeSelf={this.sideDrawerCloseHandler}
+                    isAuth={this.props.isAuth}
+                />
                 <main>
                     {this.props.children}
                 </main>
@@ -39,4 +50,4 @@ class Layout extends Component {
     }
 }
 
-export default Layout
+export default connect(mapStateToProps, null)(Layout)
