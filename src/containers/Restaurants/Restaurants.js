@@ -75,10 +75,9 @@ class Restaurants extends Component {
             )
             searchBar = null
         } else if (this.props.error) {
-            const errorMessage = handleYelpError(this.props.error.data.error.code)
             callToAction = (
                 <div className={classes.CTA}>
-                    {errorMessage}
+                    {handleYelpError(this.props.error.data.error.code)}
                 </div>
             )
         } else if (this.props.restaurants) {

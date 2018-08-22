@@ -22,34 +22,11 @@ export const getYelpQuery = (food, location) => {
 }
 
 export const handleYelpError = (error) => {
-    let errorMessage = null
+    let message = null
     switch (error) {
-        case TOKEN_MISSING:
-            errorMessage = (
-                <Auxiliary>
-                    <p>:(</p>
-                    <p>Looks like your Yelp API key is missing.</p>
-                    <p>Please supply one!</p>
-                </Auxiliary>
-            )
-            break;
-        case TOKEN_INVALID:
-            errorMessage = (
-                <Auxiliary>
-                    <p>:(</p>
-                    <p>Looks like your Yelp API key is invalid.</p>
-                    <p>Please supply a valid one!</p>
-                </Auxiliary>
-            )
-            break;
-        default:
-            errorMessage = (
-                <Auxiliary>
-                    <p>:(</p>
-                    <p>There was an unexpected error.</p>
-                    <p>Please try again later!</p>
-                </Auxiliary>
-            )
+        case TOKEN_MISSING: message = <p>Looks like your Yelp API key is missing. Please supply one!</p>; break
+        case TOKEN_INVALID: message = <p>Looks like your Yelp API key is invalid. Please supply a valid one!</p>; break
+        default: message = <p>There was an unexpected error. Please try again later!</p>
     }
-    return errorMessage
+    return ( <Auxiliary> <p>:(</p> {message} </Auxiliary> )
 }

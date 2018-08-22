@@ -3,6 +3,7 @@ import { connect } from 'react-redux'
 
 import classes from './Auth.css'
 import * as actions from '../../store/actions/authActions'
+import { handleFirebaseAuthError } from '../../utilities/google';
 import NavigationItem from '../../components/Navigation/NavigationItems/NavigationItem/NavigationItem'
 
 const mapStateToProps = (state) => {
@@ -70,12 +71,19 @@ class Auth extends Component {
         let loadingPrompt = null
         let form = null
         let formSwitch = null
+        let errorMessage = null
         
         if (this.props.loading) {
             loadingPrompt = (
-                <p className={classes.LoadingPrompt}>
+                <p className={classes.Message}>
                     {this.state.signup ? 'Signing Up...' : 'Logging In...'}
                 </p>
+            )
+        } else if (this.props.error) {
+            errorMessage = (
+                <div className={classes.Message}>
+                    {handleFirebaseAuthError(this.props.error.data.error)}
+                </div>
             )
         } else {
             let formButtonName = 'Log In'
@@ -120,6 +128,7 @@ class Auth extends Component {
                 {loadingPrompt}
                 {form}
                 {formSwitch}
+                {errorMessage}
             </div>
         )
     }
