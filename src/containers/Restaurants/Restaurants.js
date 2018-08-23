@@ -11,9 +11,12 @@ const mapStateToProps = (state) => {
     return {
         food: state.restaurantsReducer.food,
         location: state.restaurantsReducer.location,
-        restaurants: state.restaurantsReducer.restaurants,
-        loading: state.restaurantsReducer.loading,
-        error: state.restaurantsReducer.error
+        yelpRestaurants: state.restaurantsReducer.yelpRestaurants,
+        yelpLoading: state.restaurantsReducer.yelpLoading,
+        yelpError: state.restaurantsReducer.yelpError,
+        googleRestaurants: state.restaurantsReducer.googleRestaurants,
+        googleLoading: state.restaurantsReducer.googleLoading,
+        googleError: state.restaurantsReducer.googleError
     }
 }
 
@@ -66,32 +69,41 @@ class Restaurants extends Component {
                 {goButton}
             </div>
         )
-
-        if (this.props.loading) {
-            callToAction = (
-                <p className={classes.CTA}>
-                    Getting {this.props.food ? this.props.food : 'food'} in {this.props.location} for you...
-                </p>
-            )
-            searchBar = null
-        } else if (this.props.error) {
-            callToAction = (
-                <div className={classes.CTA}>
-                    {handleYelpError(this.props.error.data.error.code)}
-                </div>
-            )
-        } else if (this.props.restaurants) {
+        
+        if (this.props.yelpRestaurants && this.props.googleRestaurants) {
             let restaurants = []
-            this.props.restaurants.forEach(restaurant => {
+            this.props.yelpRestaurants.forEach(restaurant => {
                 if (restaurant.image_url) {
                     restaurants.push(
                         <Restaurant key={restaurant.id} img={restaurant.image_url}>{restaurant.name}</Restaurant>
                     );
                 }
             })
+
+            this.props.googleRestaurants.forEach(restaurant => {
+                if (restaurant.photos) {
+                    restaurants.push(
+                        <Restaurant key={restaurant.id} img={restaurant.photos}>{restaurant.name}</Restaurant>
+                    );
+                }
+            })
+
             restaurantsGrid = (
                 <div className={classes.RestaurantsGrid}>
                     {restaurants}
+                </div>
+            )
+        } else if (this.props.yelpLoading || this.props.googleLoading) {
+            callToAction = (
+                <p className={classes.CTA}>
+                    Getting {this.props.food ? this.props.food : 'food'} in {this.props.location} for you...
+                </p>
+            )
+            searchBar = null
+        } else if (this.props.yelpError || this.props.googleError) {
+            callToAction = (
+                <div className={classes.CTA}>
+                    {handleYelpError(this.props.yelpError.data.error.code)}
                 </div>
             )
         } else
