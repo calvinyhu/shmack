@@ -27,34 +27,43 @@ export const restaurantSearch = (food, location) => {
         dispatch(restaurantYelpSearchStart())
         dispatch(restaurantGoogleSearchStart())
 
-        axios.get(createYelpQuery(food, location), yelpConfig)
-            .then(response => {
-                dispatch(restaurantYelpSearchSuccess(response.data.businesses))
-            })
-            .catch(error => {
-                dispatch(restaurantYelpSearchFail(error.response))
-            })
-
-        axios.get(createGoogleGeocodeLookupQuery(location))
-            .then(response => {
-                const lat = response.data.results[0].geometry.location.lat
-                const lng = response.data.results[0].geometry.location.lng
-                // TODO: Make @radius (1500) dynamic through user input
-                axios.get(createGoogleNearbySearchQuery(food, `${lat},${lng}`, 1500, 'restaurant'))
-                    .then(response => {
-                        console.log('Logging NearbySearch Response...', response)
-                        dispatch(restaurantGoogleSearchSuccess(response.data.results))
-                    })
-                    .catch(error => {
-                        console.log('Logging NearbySearch Error...', error)
-                        dispatch(restaurantGoogleSearchFail(error.data))
-                    })
-            })
-            .catch(error => {
-                console.log('Logging Geocode Error...', error)
-                dispatch(restaurantGoogleSearchFail(error.data))
-            })
+        axios.all([
+            startAsyncYelpRequest(dispatch, food, location),
+            startAsyncGoogleRequest(dispatch, food, location)
+        ]).then(axios.spread(_ => {
+            console.log('Async requests ended')
+        }))
+        console.log('Async requests started before this statement')
     }
+}
+
+const startAsyncYelpRequest = (dispatch, food, location) => {
+    return axios.get(createYelpQuery(food, location), yelpConfig)
+        .then(response => {
+            dispatch(restaurantYelpSearchSuccess(response.data.businesses))
+        })
+        .catch(error => {
+            dispatch(restaurantYelpSearchFail(error.response))
+        })
+}
+
+const startAsyncGoogleRequest = (dispatch, food, location) => {
+    return axios.get(createGoogleGeocodeLookupQuery(location))
+        .then(response => {
+            const lat = response.data.results[0].geometry.location.lat
+            const lng = response.data.results[0].geometry.location.lng
+            // TODO: Make @radius (1500) dynamic through user input
+            axios.get(createGoogleNearbySearchQuery(food, `${lat},${lng}`, 1500, 'restaurant'))
+                .then(response => {
+                    dispatch(restaurantGoogleSearchSuccess(response.data.results))
+                })
+                .catch(error => {
+                    dispatch(restaurantGoogleSearchFail(error.data))
+                })
+        })
+        .catch(error => {
+            dispatch(restaurantGoogleSearchFail(error.data))
+        })
 }
 
 const restaurantYelpSearchStart = () => {
