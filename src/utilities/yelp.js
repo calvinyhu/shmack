@@ -1,24 +1,23 @@
 import React from 'react'
 
+import { YELP_API_KEY } from '../secrets'
+import { CORS } from './cors'
 import Auxiliary from '../hoc/Auxiliary/Auxiliary'
-import { yelpApiKey } from '../secrets';
+
+const YELP_API = 'https://api.yelp.com/v3/'
+const BUSINESSES_API = CORS + YELP_API + '/businesses/search?'
 
 const TOKEN_MISSING = 'TOKEN_MISSING'
 const TOKEN_INVALID = 'TOKEN_INVALID'
 
-const cors = 'https://cors-anywhere.herokuapp.com/'
-const yelp = 'https://api.yelp.com/v3/'
-const base = cors + yelp
-const businesses = base + '/businesses/search?'
-
 export const yelpConfig = {
     headers: {
-        Authorization: `Bearer ${yelpApiKey}`
+        Authorization: `Bearer ${YELP_API_KEY}`
     }
 }
 
-export const getYelpQuery = (food, location) => {
-    return businesses + `term=${food}&location=${location}`
+export const createYelpQuery = (food, location) => {
+    return BUSINESSES_API + `term=${food}&location=${location}`
 }
 
 export const handleYelpError = (error) => {

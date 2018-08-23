@@ -1,40 +1,40 @@
 import React from 'react'
 
-import Auxiliary from '../hoc/Auxiliary/Auxiliary'
 import {
-    googleFirebaseApiKey,
-    googlePlacesApiKey,
-    googleGeocodingApiKey
+    GOOGLE_FIREBASE_API_KEY,
+    GOOGLE_PLACES_API_KEY,
+    GOOGLE_GEOCODING_API_KEY
 } from '../secrets'
+import { CORS } from './cors'
+import Auxiliary from '../hoc/Auxiliary/Auxiliary'
 
-const cors = 'https://cors-anywhere.herokuapp.com/'
-const googleMapsApi = 'https://maps.googleapis.com/maps/api/'
-const output = 'json'
+const GOOGLE_MAPS_API = 'https://maps.googleapis.com/maps/api/'
+const OUTPUT = 'json'
 
 /********************************** Geocoding API *********************************/
-const geocodingApi = 'geocode/'
+const GEOCODING_API = 'geocode/'
 
 export const createGoogleGeocodeLookupQuery = (location) => {
-    const parameters = `key=${googleGeocodingApiKey}&address=${location}`
-    return cors + googleMapsApi + geocodingApi + `${output}?${parameters}`
+    const parameters = `key=${GOOGLE_GEOCODING_API_KEY}&address=${location}`
+    return CORS + GOOGLE_MAPS_API + GEOCODING_API + `${OUTPUT}?${parameters}`
 }
 
 /********************************** Places API *********************************/
-const placesApi = 'place/'
-const findPlace = 'findplacefromtext/'
-const nearbySearch = 'nearbysearch/'
+const PLACES_API = 'place/'
+const FIND_PLACE = 'findplacefromtext/'
+const NEARBY_SEARCH = 'nearbysearch/'
 
 export const createGoogleFindPlaceQuery = (food, location) => {
     const input = `${food} ${location}`
     const inputType = 'textquery'
     const fields = 'photos,formatted_address,name,rating,opening_hours'
-    const parameters = `key=${googlePlacesApiKey}&input=${input}&inputtype=${inputType}&fields=${fields}`
-    return cors + googleMapsApi + placesApi + findPlace + `${output}?${parameters}`
+    const parameters = `key=${GOOGLE_PLACES_API_KEY}&input=${input}&inputtype=${inputType}&fields=${fields}`
+    return CORS + GOOGLE_MAPS_API + PLACES_API + FIND_PLACE + `${OUTPUT}?${parameters}`
 }
 
 export const createGoogleNearbySearchQuery = (food, location, radius, type) => {
-    const parameters = `key=${googlePlacesApiKey}&location=${location}&radius=${radius}&keyword=${food}&type=${type}`
-    return cors + googleMapsApi + placesApi + nearbySearch + `${output}?${parameters}`
+    const parameters = `key=${GOOGLE_PLACES_API_KEY}&location=${location}&radius=${radius}&keyword=${food}&type=${type}`
+    return CORS + GOOGLE_MAPS_API + PLACES_API + NEARBY_SEARCH + `${OUTPUT}?${parameters}`
 }
 
 /*********************** Identity Tool Kit (Firebase) API ************************/
@@ -50,7 +50,7 @@ const WEAK_PASSWORD = 'WEAK_PASSWORD : Password should be at least 6 characters'
 
 export const createFirebaseAuthQuery = (signup) => {
     const firebaseAuthMethod = (signup) ? 'signupNewUser' : 'verifyPassword'
-    return `https://www.googleapis.com/identitytoolkit/v3/relyingparty/${firebaseAuthMethod}?key=${googleFirebaseApiKey}`
+    return `https://www.googleapis.com/identitytoolkit/v3/relyingparty/${firebaseAuthMethod}?key=${GOOGLE_FIREBASE_API_KEY}`
 }
 
 export const createFirebaseAuthData = (email, password) => {

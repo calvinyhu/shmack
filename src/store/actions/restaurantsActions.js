@@ -1,7 +1,7 @@
 import axios from 'axios'
 
 import * as actionTypes from './actionTypes'
-import { getYelpQuery, yelpConfig } from '../../utilities/yelp'
+import { createYelpQuery, yelpConfig } from '../../utilities/yelp'
 import {
     createGoogleGeocodeLookupQuery,
     createGoogleNearbySearchQuery
@@ -12,7 +12,7 @@ export const restaurantSearch = (food, location) => {
     return dispatch => {
         dispatch(restaurantSearchStart())
 
-        axios.get(getYelpQuery(food, location), yelpConfig)
+        axios.get(createYelpQuery(food, location), yelpConfig)
             .then(response => {
                 dispatch(restaurantSearchSuccess(response.data.businesses))
             })
