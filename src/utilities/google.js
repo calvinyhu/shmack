@@ -23,6 +23,7 @@ export const createGoogleGeocodeLookupQuery = (location) => {
 const PLACES_API = 'place/'
 const FIND_PLACE = 'findplacefromtext/'
 const NEARBY_SEARCH = 'nearbysearch/'
+const PLACE_PHOTO = 'photo'
 
 export const createGoogleFindPlaceQuery = (food, location) => {
     const input = `${food} ${location}`
@@ -35,6 +36,11 @@ export const createGoogleFindPlaceQuery = (food, location) => {
 export const createGoogleNearbySearchQuery = (food, location, radius, type) => {
     const parameters = `key=${GOOGLE_PLACES_API_KEY}&location=${location}&radius=${radius}&keyword=${food}&type=${type}`
     return CORS + GOOGLE_MAPS_API + PLACES_API + NEARBY_SEARCH + `${OUTPUT}?${parameters}`
+}
+
+export const createGooglePlacePhotoQuery = (photoreference, maxwidth) => {
+    const parameters = `key=${GOOGLE_PLACES_API_KEY}&photoreference=${photoreference}&maxwidth=${maxwidth}`
+    return GOOGLE_MAPS_API + PLACES_API + PLACE_PHOTO + `?${parameters}`
 }
 
 /*********************** Identity Tool Kit (Firebase) API ************************/

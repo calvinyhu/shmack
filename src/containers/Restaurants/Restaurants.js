@@ -4,6 +4,7 @@ import { connect } from 'react-redux'
 import classes from './Restaurants.css'
 import * as actions from '../../store/actions/restaurantsActions'
 import { handleYelpError } from '../../utilities/yelp'
+import { createGooglePlacePhotoQuery } from '../../utilities/google'
 import SideDrawerToggle from '../../components/Navigation/SideDrawer/SideDrawerToggle/SideDrawerToggle'
 import Restaurant from '../../components/Restaurant/Restaurant'
 
@@ -43,18 +44,55 @@ class Restaurants extends Component {
     locationChangeHandler = (event) => this.props.onRestaurantLocationChange(event.target.value)
     searchHandler = () => this.props.onRestaurantSearch(this.props.food, this.props.location)
 
+    displayRestaurants = () => {
+        let restaurants = []
+        if (this.props.yelpRestaurants) {
+            this.props.yelpRestaurants.forEach(res => {
+                if (res.image_url) {
+                    restaurants.push(
+                        <Restaurant
+                            key={res.id}
+                            img={res.image_url}>{res.name}
+                        </Restaurant>
+                    );
+                }
+            })
+        }
+        if (this.props.googleRestaurants) {
+            this.props.googleRestaurants.forEach(res => {
+                if (res.photos) {
+                    const photo = res.photos[0]
+                    const imgUrl = createGooglePlacePhotoQuery(photo.photo_reference, photo.width)
+                    restaurants.push(
+                        <Restaurant
+                            key={res.id}
+                            img={imgUrl}>{res.name}</Restaurant>
+                    );
+                }
+            })
+        }
+        return restaurants
+    }
+
     render() {
         let callToAction = null
         let restaurantsGrid = null
 
         let goButton = null
         if (this.props.location) {
-            goButton = <button type='text' className={classes.SearchButton} onClick={this.searchHandler}>Go</button>
+            goButton = (
+                <button
+                    type='text'
+                    className={classes.SearchButton}
+                    onClick={this.searchHandler}>Go</button>
+            )
         }
         let searchBar = (
             <div className={classes.SearchBar}>
                 <div className={classes.SideDrawerToggleContainer}>
-                    <SideDrawerToggle toggleSideDrawer={this.toggleFiltersHandler} showSideDrawer={this.state.showFilters} />
+                    <SideDrawerToggle 
+                        toggleSideDrawer={this.toggleFiltersHandler}
+                        showSideDrawer={this.state.showFilters} />
                 </div>
                 <input
                     type='text'
@@ -69,28 +107,11 @@ class Restaurants extends Component {
                 {goButton}
             </div>
         )
-        
-        if (this.props.yelpRestaurants && this.props.googleRestaurants) {
-            let restaurants = []
-            this.props.yelpRestaurants.forEach(restaurant => {
-                if (restaurant.image_url) {
-                    restaurants.push(
-                        <Restaurant key={restaurant.id} img={restaurant.image_url}>{restaurant.name}</Restaurant>
-                    );
-                }
-            })
 
-            this.props.googleRestaurants.forEach(restaurant => {
-                if (restaurant.photos) {
-                    restaurants.push(
-                        <Restaurant key={restaurant.id} img={restaurant.photos}>{restaurant.name}</Restaurant>
-                    );
-                }
-            })
-
+        if (this.props.yelpRestaurants || this.props.googleRestaurants) {
             restaurantsGrid = (
                 <div className={classes.RestaurantsGrid}>
-                    {restaurants}
+                    {this.displayRestaurants()}
                 </div>
             )
         } else if (this.props.yelpLoading || this.props.googleLoading) {

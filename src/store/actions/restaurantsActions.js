@@ -30,10 +30,10 @@ export const restaurantSearch = (food, location) => {
         axios.all([
             startAsyncYelpRequest(dispatch, food, location),
             startAsyncGoogleRequest(dispatch, food, location)
-        ]).then(axios.spread(_ => {
-            console.log('Async requests ended')
+        ]).then(axios.spread((yelp, google) => {
+            console.log('Yelp and Google requests ended')
         }))
-        console.log('Async requests started before this statement')
+        console.log('Yelp and Google requests started')
     }
 }
 
@@ -53,7 +53,7 @@ const startAsyncGoogleRequest = (dispatch, food, location) => {
             const lat = response.data.results[0].geometry.location.lat
             const lng = response.data.results[0].geometry.location.lng
             // TODO: Make @radius (1500) dynamic through user input
-            axios.get(createGoogleNearbySearchQuery(food, `${lat},${lng}`, 1500, 'restaurant'))
+            return axios.get(createGoogleNearbySearchQuery(food, `${lat},${lng}`, 1500, 'restaurant'))
                 .then(response => {
                     dispatch(restaurantGoogleSearchSuccess(response.data.results))
                 })
