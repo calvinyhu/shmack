@@ -2,7 +2,12 @@ import axios from 'axios'
 
 import * as actionTypes from './actionTypes'
 import { getYelpQuery, yelpConfig } from '../../utilities/yelp'
+import {
+    createGoogleGeocodeLookupQuery,
+    createGoogleNearbySearchQuery
+} from '../../utilities/google'
 
+// TODO: Make @location be selected from dropdown menu
 export const restaurantSearch = (food, location) => {
     return dispatch => {
         dispatch(restaurantSearchStart())
@@ -13,6 +18,24 @@ export const restaurantSearch = (food, location) => {
             })
             .catch(error => {
                 dispatch(restaurantSearchFail(error.response))
+            })
+
+        axios.get(createGoogleGeocodeLookupQuery(location))
+            .then(response => {
+                const lat = response.data.results[0].geometry.location.lat
+                const lng = response.data.results[0].geometry.location.lng
+                console.log(lat, lng)
+                // TODO: Make @radius (1500) dynamic through user input
+                axios.get(createGoogleNearbySearchQuery(food, `${lat},${lng}`, 1500, 'restaurant'))
+                    .then(response => {
+                        console.log('Logging NearbySearch Response...', response)
+                    })
+                    .catch(error => {
+                        console.log('Logging NearbySearch Error...', error)
+                    })
+            })
+            .catch(error => {
+                console.log('Logging Geocode Error...', error)
             })
     }
 }

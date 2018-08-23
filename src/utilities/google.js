@@ -1,9 +1,45 @@
 import React from 'react'
 
 import Auxiliary from '../hoc/Auxiliary/Auxiliary'
-import { googleApiKey } from '../secrets'
+import {
+    googleFirebaseApiKey,
+    googlePlacesApiKey,
+    googleGeocodingApiKey
+} from '../secrets'
 
+const cors = 'https://cors-anywhere.herokuapp.com/'
+const googleMapsApi = 'https://maps.googleapis.com/maps/api/'
+const output = 'json'
+
+/********************************** Geocoding API *********************************/
+const geocodingApi = 'geocode/'
+
+export const createGoogleGeocodeLookupQuery = (location) => {
+    const parameters = `key=${googleGeocodingApiKey}&address=${location}`
+    return cors + googleMapsApi + geocodingApi + `${output}?${parameters}`
+}
+
+/********************************** Places API *********************************/
+const placesApi = 'place/'
+const findPlace = 'findplacefromtext/'
+const nearbySearch = 'nearbysearch/'
+
+export const createGoogleFindPlaceQuery = (food, location) => {
+    const input = `${food} ${location}`
+    const inputType = 'textquery'
+    const fields = 'photos,formatted_address,name,rating,opening_hours'
+    const parameters = `key=${googlePlacesApiKey}&input=${input}&inputtype=${inputType}&fields=${fields}`
+    return cors + googleMapsApi + placesApi + findPlace + `${output}?${parameters}`
+}
+
+export const createGoogleNearbySearchQuery = (food, location, radius, type) => {
+    const parameters = `key=${googlePlacesApiKey}&location=${location}&radius=${radius}&keyword=${food}&type=${type}`
+    return cors + googleMapsApi + placesApi + nearbySearch + `${output}?${parameters}`
+}
+
+/*********************** Identity Tool Kit (Firebase) API ************************/
 const CODE400 = 400
+const CODE403 = 403
 const EMAIL_NOT_FOUND = 'EMAIL_NOT_FOUND'
 const EMAIL_EXISTS = 'EMAIL_EXISTS'
 const INVALID_EMAIL = 'INVALID_EMAIL'
@@ -12,11 +48,9 @@ const MISSING_EMAIL = 'MISSING_EMAIL'
 const MISSING_PASSWORD = 'MISSING_PASSWORD'
 const WEAK_PASSWORD = 'WEAK_PASSWORD : Password should be at least 6 characters'
 
-const CODE403 = 403
-
-export const getFirebaseAuthQuery = (signup) => {
+export const createFirebaseAuthQuery = (signup) => {
     const firebaseAuthMethod = (signup) ? 'signupNewUser' : 'verifyPassword'
-    return `https://www.googleapis.com/identitytoolkit/v3/relyingparty/${firebaseAuthMethod}?key=${googleApiKey}`
+    return `https://www.googleapis.com/identitytoolkit/v3/relyingparty/${firebaseAuthMethod}?key=${googleFirebaseApiKey}`
 }
 
 export const createFirebaseAuthData = (email, password) => {

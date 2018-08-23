@@ -1,6 +1,6 @@
 import axios from 'axios'
 import * as actionTypes from '../actions/actionTypes'
-import { getFirebaseAuthQuery, createFirebaseAuthData } from '../../utilities/google'
+import { createFirebaseAuthQuery, createFirebaseAuthData } from '../../utilities/google'
 
 const TOKEN = 'token'
 const EXPIRATION_DATE = 'expirationDate'
@@ -10,7 +10,7 @@ export const auth = (email, password, signup) => {
     return dispatch => {
         dispatch(authStart())
 
-        axios.post(getFirebaseAuthQuery(signup), createFirebaseAuthData(email, password))
+        axios.post(createFirebaseAuthQuery(signup), createFirebaseAuthData(email, password))
             .then(response => {
                 localStorage.setItem(TOKEN, response.data.idToken)
                 const expirationDate = new Date(new Date().getTime() + (response.data.expiresIn * 1000))
