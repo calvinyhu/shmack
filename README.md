@@ -44,6 +44,8 @@ You will need to have these installed on your machine for development:
 
 ## Authors
 
+- [Calvin Hu](https://github.com/calvinyhu)
+
 ## License
 
 ## Acknowledgments
