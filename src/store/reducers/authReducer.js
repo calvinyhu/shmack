@@ -5,7 +5,8 @@ const initialState = {
     token: '',
     userId: '',
     loading: false,
-    error: null
+    error: null,
+    redirectPath: ''
 }
 
 const authReducer = (state = initialState, action) => {
@@ -18,7 +19,8 @@ const authReducer = (state = initialState, action) => {
             return updateObject(state, {
                 token: action.token,
                 userId: action.userId,
-                loading: action.loading
+                loading: action.loading,
+                redirectPath: action.redirectPath
             })
         case actionTypes.AUTH_FAIL:
             return updateObject(state, {
@@ -28,7 +30,10 @@ const authReducer = (state = initialState, action) => {
         case actionTypes.AUTH_LOGOUT:
             return updateObject(state, {
                 token: action.token,
-                userId: action.userId
+                userId: action.userId,
+                loading: action.loading,
+                error: action.error,
+                redirectPath: action.redirectPath
             })
         default: return state
     }

@@ -54,8 +54,8 @@ const MISSING_EMAIL = 'MISSING_EMAIL'
 const MISSING_PASSWORD = 'MISSING_PASSWORD'
 const WEAK_PASSWORD = 'WEAK_PASSWORD : Password should be at least 6 characters'
 
-export const createFirebaseAuthQuery = (signup) => {
-    const firebaseAuthMethod = (signup) ? 'signupNewUser' : 'verifyPassword'
+export const createFirebaseAuthQuery = (signingUp) => {
+    const firebaseAuthMethod = (signingUp) ? 'signupNewUser' : 'verifyPassword'
     return `https://www.googleapis.com/identitytoolkit/v3/relyingparty/${firebaseAuthMethod}?key=${GOOGLE_FIREBASE_API_KEY}`
 }
 

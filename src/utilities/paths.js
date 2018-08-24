@@ -1,0 +1,7 @@
+export const ABOUT = '/about'
+export const LOGOUT = '/logout'
+export const ROOT = '/'
+export const AUTH = '/auth'
+export const AUTH_SIGNUP = '/auth/signup'
+export const AUTH_LOGIN = '/auth/login'
+export const USER = '/user'

@@ -1,8 +1,10 @@
 import React, { Component } from 'react'
+import { Redirect } from 'react-router-dom'
 import { connect } from 'react-redux'
 
 import classes from './Auth.css'
 import * as actions from '../../store/actions/authActions'
+import * as paths from '../../utilities/paths'
 import { handleFirebaseAuthError } from '../../utilities/google';
 import NavigationItem from '../../components/Navigation/NavigationItems/NavigationItem/NavigationItem'
 
@@ -11,41 +13,45 @@ const mapStateToProps = (state) => {
         token: state.authReducer.token,
         userId: state.authReducer.userId,
         loading: state.authReducer.loading,
-        error: state.authReducer.error
+        error: state.authReducer.error,
+        redirectPath: state.authReducer.redirectPath
     }
 }
 
 const mapDispatchToProps = (dispatch) => {
     return {
-        onAuth: (email, password, signup) => dispatch(actions.auth(email, password, signup))
+        onAuth: (email, password, signingUp) => dispatch(actions.auth(email, password, signingUp)),
     }
 }
 
 class Auth extends Component {
     state = {
-        signup: this.props.location.pathname === '/auth/signup',
+        signingUp: this.props.location.pathname === paths.AUTH_SIGNUP,
         email: '',
         password: ''
     }
 
-    componentWillReceiveProps(nextProps) {
-        if (nextProps.location.pathname === '/auth/signup' && this.state.signup === false) {
-            this.setState({
-                signup: true
-            })
-        } else if (nextProps.location.pathname === '/auth/login' && this.state.signup === true) {
-            this.setState({
-                signup: false
-            })
-        }
+    componentDidMount() {
+        console.log('[Auth] componentDidMount')
     }
 
-    shouldComponentUpdate(nextProps, nextState) {
+    componentWillReceiveProps(nextProps) {
+        console.log('[Auth] componentWillReceiveProps')
+        const nextPath = nextProps.location.pathname
+        this.setState({ signingUp: nextPath === paths.AUTH_SIGNUP })
+    }
+
+    shouldComponentUpdate(nextProps, _) {
+        console.log('[Auth] shouldComponentUpdate')
+        const nextPath = nextProps.location.pathname
         return (
-            nextProps.location.pathname !== this.props.location.pathname 
-            || nextState.signup !== this.state.signup 
+            nextPath !== this.props.location.pathname
             || nextProps.loading !== this.props.loading
         )
+    }
+
+    componentDidUpdate() {
+        console.log('[Auth] componentDidUpdate')
     }
 
     emailChangeHandler = (event) => {
@@ -58,16 +64,17 @@ class Auth extends Component {
 
     formSubmitHandler = (event) => {
         event.preventDefault()
-        this.props.onAuth(this.state.email, this.state.password, this.state.signup)
+        this.props.onAuth(this.state.email, this.state.password, this.state.signingUp)
     }
 
     authChangeHandler = () => {
         this.setState(prevState => {
-            return { signup: !prevState.signup }
+            return { signingUp: !prevState.signingUp }
         })
     }
 
     render() {
+        let authRedirect = null
         let loadingPrompt = null
         let form = null
         let formSwitch = null
@@ -76,7 +83,7 @@ class Auth extends Component {
         if (this.props.loading) {
             loadingPrompt = (
                 <p className={classes.Message}>
-                    {this.state.signup ? 'Signing Up...' : 'Logging In...'}
+                    {this.state.signingUp ? 'Signing Up...' : 'Logging In...'}
                 </p>
             )
         } else if (this.props.error) {
@@ -88,13 +95,13 @@ class Auth extends Component {
         } else {
             let formButtonName = 'Log In'
             let switchCTA = 'Not shmackin\' ?'
-            let switchLink = '/auth/signup'
+            let switchLink = paths.AUTH_SIGNUP
             let switchName = 'Sign Up'
     
-            if (this.state.signup) {
+            if (this.state.signingUp) {
                 formButtonName = 'Sign Up'
                 switchCTA = 'Already shmackin\' ?'
-                switchLink = '/auth/login'
+                switchLink = paths.AUTH_LOGIN
                 switchName = 'Log In'
             }
 
@@ -123,8 +130,12 @@ class Auth extends Component {
             )
         }
 
+        if (this.props.redirectPath)
+            authRedirect = <Redirect to={this.props.redirectPath} />
+
         return (
             <div className={classes.Auth}>
+                {authRedirect}
                 {loadingPrompt}
                 {form}
                 {formSwitch}
