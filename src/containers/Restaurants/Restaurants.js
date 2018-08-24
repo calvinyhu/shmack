@@ -45,22 +45,24 @@ class Restaurants extends Component {
     searchHandler = () => this.props.onRestaurantSearch(this.props.food, this.props.location)
 
     displayRestaurants = () => {
-        let restaurants = []
+        const restaurants = []
+        const resNames = {}
         if (this.props.yelpRestaurants) {
             this.props.yelpRestaurants.forEach(res => {
-                if (res.image_url) {
+                if (res.image_url && (!resNames[res.name])) {
                     restaurants.push(
                         <Restaurant
                             key={res.id}
                             img={res.image_url}>{res.name}
                         </Restaurant>
                     );
+                    resNames[res.name] = 1
                 }
             })
         }
         if (this.props.googleRestaurants) {
             this.props.googleRestaurants.forEach(res => {
-                if (res.photos) {
+                if (res.photos && !resNames[res.name]) {
                     const photo = res.photos[0]
                     const imgUrl = createGooglePlacePhotoQuery(photo.photo_reference, photo.width)
                     restaurants.push(
@@ -90,7 +92,7 @@ class Restaurants extends Component {
         let searchBar = (
             <div className={classes.SearchBar}>
                 <div className={classes.SideDrawerToggleContainer}>
-                    <SideDrawerToggle 
+                    <SideDrawerToggle
                         toggleSideDrawer={this.toggleFiltersHandler}
                         showSideDrawer={this.state.showFilters} />
                 </div>
