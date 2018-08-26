@@ -1,15 +1,8 @@
 import React, { Component } from 'react'
-import { connect } from 'react-redux'
 
 import Auxiliary from '../Auxiliary/Auxiliary'
 import Toolbar from '../../components/Navigation/Toolbar/Toolbar'
 import SideDrawer from '../../components/Navigation/SideDrawer/SideDrawer'
-
-const mapStateToProps = (state) => {
-    return {
-        isAuth: state.authReducer.token
-    }
-}
 
 // @Layout holds the different pages or views of the app and will keep either a 
 // persistent toolbar or sidedrawer for user navigation.
@@ -50,4 +43,4 @@ class Layout extends Component {
     }
 }
 
-export default connect(mapStateToProps, null)(Layout)
+export default Layout

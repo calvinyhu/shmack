@@ -1,3 +1,27 @@
+@import './src/assets/scss/_variables.scss';
+@import './src/assets/scss/_mixins.scss';
+
 .User {
     display: flex;
+    flex-direction: column;
+    align-items: center;
+    margin-top: $margin-default;
+}
+
+.PictureContainer {
+    display: inherit;
+}
+
+.Name {
+    font-size: $font-size-default * 2;
+}
+
+.Location {
+    display: inherit;
+    flex-direction: column;
+    align-items: center;
+}
+
+.EditProfile {
+    display: inherit;
 }

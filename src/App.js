@@ -13,7 +13,7 @@ import Restaurants from './containers/Restaurants/Restaurants'
 
 const mapStateToProps = (state) => {
     return {
-        isAuth: state.authReducer.token !== ''
+        isAuth: state.auth.isAuth
     }
 }
 
@@ -42,8 +42,10 @@ class App extends Component {
                 </Switch>
             )
         } else {
+            // const deletethis = <Route exact path={paths.USER} component={User} />
             routes = (
                 <Switch>
+                    {/* {deletethis} */}
                     <Route exact path={paths.ABOUT} component={About} />
                     <Route exact path={paths.AUTH_SIGNUP} component={Auth} />
                     <Route exact path={paths.AUTH_LOGIN} component={Auth} />
@@ -53,7 +55,7 @@ class App extends Component {
             )
         }
         return (
-            <Layout>
+            <Layout isAuth={this.props.isAuth}>
                 {routes}
             </Layout>
         )

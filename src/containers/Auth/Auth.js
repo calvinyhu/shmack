@@ -5,22 +5,19 @@ import { connect } from 'react-redux'
 import classes from './Auth.css'
 import * as actions from '../../store/actions/authActions'
 import * as paths from '../../utilities/paths'
-import { handleFirebaseAuthError } from '../../utilities/google';
 import NavigationItem from '../../components/Navigation/NavigationItems/NavigationItem/NavigationItem'
 
 const mapStateToProps = (state) => {
     return {
-        token: state.authReducer.token,
-        userId: state.authReducer.userId,
-        loading: state.authReducer.loading,
-        error: state.authReducer.error,
-        redirectPath: state.authReducer.redirectPath
+        loading: state.auth.loading,
+        error: state.auth.error,
+        redirectPath: state.auth.redirectPath
     }
 }
 
 const mapDispatchToProps = (dispatch) => {
     return {
-        onAuth: (email, password, signingUp) => dispatch(actions.auth(email, password, signingUp)),
+        onAuth: (email, password, signingUp) => dispatch(actions.authenticate(email, password, signingUp)),
     }
 }
 
@@ -31,27 +28,17 @@ class Auth extends Component {
         password: ''
     }
 
-    componentDidMount() {
-        console.log('[Auth] componentDidMount')
-    }
-
     componentWillReceiveProps(nextProps) {
-        console.log('[Auth] componentWillReceiveProps')
         const nextPath = nextProps.location.pathname
         this.setState({ signingUp: nextPath === paths.AUTH_SIGNUP })
     }
 
     shouldComponentUpdate(nextProps, _) {
-        console.log('[Auth] shouldComponentUpdate')
         const nextPath = nextProps.location.pathname
         return (
             nextPath !== this.props.location.pathname
             || nextProps.loading !== this.props.loading
         )
-    }
-
-    componentDidUpdate() {
-        console.log('[Auth] componentDidUpdate')
     }
 
     emailChangeHandler = (event) => {
@@ -89,7 +76,7 @@ class Auth extends Component {
         } else if (this.props.error) {
             errorMessage = (
                 <div className={classes.Message}>
-                    {handleFirebaseAuthError(this.props.error.data.error)}
+                    {this.props.error.message}
                 </div>
             )
         } else {

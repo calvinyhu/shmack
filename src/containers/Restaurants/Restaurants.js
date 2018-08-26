@@ -10,14 +10,14 @@ import Restaurant from '../../components/Restaurant/Restaurant'
 
 const mapStateToProps = (state) => {
     return {
-        food: state.restaurantsReducer.food,
-        location: state.restaurantsReducer.location,
-        yelpRestaurants: state.restaurantsReducer.yelpRestaurants,
-        yelpLoading: state.restaurantsReducer.yelpLoading,
-        yelpError: state.restaurantsReducer.yelpError,
-        googleRestaurants: state.restaurantsReducer.googleRestaurants,
-        googleLoading: state.restaurantsReducer.googleLoading,
-        googleError: state.restaurantsReducer.googleError
+        food: state.restaurants.food,
+        location: state.restaurants.location,
+        yelpRestaurants: state.restaurants.yelpRestaurants,
+        yelpLoading: state.restaurants.yelpLoading,
+        yelpError: state.restaurants.yelpError,
+        googleRestaurants: state.restaurants.googleRestaurants,
+        googleLoading: state.restaurants.googleLoading,
+        googleError: state.restaurants.googleError
     }
 }
 
