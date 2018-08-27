@@ -36,6 +36,7 @@
         }
 
         button {
+            outline: none;
             appearance: none;
             background: white;
             padding: $padding-default $padding-default;
@@ -51,6 +52,11 @@
                 background: black;
                 color: white;
                 cursor: pointer;
+            }
+
+            &:focus {
+                background: black;
+                color: white;
             }
         }
     }
@@ -74,6 +80,7 @@
         width: auto;
     
         a {
+            outline: none;
             background: white;
             color: black;
             padding: 0;
@@ -84,7 +91,11 @@
             transition: $transition-default;
     
             &:hover {
-                color: gray;
+                text-decoration: underline;
+            }
+
+            &:focus {
+                text-decoration: underline;
             }
         }
     }

@@ -1,17 +1,57 @@
 import React, { Component } from 'react'
+import { connect } from 'react-redux'
 
 import classes from './User.css'
-import { firestore } from '../../utilities/firebase'
+import * as actions from '../../store/actions/userActions'
+import * as db from '../../utilities/database'
+import { updateObject } from '../../utilities/utilities';
 import EditUser from './EditUser/EditUser'
+import Auxiliary from '../../hoc/Auxiliary/Auxiliary';
+
+const mapStateToProps = state => {
+    return {
+        userInfo: state.user.userInfo,
+        error: state.user.error
+    }
+}
+
+const mapDispatchToProps = dispatch => {
+    return {
+        onGetUserInfo: () => dispatch(actions.getUserInfo()),
+        onPostUserInfo: (data) => dispatch(actions.postUserInfo(data))
+    }
+}
 
 class User extends Component {
-    // state will initally show data from firebase from start as well
     state = {
         isEditing: false,
-        firstName: 'Calvin',
-        lastName: 'Hu',
-        email: 'calvinhu9@gmail.com',
-        location: 'San Francisco, CA'
+        userInfo: null
+    }
+
+    componentDidMount() {
+        console.log('[ User ] componentDidMount')
+        this.props.onGetUserInfo()
+    }
+
+    componentWillReceiveProps(nextProps) {
+        console.log('[ User ] componentWillReceiveProps')
+        const userInfo = nextProps.userInfo
+        if (userInfo) {
+            const fields = {
+                [db.PROFILE_PICTURE]: userInfo[db.PROFILE_PICTURE] ? userInfo[db.PROFILE_PICTURE] : '',
+                [db.FIRST_NAME]: userInfo[db.FIRST_NAME] ? userInfo[db.FIRST_NAME] : '',
+                [db.LAST_NAME]: userInfo[db.LAST_NAME] ? userInfo[db.LAST_NAME] : '',
+                [db.EMAIL]: userInfo[db.EMAIL] ? userInfo[db.EMAIL] : '',
+                [db.LOCATION]: userInfo[db.LOCATION] ? userInfo[db.LOCATION] : ''
+            }
+            this.setState({
+                userInfo: fields
+            })
+        }
+    }
+
+    componentDidUpdate() {
+        console.log('[ User ] componentDidUpdate')
     }
 
     toggleEditHandler = () => {
@@ -21,66 +61,71 @@ class User extends Component {
     }
 
     userInfoChangeHandler = (event) => {
-        this.setState({
+        const updatedUserInfo = updateObject(this.state.userInfo, {
             [event.target.name]: event.target.value
+        })
+        this.setState({
+            userInfo: updatedUserInfo
         })
     }
 
     postUserInfoHandler = (event) => {
         event.preventDefault()
-        const users = 'users'
-        const uid = 'rf3k5DHgszRLhoMGbgIrlkbPGad2'
-        firestore.collection(users).doc(uid).set({
-            firstName: 'Calvin',
-            lastName: 'Hu'
-        })
-        .then(response => {
-            console.log(response)
-        })
-        .catch(error => {
-            console.error(error)
-        });
+        this.props.onPostUserInfo(this.state.userInfo)
     }
 
     render() {
         let user = null
-
+        let userInfo = null
+        let editUserInfo = (
+            <button
+                className={classes.EditProfile}
+                onClick={this.toggleEditHandler}>Edit Profile</button>
+        )
         if (this.state.isEditing) {
             user = (
                 <EditUser
-                    firstName={this.state.firstName}
-                    lastName={this.state.lastName}
-                    email={this.state.email}
-                    location={this.state.location}
-                    changeHandler={this.userInfoChangeHandler}
+                    values={this.state.userInfo}
+                    change={this.userInfoChangeHandler}
                     submit={this.postUserInfoHandler}
                     cancel={this.toggleEditHandler} />
             )
-        } else {
-            // Content below will be displaying info from firebase not current state
-            user = (
-                <div className={classes.User}>
+            return user
+        }
+        if (this.props.userInfo) {
+            userInfo = (
+                <Auxiliary>
                     <div className={classes.PictureContainer}>
-                        <img src={this.props.profilePicture} alt='Profile' />
+                        <img src={this.props.userInfo[db.PROFILE_PICTURE]} alt='Profile' />
                     </div>
                     <div className={classes.Name}>
-                        {this.state.firstName} {this.state.lastName}
+                        {this.props.userInfo[db.FIRST_NAME]} {this.props.userInfo[db.LAST_NAME]}
                     </div>
                     <div className={classes.Email}>
-                        {this.state.email}
+                        {this.props.userInfo[db.EMAIL]}
                     </div>
                     <div className={classes.Location}>
-                        {this.state.location}
+                        {this.props.userInfo[db.LOCATION]}
                     </div>
-                    <button
-                        className={classes.EditProfile}
-                        onClick={this.toggleEditHandler}>Edit Profile</button>
+                </Auxiliary>
+            )
+            user = (
+                <div className={classes.User}>
+                    {userInfo}
+                    {editUserInfo}
                 </div>
             )
+            return user
         }
+
+        user = (
+            <div className={classes.User}>
+                {editUserInfo}
+            </div>
+        )
 
         return user
     }
 }
 
-export default User
+export default connect(mapStateToProps, mapDispatchToProps)(User)

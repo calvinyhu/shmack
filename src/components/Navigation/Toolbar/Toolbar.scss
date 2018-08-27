@@ -44,8 +44,9 @@
         box-shadow: none;
         font-weight: bold;
 
-        &:hover {
+        &:hover,&:focus {
             color: gray;
+            outline: none;
             transition: $transition-default;
         }
     }

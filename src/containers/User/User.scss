@@ -4,12 +4,13 @@
 .User {
     display: flex;
     flex-direction: column;
+    justify-content: center;
     align-items: center;
     margin-top: $margin-default;
 }
 
-.PictureContainer {
-    display: inherit;
+.Element {
+    margin: $margin-tiny * 2;
 }
 
 .Name {
@@ -23,5 +24,18 @@
 }
 
 .EditProfile {
-    display: inherit;
+    display: flex;
+    outline: none;
+    appearance: none;
+    background: white;
+    border: none;
+    border-radius: $border-radius-default;
+    transition: $transition-default;
+    font-weight: 600;
+
+    &:hover,&:focus {
+        outline: none;
+        text-decoration: underline;
+        cursor: pointer;
+    }
 }

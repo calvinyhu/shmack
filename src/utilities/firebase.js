@@ -3,6 +3,7 @@ import 'firebase/auth'
 import 'firebase/firestore'
 
 import { GOOGLE_FIREBASE_API_KEY } from '../secrets'
+import * as labels from './database'
 
 // Initialize firebase
 firebase.initializeApp({
@@ -23,3 +24,4 @@ export const auth = firebase.auth()
 export const firestore = firebase.firestore()
 const settings = {/* your settings... */ timestampsInSnapshots: true }
 firestore.settings(settings)
+export const usersRef = firestore.collection(labels.USERS)

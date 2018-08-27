@@ -17,7 +17,8 @@
         text-decoration: none;
         box-shadow: $box-shadow-default;
         font-weight: 500;
-        &:hover {
+        &:hover,&:focus  {
+            outline: none;
             background: black;
             color: white;
             transition: $transition-default;

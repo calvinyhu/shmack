@@ -1,3 +1,66 @@
+@import './src/assets/scss/_variables.scss';
+@import './src/assets/scss/_mixins.scss';
+
 .UserInfo {
     display: flex;
+    flex-direction: column;
+    align-items: center;
+    margin-top: $margin-default;
+
+    button {
+        outline: none;
+        appearance: none;
+        background: white;
+        padding: $padding-default $padding-default;
+        border: $border-default-button;
+        border-radius: $border-radius-default;
+        box-shadow: $box-shadow-default;
+        margin-bottom: $margin-default;
+        width: 80%;
+        transition: $transition-default;
+        font-weight: 600;
+        max-width: $width-default * 30;
+
+        &:hover {
+            background: black;
+            color: white;
+            cursor: pointer;
+        }
+
+        &:focus {
+            background: black;
+            color: white;
+        }
+    }
+
+    form {
+        display: flex;
+        flex-direction: column;
+        align-items: center;
+        width: 80vw;
+        max-width: $width-default * 30;
+
+        input {
+            outline: none;
+            padding: $padding-default / 2;
+            margin-bottom: $margin-default;
+            border: $border-default-input;
+            border-radius: $border-radius-default / 2;
+            width: 100%;
+
+            &:hover {
+                border-color: gray;
+                box-shadow: $box-shadow-default;
+            }
+
+            &:focus {
+                border-color: gray;
+                box-shadow: $box-shadow-default;
+            }
+        }
+
+        button {
+            width: 100%;
+        }
+    }
 }

@@ -42,10 +42,8 @@ class App extends Component {
                 </Switch>
             )
         } else {
-            // const deletethis = <Route exact path={paths.USER} component={User} />
             routes = (
                 <Switch>
-                    {/* {deletethis} */}
                     <Route exact path={paths.ABOUT} component={About} />
                     <Route exact path={paths.AUTH_SIGNUP} component={Auth} />
                     <Route exact path={paths.AUTH_LOGIN} component={Auth} />
