@@ -43,25 +43,30 @@
     padding-left: 0;
     border-radius: $border-radius-default-button / 2;
 
-    input {
-        margin-left: $margin-default / 2;
+    .SideDrawerToggleContainer {
+        min-width: $width-default * 1.5;
+        width: $width-default * 1.5;
+        min-height: $height-default;
+        height: $height-default;
+        margin-left: 0.5rem;
+    }
+
+    form {
+        display: flex;
+        width: 100%;
+
+        input {
+            margin-left: $margin-default / 2;
+        }
+        
+        button {
+            margin-left: $margin-default / 2;
+            max-width: 33%;
+        }
     }
 
     @include media-min-width($desktop-width) {
         left: 22vw;
         width: 56vw;
     }
-
-    button {
-        margin-left: $margin-default / 2;
-        max-width: 33%;
-    }
-}
-
-.SideDrawerToggleContainer {
-    min-width: $width-default * 1.5;
-    width: $width-default * 1.5;
-    min-height: $height-default;
-    height: $height-default;
-    margin-left: 0.5rem;
 }

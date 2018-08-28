@@ -44,7 +44,10 @@ class Restaurants extends Component {
 
     foodChangeHandler = (event) => this.props.onRestaurantFoodChange(event.target.value)
     locationChangeHandler = (event) => this.props.onRestaurantLocationChange(event.target.value)
-    searchHandler = () => this.props.onRestaurantSearch(this.props.food, this.props.location)
+    searchHandler = (event) => {
+        event.preventDefault()
+        this.props.onRestaurantSearch(this.props.food, this.props.location)
+    }
 
     displayRestaurants = () => {
         const restaurants = []
@@ -82,10 +85,8 @@ class Restaurants extends Component {
         let callToAction = null
         let restaurantsGrid = null
 
-        let goButton = null
-        if (this.props.location) {
-            goButton = <Button click={this.searchHandler}>Go</Button>
-        }
+        const goButton = this.props.location ? <Button>Go</Button> : null
+
         let searchBar = (
             <div className={classes.SearchBar}>
                 <div className={classes.SideDrawerToggleContainer}>
@@ -93,21 +94,23 @@ class Restaurants extends Component {
                         toggleSideDrawer={this.toggleFiltersHandler}
                         showSideDrawer={this.state.showFilters} />
                 </div>
-                <Input
-                    wide
-                    center
-                    type='text'
-                    placeholder='Food'
-                    value={this.props.food}
-                    change={this.foodChangeHandler} />
-                <Input
-                    wide
-                    center
-                    type='text'
-                    placeholder='Location'
-                    value={this.props.location}
-                    change={this.locationChangeHandler} />
-                {goButton}
+                <form onSubmit={this.searchHandler}>
+                    <Input
+                        wide
+                        center
+                        type='text'
+                        placeholder='Food'
+                        value={this.props.food}
+                        change={this.foodChangeHandler} />
+                    <Input
+                        wide
+                        center
+                        type='text'
+                        placeholder='Location'
+                        value={this.props.location}
+                        change={this.locationChangeHandler} />
+                    {goButton}
+                </form>
             </div>
         )
 
