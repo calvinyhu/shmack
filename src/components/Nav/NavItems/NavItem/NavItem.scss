@@ -8,6 +8,7 @@
     padding: $padding-default / 2 $padding-default;
     outline: none;
     font-weight: 600;
+    text-decoration: none;
     transition: $transition-default;
 
     &:hover {
@@ -17,7 +18,7 @@
     }
 
     @include media-min-width($desktop-width) {
-        padding: 0 $padding-default;
+        padding: ($padding-tiny / 2) * 3 $padding-default;
     }
 }
 
