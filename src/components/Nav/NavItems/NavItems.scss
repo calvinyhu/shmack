@@ -1,13 +1,24 @@
 @import './src/assets/scss/_variables.scss';
 @import './src/assets/scss/_mixins.scss';
 
-.NavigationItems {
+.NavItems {
     display: flex;
     flex-flow: column;
     justify-content: space-evenly;
     width: 100%;
     padding: 0;
     margin: 0;
+
+    li {
+        display: inline-block;
+        width: 80vw;
+        
+        @include media-min-width($desktop-width) {
+            margin-bottom: 0;
+            margin-left: 2rem;
+            width: auto;
+        }
+    }
 
     @include media-min-width($desktop-width) {
         flex-flow: row;

@@ -41,58 +41,27 @@
     background: rgba(255, 255, 255, 0.85);
     padding: $padding-default / 2;
     padding-left: 0;
-    border-radius: $border-radius-default / 2;
+    border-radius: $border-radius-default-button / 2;
 
     input {
-        outline: none;
-        min-width: 0;
-        width: 100%;
-        padding: $padding-tiny;
-        border: $border-default-input;
-        border-radius: $border-radius-default / 2;
         margin-left: $margin-default / 2;
-        text-align: center;
-
-        &:hover {
-            border-color: gray;
-            box-shadow: $box-shadow-default;
-        }
-
-        &:focus {
-            border-color: gray;
-            box-shadow: $box-shadow-default;
-        }
     }
 
     @include media-min-width($desktop-width) {
         left: 22vw;
         width: 56vw;
     }
+
+    button {
+        margin-left: $margin-default / 2;
+        max-width: 33%;
+    }
 }
 
 .SideDrawerToggleContainer {
-    min-width: $width-default * 1.2;
-    width: $width-default * 1.2;
+    min-width: $width-default * 1.5;
+    width: $width-default * 1.5;
     min-height: $height-default;
     height: $height-default;
     margin-left: 0.5rem;
-}
-
-.SearchButton {
-    color: white;
-    background: rgb(73, 73, 73);
-    border: none;
-    border-radius: $border-radius-default;
-    margin-left: $margin-default / 2;
-    height: 2rem;
-    width: 50%;
-    max-width: 5rem;
-
-    &:hover {
-        background: rgb(129, 129, 129);
-    }
-
-    &:focus {
-        outline: none;
-    }
 }

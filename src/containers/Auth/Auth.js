@@ -5,7 +5,9 @@ import { connect } from 'react-redux'
 import classes from './Auth.css'
 import * as actions from '../../store/actions/authActions'
 import * as paths from '../../utilities/paths'
-import NavigationItem from '../../components/Navigation/NavigationItems/NavigationItem/NavigationItem'
+import NavItem from '../../components/Nav/NavItems/NavItem/NavItem'
+import Button from '../../components/UI/Button/Button'
+import Input from '../../components/UI/Input/Input'
 
 const mapStateToProps = (state) => {
     return {
@@ -94,25 +96,27 @@ class Auth extends Component {
 
             form = (
                 <form onSubmit={this.formSubmitHandler}>
-                    <input
+                    <Input
+                        wide
                         type='email'
                         placeholder='Email'
-                        onChange={this.emailChangeHandler} />
-                    <input
+                        change={this.emailChangeHandler} />
+                    <Input
+                        wide
                         type='password'
                         placeholder='Password'
-                        onChange={this.passwordChangeHandler} />
-                    <button>{formButtonName}</button>
+                        change={this.passwordChangeHandler} />
+                    <Button wide>{formButtonName}</Button>
                 </form>
             )
 
             formSwitch = (
                 <div className={classes.Switch}>
                     <p>{switchCTA}</p>
-                    <NavigationItem
-                        id={classes.LogIn}
-                        clicked={this.authChangeHandler}
-                        link={switchLink}>{switchName}</NavigationItem>
+                    <NavItem
+                        placeholderLink
+                        click={this.authChangeHandler}
+                        link={switchLink}>{switchName}</NavItem>
                 </div>
             )
         }

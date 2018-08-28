@@ -1,0 +1,40 @@
+@import './src/assets/scss/_variables.scss';
+@import './src/assets/scss/_mixins.scss';
+
+.NavItem {
+    display: block;
+    color: black;
+    border-radius: $border-radius-default-input;
+    padding: $padding-default / 2 $padding-default;
+    outline: none;
+    font-weight: 600;
+    transition: $transition-default;
+
+    &:hover {
+        text-decoration: none;
+        background: $light-main-color;
+        color: black;
+    }
+}
+
+.Logo {
+    padding: $padding-tiny / 2 0;
+    font-size: $font-size-default * 1.5;
+
+    &:hover {
+        background: none;
+        color: $main-color;
+    }
+}
+
+.PlaceholderLink {
+    border: none;
+    padding: 0;
+    font-weight: 600;
+
+    &:hover {
+        background: none;
+        color: $main-color;
+        cursor: pointer;
+    }
+}

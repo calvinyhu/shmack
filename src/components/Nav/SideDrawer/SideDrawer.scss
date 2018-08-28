@@ -8,6 +8,10 @@
     background: white;
     border-bottom: $border-default-input;
 
+    nav {
+        margin-bottom: $margin-default;
+    }
+
     @include media-min-width($desktop-width) {
         display: none;
     }

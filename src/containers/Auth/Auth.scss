@@ -17,47 +17,11 @@
         max-width: $width-default * 30;
 
         input {
-            outline: none;
-            padding: $padding-default / 2;
             margin-bottom: $margin-default;
-            border: $border-default-input;
-            border-radius: $border-radius-default / 2;
-            width: 100%;
-
-            &:hover {
-                border-color: gray;
-                box-shadow: $box-shadow-default;
-            }
-
-            &:focus {
-                border-color: gray;
-                box-shadow: $box-shadow-default;
-            }
         }
 
         button {
-            outline: none;
-            appearance: none;
-            background: white;
-            padding: $padding-default $padding-default;
-            border: $border-default-button;
-            border-radius: $border-radius-default;
-            box-shadow: $box-shadow-default;
             margin-bottom: $margin-default;
-            width: 100%;
-            transition: $transition-default;
-            font-weight: 600;
-
-            &:hover {
-                background: black;
-                color: white;
-                cursor: pointer;
-            }
-
-            &:focus {
-                background: black;
-                color: white;
-            }
         }
     }
 }

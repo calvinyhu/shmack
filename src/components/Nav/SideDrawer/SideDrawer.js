@@ -1,7 +1,7 @@
 import React from 'react'
 
 import classes from './SideDrawer.css'
-import NavigationItems from '../NavigationItems/NavigationItems'
+import NavItems from '../NavItems/NavItems'
 
 const sideDrawer = (props) => {
     let sideDrawerClasses = ''
@@ -12,7 +12,7 @@ const sideDrawer = (props) => {
         drawer = (
             <div className={sideDrawerClasses}>
                 <nav>
-                    <NavigationItems closeSideDrawer={props.closeSelf} isAuth={props.isAuth}/>
+                    <NavItems closeSideDrawer={props.closeSelf} isAuth={props.isAuth}/>
                 </nav>
             </div>
         )

@@ -11,15 +11,18 @@ $padding-default: 1rem;
 $padding-tiny: 0.2rem;
 
 // Border
+$border-width-default: 1px;
+$border-style-default: solid black;
 $border-default-input: 1px solid #ccc;
-$border-default-button: 1px solid gray;
-$border-radius-default: 4px;
+$border-default-button: 1px solid black;
+$border-radius-default-input: 2px;
+$border-radius-default-button: 4px;
 
 // Margin
 $margin-default: 1rem;
 
 // Box Shadow
-$box-shadow-default: 0px 1px 3px 0px #ccc;
+$box-shadow-default: 0px 3px 6px -2px #aaa;
 
 // Font
 $font-size-default: 1rem;
@@ -29,3 +32,10 @@ $height-default: 1rem;
 
 // Width
 $width-default: 1rem;
+
+// Text
+$text-shadow-default: 2px 2px 8px #ccc;
+
+// Color
+$main-color: lightsalmon;
+$light-main-color: lighten(lightsalmon, 10%);

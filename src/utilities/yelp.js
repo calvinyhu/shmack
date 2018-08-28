@@ -2,7 +2,7 @@ import React from 'react'
 
 import { YELP_API_KEY } from '../secrets'
 import { CORS } from './cors'
-import Auxiliary from '../hoc/Auxiliary/Auxiliary'
+import Aux from '../hoc/Auxiliary/Auxiliary'
 
 const YELP_API = 'https://api.yelp.com/v3/'
 const BUSINESSES_API = CORS + YELP_API + '/businesses/search?'
@@ -27,5 +27,5 @@ export const handleYelpError = (error) => {
         case TOKEN_INVALID: message = <p>Looks like your Yelp API key is invalid. Please supply a valid one!</p>; break
         default: message = <p>There was an unexpected error. Please try again later!</p>
     }
-    return ( <Auxiliary> <p>:(</p> {message} </Auxiliary> )
+    return ( <Aux> <p>:(</p> {message} </Aux> )
 }

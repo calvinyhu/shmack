@@ -8,11 +8,6 @@
     width: 100vw;
     padding: $padding-default * 2;
     background: white;
-    
-    p {
-        margin: 0;
-        padding: $padding-tiny * 3 0;
-    }
 
     nav {
         display: none;
@@ -24,31 +19,6 @@
 
     @include media-min-width($desktop-width) {
         justify-content: space-around;
-    }
-}
-
-#Logo {
-    display: inline-block;
-    margin: 0;
-    padding: $padding-tiny / 2 0;
-    text-align: left;
-    font-size: $font-size-default * 1.5;
-    width: auto;
-
-    a {
-        display: inline-block;
-        background: none;
-        padding: 0;
-        border: none;
-        text-decoration: none;
-        box-shadow: none;
-        font-weight: bold;
-
-        &:hover,&:focus {
-            color: gray;
-            outline: none;
-            transition: $transition-default;
-        }
     }
 }
 

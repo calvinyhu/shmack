@@ -5,8 +5,10 @@ import classes from './Restaurants.css'
 import * as actions from '../../store/actions/restaurantsActions'
 import { handleYelpError } from '../../utilities/yelp'
 import { createGooglePlacePhotoQuery } from '../../utilities/google'
-import SideDrawerToggle from '../../components/Navigation/SideDrawer/SideDrawerToggle/SideDrawerToggle'
+import SideDrawerToggle from '../../components/Nav/SideDrawer/SideDrawerToggle/SideDrawerToggle'
 import Restaurant from '../../components/Restaurant/Restaurant'
+import Input from '../../components/UI/Input/Input'
+import Button from '../../components/UI/Button/Button'
 
 const mapStateToProps = (state) => {
     return {
@@ -82,12 +84,7 @@ class Restaurants extends Component {
 
         let goButton = null
         if (this.props.location) {
-            goButton = (
-                <button
-                    type='text'
-                    className={classes.SearchButton}
-                    onClick={this.searchHandler}>Go</button>
-            )
+            goButton = <Button click={this.searchHandler}>Go</Button>
         }
         let searchBar = (
             <div className={classes.SearchBar}>
@@ -96,16 +93,20 @@ class Restaurants extends Component {
                         toggleSideDrawer={this.toggleFiltersHandler}
                         showSideDrawer={this.state.showFilters} />
                 </div>
-                <input
+                <Input
+                    wide
+                    center
                     type='text'
                     placeholder='Food'
                     value={this.props.food}
-                    onChange={this.foodChangeHandler} />
-                <input
+                    change={this.foodChangeHandler} />
+                <Input
+                    wide
+                    center
                     type='text'
                     placeholder='Location'
                     value={this.props.location}
-                    onChange={this.locationChangeHandler} />
+                    change={this.locationChangeHandler} />
                 {goButton}
             </div>
         )

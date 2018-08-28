@@ -1,4 +1,4 @@
 // @auxiliary allows adjacent JSX to be next to each other.
-const auxiliary = (props) => props.children
+const aux = (props) => props.children
 
-export default auxiliary
+export default aux

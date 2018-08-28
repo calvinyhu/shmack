@@ -4,38 +4,30 @@
 .User {
     display: flex;
     flex-direction: column;
-    justify-content: center;
     align-items: center;
     margin-top: $margin-default;
-}
 
-.Element {
-    margin: $margin-tiny * 2;
-}
+    .PictureContainer {
+        margin: $margin-default / 2;
+    }
 
-.Name {
-    font-size: $font-size-default * 2;
-}
+    .Name {
+        font-size: $font-size-default * 2;
+        margin: $margin-default / 2;
+    }
 
-.Location {
-    display: inherit;
-    flex-direction: column;
-    align-items: center;
-}
+    .Email {
+        margin: $margin-default / 2;
+    }
+    
+    .Location {
+        display: inherit;
+        flex-direction: column;
+        align-items: center;
+        margin: $margin-default / 2;
+    }
 
-.EditProfile {
-    display: flex;
-    outline: none;
-    appearance: none;
-    background: white;
-    border: none;
-    border-radius: $border-radius-default;
-    transition: $transition-default;
-    font-weight: 600;
-
-    &:hover,&:focus {
-        outline: none;
-        text-decoration: underline;
-        cursor: pointer;
+    button {
+        margin-top: $margin-default;
     }
 }

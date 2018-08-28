@@ -1,11 +1,11 @@
 import React, { Component } from 'react'
 
-import Auxiliary from '../Auxiliary/Auxiliary'
-import Toolbar from '../../components/Navigation/Toolbar/Toolbar'
-import SideDrawer from '../../components/Navigation/SideDrawer/SideDrawer'
+import Aux from '../Auxiliary/Auxiliary'
+import Toolbar from '../../components/Nav/Toolbar/Toolbar'
+import SideDrawer from '../../components/Nav/SideDrawer/SideDrawer'
 
 // @Layout holds the different pages or views of the app and will keep either a 
-// persistent toolbar or sidedrawer for user navigation.
+// persistent toolbar or sidedrawer for user Nav.
 class Layout extends Component {
     state = {
         showSideDrawer: false,
@@ -23,7 +23,7 @@ class Layout extends Component {
 
     render() {
         return (
-            <Auxiliary>
+            <Aux>
                 <Toolbar
                     toggleSideDrawer={this.sideDrawerToggleHandler}
                     showSideDrawer={this.state.showSideDrawer}
@@ -38,7 +38,7 @@ class Layout extends Component {
                 <main>
                     {this.props.children}
                 </main>
-            </Auxiliary>
+            </Aux>
         )
     }
 }

@@ -1,0 +1,23 @@
+@import './src/assets/scss/_variables.scss';
+@import './src/assets/scss/_mixins.scss';
+
+.Input {
+    outline: none;
+    padding: $padding-tiny * 4;
+    border: $border-default-input;
+    border-radius: $border-radius-default-input;
+    min-width: 0;
+
+    &:hover, &:focus {
+        border-color: gray;
+        box-shadow: $box-shadow-default;
+    }
+}
+
+.Wide {
+    width: 100%;
+}
+
+.TextCenter {
+    text-align: center;
+}

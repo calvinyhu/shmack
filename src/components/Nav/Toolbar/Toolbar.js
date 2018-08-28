@@ -2,21 +2,21 @@ import React from 'react'
 
 import classes from './Toolbar.css'
 import SideDrawerToggle from '../SideDrawer/SideDrawerToggle/SideDrawerToggle'
-import NavigationItems from '../NavigationItems/NavigationItems';
-import NavigationItem from '../NavigationItems/NavigationItem/NavigationItem';
+import NavItems from '../NavItems/NavItems';
+import NavItem from '../NavItems/NavItem/NavItem';
 
 const toolbar = (props) => {
     return (
         <header className={classes.Toolbar}>
-            <NavigationItem
-                id={classes.Logo}
-                clicked={props.closeSideDrawer}
-                link='/'>shmack</NavigationItem>
+            <NavItem
+                logo
+                link='/'
+                click={props.closeSideDrawer}>shmack</NavItem>
             <div className={classes.SideDrawerToggleContainer}>
                 <SideDrawerToggle toggleSideDrawer={props.toggleSideDrawer} showSideDrawer={props.showSideDrawer} />
             </div>
             <nav>
-                <NavigationItems isAuth={props.isAuth} />
+                <NavItems isAuth={props.isAuth} />
             </nav>
         </header>
     )

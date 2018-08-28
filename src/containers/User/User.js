@@ -6,7 +6,8 @@ import * as actions from '../../store/actions/userActions'
 import * as db from '../../utilities/database'
 import { updateObject } from '../../utilities/utilities';
 import EditUser from './EditUser/EditUser'
-import Auxiliary from '../../hoc/Auxiliary/Auxiliary';
+import Aux from '../../hoc/Auxiliary/Auxiliary';
+import Button from '../../components/UI/Button/Button';
 
 const mapStateToProps = state => {
     return {
@@ -77,11 +78,12 @@ class User extends Component {
     render() {
         let user = null
         let userInfo = null
-        let editUserInfo = (
-            <button
-                className={classes.EditProfile}
-                onClick={this.toggleEditHandler}>Edit Profile</button>
+        const editUserInfoButton = (
+            <Button
+                placeholderLink
+                click={this.toggleEditHandler}>Edit Profile</Button>
         )
+
         if (this.state.isEditing) {
             user = (
                 <EditUser
@@ -92,9 +94,10 @@ class User extends Component {
             )
             return user
         }
+
         if (this.props.userInfo) {
             userInfo = (
-                <Auxiliary>
+                <Aux>
                     <div className={classes.PictureContainer}>
                         <img src={this.props.userInfo[db.PROFILE_PICTURE]} alt='Profile' />
                     </div>
@@ -107,12 +110,12 @@ class User extends Component {
                     <div className={classes.Location}>
                         {this.props.userInfo[db.LOCATION]}
                     </div>
-                </Auxiliary>
+                </Aux>
             )
             user = (
                 <div className={classes.User}>
                     {userInfo}
-                    {editUserInfo}
+                    {editUserInfoButton}
                 </div>
             )
             return user
@@ -120,10 +123,9 @@ class User extends Component {
 
         user = (
             <div className={classes.User}>
-                {editUserInfo}
+                {editUserInfoButton}
             </div>
         )
-
         return user
     }
 }

@@ -2,44 +2,55 @@ import React from 'react'
 
 import classes from './EditUser.css'
 import * as db from '../../../utilities/database'
-import Auxiliary from '../../../hoc/Auxiliary/Auxiliary';
+import Aux from '../../../hoc/Auxiliary/Auxiliary';
+import Button from '../../../components/UI/Button/Button'
+import Input from '../../../components/UI/Input/Input'
 
 const EditUser = (props) => {
-    const inputs = (
-        <Auxiliary>
-            <input
-                type='text'
-                name={db.FIRST_NAME}
-                placeholder='First Name'
-                value={props.values[db.FIRST_NAME]}
-                onChange={props.change} />
-            <input
-                type='text'
-                name={db.LAST_NAME}
-                placeholder='Last Name'
-                value={props.values[db.LAST_NAME]}
-                onChange={props.change} />
-            <input
-                type='email'
-                name={db.EMAIL}
-                placeholder='Email'
-                value={props.values[db.EMAIL]}
-                onChange={props.change} />
-            <input
-                type='text'
-                name={db.LOCATION}
-                placeholder='Location'
-                value={props.values[db.LOCATION]}
-                onChange={props.change} />
-        </Auxiliary>
-    )
+    let inputs = null
+    
+    if (props.values) {
+        inputs = (
+            <Aux>
+                <Input
+                    wide
+                    type='text'
+                    name={db.FIRST_NAME}
+                    placeholder='First Name'
+                    value={props.values[db.FIRST_NAME]}
+                    change={props.change} />
+                <Input
+                    wide
+                    type='text'
+                    name={db.LAST_NAME}
+                    placeholder='Last Name'
+                    value={props.values[db.LAST_NAME]}
+                    change={props.change} />
+                <Input
+                    wide
+                    type='email'
+                    name={db.EMAIL}
+                    placeholder='Email'
+                    value={props.values[db.EMAIL]}
+                    change={props.change} />
+                <Input
+                    wide
+                    type='text'
+                    name={db.LOCATION}
+                    placeholder='Location'
+                    value={props.values[db.LOCATION]}
+                    change={props.change} />
+            </Aux>
+        )
+    }
+
     return (
         <div className={classes.UserInfo}>
             <form onSubmit={props.submit}>
                 {inputs}
-                <button>Save</button>
+                <Button wide>Save</Button>
             </form>
-            <button onClick={props.cancel}>Go back to profile</button>
+            <Button placeholderLink click={props.cancel}>Back to profile</Button>
         </div>
     )
 }
