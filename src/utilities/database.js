@@ -1,9 +1,13 @@
 // Collections
 export const USERS = 'users'
 
+// Documents (uids)
+
 // Fields
-export const EMAIL = 'email'
-export const FIRST_NAME = 'firstName'
-export const LAST_NAME = 'lastName'
-export const LOCATION = 'location'
-export const PROFILE_PICTURE = 'profilePicture'
+export const FIELDS = {
+    EMAIL: 'email',
+    FIRST_NAME: 'firstName',
+    LAST_NAME: 'lastName',
+    LOCATION: 'location',
+    PROFILE_PICTURE: 'profilePicture'
+}

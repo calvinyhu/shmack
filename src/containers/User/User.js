@@ -3,7 +3,7 @@ import { connect } from 'react-redux'
 
 import classes from './User.css'
 import * as actions from '../../store/actions/userActions'
-import * as db from '../../utilities/database'
+import { FIELDS } from '../../utilities/database'
 import { updateObject } from '../../utilities/utilities';
 import EditUser from './EditUser/EditUser'
 import Aux from '../../hoc/Auxiliary/Auxiliary';
@@ -12,8 +12,9 @@ import Button from '../../components/UI/Button/Button';
 const mapStateToProps = state => {
     return {
         userInfo: state.user.userInfo,
-        submitSuccess: state.user.submitSuccess,
-        loading: state.user.loading,
+        posting: state.user.posting,
+        postSuccess: state.user.postSuccess,
+        getting: state.user.getting,
         error: state.user.error
     }
 }
@@ -33,29 +34,30 @@ class User extends Component {
     }
 
     componentDidMount() {
-        console.log('[ User ] componentDidMount')
         this.props.onGetUserInfo()
     }
 
-    componentWillReceiveProps(nextProps) {
-        console.log('[ User ] componentWillReceiveProps')
-        const userInfo = nextProps.userInfo
-        if (userInfo) {
-            const fields = {
-                [db.PROFILE_PICTURE]: userInfo[db.PROFILE_PICTURE] ? userInfo[db.PROFILE_PICTURE] : '',
-                [db.FIRST_NAME]: userInfo[db.FIRST_NAME] ? userInfo[db.FIRST_NAME] : '',
-                [db.LAST_NAME]: userInfo[db.LAST_NAME] ? userInfo[db.LAST_NAME] : '',
-                [db.EMAIL]: userInfo[db.EMAIL] ? userInfo[db.EMAIL] : '',
-                [db.LOCATION]: userInfo[db.LOCATION] ? userInfo[db.LOCATION] : ''
-            }
-            this.setState({
-                userInfo: fields
-            })
-        }
-    }
+    componentWillReceiveProps(nextProps) {     
+        const nextUserInfo = nextProps.userInfo
+        if (!nextUserInfo)
+            return
 
-    componentDidUpdate() {
-        console.log('[ User ] componentDidUpdate')
+        const userInfo = {}
+        Object.values(FIELDS).forEach(val => {
+            userInfo[val] = nextUserInfo[val] ? nextUserInfo[val] : ''
+        })
+
+        if (!this.state.userInfo) {
+            this.setState({ userInfo: userInfo })
+            return
+        }
+
+        Object.keys(userInfo).forEach(key => {
+            if (userInfo[key] !== this.props.userInfo[key]) {
+                this.setState({ userInfo: userInfo })
+                return
+            }
+        })
     }
 
     openEditHandler = () => {
@@ -90,7 +92,7 @@ class User extends Component {
                 click={this.openEditHandler}>Edit Profile</Button>
         )
 
-        if (this.props.loading) {
+        if (this.props.getting) {
             user = (
                 <div className={classes.User}>
                     <p>Loading...</p>
@@ -100,34 +102,37 @@ class User extends Component {
         } 
         
         if (this.state.isEditing) {
-            const submittedText = (
-                this.props.submitSuccess ? <p>Saved!</p> : null
-            )
+            let postStatus = null
+            if (this.props.posting)
+                postStatus = <p>Saving!</p>
+            else if (this.props.postSuccess)
+                postStatus = <p>Saved!</p>
+            
             user = (
                 <EditUser
                     values={this.state.userInfo}
                     change={this.userInfoChangeHandler}
                     submit={this.postUserInfoHandler}
-                    back={this.closeEditUserHandler}>{submittedText}
+                    back={this.closeEditUserHandler}>{postStatus}
                 </EditUser>
             )
             return user
         }
 
-        if (this.props.userInfo) {
+        if (this.state.userInfo) {
             userInfo = (
                 <Aux>
                     <div className={classes.PictureContainer}>
-                        <img src={this.props.userInfo[db.PROFILE_PICTURE]} alt='Profile' />
+                        <img src={this.state.userInfo[FIELDS.PROFILE_PICTURE]} alt='Profile' />
                     </div>
                     <div className={classes.Name}>
-                        {this.props.userInfo[db.FIRST_NAME]} {this.props.userInfo[db.LAST_NAME]}
+                        {this.state.userInfo[FIELDS.FIRST_NAME]} {this.state.userInfo[FIELDS.LAST_NAME]}
                     </div>
                     <div className={classes.Email}>
-                        {this.props.userInfo[db.EMAIL]}
+                        {this.state.userInfo[FIELDS.EMAIL]}
                     </div>
                     <div className={classes.Location}>
-                        {this.props.userInfo[db.LOCATION]}
+                        {this.state.userInfo[FIELDS.LOCATION]}
                     </div>
                 </Aux>
             )

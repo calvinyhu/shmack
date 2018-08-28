@@ -1,5 +1,5 @@
 import * as actionTypes from '../actions/actionTypes'
-import * as db from '../../utilities/database'
+import { FIELDS } from '../../utilities/database'
 import { auth, usersRef } from '../../utilities/firebase'
 
 export const getUserInfo = () => {
@@ -41,14 +41,14 @@ export const userLogOut = () => {
 export const closeEditUser = () => {
     return {
         type: actionTypes.USER_CLOSE_EDIT,
-        submitSuccess: false
+        postSuccess: false
     }
 }
 
 const getUserInfoStart = () => {
     return {
         type: actionTypes.USER_GET_INFO_START,
-        loading: true,
+        getting: true,
         error: null
     }
 }
@@ -57,13 +57,13 @@ const getUserInfoSuccess = (data) => {
     return {
         type: actionTypes.USER_GET_INFO_SUCCESS,
         userInfo: {
-            [db.PROFILE_PICTURE]: data[db.PROFILE_PICTURE],
-            [db.FIRST_NAME]: data[db.FIRST_NAME],
-            [db.LAST_NAME]: data[db.LAST_NAME],
-            [db.EMAIL]: auth.currentUser.email,
-            [db.LOCATION]: data[db.LOCATION]
+            [FIELDS.PROFILE_PICTURE]: data[FIELDS.PROFILE_PICTURE],
+            [FIELDS.FIRST_NAME]: data[FIELDS.FIRST_NAME],
+            [FIELDS.LAST_NAME]: data[FIELDS.LAST_NAME],
+            [FIELDS.EMAIL]: auth.currentUser.email,
+            [FIELDS.LOCATION]: data[FIELDS.LOCATION]
         },
-        loading: false
+        getting: false
     }
 }
 
@@ -71,20 +71,20 @@ const getUserInfoEmpty = () => {
     return {
         type: actionTypes.USER_GET_INFO_SUCCESS,
         userInfo: {
-            [db.PROFILE_PICTURE]: '',
-            [db.FIRST_NAME]: '',
-            [db.LAST_NAME]: '',
-            [db.EMAIL]: auth.currentUser.email,
-            [db.LOCATION]: ''
+            [FIELDS.PROFILE_PICTURE]: '',
+            [FIELDS.FIRST_NAME]: '',
+            [FIELDS.LAST_NAME]: '',
+            [FIELDS.EMAIL]: auth.currentUser.email,
+            [FIELDS.LOCATION]: ''
         },
-        loading: false
+        getting: false
     }
 }
 
 const getUserInfoFail = (error) => {
     return {
         type: actionTypes.USER_GET_INFO_FAIL,
-        loading: false,
+        getting: false,
         error: error
     }
 }
@@ -92,6 +92,7 @@ const getUserInfoFail = (error) => {
 const postUserInfoStart = () => {
     return {
         type: actionTypes.USER_POST_INFO_START,
+        posting: true,
         error: null
     }
 }
@@ -99,7 +100,8 @@ const postUserInfoStart = () => {
 const postUserInfoSuccess = () => {
     return {
         type: actionTypes.USER_POST_INFO_SUCCESS,
-        submitSuccess: true,
+        posting: false,
+        postSuccess: true,
         error: null
     }
 }
@@ -107,6 +109,8 @@ const postUserInfoSuccess = () => {
 const postUserInfoFail = (error) => {
     return {
         type: actionTypes.USER_POST_INFO_FAIL,
+        posting: false,
+        postSuccess: false,
         error: error
     }
 }

@@ -1,6 +1,8 @@
 import * as actionTypes from '../actions/actionTypes'
 import * as paths from '../../utilities/paths'
 import { auth } from '../../utilities/firebase'
+import { postUserInfo } from './userActions';
+import { FIELDS } from '../../utilities/database'
 
 export const authenticate = (info, signingUp) => {
     return dispatch => {
@@ -8,6 +10,11 @@ export const authenticate = (info, signingUp) => {
         if (signingUp) {
             auth.createUserWithEmailAndPassword(info.email, info.password)
                 .then(_ => {
+                    const userInfo = {}
+                    Object.values(FIELDS).forEach(val => {
+                        userInfo[val] = info[val] ? info[val] : ''
+                    })
+                    dispatch(postUserInfo(userInfo))
                     dispatch(authSuccess(signingUp))
                 })
                 .catch(error => {

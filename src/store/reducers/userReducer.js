@@ -1,22 +1,24 @@
 import * as actionTypes from '../actions/actionTypes'
-import * as db from '../../utilities/database'
+import { FIELDS } from '../../utilities/database'
 import { updateObject } from "../../utilities/utilities";
 
 const initialState = {
     userInfo: {
-        [db.PROFILE_PICTURE]: '',
-        [db.FIRST_NAME]: '',
-        [db.LAST_NAME]: '',
-        [db.EMAIL]: '',
-        [db.LOCATION]: ''
+        [FIELDS.PROFILE_PICTURE]: '',
+        [FIELDS.FIRST_NAME]: '',
+        [FIELDS.LAST_NAME]: '',
+        [FIELDS.EMAIL]: '',
+        [FIELDS.LOCATION]: ''
     },
-    submitSuccess: false,
-    loading: true,
+    posting: false,
+    postSuccess: false,
+    getting: false,
     error: null
 }
 
 const getUserInfoStart = (state, action) => {
     return updateObject(state, {
+        getting: action.getting,
         error: action.error
     })
 }
@@ -24,32 +26,36 @@ const getUserInfoStart = (state, action) => {
 const getUserInfoSuccess = (state, action) => {
     return updateObject(state, {
         userInfo: action.userInfo,
-        loading: action.loading
+        getting: action.getting
     })
 }
 
 const getUserInfoFail = (state, action) => {
     return updateObject(state, {
-        loading: action.loading,
+        getting: action.getting,
         error: action.error
     })
 }
 
 const postUserInfoStart = (state, action) => {
     return updateObject(state, {
+        posting: action.posting,
         error: action.error
     })
 }
 
 const postUserInfoSuccess = (state, action) => {
     return updateObject(state, {
-        submitSuccess: action.submitSuccess,
+        posting: action.posting,
+        postSuccess: action.postSuccess,
         error: action.error
     })
 }
 
 const postUserInfoFail = (state, action) => {
     return updateObject(state, {
+        posting: action.posting,
+        postSuccess: action.postSuccess,
         error: action.error
     })
 }
@@ -63,7 +69,7 @@ const userLogOut = (state, action) => {
 
 const closeEditUser = (state, action) => {
     return updateObject(state, {
-        submitSuccess: action.submitSuccess
+        postSuccess: action.postSuccess
     })
 }
 

@@ -1,7 +1,7 @@
 import React from 'react'
 
 import classes from './EditUser.css'
-import * as db from '../../../utilities/database'
+import { FIELDS } from '../../../utilities/database'
 import Aux from '../../../hoc/Auxiliary/Auxiliary';
 import Button from '../../../components/UI/Button/Button'
 import Input from '../../../components/UI/Input/Input'
@@ -15,23 +15,23 @@ const EditUser = (props) => {
                 <Input
                     wide
                     type='text'
-                    name={db.FIRST_NAME}
+                    name={FIELDS.FIRST_NAME}
                     placeholder='First Name'
-                    value={props.values[db.FIRST_NAME]}
+                    value={props.values[FIELDS.FIRST_NAME]}
                     change={props.change} />
                 <Input
                     wide
                     type='text'
-                    name={db.LAST_NAME}
+                    name={FIELDS.LAST_NAME}
                     placeholder='Last Name'
-                    value={props.values[db.LAST_NAME]}
+                    value={props.values[FIELDS.LAST_NAME]}
                     change={props.change} />
                 <Input
                     wide
                     type='text'
-                    name={db.LOCATION}
+                    name={FIELDS.LOCATION}
                     placeholder='Location'
-                    value={props.values[db.LOCATION]}
+                    value={props.values[FIELDS.LOCATION]}
                     change={props.change} />
             </Aux>
         )
