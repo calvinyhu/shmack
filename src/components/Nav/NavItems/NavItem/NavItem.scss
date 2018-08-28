@@ -15,10 +15,14 @@
         background: $light-main-color;
         color: black;
     }
+
+    @include media-min-width($desktop-width) {
+        padding: 0 $padding-default;
+    }
 }
 
 .Logo {
-    padding: $padding-tiny / 2 0;
+    padding: 0;
     font-size: $font-size-default * 1.5;
 
     &:hover {

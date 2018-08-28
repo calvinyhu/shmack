@@ -20,6 +20,7 @@
     }
 
     @include media-min-width($desktop-width) {
+        padding: $padding-default;
         justify-content: space-around;
     }
 }
