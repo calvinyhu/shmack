@@ -1,6 +1,6 @@
 import React from 'react'
 
-import classes from './SideDrawerToggle.css'
+import classes from './DrawerToggle.css'
 
 const sideDrawerToggle = (props) => {
     let bar1 = [classes.Bar, classes.Position1]
@@ -16,7 +16,7 @@ const sideDrawerToggle = (props) => {
     }
 
     return (
-        <div className={classes.SideDrawerToggle} onClick={props.toggleSideDrawer}>
+        <div className={classes.DrawerToggle} onClick={props.toggleSideDrawer}>
             <div className={bar1.join(' ')}></div>
             <div className={bar2.join(' ')}></div>
             <div className={bar3.join(' ')}></div>

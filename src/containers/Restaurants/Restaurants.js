@@ -5,7 +5,7 @@ import classes from './Restaurants.css'
 import * as actions from '../../store/actions/restaurantsActions'
 import { handleYelpError } from '../../utilities/yelp'
 import { createGooglePlacePhotoQuery } from '../../utilities/google'
-import SideDrawerToggle from '../../components/Nav/SideDrawer/SideDrawerToggle/SideDrawerToggle'
+import DrawerToggle from '../../components/Nav/Drawer/DrawerToggle/DrawerToggle'
 import Restaurant from '../../components/Restaurant/Restaurant'
 import Input from '../../components/UI/Input/Input'
 import Button from '../../components/UI/Button/Button'
@@ -89,7 +89,7 @@ class Restaurants extends Component {
         let searchBar = (
             <div className={classes.SearchBar}>
                 <div className={classes.SideDrawerToggleContainer}>
-                    <SideDrawerToggle
+                    <DrawerToggle
                         toggleSideDrawer={this.toggleFiltersHandler}
                         showSideDrawer={this.state.showFilters} />
                 </div>

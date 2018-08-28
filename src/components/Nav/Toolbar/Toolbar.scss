@@ -6,8 +6,10 @@
     justify-content: space-between;
     align-items: center;
     width: 100vw;
-    padding: $padding-default * 2;
+    padding: $padding-default $padding-default * 1.5;
     background: white;
+    position: fixed;
+    z-index: 2;
 
     nav {
         display: none;
