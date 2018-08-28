@@ -27,6 +27,8 @@ class Layout extends Component {
         const nav = (
             <nav>
                 <NavItems
+                    wide
+                    left
                     closeSideDrawer={this.sideDrawerCloseHandler}
                     isAuth={this.props.isAuth} />
             </nav>
@@ -39,6 +41,7 @@ class Layout extends Component {
                     closeSideDrawer={this.sideDrawerCloseHandler}
                     isAuth={this.props.isAuth} />
                 <Drawer
+                    top
                     isOpen={this.state.showSideDrawer}>{nav}</Drawer>
                 <main>
                     {this.props.children}

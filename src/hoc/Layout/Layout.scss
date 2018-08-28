@@ -1,3 +1,6 @@
+@import './src/assets/scss/_variables.scss';
+@import './src/assets/scss/_mixins.scss';
+
 main {
-    padding-top: 4.4rem;
+    padding-top: $toolbar-width;
 }

@@ -42,8 +42,19 @@ const navItems = (props) => {
             </Aux>
         )
     }
+
+    let classNames = classes.NavItems
+    if (props.left)
+        classNames = [classNames, classes.Left].join(' ')
+    if (props.right)
+        classNames = [classNames, classes.Right].join(' ')
+    if (props.center)
+        classNames = [classNames, classes.Center].join(' ')
+    if (props.wide)
+        classNames = [classNames, classes.Wide].join(' ')
+
     return (
-        <ul className={classes.NavItems}>
+        <ul className={classNames}>
             {persisentListItems}
             {dynamicListItems}
         </ul>

@@ -5,13 +5,13 @@
     display: flex;
     flex-flow: column;
     justify-content: space-evenly;
-    width: 100%;
-    padding: 0;
-    margin: 0;
+    align-items: center;
+    padding: 0 $padding-default * 1.5;
+    margin: $margin-default * 1.5 0;
 
     li {
         display: inline-block;
-        width: 80vw;
+        width: 100%;
         
         @include media-min-width($desktop-width) {
             margin-bottom: 0;
@@ -23,4 +23,20 @@
     @include media-min-width($desktop-width) {
         flex-flow: row;
     }
+}
+
+.Wide {
+    width: 100vw;
+}
+
+.Left {
+    text-align: left;
+}
+
+.Right {
+    text-align: right;
+}
+
+.Center {
+    text-align: center;
 }

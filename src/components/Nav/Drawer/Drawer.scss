@@ -12,19 +12,42 @@
     z-index: 1;
     transition: $transition-default-duration * 1.5 $transition-default-timing-func;
 
-    nav {
-        margin: $margin-default 0;
-    }
-
     @include media-min-width($desktop-width) {
         display: none;
     }
 }
 
 .OpenTopDrawer {
-    transform: translateY(4.4rem);
+    transform: translateY($toolbar-width);
 }
 
 .CloseTopDrawer {
     transform: translateY(-100%);
+}
+
+.RightDrawer {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    height: 100vh;
+    padding-top: $toolbar-width;
+    width: 80vw;
+    background: white;
+    position: fixed;
+    right: 0;
+    top: 0;
+    z-index: 1;
+    transition: $transition-default-duration * 1.5 $transition-default-timing-func;
+
+    @include media-min-width($desktop-width) {
+        display: none;
+    }
+}
+
+.OpenRightDrawer {
+    transform: translateX(0);
+}
+
+.CloseRightDrawer {
+    transform: translateX(100%);
 }
