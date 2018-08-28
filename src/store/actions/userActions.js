@@ -18,15 +18,15 @@ export const getUserInfo = () => {
     }
 }
 
-export const postUserInfo = (data) => {
+export const postUserInfo = (info) => {
     return dispatch => {
         dispatch(postUserInfoStart())
-        usersRef.doc(auth.currentUser.uid).set(data)
-        .then(_ => {
-            dispatch(postUserInfoSuccess())
-        }).catch(error => {
-            dispatch(postUserInfoFail(error.response))
-        });
+        usersRef.doc(auth.currentUser.uid).set(info)
+            .then(_ => {
+                dispatch(postUserInfoSuccess())
+            }).catch(error => {
+                dispatch(postUserInfoFail(error.response))
+            });
     }
 }
 
@@ -52,7 +52,7 @@ const getUserInfoSuccess = (data) => {
             [db.PROFILE_PICTURE]: data[db.PROFILE_PICTURE],
             [db.FIRST_NAME]: data[db.FIRST_NAME],
             [db.LAST_NAME]: data[db.LAST_NAME],
-            [db.EMAIL]: data[db.EMAIL],
+            [db.EMAIL]: auth.currentUser.email,
             [db.LOCATION]: data[db.LOCATION]
         }
     }
@@ -65,7 +65,7 @@ const getUserInfoEmpty = () => {
             [db.PROFILE_PICTURE]: '',
             [db.FIRST_NAME]: '',
             [db.LAST_NAME]: '',
-            [db.EMAIL]: '',
+            [db.EMAIL]: auth.currentUser.email,
             [db.LOCATION]: ''
         }
     }

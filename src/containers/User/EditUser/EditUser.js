@@ -28,13 +28,6 @@ const EditUser = (props) => {
                     change={props.change} />
                 <Input
                     wide
-                    type='email'
-                    name={db.EMAIL}
-                    placeholder='Email'
-                    value={props.values[db.EMAIL]}
-                    change={props.change} />
-                <Input
-                    wide
                     type='text'
                     name={db.LOCATION}
                     placeholder='Location'

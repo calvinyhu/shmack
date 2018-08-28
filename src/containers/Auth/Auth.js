@@ -8,6 +8,7 @@ import * as paths from '../../utilities/paths'
 import NavItem from '../../components/Nav/NavItems/NavItem/NavItem'
 import Button from '../../components/UI/Button/Button'
 import Input from '../../components/UI/Input/Input'
+import Aux from '../../hoc/Auxiliary/Auxiliary';
 
 const mapStateToProps = (state) => {
     return {
@@ -19,13 +20,15 @@ const mapStateToProps = (state) => {
 
 const mapDispatchToProps = (dispatch) => {
     return {
-        onAuth: (email, password, signingUp) => dispatch(actions.authenticate(email, password, signingUp)),
+        onAuth: (userInfo, signingUp) => dispatch(actions.authenticate(userInfo, signingUp)),
     }
 }
 
 class Auth extends Component {
     state = {
         signingUp: this.props.location.pathname === paths.AUTH_SIGNUP,
+        firstName: '',
+        lastName: '',
         email: '',
         password: ''
     }
@@ -43,17 +46,19 @@ class Auth extends Component {
         )
     }
 
-    emailChangeHandler = (event) => {
-        this.setState({ email: event.target.value })
-    }
-
-    passwordChangeHandler = (event) => {
-        this.setState({ password: event.target.value })
+    inputChangeHandler = (event) => {
+        this.setState({ [event.target.name]: event.target.value })
     }
 
     formSubmitHandler = (event) => {
         event.preventDefault()
-        this.props.onAuth(this.state.email, this.state.password, this.state.signingUp)
+        const userInfo = {
+            firstName: this.state.firstName,
+            lastName: this.state.lastName,
+            email: this.state.email,
+            password: this.state.password,
+        }
+        this.props.onAuth(userInfo, this.state.signingUp)
     }
 
     authChangeHandler = () => {
@@ -68,7 +73,7 @@ class Auth extends Component {
         let form = null
         let formSwitch = null
         let errorMessage = null
-        
+
         if (this.props.loading) {
             loadingPrompt = (
                 <p className={classes.Message}>
@@ -82,12 +87,29 @@ class Auth extends Component {
                 </div>
             )
         } else {
+            let signingUpInputs = null
             let formButtonName = 'Log In'
             let switchCTA = 'Not shmackin\' ?'
             let switchLink = paths.AUTH_SIGNUP
             let switchName = 'Sign Up'
-    
+
             if (this.state.signingUp) {
+                signingUpInputs = (
+                    <Aux>
+                        <Input
+                            wide
+                            type='text'
+                            name='firstName'
+                            placeholder='First Name'
+                            change={this.inputChangeHandler} />
+                        <Input
+                            wide
+                            type='text'
+                            name='lastName'
+                            placeholder='Last Name'
+                            change={this.inputChangeHandler} />
+                    </Aux>
+                )
                 formButtonName = 'Sign Up'
                 switchCTA = 'Already shmackin\' ?'
                 switchLink = paths.AUTH_LOGIN
@@ -96,16 +118,19 @@ class Auth extends Component {
 
             form = (
                 <form onSubmit={this.formSubmitHandler}>
+                    {signingUpInputs}
                     <Input
                         wide
                         type='email'
+                        name='email'
                         placeholder='Email'
-                        change={this.emailChangeHandler} />
+                        change={this.inputChangeHandler} />
                     <Input
                         wide
                         type='password'
+                        name='password'
                         placeholder='Password'
-                        change={this.passwordChangeHandler} />
+                        change={this.inputChangeHandler} />
                     <Button wide>{formButtonName}</Button>
                 </form>
             )

@@ -1,20 +1,26 @@
 import * as actionTypes from '../actions/actionTypes'
 import * as paths from '../../utilities/paths'
 import { auth } from '../../utilities/firebase'
+import { postUserInfo } from '../actions/userActions'
 
-export const authenticate = (email, password, signingUp) => {
+export const authenticate = (info, signingUp) => {
     return dispatch => {
         dispatch(authStart())
         if (signingUp) {
-            auth.createUserWithEmailAndPassword(email, password)
+            auth.createUserWithEmailAndPassword(info.email, info.password)
                 .then(_ => {
+                    const data = {
+                        firstName: info.firstName,
+                        lastName: info.lastName
+                    }
+                    dispatch(postUserInfo(data))
                     dispatch(authSuccess(signingUp))
                 })
                 .catch(error => {
                     dispatch(authFail(error))
                 })
         } else {
-            auth.signInWithEmailAndPassword(email, password)
+            auth.signInWithEmailAndPassword(info.email, info.password)
                 .then(_ => {
                     dispatch(authSuccess(signingUp))
                 })

@@ -19,7 +19,7 @@ const mapStateToProps = state => {
 const mapDispatchToProps = dispatch => {
     return {
         onGetUserInfo: () => dispatch(actions.getUserInfo()),
-        onPostUserInfo: (data) => dispatch(actions.postUserInfo(data))
+        onPostUserInfo: (info) => dispatch(actions.postUserInfo(info))
     }
 }
 
