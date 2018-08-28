@@ -42,8 +42,9 @@ const EditUser = (props) => {
             <form onSubmit={props.submit}>
                 {inputs}
                 <Button wide>Save</Button>
+                {props.children}
             </form>
-            <Button placeholderLink click={props.cancel}>Back to profile</Button>
+            <Button placeholderLink click={props.back}>Back to profile</Button>
         </div>
     )
 }

@@ -10,6 +10,8 @@ const initialState = {
         [db.EMAIL]: '',
         [db.LOCATION]: ''
     },
+    submitSuccess: false,
+    loading: true,
     error: null
 }
 
@@ -21,12 +23,14 @@ const getUserInfoStart = (state, action) => {
 
 const getUserInfoSuccess = (state, action) => {
     return updateObject(state, {
-        userInfo: action.userInfo
+        userInfo: action.userInfo,
+        loading: action.loading
     })
 }
 
 const getUserInfoFail = (state, action) => {
     return updateObject(state, {
+        loading: action.loading,
         error: action.error
     })
 }
@@ -39,7 +43,8 @@ const postUserInfoStart = (state, action) => {
 
 const postUserInfoSuccess = (state, action) => {
     return updateObject(state, {
-        
+        submitSuccess: action.submitSuccess,
+        error: action.error
     })
 }
 
@@ -56,6 +61,12 @@ const userLogOut = (state, action) => {
     })
 }
 
+const closeEditUser = (state, action) => {
+    return updateObject(state, {
+        submitSuccess: action.submitSuccess
+    })
+}
+
 const userReducer = (state = initialState, action) => {
     switch (action.type) {
         case actionTypes.USER_GET_INFO_START: return getUserInfoStart(state, action)
@@ -65,6 +76,7 @@ const userReducer = (state = initialState, action) => {
         case actionTypes.USER_POST_INFO_SUCCESS: return postUserInfoSuccess(state, action)
         case actionTypes.USER_POST_INFO_FAIL: return postUserInfoFail(state, action)
         case actionTypes.USER_LOGOUT: return userLogOut(state, action)
+        case actionTypes.USER_CLOSE_EDIT: return closeEditUser(state, action)
         default: return state
     }
 }

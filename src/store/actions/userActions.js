@@ -38,9 +38,17 @@ export const userLogOut = () => {
     }
 }
 
+export const closeEditUser = () => {
+    return {
+        type: actionTypes.USER_CLOSE_EDIT,
+        submitSuccess: false
+    }
+}
+
 const getUserInfoStart = () => {
     return {
         type: actionTypes.USER_GET_INFO_START,
+        loading: true,
         error: null
     }
 }
@@ -54,7 +62,8 @@ const getUserInfoSuccess = (data) => {
             [db.LAST_NAME]: data[db.LAST_NAME],
             [db.EMAIL]: auth.currentUser.email,
             [db.LOCATION]: data[db.LOCATION]
-        }
+        },
+        loading: false
     }
 }
 
@@ -67,13 +76,15 @@ const getUserInfoEmpty = () => {
             [db.LAST_NAME]: '',
             [db.EMAIL]: auth.currentUser.email,
             [db.LOCATION]: ''
-        }
+        },
+        loading: false
     }
 }
 
 const getUserInfoFail = (error) => {
     return {
         type: actionTypes.USER_GET_INFO_FAIL,
+        loading: false,
         error: error
     }
 }
@@ -88,6 +99,8 @@ const postUserInfoStart = () => {
 const postUserInfoSuccess = () => {
     return {
         type: actionTypes.USER_POST_INFO_SUCCESS,
+        submitSuccess: true,
+        error: null
     }
 }
 

@@ -12,6 +12,8 @@ import Button from '../../components/UI/Button/Button';
 const mapStateToProps = state => {
     return {
         userInfo: state.user.userInfo,
+        submitSuccess: state.user.submitSuccess,
+        loading: state.user.loading,
         error: state.user.error
     }
 }
@@ -19,7 +21,8 @@ const mapStateToProps = state => {
 const mapDispatchToProps = dispatch => {
     return {
         onGetUserInfo: () => dispatch(actions.getUserInfo()),
-        onPostUserInfo: (info) => dispatch(actions.postUserInfo(info))
+        onPostUserInfo: (info) => dispatch(actions.postUserInfo(info)),
+        onCloseEditUser: () => dispatch(actions.closeEditUser())
     }
 }
 
@@ -55,10 +58,13 @@ class User extends Component {
         console.log('[ User ] componentDidUpdate')
     }
 
-    toggleEditHandler = () => {
-        this.setState(prevState => {
-            return { isEditing: !prevState.isEditing }
-        })
+    openEditHandler = () => {
+        this.setState({ isEditing: true })
+    }
+
+    closeEditUserHandler = () => {
+        this.setState({ isEditing: false })
+        this.props.onCloseEditUser()
     }
 
     userInfoChangeHandler = (event) => {
@@ -75,22 +81,35 @@ class User extends Component {
         this.props.onPostUserInfo(this.state.userInfo)
     }
 
-    render() {
+    render() {       
         let user = null
         let userInfo = null
         const editUserInfoButton = (
             <Button
                 placeholderLink
-                click={this.toggleEditHandler}>Edit Profile</Button>
+                click={this.openEditHandler}>Edit Profile</Button>
         )
 
+        if (this.props.loading) {
+            user = (
+                <div className={classes.User}>
+                    <p>Loading...</p>
+                </div>
+            )
+            return user
+        } 
+        
         if (this.state.isEditing) {
+            const submittedText = (
+                this.props.submitSuccess ? <p>Saved!</p> : null
+            )
             user = (
                 <EditUser
                     values={this.state.userInfo}
                     change={this.userInfoChangeHandler}
                     submit={this.postUserInfoHandler}
-                    cancel={this.toggleEditHandler} />
+                    back={this.closeEditUserHandler}>{submittedText}
+                </EditUser>
             )
             return user
         }
@@ -121,11 +140,6 @@ class User extends Component {
             return user
         }
 
-        user = (
-            <div className={classes.User}>
-                {editUserInfoButton}
-            </div>
-        )
         return user
     }
 }

@@ -7,6 +7,12 @@
     align-items: center;
     margin-top: $margin-default;
 
+    p {
+        margin: 0;
+        padding: $padding-default * 2;
+        font-size: $font-size-default * 2;
+    }
+
     .PictureContainer {
         margin: $margin-default / 2;
     }
