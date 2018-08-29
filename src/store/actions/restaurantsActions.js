@@ -7,17 +7,11 @@ import {
     createGoogleNearbySearchQuery
 } from '../../utilities/google'
 
-export const restaurantFoodChange = (food) => {
+export const restaurantInputChange = (name, value) => {
     return {
-        type: actionTypes.RESTAURANT_FOOD_CHANGE,
-        food: food
-    }
-}
-
-export const restaurantLocationChange = (location) => {
-    return {
-        type: actionTypes.RESTAURANT_LOCATION_CHANGE,
-        location: location
+        type: actionTypes.RESTAURANT_INPUT_CHANGE,
+        name: name,
+        value: value,
     }
 }
 

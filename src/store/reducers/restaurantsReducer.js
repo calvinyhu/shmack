@@ -12,12 +12,8 @@ const initialState = {
     googleError: null
 }
 
-const foodChange = (state, action) => {
-    return updateObject(state, { food: action.food })
-}
-
-const locationChange = (state, action) => {
-    return updateObject(state, { location: action.location })
+const inputChange = (state, action) => {
+    return updateObject(state, { [action.name]: [action.value] })
 }
 
 const yelpSearchStart = (state, action) => {
@@ -52,8 +48,7 @@ const googleSearchEnd = (state, action) => {
 
 const restaurantsReducer = (state = initialState, action) => {
     switch (action.type) {
-        case actionTypes.RESTAURANT_FOOD_CHANGE: return foodChange(state, action)
-        case actionTypes.RESTAURANT_LOCATION_CHANGE: return locationChange(state, action)
+        case actionTypes.RESTAURANT_INPUT_CHANGE: return inputChange(state, action)
         case actionTypes.RESTAURANT_YELP_SEARCH_START: return yelpSearchStart(state, action)
         case actionTypes.RESTAURANT_YELP_SEARCH_SUCCESS: return yelpSearchEnd(state, action)
         case actionTypes.RESTAURANT_YELP_SEARCH_FAIL: return yelpSearchEnd(state, action)

@@ -25,8 +25,7 @@ const mapStateToProps = (state) => {
 
 const mapDispatchToProps = (dispatch) => {
     return {
-        onRestaurantFoodChange: (food) => dispatch(actions.restaurantFoodChange(food)),
-        onRestaurantLocationChange: (location) => dispatch(actions.restaurantLocationChange(location)),
+        onRestaurantInputChange: (name, value) => dispatch(actions.restaurantInputChange(name, value)),
         onRestaurantSearch: (food, location) => dispatch(actions.restaurantSearch(food, location)),
     }
 }
@@ -42,8 +41,13 @@ class Restaurants extends Component {
         })
     }
 
-    foodChangeHandler = (event) => this.props.onRestaurantFoodChange(event.target.value)
-    locationChangeHandler = (event) => this.props.onRestaurantLocationChange(event.target.value)
+    inputChangeHandler = (event) => {
+        this.props.onRestaurantInputChange(
+            event.target.name,
+            event.target.value
+        )
+    }
+
     searchHandler = (event) => {
         event.preventDefault()
         this.props.onRestaurantSearch(this.props.food, this.props.location)
@@ -99,16 +103,18 @@ class Restaurants extends Component {
                         wide
                         center
                         type='text'
+                        name='food'
                         placeholder='Food'
                         value={this.props.food}
-                        change={this.foodChangeHandler} />
+                        change={this.inputChangeHandler} />
                     <Input
                         wide
                         center
                         type='text'
+                        name='location'
                         placeholder='Location'
                         value={this.props.location}
-                        change={this.locationChangeHandler} />
+                        change={this.inputChangeHandler} />
                     {goButton}
                 </form>
             </div>
