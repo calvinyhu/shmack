@@ -6,8 +6,8 @@
     flex-flow: column;
     justify-content: space-evenly;
     align-items: center;
-    padding: 0 $padding-default * 1.5;
-    margin: $margin-default * 1.5 0;
+    padding: 0 $padding * 1.5;
+    margin: $margin * 1.5 0;
 
     li {
         display: inline-block;

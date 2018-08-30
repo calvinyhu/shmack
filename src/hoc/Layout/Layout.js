@@ -5,22 +5,21 @@ import Aux from '../Auxiliary/Auxiliary'
 import Toolbar from '../../components/Nav/Toolbar/Toolbar'
 import Drawer from '../../components/Nav/Drawer/Drawer'
 import NavItems from '../../components/Nav/NavItems/NavItems'
+import Backdrop from '../../components/UI/Backdrop/Backdrop'
 
-// @Layout holds the different pages or views of the app and will keep either a 
-// persistent toolbar or sidedrawer for user Nav.
 class Layout extends Component {
     state = {
-        showSideDrawer: false,
+        showDrawer: false,
     }
 
-    sideDrawerToggleHandler = () => {
+    drawerToggleHandler = () => {
         this.setState(prevState => {
-            return { showSideDrawer: !prevState.showSideDrawer }
+            return { showDrawer: !prevState.showDrawer }
         })
     }
 
-    sideDrawerCloseHandler = () => {
-        this.setState({ showSideDrawer: false })
+    drawerCloseHandler = () => {
+        this.setState({ showDrawer: false })
     }
 
     render() {
@@ -29,23 +28,26 @@ class Layout extends Component {
                 <NavItems
                     wide
                     left
-                    closeSideDrawer={this.sideDrawerCloseHandler}
+                    closeDrawer={this.drawerCloseHandler}
                     isAuth={this.props.isAuth} />
             </nav>
         )
         return (
             <Aux>
                 <Toolbar
-                    toggleSideDrawer={this.sideDrawerToggleHandler}
-                    showSideDrawer={this.state.showSideDrawer}
-                    closeSideDrawer={this.sideDrawerCloseHandler}
+                    toggleDrawer={this.drawerToggleHandler}
+                    showDrawer={this.state.showDrawer}
+                    closeDrawer={this.drawerCloseHandler}
                     isAuth={this.props.isAuth} />
                 <Drawer
                     top
-                    isOpen={this.state.showSideDrawer}>{nav}</Drawer>
+                    isOpen={this.state.showDrawer}>{nav}</Drawer>
                 <main>
                     {this.props.children}
                 </main>
+                <Backdrop layout
+                    click={this.drawerCloseHandler}
+                    isOpen={this.state.showDrawer}></Backdrop>
             </Aux>
         )
     }

@@ -6,11 +6,11 @@
     appearance: none;
     background: $main-color;
     color: black;
-    padding: $padding-tiny * 4 $padding-default;
+    padding: $padding-tiny * 4 $padding;
     border: none;
-    border-radius: $border-radius-default-button;
-    box-shadow: $box-shadow-default;
-    transition: $transition-default;
+    border-radius: $border-radius-button;
+    box-shadow: $box-shadow;
+    transition: $transition;
     font-weight: 600;
     width: 50%;
 

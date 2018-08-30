@@ -6,24 +6,25 @@
     justify-content: center;
     align-items: center;
     min-height: 33.3vh;
-    margin-bottom: $margin-default * 6;
+    margin-bottom: $margin * 6;
 }
 
 .CTA {
     margin: 0;
-    padding: $padding-default * 2;
-    font-size: $font-size-default * 2;
+    padding: $padding * 2;
+    font-size: $font-size * 2;
     text-align: center;
 }
 
 .RestaurantsGrid {
     display: grid;
     width: 100vw;
-    grid-template-columns: repeat(3, 33.3%);
-    grid-auto-rows: 33.3vw;
-    grid-gap: 1px;
+    grid-template-columns: repeat(2, 50%);
+    grid-auto-rows: 50vw;
 
     @include media-min-width($desktop-width) {
+        grid-template-columns: repeat(3, 33.3%);
+        grid-auto-rows: 33.3vw;
         width: 66.6vw;
         grid-auto-rows: 22.2vw;
     }
@@ -39,15 +40,15 @@
     left: 5vw;
     width: 90vw;
     background: rgba(255, 255, 255, 0.85);
-    padding: $padding-default / 2;
+    padding: $padding / 2;
     padding-left: 0;
-    border-radius: $border-radius-default-button / 2;
+    border-radius: $border-radius-button / 2;
 
-    .SideDrawerToggleContainer {
-        min-width: $width-default * 1.5;
-        width: $width-default * 1.5;
-        min-height: $height-default;
-        height: $height-default;
+    .DrawerToggleContainer {
+        min-width: $width * 1.5;
+        width: $width * 1.5;
+        min-height: $height;
+        height: $height;
         margin-left: 0.5rem;
     }
 
@@ -56,11 +57,11 @@
         width: 100%;
 
         input {
-            margin-left: $margin-default / 2;
+            margin-left: $margin / 2;
         }
         
         button {
-            margin-left: $margin-default / 2;
+            margin-left: $margin / 2;
             max-width: 33%;
         }
     }

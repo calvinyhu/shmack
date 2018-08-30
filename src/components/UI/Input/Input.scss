@@ -4,13 +4,13 @@
 .Input {
     outline: none;
     padding: $padding-tiny * 4;
-    border: $border-default-input;
-    border-radius: $border-radius-default-input;
+    border: $border-input;
+    border-radius: $border-radius-input;
     min-width: 0;
 
     &:hover, &:focus {
         border-color: gray;
-        box-shadow: $box-shadow-default;
+        box-shadow: $box-shadow;
     }
 }
 

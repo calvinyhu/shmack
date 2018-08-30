@@ -1,0 +1,31 @@
+@import './src/assets/scss/_variables.scss';
+@import './src/assets/scss/_mixins.scss';
+
+.Backdrop {
+    display: inline-block;
+    background: black;
+    width: 100vw;
+    height: 100vh;
+    position: fixed;
+    top: 0;
+    left: 0;
+    opacity: 0;
+    z-index: -100;
+    transition: opacity $transition, z-index 0s $transition-duration;
+}
+
+.LayoutOpen {
+    z-index: 0;
+    opacity: 0.5;
+    transition: opacity $transition;
+
+    @include media-min-width($desktop-width) {
+        display: none;
+    }
+}
+
+.RestaurantOpen {
+    z-index: 1001;
+    opacity: 0.5;
+    transition: opacity $transition;
+}

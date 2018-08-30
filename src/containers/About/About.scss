@@ -9,11 +9,11 @@
     height: 33vh;
     background: $main-color;
     color: black;
-    font-size: $font-size-default * 3;
+    font-size: $font-size * 3;
     font-weight: bold;
 
     h1 {
-        margin: 0 $margin-default;
+        margin: 0 $margin;
     }
 
     @include media-min-width($desktop-width / 1.5) {

@@ -8,7 +8,7 @@ const navItems = (props) => {
     const persisentListItems = (
         <li>
             <NavItem
-                click={props.closeSideDrawer}
+                click={props.closeDrawer}
                 link='/about'>About</NavItem>
         </li>
     )
@@ -16,12 +16,12 @@ const navItems = (props) => {
         <Aux>
             <li>
                 <NavItem
-                    click={props.closeSideDrawer}
+                    click={props.closeDrawer}
                     link='/auth/signup'>Sign Up</NavItem>
             </li>
             <li>
                 <NavItem
-                    click={props.closeSideDrawer}
+                    click={props.closeDrawer}
                     link='/auth/login'>Log In</NavItem>
             </li>
         </Aux>
@@ -31,12 +31,12 @@ const navItems = (props) => {
             <Aux>
                 <li>
                     <NavItem
-                        click={props.closeSideDrawer}
+                        click={props.closeDrawer}
                         link='/user'>Profile</NavItem>
                 </li>
                 <li>
                     <NavItem
-                        click={props.closeSideDrawer}
+                        click={props.closeDrawer}
                         link='/logout'>Log Out</NavItem>
                 </li>
             </Aux>

@@ -5,17 +5,17 @@
     display: flex;
     flex-direction: column;
     align-items: center;
-    margin-top: $margin-default;
+    margin-top: $margin;
 
     form {
         display: flex;
         flex-direction: column;
         align-items: center;
         width: 80vw;
-        max-width: $width-default * 30;
+        max-width: $width * 30;
 
         input {
-            margin-bottom: $margin-default;
+            margin-bottom: $margin;
         }
 
         button {
@@ -24,6 +24,6 @@
     }
 
     button {
-        margin: $margin-default 0;
+        margin: $margin 0;
     }
 }

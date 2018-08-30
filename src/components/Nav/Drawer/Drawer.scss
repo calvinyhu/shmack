@@ -9,8 +9,8 @@
     position: fixed;
     left: 0;
     top: 0;
-    z-index: 1;
-    transition: $transition-default-duration * 1.5 $transition-default-timing-func;
+    z-index: 999;
+    transition: $transition;
 
     nav {
         width: 100%;
@@ -40,8 +40,8 @@
     position: fixed;
     right: 0;
     top: 0;
-    z-index: 1;
-    transition: $transition-default-duration * 1.5 $transition-default-timing-func;
+    z-index: 999;
+    transition: $transition;
 
     nav {
         width: 100%;

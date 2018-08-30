@@ -11,9 +11,9 @@ const toolbar = (props) => {
             <NavItem
                 logo
                 link='/'
-                click={props.closeSideDrawer}>shmack</NavItem>
-            <div className={classes.SideDrawerToggleContainer}>
-                <DrawerToggle toggleSideDrawer={props.toggleSideDrawer} showSideDrawer={props.showSideDrawer} />
+                click={props.closeDrawer}>shmack</NavItem>
+            <div className={classes.DrawerToggleContainer}>
+                <DrawerToggle toggleDrawer={props.toggleDrawer} showDrawer={props.showDrawer} />
             </div>
             <nav>
                 <NavItems isAuth={props.isAuth} />

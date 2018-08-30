@@ -2,43 +2,40 @@
 $desktop-width: 40rem;
 
 // Transitions
-$transition-default: 0.2s ease-in-out;
-$transition-default-duration: 0.2s;
-$transition-default-timing-func: ease-in-out;
+$transition-function-card: cubic-bezier(0.4, 0, 0.17, 1.28);
+$transition-function: cubic-bezier(0.4, 0.0, 0.2, 1);
+$transition-duration: 0.3s;
+$transition-card: $transition-duration $transition-function-card;
+$transition: $transition-duration $transition-function;
 
 // Padding
-$padding-default: 1rem;
+$padding: 1rem;
 $padding-tiny: 0.2rem;
 
 // Border
-$border-width-default: 1px;
-$border-style-default: solid black;
-$border-default-input: 1px solid #ccc;
-$border-default-button: 1px solid black;
-$border-radius-default-input: 2px;
-$border-radius-default-button: 4px;
+$border-input: 1px solid #ccc;
+$border-radius-input: 2px;
+$border-radius-button: 4px;
+$border-radius-card: 6px;
 
 // Margin
-$margin-default: 1rem;
+$margin: 1rem;
 
 // Box Shadow
-$box-shadow-default: 0px 3px 6px -2px #aaa;
+$box-shadow: 0px 3px 6px -2px #aaa;
 
 // Font
-$font-size-default: 1rem;
+$font-size: 1rem;
 
 // Height
-$height-default: 1rem;
+$height: 1rem;
 
 // Width
-$width-default: 1rem;
-
-// Text
-$text-shadow-default: 2px 2px 8px #ccc;
+$width: 1rem;
 
 // Color
 $main-color: lightsalmon;
 $light-main-color: lighten(lightsalmon, 10%);
 
 // Toolbar
-$toolbar-width: 4.25rem;
+$toolbar-width: 4.2rem;

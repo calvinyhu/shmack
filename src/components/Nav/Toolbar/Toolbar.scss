@@ -6,10 +6,10 @@
     justify-content: space-between;
     align-items: center;
     width: 100vw;
-    padding: $padding-default $padding-default * 1.5;
+    padding: $padding $padding * 1.5;
     background: white;
     position: fixed;
-    z-index: 2;
+    z-index: 1000;
 
     nav {
         display: none;
@@ -20,17 +20,17 @@
     }
 
     @include media-min-width($desktop-width) {
-        padding: $padding-default;
+        padding: $padding;
         justify-content: space-around;
     }
 }
 
-.SideDrawerToggleContainer {
-    min-height: $height-default * 1.2;
-    height: $height-default * 1.2;
-    min-width: $width-default * 1.7;
-    width: $width-default * 1.7;
-    margin-left: $margin-default * 2;
+.DrawerToggleContainer {
+    min-height: $height * 1.2;
+    height: $height * 1.2;
+    min-width: $width * 1.7;
+    width: $width * 1.7;
+    margin-left: $margin * 2;
 
     
     @include media-min-width($desktop-width) {

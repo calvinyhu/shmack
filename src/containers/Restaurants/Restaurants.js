@@ -9,6 +9,13 @@ import DrawerToggle from '../../components/Nav/Drawer/DrawerToggle/DrawerToggle'
 import Restaurant from '../../components/Restaurant/Restaurant'
 import Input from '../../components/UI/Input/Input'
 import Button from '../../components/UI/Button/Button'
+import Backdrop from '../../components/UI/Backdrop/Backdrop'
+import Card from '../../components/UI/Card/Card'
+
+export const SOURCE = {
+    YELP: 1,
+    GOOGLE: 2
+}
 
 const mapStateToProps = (state) => {
     return {
@@ -32,7 +39,10 @@ const mapDispatchToProps = (dispatch) => {
 
 class Restaurants extends Component {
     state = {
-        showFilters: false
+        showFilters: false,
+        showCard: false,
+        card: null,
+        cardSrc: null
     }
 
     toggleFiltersHandler = () => {
@@ -53,6 +63,17 @@ class Restaurants extends Component {
         this.props.onRestaurantSearch(this.props.food, this.props.location)
     }
 
+    restaurantClicked = (res, src) => {
+        console.log(res)
+        this.setState({
+            showCard: true,
+            card: res,
+            cardSrc: src
+        })
+    }
+
+    closeCard = () => this.setState({ showCard: false })
+
     displayRestaurants = () => {
         const restaurants = []
         const resNames = {}
@@ -61,9 +82,9 @@ class Restaurants extends Component {
                 if (res.image_url && (!resNames[res.name])) {
                     restaurants.push(
                         <Restaurant
+                            click={() => this.restaurantClicked(res, SOURCE.YELP)}
                             key={res.id}
-                            img={res.image_url}>{res.name}
-                        </Restaurant>
+                            img={res.image_url}>{res.name}</Restaurant>
                     );
                     resNames[res.name] = 1
                 }
@@ -76,6 +97,7 @@ class Restaurants extends Component {
                     const imgUrl = createGooglePlacePhotoQuery(photo.photo_reference, photo.width)
                     restaurants.push(
                         <Restaurant
+                            click={() => this.restaurantClicked(res, SOURCE.GOOGLE)}
                             key={res.id}
                             img={imgUrl}>{res.name}</Restaurant>
                     );
@@ -88,28 +110,34 @@ class Restaurants extends Component {
     render() {
         let callToAction = null
         let restaurantsGrid = null
+        let backdrop = (
+            <Backdrop restaurant
+                click={this.closeCard}
+                isOpen={this.state.showCard}></Backdrop>
+        )
+        let card = (
+            <Card restaurant
+                cardSrc={this.state.cardSrc}
+                isOpen={this.state.showCard}>{this.state.card}</Card>
+        )
 
         const goButton = this.props.location ? <Button>Go</Button> : null
 
         let searchBar = (
             <div className={classes.SearchBar}>
-                <div className={classes.SideDrawerToggleContainer}>
+                <div className={classes.DrawerToggleContainer}>
                     <DrawerToggle
-                        toggleSideDrawer={this.toggleFiltersHandler}
-                        showSideDrawer={this.state.showFilters} />
+                        toggleDrawer={this.toggleFiltersHandler}
+                        showDrawer={this.state.showFilters} />
                 </div>
                 <form onSubmit={this.searchHandler}>
-                    <Input
-                        wide
-                        center
+                    <Input wide center
                         type='text'
                         name='food'
                         placeholder='Food'
                         value={this.props.food}
                         change={this.inputChangeHandler} />
-                    <Input
-                        wide
-                        center
+                    <Input wide center
                         type='text'
                         name='location'
                         placeholder='Location'
@@ -147,6 +175,8 @@ class Restaurants extends Component {
                 {callToAction}
                 {restaurantsGrid}
                 {searchBar}
+                {card}
+                {backdrop}
             </div>
         )
     }

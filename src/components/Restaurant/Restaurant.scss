@@ -4,6 +4,10 @@
 .Restaurant {
     position: relative;
     text-align: center;
+
+    &:hover {
+        cursor: pointer;
+    }
 }
 
 .RestaurantImgContainer {
@@ -28,11 +32,11 @@
     width: 100%;
     height: 100%;
     background: rgba(0, 0, 0, 0.3);
-    border-radius: $border-radius-default-button / 2;
+    border-radius: $border-radius-button / 2;
     color: rgba(255, 255, 255, 0.8);
-    font-size: $font-size-default;
+    font-size: $font-size;
     opacity: 1;
-    transition: $transition-default;
+    transition: $transition;
 
     &:hover {
         opacity: 1;
@@ -40,6 +44,6 @@
 
     @include media-min-width($desktop-width) {
         opacity: 0;
-        font-size: $font-size-default * 1.2;
+        font-size: $font-size * 1.2;
     }
 }

@@ -4,7 +4,7 @@ import classes from './Restaurant.css'
 
 const restaurant = (props) => {
     return (
-        <div className={classes.Restaurant}>
+        <div className={classes.Restaurant} onClick={props.click}>
             <div className={classes.RestaurantImgContainer}>
                 <img src={props.img} alt='Restaurant'/>
             </div>

@@ -5,35 +5,35 @@
     display: flex;
     flex-direction: column;
     align-items: center;
-    margin-top: $margin-default;
+    margin-top: $margin;
 
     p {
         margin: 0;
-        padding: $padding-default * 2;
-        font-size: $font-size-default * 2;
+        padding: $padding * 2;
+        font-size: $font-size * 2;
     }
 
     .PictureContainer {
-        margin: $margin-default / 2;
+        margin: $margin / 2;
     }
 
     .Name {
-        font-size: $font-size-default * 2;
-        margin: $margin-default / 2;
+        font-size: $font-size * 2;
+        margin: $margin / 2;
     }
 
     .Email {
-        margin: $margin-default / 2;
+        margin: $margin / 2;
     }
     
     .Location {
         display: inherit;
         flex-direction: column;
         align-items: center;
-        margin: $margin-default / 2;
+        margin: $margin / 2;
     }
 
     button {
-        margin-top: $margin-default;
+        margin-top: $margin;
     }
 }
