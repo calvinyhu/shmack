@@ -41,6 +41,7 @@ class Restaurants extends Component {
     state = {
         showFilters: false,
         showCard: false,
+        turnCard: false,
         card: null,
         cardSrc: null
     }
@@ -72,7 +73,12 @@ class Restaurants extends Component {
         })
     }
 
-    closeCard = () => this.setState({ showCard: false })
+    closeCard = () => this.setState({ showCard: false, turnCard: false })
+
+    turnCard = () => this.setState(prevState => {
+        console.log('Turn')
+        return { turnCard: !prevState.turnCard }
+    })
 
     displayRestaurants = () => {
         const restaurants = []
@@ -101,6 +107,7 @@ class Restaurants extends Component {
                             key={res.id}
                             img={imgUrl}>{res.name}</Restaurant>
                     );
+                    resNames[res.name] = 1
                 }
             })
         }
@@ -117,7 +124,9 @@ class Restaurants extends Component {
         )
         let card = (
             <Card restaurant
+                click={this.turnCard}
                 cardSrc={this.state.cardSrc}
+                isTurned={this.state.turnCard}
                 isOpen={this.state.showCard}>{this.state.card}</Card>
         )
 
