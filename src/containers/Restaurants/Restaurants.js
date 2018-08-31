@@ -72,7 +72,17 @@ class Restaurants extends Component {
         if (this.state.multiSelect) {
             const selectedIds = { ...this.state.selectedIds }
             selectedIds[id] = !selectedIds[id]
-            this.setState({ selectedIds: selectedIds })
+
+            if (!selectedIds[id])
+                delete selectedIds[id]
+                
+            if (Object.keys(selectedIds).length === 0) {
+                this.setState({
+                    multiSelect: false,
+                    selectedIds: {}
+                })
+            } else
+                this.setState({ selectedIds: selectedIds })
         } else {
             this.setState({
                 showCard: true,
@@ -83,7 +93,6 @@ class Restaurants extends Component {
     }
 
     closeCard = () => this.setState({ showCard: false, turnCard: false })
-
     turnCard = () => this.setState(prevState => {
         return { turnCard: !prevState.turnCard }
     })
@@ -92,7 +101,6 @@ class Restaurants extends Component {
         const timer = setTimeout(this.multiSelectStartHandler, 400)
         this.setState({ timer: timer })
     }
-
     touchEndHandler = () => {
         if (this.state.timer) {
             clearTimeout(this.state.timer)
@@ -100,12 +108,7 @@ class Restaurants extends Component {
         }
     }
 
-    multiSelectStartHandler = () => {
-        this.setState({
-            multiSelect: true
-        })
-    }
-
+    multiSelectStartHandler = () => this.setState({ multiSelect: true })
     multiSelectEndHandler = () => {
         this.setState({
             multiSelect: false,
@@ -142,7 +145,8 @@ class Restaurants extends Component {
                     restaurants.push(
                         <Restaurant
                             touchStart={this.touchStartHandler}
-                            touchEnd={(event, id) => this.touchEndHandler(event, id)}
+                            touchMove={this.touchEndHandler}
+                            touchEnd={this.touchEndHandler}
                             isSelected={this.state.selectedIds[res.id]}
                             id={res.id}
                             click={(id) => this.restaurantClicked(res, SOURCE.GOOGLE, id)}
