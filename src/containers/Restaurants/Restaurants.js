@@ -46,7 +46,8 @@ class Restaurants extends Component {
         cardSrc: null,
         touchStartTimeStamp: null,
         multiSelect: false,
-        selectedIds: {}
+        selectedIds: {},
+        timer: null
     }
 
     toggleFiltersHandler = () => {
@@ -69,7 +70,7 @@ class Restaurants extends Component {
 
     restaurantClicked = (res, src, id) => {
         if (this.state.multiSelect) {
-            const selectedIds = {...this.state.selectedIds}
+            const selectedIds = { ...this.state.selectedIds }
             selectedIds[id] = !selectedIds[id]
             this.setState({ selectedIds: selectedIds })
         } else {
@@ -87,22 +88,25 @@ class Restaurants extends Component {
         return { turnCard: !prevState.turnCard }
     })
 
-    touchStartHandler = (event) => {
-        this.setState({ touchStartTimeStamp: event.timeStamp })
+    touchStartHandler = () => {
+        const timer = setTimeout(this.multiSelectStartHandler, 400)
+        this.setState({ timer: timer })
     }
 
-    touchEndHandler = (event, id) => {
-        if (event.timeStamp - this.state.touchStartTimeStamp > 500) {
-            const selectedIds = {...this.state.selectedIds}
-            selectedIds[id] = !selectedIds[id]
-            this.setState({
-                multiSelect: true,
-                selectedIds: selectedIds
-            })
+    touchEndHandler = () => {
+        if (this.state.timer) {
+            clearTimeout(this.state.timer)
+            this.setState({ timer: null })
         }
     }
 
-    multiSelectCancelHandler = () => {
+    multiSelectStartHandler = () => {
+        this.setState({
+            multiSelect: true
+        })
+    }
+
+    multiSelectEndHandler = () => {
         this.setState({
             multiSelect: false,
             selectedIds: {}
@@ -118,12 +122,13 @@ class Restaurants extends Component {
                     restaurants.push(
                         <Restaurant
                             touchStart={this.touchStartHandler}
-                            touchEnd={(event, id) => this.touchEndHandler(event, id)}
+                            touchMove={this.touchEndHandler}
+                            touchEnd={this.touchEndHandler}
                             isSelected={this.state.selectedIds[res.id]}
                             id={res.id}
                             click={(id) => this.restaurantClicked(res, SOURCE.YELP, id)}
                             key={res.id}
-                            img={res.image_url}>{res.name}</Restaurant>
+                            img={res.image_url}>{res.name}{res.rating}{res.review_count}</Restaurant>
                     );
                     resNames[res.name] = 1
                 }
@@ -175,7 +180,7 @@ class Restaurants extends Component {
         }
 
         let cancelMultiSelectButton = (
-            <div className={cancelClasses} onClick={this.multiSelectCancelHandler}>
+            <div className={cancelClasses} onClick={this.multiSelectEndHandler}>
                 <Button circle>X</Button>
             </div>
         )

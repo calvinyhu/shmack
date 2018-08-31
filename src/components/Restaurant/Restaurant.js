@@ -8,7 +8,12 @@ const restaurant = (props) => {
         classNames = [classNames, classes.Selected].join(' ')
 
     return (
-        <div className={classNames} onClick={() => props.click(props.id)} onTouchStart={props.touchStart} onTouchEnd={(event) => props.touchEnd(event, props.id)} >
+        <div
+            className={classNames}
+            onClick={() => props.click(props.id)}
+            onTouchStart={props.touchStart}
+            onTouchMove={props.touchEnd}
+            onTouchEnd={props.touchEnd} >
             <div className={classes.RestaurantImgContainer}>
                 <img src={props.img} alt='Restaurant'/>
             </div>
