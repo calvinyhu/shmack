@@ -97,8 +97,11 @@ class Restaurants extends Component {
         return { turnCard: !prevState.turnCard }
     })
 
-    touchStartHandler = () => {
-        const timer = setTimeout(this.multiSelectStartHandler, 400)
+    touchStartHandler = (id) => {
+        const timer = setTimeout(
+            () => this.multiSelectStartHandler(id),
+            400
+        )
         this.setState({ timer: timer })
     }
     touchEndHandler = () => {
@@ -108,8 +111,18 @@ class Restaurants extends Component {
         }
     }
 
-    multiSelectStartHandler = () => this.setState({ multiSelect: true })
+    multiSelectStartHandler = (id) => {
+        console.log('multiSelectStartHandler')
+        const selectedIds = { ...this.state.selectedIds }
+        selectedIds[id] = !selectedIds[id]
+        console.log(selectedIds)
+        this.setState({
+            multiSelect: true,
+            selectedIds: selectedIds
+        })
+    }
     multiSelectEndHandler = () => {
+        console.log('multiSelectEndHandler')
         this.setState({
             multiSelect: false,
             selectedIds: {}
@@ -124,7 +137,7 @@ class Restaurants extends Component {
                 if (res.image_url && (!resNames[res.name])) {
                     restaurants.push(
                         <Restaurant
-                            touchStart={this.touchStartHandler}
+                            touchStart={(id) => this.touchStartHandler(id)}
                             touchMove={this.touchEndHandler}
                             touchEnd={this.touchEndHandler}
                             isSelected={this.state.selectedIds[res.id]}

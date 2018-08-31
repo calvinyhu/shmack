@@ -11,7 +11,7 @@ const restaurant = (props) => {
         <div
             className={classNames}
             onClick={() => props.click(props.id)}
-            onTouchStart={props.touchStart}
+            onTouchStart={() => props.touchStart(props.id)}
             onTouchMove={props.touchEnd}
             onTouchEnd={props.touchEnd} >
             <div className={classes.RestaurantImgContainer}>
