@@ -14,6 +14,9 @@ const button = (props) => {
     if (props.wide)
         classNames = [classNames, classes.Wide].join(' ')
 
+    if (props.circle)
+        classNames = [classNames, classes.Circle].join(' ')
+
     return (
         <button
             className={classNames}

@@ -43,6 +43,7 @@
     padding: $padding / 2;
     padding-left: 0;
     border-radius: $border-radius-button / 2;
+    transition: $transition;
 
     .DrawerToggleContainer {
         min-width: $width * 1.5;
@@ -70,4 +71,22 @@
         left: 22vw;
         width: 56vw;
     }
+}
+
+.HideSearchBar {
+    transform: translateY(100vh);
+    transition: $transition;
+}
+
+.CancelMultiSelect {
+    position: fixed;
+    left: 50%;
+    bottom: $toolbar-width / 3;
+    z-index: 1;
+    transform: translateX(-50%) translateY(100vh);
+    transition: $transition;
+}
+
+.ShowCancelMultiSelect {
+    transform: translateX(-50%) translateY(0);
 }

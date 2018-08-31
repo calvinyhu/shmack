@@ -2,8 +2,14 @@
 @import './src/assets/scss/_mixins.scss';
 
 .Restaurant {
+    display: flex;
+    justify-self: center;
+    align-self: center;
     position: relative;
     text-align: center;
+    width: 100%;
+    height: 100%;
+    transition: $transition;
 
     &:hover {
         cursor: pointer;
@@ -46,4 +52,10 @@
         opacity: 0;
         font-size: $font-size * 1.2;
     }
+}
+
+.Selected {
+    width: 90%;
+    height: 90%;
+    transition: $transition;
 }

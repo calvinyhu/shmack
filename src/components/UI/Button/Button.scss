@@ -38,3 +38,11 @@
 .Wide {
     width: 100%;
 }
+
+.Circle {
+    padding: 0;
+    border-radius: 50%;
+    box-shadow: none;
+    width: $width * 2.5;
+    height: $width * 2.5;
+}

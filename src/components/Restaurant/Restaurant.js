@@ -3,8 +3,12 @@ import React from 'react'
 import classes from './Restaurant.css'
 
 const restaurant = (props) => {
+    let classNames = classes.Restaurant
+    if (props.isSelected)
+        classNames = [classNames, classes.Selected].join(' ')
+
     return (
-        <div className={classes.Restaurant} onClick={props.click}>
+        <div className={classNames} onClick={() => props.click(props.id)} onTouchStart={props.touchStart} onTouchEnd={(event) => props.touchEnd(event, props.id)} >
             <div className={classes.RestaurantImgContainer}>
                 <img src={props.img} alt='Restaurant'/>
             </div>

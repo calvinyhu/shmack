@@ -43,7 +43,10 @@ class Restaurants extends Component {
         showCard: false,
         turnCard: false,
         card: null,
-        cardSrc: null
+        cardSrc: null,
+        touchStartTimeStamp: null,
+        multiSelect: false,
+        selectedIds: {}
     }
 
     toggleFiltersHandler = () => {
@@ -64,21 +67,47 @@ class Restaurants extends Component {
         this.props.onRestaurantSearch(this.props.food, this.props.location)
     }
 
-    restaurantClicked = (res, src) => {
-        console.log(res)
-        this.setState({
-            showCard: true,
-            card: res,
-            cardSrc: src
-        })
+    restaurantClicked = (res, src, id) => {
+        if (this.state.multiSelect) {
+            const selectedIds = {...this.state.selectedIds}
+            selectedIds[id] = !selectedIds[id]
+            this.setState({ selectedIds: selectedIds })
+        } else {
+            this.setState({
+                showCard: true,
+                card: res,
+                cardSrc: src
+            })
+        }
     }
 
     closeCard = () => this.setState({ showCard: false, turnCard: false })
 
     turnCard = () => this.setState(prevState => {
-        console.log('Turn')
         return { turnCard: !prevState.turnCard }
     })
+
+    touchStartHandler = (event) => {
+        this.setState({ touchStartTimeStamp: event.timeStamp })
+    }
+
+    touchEndHandler = (event, id) => {
+        if (event.timeStamp - this.state.touchStartTimeStamp > 500) {
+            const selectedIds = {...this.state.selectedIds}
+            selectedIds[id] = !selectedIds[id]
+            this.setState({
+                multiSelect: true,
+                selectedIds: selectedIds
+            })
+        }
+    }
+
+    multiSelectCancelHandler = () => {
+        this.setState({
+            multiSelect: false,
+            selectedIds: {}
+        })
+    }
 
     displayRestaurants = () => {
         const restaurants = []
@@ -88,7 +117,11 @@ class Restaurants extends Component {
                 if (res.image_url && (!resNames[res.name])) {
                     restaurants.push(
                         <Restaurant
-                            click={() => this.restaurantClicked(res, SOURCE.YELP)}
+                            touchStart={this.touchStartHandler}
+                            touchEnd={(event, id) => this.touchEndHandler(event, id)}
+                            isSelected={this.state.selectedIds[res.id]}
+                            id={res.id}
+                            click={(id) => this.restaurantClicked(res, SOURCE.YELP, id)}
                             key={res.id}
                             img={res.image_url}>{res.name}</Restaurant>
                     );
@@ -103,7 +136,11 @@ class Restaurants extends Component {
                     const imgUrl = createGooglePlacePhotoQuery(photo.photo_reference, photo.width)
                     restaurants.push(
                         <Restaurant
-                            click={() => this.restaurantClicked(res, SOURCE.GOOGLE)}
+                            touchStart={this.touchStartHandler}
+                            touchEnd={(event, id) => this.touchEndHandler(event, id)}
+                            isSelected={this.state.selectedIds[res.id]}
+                            id={res.id}
+                            click={(id) => this.restaurantClicked(res, SOURCE.GOOGLE, id)}
                             key={res.id}
                             img={imgUrl}>{res.name}</Restaurant>
                     );
@@ -130,10 +167,21 @@ class Restaurants extends Component {
                 isOpen={this.state.showCard}>{this.state.card}</Card>
         )
 
-        const goButton = this.props.location ? <Button>Go</Button> : null
+        let cancelClasses = classes.CancelMultiSelect
+        let searchBarClasses = classes.SearchBar
+        if (this.state.multiSelect) {
+            cancelClasses = [cancelClasses, classes.ShowCancelMultiSelect].join(' ')
+            searchBarClasses = [searchBarClasses, classes.HideSearchBar].join(' ')
+        }
+
+        let cancelMultiSelectButton = (
+            <div className={cancelClasses} onClick={this.multiSelectCancelHandler}>
+                <Button circle>X</Button>
+            </div>
+        )
 
         let searchBar = (
-            <div className={classes.SearchBar}>
+            <div className={searchBarClasses}>
                 <div className={classes.DrawerToggleContainer}>
                     <DrawerToggle
                         toggleDrawer={this.toggleFiltersHandler}
@@ -152,7 +200,7 @@ class Restaurants extends Component {
                         placeholder='Location'
                         value={this.props.location}
                         change={this.inputChangeHandler} />
-                    {goButton}
+                    {this.props.location ? <Button>Go</Button> : null}
                 </form>
             </div>
         )
@@ -183,6 +231,7 @@ class Restaurants extends Component {
             <div className={classes.Restaurants}>
                 {callToAction}
                 {restaurantsGrid}
+                {cancelMultiSelectButton}
                 {searchBar}
                 {card}
                 {backdrop}
