@@ -247,7 +247,7 @@ class Restaurants extends Component {
                 </div>
             )
         } else
-            callToAction = <p className={classes.CTA}>Let's Eat!</p>
+            callToAction = <p className={classes.CTA}>Shmackin!</p>
 
         return (
             <div className={classes.Restaurants}>
