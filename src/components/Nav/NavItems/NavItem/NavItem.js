@@ -14,6 +14,7 @@ const navItem = (props) => {
     return (
         <NavLink
             className={classNames}
+            activeClassName='active'
             to={props.link}
             onClick={props.click}>{props.children}
         </NavLink>

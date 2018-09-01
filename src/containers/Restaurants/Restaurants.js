@@ -198,7 +198,9 @@ class Restaurants extends Component {
 
         let cancelMultiSelectButton = (
             <div className={cancelClasses} onClick={this.multiSelectEndHandler}>
-                <Button circle>X</Button>
+                <Button circle>
+                    <i className='material-icons'>close</i>
+                </Button>
             </div>
         )
 

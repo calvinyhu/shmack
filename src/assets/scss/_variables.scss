@@ -37,6 +37,8 @@ $width: 1rem;
 // Color
 $main-color: lightsalmon;
 $light-main-color: lighten(lightsalmon, 10%);
+$dark-main-color: darken(lightsalmon, 10%);
 
 // Toolbar
 $toolbar-width: 4.2rem;
+$toolbar-height: $height * 3;

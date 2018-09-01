@@ -3,26 +3,17 @@
 
 .NavItems {
     display: flex;
-    flex-flow: column;
     justify-content: space-evenly;
     align-items: center;
-    padding: 0 $padding * 1.5;
-    margin: $margin * 1.5 0;
+    margin: 0;
+    padding: 0;
+    height: 100%;
 
     li {
-        display: inline-block;
-        width: 100%;
-        
-        @include media-min-width($desktop-width) {
-            margin-bottom: 0;
-            margin-left: 2rem;
-            width: auto;
-        }
-    }
-
-    @include media-min-width($desktop-width) {
-        flex-flow: row;
-        margin: 0;
+        display: flex;
+        justify-content: center;
+        width: $toolbar-height;
+        height: 100%;
     }
 }
 

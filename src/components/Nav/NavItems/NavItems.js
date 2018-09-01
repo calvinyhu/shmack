@@ -1,28 +1,40 @@
 import React from 'react'
 
 import classes from './NavItems.css'
+import * as paths from '../../../utilities/paths'
 import NavItem from './NavItem/NavItem'
 import Aux from '../../../hoc/Auxiliary/Auxiliary';
 
 const navItems = (props) => {
     const persisentListItems = (
-        <li>
-            <NavItem
-                click={props.closeDrawer}
-                link='/about'>About</NavItem>
-        </li>
+        <Aux>
+            <li>
+                <NavItem link='/home'>
+                    <Aux>
+                        <i className="material-icons">home</i>
+                        <div>Home</div>
+                    </Aux>
+                </NavItem>
+            </li>
+            <li>
+                <NavItem link='/search'>
+                    <Aux>
+                        <i className="material-icons">search</i>
+                        <div>Search</div>
+                    </Aux>
+                </NavItem>
+            </li>
+        </Aux>
     )
     let dynamicListItems = (
         <Aux>
             <li>
-                <NavItem
-                    click={props.closeDrawer}
-                    link='/auth/signup'>Sign Up</NavItem>
-            </li>
-            <li>
-                <NavItem
-                    click={props.closeDrawer}
-                    link='/auth/login'>Log In</NavItem>
+                <NavItem link={paths.AUTH_SIGNUP}>
+                    <Aux>
+                        <i className="material-icons">create</i>
+                        <div>Sign Up</div>
+                    </Aux>
+                </NavItem>
             </li>
         </Aux>
     )
@@ -30,14 +42,12 @@ const navItems = (props) => {
         dynamicListItems = (
             <Aux>
                 <li>
-                    <NavItem
-                        click={props.closeDrawer}
-                        link='/user'>Profile</NavItem>
-                </li>
-                <li>
-                    <NavItem
-                        click={props.closeDrawer}
-                        link='/logout'>Log Out</NavItem>
+                    <NavItem link={paths.MORE}>
+                        <Aux>
+                            <i className="material-icons">menu</i>
+                            <div>More</div>
+                        </Aux>
+                    </NavItem>
                 </li>
             </Aux>
         )

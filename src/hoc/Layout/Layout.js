@@ -34,20 +34,11 @@ class Layout extends Component {
         )
         return (
             <Aux>
-                <Toolbar
-                    toggleDrawer={this.drawerToggleHandler}
-                    showDrawer={this.state.showDrawer}
-                    closeDrawer={this.drawerCloseHandler}
-                    isAuth={this.props.isAuth} />
-                <Drawer
-                    top
-                    isOpen={this.state.showDrawer}>{nav}</Drawer>
                 <main>
                     {this.props.children}
                 </main>
-                <Backdrop layout
-                    click={this.drawerCloseHandler}
-                    isOpen={this.state.showDrawer}></Backdrop>
+                <Toolbar
+                    isAuth={this.props.isAuth} />
             </Aux>
         )
     }

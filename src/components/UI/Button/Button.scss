@@ -2,10 +2,13 @@
 @import './src/assets/scss/_mixins.scss';
 
 .Button {
+    display: flex;
+    justify-content: center;
+    align-items: center;
     outline: none;
     appearance: none;
     background: $main-color;
-    color: black;
+    color: white;
     padding: $padding-tiny * 4 $padding;
     border: none;
     border-radius: $border-radius-button;
@@ -40,9 +43,10 @@
 }
 
 .Circle {
+    margin: 0;
     padding: 0;
     border-radius: 50%;
-    box-shadow: none;
-    width: $width * 2.5;
-    height: $width * 2.5;
+    box-shadow: $box-shadow;
+    width: $width * 2.7;
+    height: $width * 2.7;
 }

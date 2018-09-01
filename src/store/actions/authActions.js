@@ -65,7 +65,7 @@ const authSuccess = (signingUp) => {
         type: actionTypes.AUTH_SUCCESS,
         isAuth: true,
         loading: false,
-        redirectPath: (signingUp) ? paths.USER : paths.ROOT
+        redirectPath: (signingUp) ? paths.USER : paths.HOME
     }
 }
 

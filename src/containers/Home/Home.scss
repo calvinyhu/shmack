@@ -1,0 +1,21 @@
+@import './src/assets/scss/_variables.scss';
+@import './src/assets/scss/_mixins.scss';
+
+.Home {
+    header {
+        background: white;
+        color: $main-color;
+        padding: $padding / 2 0;
+        font-size: $font-size * 1.6;
+        font-weight: bold;
+        text-align: center;
+    }
+
+    main {
+        display: flex;
+        flex-direction: column;
+        align-items: left;
+        padding: 0 $padding;
+        font-weight: 600;
+    }
+}

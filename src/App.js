@@ -5,11 +5,13 @@ import { connect } from 'react-redux'
 import * as actions from './store/actions/authActions'
 import * as paths from './utilities/paths'
 import Layout from './hoc/Layout/Layout'
+import Home from './containers/Home/Home'
 import User from './containers/User/User'
 import About from './containers/About/About'
 import Auth from './containers/Auth/Auth'
 import LogOut from './containers/Auth/LogOut/LogOut'
 import Restaurants from './containers/Restaurants/Restaurants'
+import More from './components/More/More'
 
 const mapStateToProps = (state) => {
     return {
@@ -33,22 +35,25 @@ class App extends Component {
         if (this.props.isAuth) {
             routes = (
                 <Switch>
+                    <Route exact path={paths.HOME} component={Home} />
+                    <Route exact path={paths.SEARCH} component={Restaurants} />
+                    <Route exact path={paths.MORE} component={More} />
                     <Route exact path={paths.USER} component={User} />
                     <Route exact path={paths.ABOUT} component={About} />
                     <Route exact path={paths.LOGOUT} component={LogOut} />
-                    <Route exact path={paths.ROOT} component={Restaurants} />
                     <Route path={paths.AUTH} component={Auth} />
-                    <Redirect to={paths.ROOT} />
+                    <Redirect to={paths.HOME} />
                 </Switch>
             )
         } else {
             routes = (
                 <Switch>
-                    <Route exact path={paths.ABOUT} component={About} />
+                    <Route exact path={paths.HOME} component={Home} />
+                    <Route exact path={paths.SEARCH} component={Restaurants} />
                     <Route exact path={paths.AUTH_SIGNUP} component={Auth} />
                     <Route exact path={paths.AUTH_LOGIN} component={Auth} />
-                    <Route exact path={paths.ROOT} component={Restaurants} />
-                    <Redirect to={paths.ROOT} />
+                    <Route exact path={paths.ABOUT} component={About} />
+                    <Redirect to={paths.HOME} />
                 </Switch>
             )
         }
