@@ -139,9 +139,9 @@ class Auth extends Component {
                 <div className={classes.Switch}>
                     <p>{switchCTA}</p>
                     <NavItem
-                        placeholderLink
+                        link
                         click={this.authChangeHandler}
-                        link={switchLink}>{switchName}</NavItem>
+                        to={switchLink}>{switchName}</NavItem>
                 </div>
             )
         }

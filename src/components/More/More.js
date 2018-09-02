@@ -8,17 +8,19 @@ import User from '../../containers/User/User'
 const more = (props) => {
     return (
         <div className={classes.More}>
-            <User/>
+            <div className={classes.User}>
+                <User/>
+            </div>
             <ul>
                 <li>
-                    <NavItem placeholderLink
-                        link={paths.ABOUT}>
+                    <NavItem link wide tall
+                        to={paths.ABOUT}>
                         About
                     </NavItem>
                 </li>
                 <li>
-                    <NavItem placeholderLink
-                        link={paths.LOGOUT}>
+                    <NavItem link wide tall
+                        to={paths.LOGOUT}>
                         Log Out
                     </NavItem>
                 </li>

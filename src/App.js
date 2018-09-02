@@ -31,35 +31,27 @@ class App extends Component {
     }
 
     render() {
-        let routes = null
+        const routes = [
+            <Route exact path={paths.HOME} component={Home} key={paths.HOME} />,
+            <Route exact path={paths.SEARCH} component={Restaurants} key={paths.SEARCH} />,
+            <Route exact path={paths.ABOUT} component={About} key={paths.ABOUT} />
+        ]
+
         if (this.props.isAuth) {
-            routes = (
-                <Switch>
-                    <Route exact path={paths.HOME} component={Home} />
-                    <Route exact path={paths.SEARCH} component={Restaurants} />
-                    <Route exact path={paths.MORE} component={More} />
-                    <Route exact path={paths.USER} component={User} />
-                    <Route exact path={paths.ABOUT} component={About} />
-                    <Route exact path={paths.LOGOUT} component={LogOut} />
-                    <Route path={paths.AUTH} component={Auth} />
-                    <Redirect to={paths.HOME} />
-                </Switch>
-            )
+            routes.push(<Route exact path={paths.MORE} component={More} key={paths.MORE} />)
+            routes.push(<Route exact path={paths.USER} component={User} key={paths.USER} />)
+            routes.push(<Route exact path={paths.LOGOUT} component={LogOut} key={paths.LOGOUT} />)
+            routes.push(<Route path={paths.AUTH} component={Auth} key={paths.AUTH} />)
         } else {
-            routes = (
-                <Switch>
-                    <Route exact path={paths.HOME} component={Home} />
-                    <Route exact path={paths.SEARCH} component={Restaurants} />
-                    <Route exact path={paths.AUTH_SIGNUP} component={Auth} />
-                    <Route exact path={paths.AUTH_LOGIN} component={Auth} />
-                    <Route exact path={paths.ABOUT} component={About} />
-                    <Redirect to={paths.HOME} />
-                </Switch>
-            )
+            routes.push(<Route exact path={paths.AUTH_SIGNUP} component={Auth} key={paths.AUTH_SIGNUP} />)
+            routes.push(<Route exact path={paths.AUTH_LOGIN} component={Auth} key={paths.AUTH_LOGIN} />)
         }
+
+        routes.push(<Redirect to={paths.HOME} key={'Redirect'} />)
+
         return (
             <Layout isAuth={this.props.isAuth}>
-                {routes}
+                <Switch>{routes}</Switch>
             </Layout>
         )
     }

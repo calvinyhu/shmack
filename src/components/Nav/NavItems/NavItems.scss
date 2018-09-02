@@ -3,15 +3,16 @@
 
 .NavItems {
     display: flex;
-    justify-content: space-evenly;
+    justify-content: space-around;
     align-items: center;
-    margin: 0;
     padding: 0;
+    margin: 0;
     height: 100%;
 
     li {
         display: flex;
         justify-content: center;
+        align-items: center;
         width: $toolbar-height;
         height: 100%;
     }

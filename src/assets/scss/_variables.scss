@@ -22,8 +22,9 @@ $border-radius-card: 6px;
 $margin: 1rem;
 
 // Box Shadow
-$box-shadow: 0px 3px 6px -2px #aaa;
-$box-shadow-card: 0px 3px 20px 0px #000000c7;
+$box-shadow-top: 0px -3px 6px -2px rgba(0,0,0,0.2);
+$box-shadow: 0px 3px 6px -2px rgba(0,0,0,0.2);
+$box-shadow-card: 0px 3px 20px 0px rgba(0,0,0,0.5);
 
 // Font
 $font-size: 1rem;
@@ -35,9 +36,29 @@ $height: 1rem;
 $width: 1rem;
 
 // Color
-$main-color: lightsalmon;
-$light-main-color: lighten(lightsalmon, 10%);
-$dark-main-color: darken(lightsalmon, 10%);
+$lighter-main-color: #ffd8c8;
+$light-main-color: #ffbb80;
+$main-color: #ffa07a;
+$dark-main-color: #dd764d;
+$darker-main-color: #be5328;
+
+$lighter-adj-color: #ffe8c8;
+$light-adj-color: #ffd6a0;
+$adj-color: #ffc67a;
+$dark-adj-color: #dda04d;
+$darker-adj-color: #be7e28;
+
+$lighter-opp-color: #B5E7D2;
+$light-opp-color: #B5E7D2;
+$opp-color: #54AF88;
+$dark-opp-color: #35986E;
+$darker-opp-color: #1B8256;
+
+$lighter-opp-adj-color: #B6D0E4;
+$light-opp-adj-color: #81A8C6;
+$opp-adj-color: #5481A4;
+$dark-opp-adj-color: #38698E;
+$darker-opp-adj-color: #20537A;
 
 // Toolbar
 $toolbar-width: 4.2rem;

@@ -13,21 +13,21 @@ const EditUser = (props) => {
         inputs = (
             <Aux>
                 <Input
-                    wide
+                    wide onOppAdj
                     type='text'
                     name={FIELDS.FIRST_NAME}
                     placeholder='First Name'
                     value={props.values[FIELDS.FIRST_NAME]}
                     change={props.change} />
                 <Input
-                    wide
+                    wide onOppAdj
                     type='text'
                     name={FIELDS.LAST_NAME}
                     placeholder='Last Name'
                     value={props.values[FIELDS.LAST_NAME]}
                     change={props.change} />
                 <Input
-                    wide
+                    wide onOppAdj
                     type='text'
                     name={FIELDS.LOCATION}
                     placeholder='Location'
@@ -44,7 +44,7 @@ const EditUser = (props) => {
                 <Button wide>Save</Button>
                 {props.children}
             </form>
-            <Button placeholderLink click={props.back}>Back to profile</Button>
+            <Button link click={props.back}>Back to profile</Button>
         </div>
     )
 }

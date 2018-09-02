@@ -88,7 +88,7 @@ class User extends Component {
         let userInfo = null
         const editUserInfoButton = (
             <Button
-                placeholderLink
+                link
                 click={this.openEditHandler}>Edit Profile</Button>
         )
 

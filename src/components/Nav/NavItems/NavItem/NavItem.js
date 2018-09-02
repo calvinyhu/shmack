@@ -6,16 +6,23 @@ import classes from './NavItem.css'
 const navItem = (props) => {
     let classNames = classes.NavItem
 
-    if (props.logo)
-        classNames = [classNames, classes.Logo].join(' ')
-    if (props.placeholderLink)
-        classNames = [classNames, classes.PlaceholderLink].join(' ')
+    if (props.icon)
+        classNames = [classNames, classes.Icon].join(' ')
+    else if (props.link)
+        classNames = [classNames, classes.Link].join(' ')
+
+    if (props.wide)
+        classNames = [classNames, classes.Wide].join(' ')
+    if (props.tall)
+        classNames = [classNames, classes.Tall].join(' ')
+    if (props.left)
+        classNames = [classNames, classes.Left].join(' ')
 
     return (
         <NavLink
             className={classNames}
-            activeClassName='active'
-            to={props.link}
+            activeClassName={classes.active}
+            to={props.to}
             onClick={props.click}>{props.children}
         </NavLink>
     )

@@ -212,19 +212,19 @@ class Restaurants extends Component {
                         showDrawer={this.state.showFilters} />
                 </div>
                 <form onSubmit={this.searchHandler}>
-                    <Input wide center
+                    <Input wide center thin transparent
                         type='text'
                         name='food'
                         placeholder='Food'
                         value={this.props.food}
                         change={this.inputChangeHandler} />
-                    <Input wide center
+                    <Input wide center transparent
                         type='text'
                         name='location'
                         placeholder='Location'
                         value={this.props.location}
                         change={this.inputChangeHandler} />
-                    {this.props.location ? <Button>Go</Button> : null}
+                    {this.props.location ? <Button thin>Go</Button> : null}
                 </form>
             </div>
         )

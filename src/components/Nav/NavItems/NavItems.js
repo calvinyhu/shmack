@@ -1,72 +1,70 @@
 import React from 'react'
 
 import classes from './NavItems.css'
+import { MAT_ICONS } from '../../../utilities/styles'
 import * as paths from '../../../utilities/paths'
-import NavItem from './NavItem/NavItem'
 import Aux from '../../../hoc/Auxiliary/Auxiliary';
+import NavItem from './NavItem/NavItem'
 
 const navItems = (props) => {
-    const persisentListItems = (
-        <Aux>
-            <li>
-                <NavItem link='/home'>
+    const listItems = [
+        <li key={paths.HOME}>
+            <NavItem icon wide tall to={paths.HOME}>
+                <Aux>
+                    <div className={MAT_ICONS}>home</div>
+                    <div>Home</div>
+                </Aux>
+            </NavItem>
+        </li>,
+        <li key={paths.SEARCH}>
+            <NavItem icon wide tall to={paths.SEARCH}>
+                <Aux>
+                    <div className={MAT_ICONS}>search</div>
+                    <div>Search</div>
+                </Aux>
+            </NavItem>
+        </li>
+    ]
+
+    if (props.isAuth) {
+        listItems.push(
+            <li key={paths.MORE}>
+                <NavItem icon wide tall to={paths.MORE}>
                     <Aux>
-                        <i className="material-icons">home</i>
-                        <div>Home</div>
+                        <div className={MAT_ICONS}>menu</div>
+                        <div>More</div>
                     </Aux>
                 </NavItem>
             </li>
-            <li>
-                <NavItem link='/search'>
+        )
+    } else {
+        listItems.push(
+            <li key={paths.AUTH_SIGNUP}>
+                <NavItem icon wide tall to={paths.AUTH_SIGNUP}>
                     <Aux>
-                        <i className="material-icons">search</i>
-                        <div>Search</div>
-                    </Aux>
-                </NavItem>
-            </li>
-        </Aux>
-    )
-    let dynamicListItems = (
-        <Aux>
-            <li>
-                <NavItem link={paths.AUTH_SIGNUP}>
-                    <Aux>
-                        <i className="material-icons">create</i>
+                        <div className={MAT_ICONS}>create</div>
                         <div>Sign Up</div>
                     </Aux>
                 </NavItem>
             </li>
-        </Aux>
-    )
-    if (props.isAuth) {
-        dynamicListItems = (
-            <Aux>
-                <li>
-                    <NavItem link={paths.MORE}>
-                        <Aux>
-                            <i className="material-icons">menu</i>
-                            <div>More</div>
-                        </Aux>
-                    </NavItem>
-                </li>
-            </Aux>
         )
     }
 
     let classNames = classes.NavItems
-    if (props.left)
-        classNames = [classNames, classes.Left].join(' ')
-    if (props.right)
-        classNames = [classNames, classes.Right].join(' ')
-    if (props.center)
-        classNames = [classNames, classes.Center].join(' ')
+
     if (props.wide)
         classNames = [classNames, classes.Wide].join(' ')
 
+    if (props.left)
+        classNames = [classNames, classes.Left].join(' ')
+    else if (props.right)
+        classNames = [classNames, classes.Right].join(' ')
+    else if (props.center)
+        classNames = [classNames, classes.Center].join(' ')
+
     return (
         <ul className={classNames}>
-            {persisentListItems}
-            {dynamicListItems}
+            {listItems}
         </ul>
     )
 }
