@@ -3,6 +3,7 @@ import { connect } from 'react-redux'
 
 import classes from './Restaurants.css'
 import * as actions from '../../store/actions/restaurantsActions'
+import { geoLocate } from '../../store/actions/appActions'
 import { handleYelpError } from '../../utilities/yelp'
 import { createGooglePlacePhotoQuery } from '../../utilities/google'
 import DrawerToggle from '../../components/Nav/Drawer/DrawerToggle/DrawerToggle'
@@ -19,6 +20,8 @@ export const SOURCE = {
 
 const mapStateToProps = (state) => {
     return {
+        hasGeoLocatePermission: state.app.hasGeoLocatePermission,
+        geoLocation: state.app.geoLocation,
         food: state.restaurants.food,
         location: state.restaurants.location,
         yelpRestaurants: state.restaurants.yelpRestaurants,
@@ -34,6 +37,7 @@ const mapDispatchToProps = (dispatch) => {
     return {
         onRestaurantInputChange: (name, value) => dispatch(actions.restaurantInputChange(name, value)),
         onRestaurantSearch: (food, location) => dispatch(actions.restaurantSearch(food, location)),
+        onGeoLocate: () => dispatch(geoLocate())
     }
 }
 
@@ -47,7 +51,8 @@ class Restaurants extends Component {
         touchStartTimeStamp: null,
         multiSelect: false,
         selectedIds: {},
-        timer: null
+        timer: null,
+        hasGeoLocatePermission: false
     }
 
     toggleFiltersHandler = () => {
@@ -65,7 +70,12 @@ class Restaurants extends Component {
 
     searchHandler = (event) => {
         event.preventDefault()
-        this.props.onRestaurantSearch(this.props.food, this.props.location)
+        if (this.props.location)
+            this.props.onRestaurantSearch(this.props.food, this.props.location)
+        else if (this.props.geoLocation)
+            this.props.onRestaurantSearch(this.props.food, this.props.geoLocation)
+        else
+            this.props.onGeoLocate()
     }
 
     restaurantClicked = (res, src, id) => {
@@ -112,17 +122,14 @@ class Restaurants extends Component {
     }
 
     multiSelectStartHandler = (id) => {
-        console.log('multiSelectStartHandler')
         const selectedIds = { ...this.state.selectedIds }
         selectedIds[id] = !selectedIds[id]
-        console.log(selectedIds)
         this.setState({
             multiSelect: true,
             selectedIds: selectedIds
         })
     }
     multiSelectEndHandler = () => {
-        console.log('multiSelectEndHandler')
         this.setState({
             multiSelect: false,
             selectedIds: {}
@@ -174,8 +181,6 @@ class Restaurants extends Component {
     }
 
     render() {
-        let callToAction = null
-        let restaurantsGrid = null
         let backdrop = (
             <Backdrop restaurant
                 click={this.closeCard}
@@ -221,14 +226,16 @@ class Restaurants extends Component {
                     <Input wide center transparent
                         type='text'
                         name='location'
-                        placeholder='Location'
+                        placeholder='Current Location'
                         value={this.props.location}
                         change={this.inputChangeHandler} />
-                    {this.props.location ? <Button thin>Go</Button> : null}
+                    <Button thin>Go</Button>
                 </form>
             </div>
         )
 
+        let callToAction = null
+        let restaurantsGrid = null
         if (this.props.yelpRestaurants || this.props.googleRestaurants) {
             restaurantsGrid = (
                 <div className={classes.RestaurantsGrid}>

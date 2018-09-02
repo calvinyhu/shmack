@@ -33,7 +33,7 @@ class Home extends Component {
         const restaurants = []
         const src = 'https://www.nrn.com/sites/nrn.com/files/styles/article_featured_standard/public/burgerandfriescosts_0.jpg?itok=_S_HQsx_'
 
-        for (let i = 0; i < 50; i++) {
+        for (let i = 0; i < 10; i++) {
             restaurants.push(
                 <div key={i} className={classes.Item}>
                     <Restaurant
@@ -87,42 +87,6 @@ class Home extends Component {
                     </section>
                     <section>
                         <div className={classes.Category}>French</div>
-                        <div className={classes.List}>
-                            {this.state.restaurants}
-                        </div>
-                    </section>
-                    <section>
-                        <div className={classes.Category}>Japanese</div>
-                        <div className={classes.List}>
-                            {this.state.restaurants}
-                        </div>
-                    </section>
-                    <section>
-                        <div className={classes.Category}>Japanese</div>
-                        <div className={classes.List}>
-                            {this.state.restaurants}
-                        </div>
-                    </section>
-                    <section>
-                        <div className={classes.Category}>Japanese</div>
-                        <div className={classes.List}>
-                            {this.state.restaurants}
-                        </div>
-                    </section>
-                    <section>
-                        <div className={classes.Category}>Japanese</div>
-                        <div className={classes.List}>
-                            {this.state.restaurants}
-                        </div>
-                    </section>
-                    <section>
-                        <div className={classes.Category}>Japanese</div>
-                        <div className={classes.List}>
-                            {this.state.restaurants}
-                        </div>
-                    </section>
-                    <section>
-                        <div className={classes.Category}>Japanese</div>
                         <div className={classes.List}>
                             {this.state.restaurants}
                         </div>

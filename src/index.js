@@ -8,11 +8,13 @@ import thunk from 'redux-thunk';
 import './index.css'
 import App from './App'
 import registerServiceWorker from './registerServiceWorker'
+import appReducer from './store/reducers/appReducer';
 import restaurantsReducer from './store/reducers/restaurantsReducer';
 import authReducer from './store/reducers/authReducer';
 import userReducer from './store/reducers/userReducer';
 
 const rootReducer = combineReducers({
+    app: appReducer,
     restaurants: restaurantsReducer,
     auth: authReducer,
     user: userReducer

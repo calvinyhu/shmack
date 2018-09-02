@@ -26,18 +26,7 @@ const navItems = (props) => {
         </li>
     ]
 
-    if (props.isAuth) {
-        listItems.push(
-            <li key={paths.MORE}>
-                <NavItem icon wide tall to={paths.MORE}>
-                    <Aux>
-                        <div className={MAT_ICONS}>menu</div>
-                        <div>More</div>
-                    </Aux>
-                </NavItem>
-            </li>
-        )
-    } else {
+    if (!props.isAuth) {
         listItems.push(
             <li key={paths.AUTH_SIGNUP}>
                 <NavItem icon wide tall to={paths.AUTH_SIGNUP}>
@@ -49,6 +38,17 @@ const navItems = (props) => {
             </li>
         )
     }
+
+    listItems.push(
+        <li key={paths.MORE}>
+            <NavItem icon wide tall to={paths.MORE}>
+                <Aux>
+                    <div className={MAT_ICONS}>menu</div>
+                    <div>More</div>
+                </Aux>
+            </NavItem>
+        </li>
+    )
 
     let classNames = classes.NavItems
 

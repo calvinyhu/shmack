@@ -23,3 +23,8 @@ export const USER_POST_INFO_SUCCESS = 'USER_POST_INFO_SUCCESS'
 export const USER_POST_INFO_FAIL = 'USER_POST_INFO_FAIL'
 export const USER_LOGOUT = 'USER_LOGOUT'
 export const USER_CLOSE_EDIT = 'USER_CLOSE_EDIT'
+
+// App
+export const GEO_START = 'GEO_START'
+export const GEO_SUCCESS = 'GEO_SUCCESS'
+export const GEO_FAIL = 'GEO_FAIL'

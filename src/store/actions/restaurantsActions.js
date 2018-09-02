@@ -18,6 +18,7 @@ export const restaurantInputChange = (name, value) => {
 // TODO: Make @location be selected from dropdown menu
 export const restaurantSearch = (food, location) => {
     return dispatch => {
+        console.log(food, location)
         dispatch(restaurantYelpSearchStart())
         dispatch(restaurantGoogleSearchStart())
 

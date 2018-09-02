@@ -11,6 +11,7 @@ import Button from '../../components/UI/Button/Button';
 
 const mapStateToProps = state => {
     return {
+        isAuth: state.auth.isAuth,
         userInfo: state.user.userInfo,
         posting: state.user.posting,
         postSuccess: state.user.postSuccess,
@@ -34,7 +35,8 @@ class User extends Component {
     }
 
     componentDidMount() {
-        this.props.onGetUserInfo()
+        if (this.props.isAuth)
+            this.props.onGetUserInfo()
     }
 
     componentWillReceiveProps(nextProps) {     
@@ -85,12 +87,6 @@ class User extends Component {
 
     render() {       
         let user = null
-        let userInfo = null
-        const editUserInfoButton = (
-            <Button
-                link
-                click={this.openEditHandler}>Edit Profile</Button>
-        )
 
         if (this.props.getting) {
             user = (
@@ -120,7 +116,7 @@ class User extends Component {
         }
 
         if (this.state.userInfo) {
-            userInfo = (
+            const userInfo = (
                 <Aux>
                     <div className={classes.PictureContainer}>
                         <img src={this.state.userInfo[FIELDS.PROFILE_PICTURE]} alt='Profile' />
@@ -135,6 +131,11 @@ class User extends Component {
                         {this.state.userInfo[FIELDS.LOCATION]}
                     </div>
                 </Aux>
+            )
+            const editUserInfoButton = (
+                <Button
+                    link
+                    click={this.openEditHandler}>Edit Profile</Button>
             )
             user = (
                 <div className={classes.User}>

@@ -6,12 +6,11 @@ import * as actions from './store/actions/authActions'
 import * as paths from './utilities/paths'
 import Layout from './hoc/Layout/Layout'
 import Home from './containers/Home/Home'
-import User from './containers/User/User'
-import About from './containers/About/About'
+import About from './components/About/About'
 import Auth from './containers/Auth/Auth'
 import LogOut from './containers/Auth/LogOut/LogOut'
 import Restaurants from './containers/Restaurants/Restaurants'
-import More from './components/More/More'
+import More from './containers/More/More'
 
 const mapStateToProps = (state) => {
     return {
@@ -34,12 +33,11 @@ class App extends Component {
         const routes = [
             <Route exact path={paths.HOME} component={Home} key={paths.HOME} />,
             <Route exact path={paths.SEARCH} component={Restaurants} key={paths.SEARCH} />,
-            <Route exact path={paths.ABOUT} component={About} key={paths.ABOUT} />
+            <Route exact path={paths.ABOUT} component={About} key={paths.ABOUT} />,
+            <Route exact path={paths.MORE} component={More} key={paths.MORE} />
         ]
 
         if (this.props.isAuth) {
-            routes.push(<Route exact path={paths.MORE} component={More} key={paths.MORE} />)
-            routes.push(<Route exact path={paths.USER} component={User} key={paths.USER} />)
             routes.push(<Route exact path={paths.LOGOUT} component={LogOut} key={paths.LOGOUT} />)
             routes.push(<Route path={paths.AUTH} component={Auth} key={paths.AUTH} />)
         } else {
