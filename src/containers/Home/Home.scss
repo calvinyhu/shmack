@@ -3,9 +3,15 @@
 
 .Home {
     header {
+        position: fixed;
+        top: 0;
+        left: 0;
+        z-index: 1;
+        width: 100%;
         background: white;
         color: $main-color;
         padding: $padding / 2 0;
+        box-shadow: $box-shadow;
         font-size: $font-size * 1.6;
         font-weight: bold;
         text-align: center;
@@ -16,6 +22,42 @@
         flex-direction: column;
         align-items: left;
         padding: 0 $padding;
+        padding-top: $padding * 4;
+        padding-bottom: $toolbar-height;
         font-weight: 600;
+    }
+}
+
+section {
+    margin-bottom: $margin;
+
+    .Category {
+        margin-bottom: $margin / 3;
+    }
+}
+
+.List {
+    display: flex;
+    height: 33.3vw;
+    width: 100%;
+    overflow: auto;
+
+    @include media-min-width($desktop-width) {
+        max-height: 20vw;
+    }
+}
+
+.Item {
+    width: 33.3vw;
+    flex-shrink: 0;
+    margin-right: 5px;
+
+    &:last-child {
+        margin: 0;
+    }
+
+    @include media-min-width($desktop-width) {
+        max-width: 20vw;
+        max-height: 20vw;
     }
 }
