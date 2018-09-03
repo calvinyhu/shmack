@@ -11,6 +11,7 @@ import Auth from './containers/Auth/Auth'
 import LogOut from './containers/Auth/LogOut/LogOut'
 import Restaurants from './containers/Restaurants/Restaurants'
 import More from './containers/More/More'
+import Settings from './components/Settings/Settings'
 
 const mapStateToProps = (state) => {
     return {
@@ -33,8 +34,9 @@ class App extends Component {
         const routes = [
             <Route exact path={paths.HOME} component={Home} key={paths.HOME} />,
             <Route exact path={paths.SEARCH} component={Restaurants} key={paths.SEARCH} />,
+            <Route exact path={paths.MORE} component={More} key={paths.MORE} />,
             <Route exact path={paths.ABOUT} component={About} key={paths.ABOUT} />,
-            <Route exact path={paths.MORE} component={More} key={paths.MORE} />
+            <Route exact path={paths.SETTINGS} component={Settings} key={paths.SETTINGS} />
         ]
 
         if (this.props.isAuth) {

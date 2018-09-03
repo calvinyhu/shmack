@@ -1,6 +1,6 @@
 import * as actionTypes from '../actions/actionTypes'
 
-export const geoLocate = (callback) => {
+export const geoLocate = () => {
     return dispatch => {
         dispatch(geoStart())
         if (navigator.geolocation) {
@@ -15,6 +15,13 @@ export const geoLocate = (callback) => {
             console.log('This browser does not support geo location')
             dispatch(geoFail('This browser does not support geo location'))
         }
+    }
+}
+
+export const toggleGeoLocPerm = (hasGeoLocatePermission) => {
+    return {
+        type: actionTypes.TOGGLE_GEO_LOC_PERM,
+        hasGeoLocatePermission: hasGeoLocatePermission
     }
 }
 

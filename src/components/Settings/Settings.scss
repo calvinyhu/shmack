@@ -1,0 +1,72 @@
+@import './src/assets/scss/_variables.scss';
+@import './src/assets/scss/_mixins.scss';
+
+.Settings {
+    display: flex;
+    flex-direction: column;
+    padding: $padding;
+    width: 100%;
+
+    h5 {
+        text-align: center;
+    }
+}
+
+.Setting {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    width: 100%;
+}
+
+.Label {
+    font-weight: 600;
+}
+
+.SwitchTrack {
+    display: inline-block;
+    position: relative;
+    width: $width * 2.25;
+    height: $height / 1.1;
+    margin: 0;
+
+    input {
+        display: none;
+
+        &:checked + .SwitchThumb {
+            background-color: $main-color;
+        }
+    
+        &:checked + .SwitchThumb:before {
+            background-color: $opp-adj-color;
+            transform: translateX($width) translateY(50%);;
+        }
+    }
+
+    .SwitchThumb {
+        position: absolute;
+        top: 0;
+        left: 0;
+        right: 0;
+        bottom: 0;
+        background-color: $lighter-main-color;
+        border-radius: $height;
+        box-shadow: $box-shadow;
+        transition: $transition;
+        cursor: pointer;
+
+        &:before {
+            position: absolute;
+            content: '';
+            height: $height * 1.25;
+            width: $width * 1.25;
+            left: 0;
+            bottom: 50%;
+            background-color: #ccc;
+            border-radius: $height;
+            box-shadow: $box-shadow;
+            transform: translateY(50%);
+            transition: $transition;
+        }
+    }
+}

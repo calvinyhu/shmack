@@ -90,3 +90,27 @@
 .ShowCancelMultiSelect {
     transform: translateX(-50%) translateY(0);
 }
+
+.GeoLocReq {
+    display: flex;
+    flex-direction: column;
+    position: fixed;
+    top: 50%;
+    left: 50%;
+    z-index: 1002;
+    width: 80%;
+    background: white;
+    padding: $padding;
+    border-radius: $border-radius-card;
+    box-shadow: $box-shadow;
+    transform: translateY(100vh) translateX(-50%);
+    transition: $transition;
+
+    div:first-child {
+        margin-bottom: $margin;
+    }
+}
+
+.GeoLocReqOpen {
+    transform: translateY(-50%) translateX(-50%);
+}

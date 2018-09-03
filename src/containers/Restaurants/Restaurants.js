@@ -1,8 +1,10 @@
 import React, { Component } from 'react'
 import { connect } from 'react-redux'
+import { Redirect } from 'react-router-dom'
 
 import classes from './Restaurants.css'
 import * as actions from '../../store/actions/restaurantsActions'
+import * as paths from '../../utilities/paths'
 import { geoLocate } from '../../store/actions/appActions'
 import { handleYelpError } from '../../utilities/yelp'
 import { createGooglePlacePhotoQuery } from '../../utilities/google'
@@ -52,7 +54,8 @@ class Restaurants extends Component {
         multiSelect: false,
         selectedIds: {},
         timer: null,
-        hasGeoLocatePermission: false
+        showGeoLocRequest: false,
+        redirectToSettings: false
     }
 
     toggleFiltersHandler = () => {
@@ -72,10 +75,20 @@ class Restaurants extends Component {
         event.preventDefault()
         if (this.props.location)
             this.props.onRestaurantSearch(this.props.food, this.props.location)
-        else if (this.props.geoLocation)
-            this.props.onRestaurantSearch(this.props.food, this.props.geoLocation)
+        else if (this.props.hasGeoLocatePermission)
+            this.props.onRestaurantSearch(this.props.food, null)
         else
-            this.props.onGeoLocate()
+            this.toggleGeoLocRequest()
+    }
+
+    toggleGeoLocRequest = () => {
+        this.setState(prevState => {
+            return { showGeoLocRequest: !prevState.showGeoLocRequest }
+        })
+    }
+
+    redirectToSettings = () => {
+        this.setState({ redirectToSettings: true })
     }
 
     restaurantClicked = (res, src, id) => {
@@ -102,7 +115,11 @@ class Restaurants extends Component {
         }
     }
 
-    closeCard = () => this.setState({ showCard: false, turnCard: false })
+    close = () => this.setState({
+        showCard: false,
+        turnCard: false,
+        showGeoLocRequest: false
+    })
     turnCard = () => this.setState(prevState => {
         return { turnCard: !prevState.turnCard }
     })
@@ -181,10 +198,30 @@ class Restaurants extends Component {
     }
 
     render() {
+        let redirect = null
+        if (this.state.redirectToSettings)
+            redirect = <Redirect to={paths.SETTINGS} />
+
+        let geoLocReqClasses = classes.GeoLocReq
+        if (this.state.showGeoLocRequest)
+            geoLocReqClasses = [geoLocReqClasses, classes.GeoLocReqOpen].join(' ')
+        let geoLocReq = (
+            <div className={geoLocReqClasses}>
+                <div>
+                    To use current location, please allow location sharing in app settings.
+                </div>
+                <div>
+                    <Button wide 
+                        click={this.redirectToSettings}>Take me there
+                    </Button>
+                </div>
+            </div>
+        )
+
         let backdrop = (
             <Backdrop restaurant
-                click={this.closeCard}
-                isOpen={this.state.showCard}></Backdrop>
+                click={this.close}
+                isOpen={this.state.showCard || this.state.showGeoLocRequest}></Backdrop>
         )
         let card = (
             <Card restaurant
@@ -260,12 +297,14 @@ class Restaurants extends Component {
 
         return (
             <div className={classes.Restaurants}>
+                {redirect}
                 {callToAction}
                 {restaurantsGrid}
                 {cancelMultiSelectButton}
                 {searchBar}
                 {card}
                 {backdrop}
+                {geoLocReq}
             </div>
         )
     }

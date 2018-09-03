@@ -39,6 +39,12 @@ class More extends Component {
                             About
                         </NavItem>
                     </li>
+                    <li>
+                        <NavItem link wide tall
+                            to={paths.SETTINGS}>
+                            Settings
+                        </NavItem>
+                    </li>
                     {links}
                 </ul>
             </div>

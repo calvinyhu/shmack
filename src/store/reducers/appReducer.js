@@ -2,7 +2,7 @@ import  * as actionTypes from '../actions/actionTypes'
 import { updateObject } from '../../utilities/utilities';
 
 const initialState = {
-    hasGeoLocatePermission: true,
+    hasGeoLocatePermission: false,
     geoLocation: null,
     error: null
 }
@@ -26,11 +26,18 @@ const geoFail = (state, action) => {
     })
 }
 
+const geoToggle = (state, action) => {
+    return updateObject(state, {
+        hasGeoLocatePermission: action.hasGeoLocatePermission
+    })
+}
+
 const appReducer = (state = initialState, action) => {
     switch (action.type) {
         case actionTypes.GEO_START: return geoStart(state, action)
         case actionTypes.GEO_SUCCESS: return geoSuccess(state, action)
         case actionTypes.GEO_FAIL: return geoFail(state, action)
+        case actionTypes.TOGGLE_GEO_LOC_PERM: return geoToggle(state, action)
         default: return state
     }
 }
