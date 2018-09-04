@@ -46,6 +46,7 @@ const postUserInfoStart = (state, action) => {
 
 const postUserInfoSuccess = (state, action) => {
     return updateObject(state, {
+        userInfo: action.userInfo,
         posting: action.posting,
         postSuccess: action.postSuccess,
         error: action.error

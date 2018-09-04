@@ -1,7 +1,9 @@
 // Collections
 export const USERS = 'users'
+export const PREFERENCES = 'preferences'
 
-// Documents (uids)
+// Documents
+export const YOUR_PLACES = 'yourPlaces'
 
 // Fields
 export const FIELDS = {

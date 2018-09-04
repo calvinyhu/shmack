@@ -23,7 +23,7 @@ export const postUserInfo = (info) => {
         dispatch(postUserInfoStart())
         usersRef.doc(auth.currentUser.uid).set(info)
             .then(_ => {
-                dispatch(postUserInfoSuccess())
+                dispatch(postUserInfoSuccess(info))
             }).catch(error => {
                 dispatch(postUserInfoFail(error.response))
             });
@@ -97,9 +97,10 @@ const postUserInfoStart = () => {
     }
 }
 
-const postUserInfoSuccess = () => {
+const postUserInfoSuccess = (userInfo) => {
     return {
         type: actionTypes.USER_POST_INFO_SUCCESS,
+        userInfo: userInfo,
         posting: false,
         postSuccess: true,
         error: null

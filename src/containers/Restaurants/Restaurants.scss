@@ -78,7 +78,7 @@
     transition: $transition;
 }
 
-.CancelMultiSelect {
+.Done, .CancelMultiSelect {
     position: fixed;
     left: 50%;
     bottom: $toolbar-height * 1.5;
@@ -87,7 +87,7 @@
     transition: $transition;
 }
 
-.ShowCancelMultiSelect {
+.ShowDone, .ShowCancelMultiSelect {
     transform: translateX(-50%) translateY(0);
 }
 
@@ -113,4 +113,24 @@
 
 .GeoLocReqOpen {
     transform: translateY(-50%) translateX(-50%);
+}
+
+.YourPlacesCTA {
+    display: flex;
+    flex-direction: column;
+    position: fixed;
+    top: 50%;
+    left: 50%;
+    z-index: 1002;
+    width: 80%;
+    background: white;
+    padding: $padding;
+    border-radius: $border-radius-card;
+    box-shadow: $box-shadow;
+    transform: translateY(-50%) translateX(-50%);
+    transition: $transition;
+}
+
+.CloseModal {
+    transform: translateY(100vh) translateX(-50%);
 }

@@ -4,10 +4,11 @@ import { connect } from 'react-redux'
 import classes from './User.css'
 import * as actions from '../../store/actions/userActions'
 import { FIELDS } from '../../utilities/database'
-import { updateObject } from '../../utilities/utilities';
+import { auth } from '../../utilities/firebase'
+import { updateObject } from '../../utilities/utilities'
 import EditUser from './EditUser/EditUser'
-import Aux from '../../hoc/Auxiliary/Auxiliary';
-import Button from '../../components/UI/Button/Button';
+import Aux from '../../hoc/Auxiliary/Auxiliary'
+import Button from '../../components/UI/Button/Button'
 
 const mapStateToProps = state => {
     return {
@@ -35,8 +36,10 @@ class User extends Component {
     }
 
     componentDidMount() {
-        if (this.props.isAuth)
-            this.props.onGetUserInfo()
+        auth.onAuthStateChanged(user => {
+            if (user)
+                this.props.onGetUserInfo()
+        })
     }
 
     componentWillReceiveProps(nextProps) {     
@@ -119,16 +122,16 @@ class User extends Component {
             const userInfo = (
                 <Aux>
                     <div className={classes.PictureContainer}>
-                        <img src={this.state.userInfo[FIELDS.PROFILE_PICTURE]} alt='Profile' />
+                        <img src={this.props.userInfo[FIELDS.PROFILE_PICTURE]} alt='Profile' />
                     </div>
                     <div className={classes.Name}>
-                        {this.state.userInfo[FIELDS.FIRST_NAME]} {this.state.userInfo[FIELDS.LAST_NAME]}
+                        {this.props.userInfo[FIELDS.FIRST_NAME]} {this.props.userInfo[FIELDS.LAST_NAME]}
                     </div>
                     <div className={classes.Email}>
-                        {this.state.userInfo[FIELDS.EMAIL]}
+                        {this.props.userInfo[FIELDS.EMAIL]}
                     </div>
                     <div className={classes.Location}>
-                        {this.state.userInfo[FIELDS.LOCATION]}
+                        {this.props.userInfo[FIELDS.LOCATION]}
                     </div>
                 </Aux>
             )

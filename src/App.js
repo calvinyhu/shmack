@@ -4,6 +4,7 @@ import { connect } from 'react-redux'
 
 import * as actions from './store/actions/authActions'
 import * as paths from './utilities/paths'
+import { getYourPlaces } from './store/actions/homeActions'
 import Layout from './hoc/Layout/Layout'
 import Home from './containers/Home/Home'
 import About from './components/About/About'
@@ -12,6 +13,7 @@ import LogOut from './containers/Auth/LogOut/LogOut'
 import Restaurants from './containers/Restaurants/Restaurants'
 import More from './containers/More/More'
 import Settings from './components/Settings/Settings'
+import { auth } from './utilities/firebase'
 
 const mapStateToProps = (state) => {
     return {
@@ -21,13 +23,19 @@ const mapStateToProps = (state) => {
 
 const mapDispatchToProps = (dispatch) => {
     return {
-        onAuthTryAutoLogIn: () => dispatch(actions.authTryAutoLogIn())
+        onAuthTryAutoLogIn: () => dispatch(actions.authTryAutoLogIn()),
+        onGetYourPlaces: () => dispatch(getYourPlaces())
     }
 }
 
 class App extends Component {
     componentDidMount() {
         this.props.onAuthTryAutoLogIn()
+
+        auth.onAuthStateChanged(user => {
+            if (user)
+                this.props.onGetYourPlaces()
+        })
     }
 
     render() {

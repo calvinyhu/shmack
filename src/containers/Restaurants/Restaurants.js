@@ -5,7 +5,7 @@ import { Redirect } from 'react-router-dom'
 import classes from './Restaurants.css'
 import * as actions from '../../store/actions/restaurantsActions'
 import * as paths from '../../utilities/paths'
-import { geoLocate } from '../../store/actions/appActions'
+import { postYourPlaces } from '../../store/actions/homeActions'
 import { handleYelpError } from '../../utilities/yelp'
 import { createGooglePlacePhotoQuery } from '../../utilities/google'
 import DrawerToggle from '../../components/Nav/Drawer/DrawerToggle/DrawerToggle'
@@ -22,8 +22,8 @@ export const SOURCE = {
 
 const mapStateToProps = (state) => {
     return {
+        isAuth: state.auth.isAuth,
         hasGeoLocatePermission: state.app.hasGeoLocatePermission,
-        geoLocation: state.app.geoLocation,
         yourPlaces: state.home.yourPlaces,
         food: state.restaurants.food,
         location: state.restaurants.location,
@@ -40,7 +40,7 @@ const mapDispatchToProps = (dispatch) => {
     return {
         onRestaurantInputChange: (name, value) => dispatch(actions.restaurantInputChange(name, value)),
         onRestaurantSearch: (food, location) => dispatch(actions.restaurantSearch(food, location)),
-        onGeoLocate: () => dispatch(geoLocate())
+        onPostYourPlaces: (places) => dispatch(postYourPlaces(places))
     }
 }
 
@@ -57,12 +57,15 @@ class Restaurants extends Component {
         selectedIds: {},
         timer: null,
         showGeoLocRequest: false,
-        redirectToSettings: false
+        redirectToSettings: false,
+        closeModal: false
     }
 
     componentDidMount() {
-        if (!this.props.yourPlaces)
-            this.setState({ isSelectingYourPlaces: true })
+        if (this.props.isAuth && !this.props.yourPlaces) {
+            this.props.onRestaurantSearch(this.props.food, this.props.location)
+            this.setState({ isSelectingYourPlaces: true, multiSelect: true })
+        }
     }
 
     toggleFiltersHandler = () => {
@@ -105,12 +108,13 @@ class Restaurants extends Component {
     restaurantClicked = (res, src, id) => {
         if (this.state.multiSelect) {
             const selectedIds = { ...this.state.selectedIds }
-            selectedIds[id] = !selectedIds[id]
+            selectedIds[id] = selectedIds[id] ? null : src
 
             if (!selectedIds[id])
                 delete selectedIds[id]
 
-            if (Object.keys(selectedIds).length === 0) {
+            const selectedIdsLength = Object.keys(selectedIds).length
+            if (selectedIdsLength === 0 && !this.state.isSelectingYourPlaces) {
                 this.setState({
                     multiSelect: false,
                     selectedIds: {}
@@ -163,6 +167,16 @@ class Restaurants extends Component {
             selectedIds: {}
         })
     }
+    doneHandler = () => {
+        if (Object.keys(this.state.selectedIds).length >= 0) {
+            this.props.onPostYourPlaces(this.state.selectedIds)
+            this.setState({
+                isSelectingYourPlaces: false,
+                multiSelect: false,
+                selectedIds: {}
+            })
+        }
+    }
 
     displayRestaurants = () => {
         const restaurants = []
@@ -208,6 +222,10 @@ class Restaurants extends Component {
         return restaurants
     }
 
+    closeModalHandler = () => {
+        this.setState({ closeModal: true })
+    }
+
     render() {
         let redirect = null
         if (this.state.redirectToSettings)
@@ -242,17 +260,45 @@ class Restaurants extends Component {
                 isOpen={this.state.showCard}>{this.state.card}</Card>
         )
 
+        let yourPlacesCTAClassnames = classes.YourPlacesCTA
+        if (this.state.closeModal)
+            yourPlacesCTAClassnames = [yourPlacesCTAClassnames, classes.CloseModal].join(' ')
+
+        let yourPlacesCTA = null
+        if (this.state.isSelectingYourPlaces) {
+            yourPlacesCTA = (
+                <div className={yourPlacesCTAClassnames}>
+                    <p>
+                        Please select places you have been to.
+                    </p>
+                    <Button wide click={this.closeModalHandler}>Okay!</Button>
+                </div>
+            )
+        }
+        
+        let doneButtonClasses = classes.Done
+        if (this.state.isSelectingYourPlaces)
+            doneButtonClasses = [doneButtonClasses, classes.GeoLocReqOpen].join(' ')
+        let doneButton = (
+            <div className={doneButtonClasses} onClick={this.doneHandler}>
+                <Button circle>
+                    <div className='material-icons'>done</div>
+                </Button>
+            </div>
+        )
+
         let cancelClasses = classes.CancelMultiSelect
         let searchBarClasses = classes.SearchBar
         if (this.state.multiSelect) {
-            cancelClasses = [cancelClasses, classes.ShowCancelMultiSelect].join(' ')
+            if (!this.state.isSelectingYourPlaces)
+                cancelClasses = [cancelClasses, classes.ShowCancelMultiSelect].join(' ')
             searchBarClasses = [searchBarClasses, classes.HideSearchBar].join(' ')
         }
 
         let cancelMultiSelectButton = (
             <div className={cancelClasses} onClick={this.multiSelectEndHandler}>
                 <Button circle>
-                    <i className='material-icons'>close</i>
+                    <div className='material-icons'>close</div>
                 </Button>
             </div>
         )
@@ -312,9 +358,11 @@ class Restaurants extends Component {
         return (
             <div className={classes.Restaurants}>
                 {redirect}
+                {yourPlacesCTA}
                 {callToAction}
                 {restaurantsGrid}
                 {cancelMultiSelectButton}
+                {doneButton}
                 {searchBar}
                 {card}
                 {backdrop}
