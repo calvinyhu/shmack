@@ -90,7 +90,7 @@ const getGoogleRestaurants = (dispatch, food, lat, long) => {
     const query = createGoogleNearbySearchQuery(
         food,
         `${lat},${long}`,
-        1500,
+        5000,
         'restaurant'
     )
     return axios.get(query)

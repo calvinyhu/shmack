@@ -24,6 +24,7 @@ const mapStateToProps = (state) => {
     return {
         hasGeoLocatePermission: state.app.hasGeoLocatePermission,
         geoLocation: state.app.geoLocation,
+        yourPlaces: state.home.yourPlaces,
         food: state.restaurants.food,
         location: state.restaurants.location,
         yelpRestaurants: state.restaurants.yelpRestaurants,
@@ -45,6 +46,7 @@ const mapDispatchToProps = (dispatch) => {
 
 class Restaurants extends Component {
     state = {
+        isSelectingYourPlaces: false,
         showFilters: false,
         showCard: false,
         turnCard: false,
@@ -56,6 +58,11 @@ class Restaurants extends Component {
         timer: null,
         showGeoLocRequest: false,
         redirectToSettings: false
+    }
+
+    componentDidMount() {
+        if (!this.props.yourPlaces)
+            this.setState({ isSelectingYourPlaces: true })
     }
 
     toggleFiltersHandler = () => {
@@ -102,7 +109,7 @@ class Restaurants extends Component {
 
             if (!selectedIds[id])
                 delete selectedIds[id]
-                
+
             if (Object.keys(selectedIds).length === 0) {
                 this.setState({
                     multiSelect: false,
@@ -215,7 +222,7 @@ class Restaurants extends Component {
                     To use current location, please allow location sharing in app settings.
                 </div>
                 <div>
-                    <Button wide 
+                    <Button wide
                         click={this.redirectToSettings}>Take me there
                     </Button>
                 </div>
