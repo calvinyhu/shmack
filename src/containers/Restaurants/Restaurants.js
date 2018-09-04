@@ -73,10 +73,14 @@ class Restaurants extends Component {
 
     searchHandler = (event) => {
         event.preventDefault()
-        if (this.props.location)
+        if (this.props.location) {
+            console.log('[ Restaurants ] Using typed in location')
             this.props.onRestaurantSearch(this.props.food, this.props.location)
-        else if (this.props.hasGeoLocatePermission)
-            this.props.onRestaurantSearch(this.props.food, null)
+        }
+        else if (this.props.hasGeoLocatePermission) {
+            console.log('[ Restaurants ] Using current location')
+            this.props.onRestaurantSearch(this.props.food, this.props.location)
+        }
         else
             this.toggleGeoLocRequest()
     }
@@ -282,7 +286,10 @@ class Restaurants extends Component {
         } else if (this.props.yelpLoading || this.props.googleLoading) {
             callToAction = (
                 <p className={classes.CTA}>
-                    Getting {this.props.food ? this.props.food : 'food'} in {this.props.location} for you...
+                    Getting
+                    {this.props.food ? ` ${this.props.food}` : ' food '}
+                    {this.props.location ? ` in ${this.props.location} ` : ' at your current location '}
+                    for you...
                 </p>
             )
             searchBar = null

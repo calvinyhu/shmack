@@ -1,7 +1,11 @@
 import axios from 'axios'
 
 import * as actionTypes from './actionTypes'
-import { createYelpQuery, yelpConfig } from '../../utilities/yelp'
+import {
+    createYelpQuery,
+    createGeoLocYelpQuery,
+    yelpConfig
+} from '../../utilities/yelp'
 import {
     createGoogleGeocodeLookupQuery,
     createGoogleNearbySearchQuery
@@ -18,22 +22,45 @@ export const restaurantInputChange = (name, value) => {
 // TODO: Make @location be selected from dropdown menu
 export const restaurantSearch = (food, location) => {
     return dispatch => {
-        console.log(food, location)
         dispatch(restaurantYelpSearchStart())
         dispatch(restaurantGoogleSearchStart())
 
-        axios.all([
-            startAsyncYelpRequest(dispatch, food, location),
-            startAsyncGoogleRequest(dispatch, food, location)
-        ]).then(axios.spread((yelp, google) => {
-            console.log('Yelp and Google requests ended')
-        }))
-        console.log('Yelp and Google requests started')
+        if (location === '') {
+            navigator.geolocation.getCurrentPosition(
+                (response) => {
+                    const position = {
+                        lat: response.coords.latitude,
+                        long: response.coords.longitude
+                    }
+                    getRestaurants(dispatch, food, position)
+                },
+                (error) => {
+
+                }
+            )
+        } else
+            getRestaurants(dispatch, food, location)
     }
 }
 
+const getRestaurants = (dispatch, food, location) => {
+    axios.all([
+        startAsyncYelpRequest(dispatch, food, location),
+        startAsyncGoogleRequest(dispatch, food, location)
+    ]).then(axios.spread((yelp, google) => {
+        console.log('[ Restaurants Actions ] Yelp and Google requests ended')
+    }))
+    console.log('[ Restaurants Actions ] Yelp and Google requests started')
+}
+
 const startAsyncYelpRequest = (dispatch, food, location) => {
-    return axios.get(createYelpQuery(food, location), yelpConfig)
+    let query = null
+    if (location && location.lat)
+        query = createGeoLocYelpQuery(food, location.lat, location.long)
+    else
+        query = createYelpQuery(food, location)
+
+    return axios.get(query, yelpConfig)
         .then(response => {
             dispatch(restaurantYelpSearchSuccess(response.data.businesses))
         })
@@ -43,18 +70,32 @@ const startAsyncYelpRequest = (dispatch, food, location) => {
 }
 
 const startAsyncGoogleRequest = (dispatch, food, location) => {
-    return axios.get(createGoogleGeocodeLookupQuery(location))
+    if (location && location.lat)
+        return getGoogleRestaurants(dispatch, food, location.lat, location.long)
+    else {
+        return axios.get(createGoogleGeocodeLookupQuery(location))
+            .then(response => {
+                const lat = response.data.results[0].geometry.location.lat
+                const long = response.data.results[0].geometry.location.lng
+                return getGoogleRestaurants(dispatch, food, lat, long)
+            })
+            .catch(error => {
+                dispatch(restaurantGoogleSearchFail(error.data))
+            })
+    }
+}
+
+const getGoogleRestaurants = (dispatch, food, lat, long) => {
+    // TODO: Make @radius (1500) dynamic through user input
+    const query = createGoogleNearbySearchQuery(
+        food,
+        `${lat},${long}`,
+        1500,
+        'restaurant'
+    )
+    return axios.get(query)
         .then(response => {
-            const lat = response.data.results[0].geometry.location.lat
-            const lng = response.data.results[0].geometry.location.lng
-            // TODO: Make @radius (1500) dynamic through user input
-            return axios.get(createGoogleNearbySearchQuery(food, `${lat},${lng}`, 1500, 'restaurant'))
-                .then(response => {
-                    dispatch(restaurantGoogleSearchSuccess(response.data.results))
-                })
-                .catch(error => {
-                    dispatch(restaurantGoogleSearchFail(error.data))
-                })
+            dispatch(restaurantGoogleSearchSuccess(response.data.results))
         })
         .catch(error => {
             dispatch(restaurantGoogleSearchFail(error.data))

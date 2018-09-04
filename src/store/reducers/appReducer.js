@@ -14,7 +14,6 @@ const geoStart = (state, action) => {
 }
 
 const geoSuccess = (state, action) => {
-    console.log(action.geoLocation)
     return updateObject(state, {
         geoLocation: action.geoLocation
     })
@@ -22,6 +21,13 @@ const geoSuccess = (state, action) => {
 
 const geoFail = (state, action) => {
     return updateObject(state, {
+        error: action.error
+    })
+}
+
+const geoError = (state, action) => {
+    return updateObject(state, {
+        hasGeoLocatePermission: action.hasGeoLocatePermission,
         error: action.error
     })
 }
@@ -37,6 +43,7 @@ const appReducer = (state = initialState, action) => {
         case actionTypes.GEO_START: return geoStart(state, action)
         case actionTypes.GEO_SUCCESS: return geoSuccess(state, action)
         case actionTypes.GEO_FAIL: return geoFail(state, action)
+        case actionTypes.GEO_ERROR: return geoError(state, action)
         case actionTypes.TOGGLE_GEO_LOC_PERM: return geoToggle(state, action)
         default: return state
     }

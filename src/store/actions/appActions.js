@@ -2,18 +2,23 @@ import * as actionTypes from '../actions/actionTypes'
 
 export const geoLocate = () => {
     return dispatch => {
+        console.log('[ App Actions ] Locating position........')
         dispatch(geoStart())
         if (navigator.geolocation) {
-            navigator.geolocation.getCurrentPosition(geoLocation => {
-                const position = {
-                    lat: geoLocation.coords.latitude,
-                    long: geoLocation.coords.longitude
+            navigator.geolocation.getCurrentPosition(
+                (response) => {
+                    const position = {
+                        lat: response.coords.latitude,
+                        long: response.coords.longitude
+                    }
+                    dispatch(geoSuccess(position))
+                },
+                (error) => {
+                    dispatch(geoError(error))
                 }
-                dispatch(geoSuccess(position))
-            })
+            )
         } else {
-            console.log('This browser does not support geo location')
-            dispatch(geoFail('This browser does not support geo location'))
+            dispatch(geoFail('Sorry, this browser does not support geo location'))
         }
     }
 }
@@ -25,7 +30,7 @@ export const toggleGeoLocPerm = (hasGeoLocatePermission) => {
     }
 }
 
-const geoStart = () => {
+export const geoStart = () => {
     return {
         type: actionTypes.GEO_START,
         error: null
@@ -42,6 +47,15 @@ const geoSuccess = (geoLocation) => {
 const geoFail = (error) => {
     return {
         type: actionTypes.GEO_FAIL,
+        hasGeoLocatePermission: false,
+        error: error
+    }
+}
+
+const geoError = (error) => {
+    return {
+        type: actionTypes.GEO_ERROR,
+        hasGeoLocatePermission: false,
         error: error
     }
 }

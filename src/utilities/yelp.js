@@ -20,6 +20,10 @@ export const createYelpQuery = (food, location) => {
     return BUSINESSES_API + `term=${food}&location=${location}`
 }
 
+export const createGeoLocYelpQuery = (food, lat, long) => {
+    return BUSINESSES_API + `term=${food}&latitude=${lat}&longitude=${long}`
+}
+
 export const handleYelpError = (error) => {
     let message = null
     switch (error) {

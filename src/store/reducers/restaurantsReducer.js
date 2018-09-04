@@ -13,7 +13,7 @@ const initialState = {
 }
 
 const inputChange = (state, action) => {
-    return updateObject(state, { [action.name]: [action.value] })
+    return updateObject(state, { [action.name]: action.value })
 }
 
 const yelpSearchStart = (state, action) => {
