@@ -4,11 +4,11 @@ import { updateObject } from '../../utilities/utilities'
 const initialState = {
     food: '',
     location: '',
+    isYelpLoading: false,
     yelpRestaurants: null,
-    yelpLoading: false,
     yelpError: null,
+    isGoogleLoading: false,
     googleRestaurants: null,
-    googleLoading: false,
     googleError: null
 }
 
@@ -18,30 +18,30 @@ const inputChange = (state, action) => {
 
 const yelpSearchStart = (state, action) => {
     return updateObject(state, {
-        yelpRestaurants: action.yelpRestaurants,
-        yelpLoading: action.yelpLoading
+        isYelpLoading: action.isYelpLoading,
+        yelpRestaurants: action.yelpRestaurants
     })
 }
 
 const yelpSearchEnd = (state, action) => {
     return updateObject(state, {
+        isYelpLoading: action.isYelpLoading,
         yelpRestaurants: action.yelpRestaurants,
-        yelpLoading: action.yelpLoading,
         yelpError: action.yelpError
     })
 }
 
 const googleSearchStart = (state, action) => {
     return updateObject(state, {
-        googleRestaurants: action.googleRestaurants,
-        googleLoading: action.googleLoading
+        isGoogleLoading: action.isGoogleLoading,
+        googleRestaurants: action.googleRestaurants
     })
 }
 
 const googleSearchEnd = (state, action) => {
     return updateObject(state, {
+        isGoogleLoading: action.isGoogleLoading,
         googleRestaurants: action.googleRestaurants,
-        googleLoading: action.googleLoading,
         googleError: action.googleError
     })
 }

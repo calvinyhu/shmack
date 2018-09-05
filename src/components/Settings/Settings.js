@@ -7,7 +7,7 @@ import {
     geoLocate,
     toggleGeoLocPerm
 } from '../../store/actions/appActions'
-import Button from '../UI/Button/Button'
+import Modal from '../UI/Modal/Modal'
 
 const mapStateToProps = (state) => {
     return {
@@ -37,20 +37,18 @@ class Settings extends Component {
     clearError = () => this.props.onClearError()
 
     render() {
-        let errorClasses = classes.GeoErrorMessage
-        if (this.props.geoError)
-            errorClasses = [errorClasses, classes.ShowError].join(' ')
         let geoErrorMessage = (
-            <div className={errorClasses}>
-                <p>
-                    You have blocked location sharing in your browser. Please allow location sharing in your browser settings.
-                </p>
-                <Button wide click={this.clearError}>Ok</Button>
-            </div>
+            <Modal
+                isOpen={this.props.geoError}
+                click={this.clearError}
+                close={this.clearError}
+                btnMsg={'Okay!'}>
+                You have blocked location sharing in your browser. Please allow
+                location sharing in your browser settings.
+            </Modal>
         )
         return (
             <div className={classes.Settings}>
-                {geoErrorMessage}
                 <h5>Settings</h5>
                 <div className={classes.Setting}>
                     <div className={classes.Label}>Location</div>
@@ -62,6 +60,7 @@ class Settings extends Component {
                         <div className={classes.SwitchThumb}></div>
                     </label>
                 </div>
+                {geoErrorMessage}
             </div>
         )
     }

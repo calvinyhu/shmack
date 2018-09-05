@@ -1,0 +1,18 @@
+@import './src/assets/scss/_variables.scss';
+@import './src/assets/scss/_mixins.scss';
+
+.Fab {
+    position: fixed;
+    left: 50%;
+    bottom: $toolbar-height * 1.5;
+    z-index: 1;
+    transition: $transition;
+}
+
+.OpenFab {
+    transform: translateX(-50%) translateY(0);
+}
+
+.CloseFab {
+    transform: translateX(-50%) translateY(100vh);
+}

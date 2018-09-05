@@ -105,16 +105,16 @@ const getGoogleRestaurants = (dispatch, food, lat, long) => {
 const restaurantYelpSearchStart = () => {
     return {
         type: actionTypes.RESTAURANT_YELP_SEARCH_START,
-        yelpRestaurants: null,
-        yelpLoading: true
+        isYelpLoading: true,
+        yelpRestaurants: null
     }
 }
 
 const restaurantYelpSearchSuccess = (restaurants) => {
     return {
         type: actionTypes.RESTAURANT_YELP_SEARCH_SUCCESS,
+        isYelpLoading: false,
         yelpRestaurants: restaurants,
-        yelpLoading: false,
         yelpError: null
     }
 }
@@ -122,8 +122,8 @@ const restaurantYelpSearchSuccess = (restaurants) => {
 const restaurantYelpSearchFail = (error) => {
     return {
         type: actionTypes.RESTAURANT_YELP_SEARCH_FAIL,
+        isYelpLoading: false,
         yelpRestaurants: null,
-        yelpLoading: false,
         yelpError: error
     }
 }
@@ -131,25 +131,25 @@ const restaurantYelpSearchFail = (error) => {
 const restaurantGoogleSearchStart = () => {
     return {
         type: actionTypes.RESTAURANT_GOOGLE_SEARCH_START,
-        googleRestaurants: null,
-        googleLoading: true
+        isGoogleLoading: true,
+        googleRestaurants: null
     }
 }
 
 const restaurantGoogleSearchSuccess = (restaurants) => {
     return {
         type: actionTypes.RESTAURANT_GOOGLE_SEARCH_SUCCESS,
+        isGoogleLoading: false,
         googleRestaurants: restaurants,
-        googleLoading: false,
-        googleError: null,
+        googleError: null
     }
 }
 
 const restaurantGoogleSearchFail = (error) => {
     return {
         type: actionTypes.RESTAURANT_GOOGLE_SEARCH_FAIL,
+        isGoogleLoading: false,
         googleRestaurants: null,
-        googleLoading: false,
         googleError: error
     }
 }

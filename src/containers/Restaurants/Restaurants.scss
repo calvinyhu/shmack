@@ -1,19 +1,19 @@
 @import './src/assets/scss/_variables.scss';
 @import './src/assets/scss/_mixins.scss';
 
+.CTA {
+    margin: 0;
+    padding: $padding * 2;
+    font-size: $font-size * 2;
+    text-align: center;
+}
+
 .Restaurants {
     display: flex;
     justify-content: center;
     align-items: center;
     min-height: 33.3vh;
     margin-bottom: $toolbar-height;
-}
-
-.CTA {
-    margin: 0;
-    padding: $padding * 2;
-    font-size: $font-size * 2;
-    text-align: center;
 }
 
 .RestaurantsGrid {
@@ -76,61 +76,4 @@
 .HideSearchBar {
     transform: translateY(100vh);
     transition: $transition;
-}
-
-.Done, .CancelMultiSelect {
-    position: fixed;
-    left: 50%;
-    bottom: $toolbar-height * 1.5;
-    z-index: 1;
-    transform: translateX(-50%) translateY(100vh);
-    transition: $transition;
-}
-
-.ShowDone, .ShowCancelMultiSelect {
-    transform: translateX(-50%) translateY(0);
-}
-
-.GeoLocReq {
-    display: flex;
-    flex-direction: column;
-    position: fixed;
-    top: 50%;
-    left: 50%;
-    z-index: 1002;
-    width: 80%;
-    background: white;
-    padding: $padding;
-    border-radius: $border-radius-card;
-    box-shadow: $box-shadow;
-    transform: translateY(100vh) translateX(-50%);
-    transition: $transition;
-
-    div:first-child {
-        margin-bottom: $margin;
-    }
-}
-
-.GeoLocReqOpen {
-    transform: translateY(-50%) translateX(-50%);
-}
-
-.YourPlacesCTA {
-    display: flex;
-    flex-direction: column;
-    position: fixed;
-    top: 50%;
-    left: 50%;
-    z-index: 1002;
-    width: 80%;
-    background: white;
-    padding: $padding;
-    border-radius: $border-radius-card;
-    box-shadow: $box-shadow;
-    transform: translateY(-50%) translateX(-50%);
-    transition: $transition;
-}
-
-.CloseModal {
-    transform: translateY(100vh) translateX(-50%);
 }

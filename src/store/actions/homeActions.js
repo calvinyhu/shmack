@@ -29,7 +29,6 @@ export const postYourPlaces = (places) => {
             .then(_ => {
                 dispatch(postYourPlacesSuccess(places))
             }).catch(error => {
-                console.log(error)
                 dispatch(postYourPlacesFail(error.response))
             });
     }

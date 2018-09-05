@@ -8,10 +8,11 @@ import * as paths from '../../utilities/paths'
 import { postYourPlaces } from '../../store/actions/homeActions'
 import { handleYelpError } from '../../utilities/yelp'
 import { createGooglePlacePhotoQuery } from '../../utilities/google'
-import DrawerToggle from '../../components/Nav/Drawer/DrawerToggle/DrawerToggle'
 import Restaurant from '../../components/Restaurant/Restaurant'
 import Input from '../../components/UI/Input/Input'
 import Button from '../../components/UI/Button/Button'
+import Fab from '../../components/UI/Fab/Fab'
+import Modal from '../../components/UI/Modal/Modal'
 import Backdrop from '../../components/UI/Backdrop/Backdrop'
 import Card from '../../components/UI/Card/Card'
 
@@ -27,11 +28,11 @@ const mapStateToProps = (state) => {
         yourPlaces: state.home.yourPlaces,
         food: state.restaurants.food,
         location: state.restaurants.location,
+        isYelpLoading: state.restaurants.isYelpLoading,
         yelpRestaurants: state.restaurants.yelpRestaurants,
-        yelpLoading: state.restaurants.yelpLoading,
         yelpError: state.restaurants.yelpError,
+        isGoogleLoading: state.restaurants.isGoogleLoading,
         googleRestaurants: state.restaurants.googleRestaurants,
-        googleLoading: state.restaurants.googleLoading,
         googleError: state.restaurants.googleError
     }
 }
@@ -46,39 +47,99 @@ const mapDispatchToProps = (dispatch) => {
 
 class Restaurants extends Component {
     state = {
+        shouldRedirect: false,
         isSelectingYourPlaces: false,
-        showFilters: false,
-        showCard: false,
-        turnCard: false,
-        card: null,
-        cardSrc: null,
+        isRequestingGeoLocation: false,
+        isYourPlacesModalOpen: false,
+        isModalOpen: false,
+        isCardOpen: false,
+        isCardTurned: false,
+        isBackdropOpen: false,
+        isMultiSelectActive: false,
         touchStartTimeStamp: null,
-        multiSelect: false,
         selectedIds: {},
         timer: null,
-        showGeoLocRequest: false,
-        redirectToSettings: false,
-        closeModal: false
+        card: null,
+        cardSrc: null
     }
 
-    componentDidMount() {
-        if (this.props.isAuth && !this.props.yourPlaces) {
-            this.props.onRestaurantSearch(this.props.food, this.props.location)
-            this.setState({ isSelectingYourPlaces: true, multiSelect: true })
-        }
-    }
-
-    toggleFiltersHandler = () => {
-        this.setState(prevState => {
-            return { showFilters: !prevState.showFilters }
-        })
-    }
+    // componentDidMount() {
+    //     if (this.props.isAuth && !this.props.yourPlaces && this.props.hasGeoLocatePermission) {
+    //         this.props.onRestaurantSearch(this.props.food, this.props.location)
+    //         this.setState({
+    //             isSelectingYourPlaces: true,
+    //             isYourPlacesModalOpen: true,
+    //             isMultiSelectActive: true })
+    //     }
+    // }
 
     inputChangeHandler = (event) => {
         this.props.onRestaurantInputChange(
             event.target.name,
             event.target.value
         )
+    }
+
+    toggleModalHandler = () => this.setState(prevState => {
+        return { isModalOpen: !prevState.isModalOpen }
+    })
+
+    toggleCardHandler = () => this.setState(prevState => {
+        return { isCardOpen: !prevState.isCardOpen }
+    })
+
+    turnCardHandler = () => this.setState(prevState => {
+        return { isCardTurned: !prevState.isCardTurned }
+    })
+
+    closeModalHandler = () => this.setState({
+        isRequestingGeoLocation: false,
+        isYourPlacesModalOpen: false
+    })
+
+    toggleBackdropHandler = () => this.setState(prevState => {
+        return { isBackdropOpen: !prevState.isBackdropOpen }
+    })
+
+    shouldRedirectHandler = () => this.setState({ shouldRedirect: true })
+
+    touchStartHandler = (id) => {
+        const timer = setTimeout(
+            () => this.multiSelectStart(id),
+            400
+        )
+        this.setState({ timer: timer })
+    }
+    touchEndHandler = () => {
+        if (this.state.timer) {
+            clearTimeout(this.state.timer)
+            this.setState({ timer: null })
+        }
+    }
+
+    restaurantClicked = (res, src, id) => {
+        if (this.state.isMultiSelectActive) {
+            const selectedIds = { ...this.state.selectedIds }
+            selectedIds[id] = selectedIds[id] ? null : src
+
+            if (!selectedIds[id])
+                delete selectedIds[id]
+
+            const selectedIdsLength = Object.keys(selectedIds).length
+            if (selectedIdsLength === 0 && !this.state.isSelectingYourPlaces) {
+                this.setState({
+                    isMultiSelectActive: false,
+                    selectedIds: {}
+                })
+            } else
+                this.setState({ selectedIds: selectedIds })
+        } else {
+            this.setState({
+                isModalOpen: true,
+                card: res,
+                cardSrc: src
+            })
+        }
     }
 
     searchHandler = (event) => {
@@ -91,79 +152,22 @@ class Restaurants extends Component {
             console.log('[ Restaurants ] Using current location')
             this.props.onRestaurantSearch(this.props.food, this.props.location)
         }
-        else
-            this.toggleGeoLocRequest()
-    }
-
-    toggleGeoLocRequest = () => {
-        this.setState(prevState => {
-            return { showGeoLocRequest: !prevState.showGeoLocRequest }
-        })
-    }
-
-    redirectToSettings = () => {
-        this.setState({ redirectToSettings: true })
-    }
-
-    restaurantClicked = (res, src, id) => {
-        if (this.state.multiSelect) {
-            const selectedIds = { ...this.state.selectedIds }
-            selectedIds[id] = selectedIds[id] ? null : src
-
-            if (!selectedIds[id])
-                delete selectedIds[id]
-
-            const selectedIdsLength = Object.keys(selectedIds).length
-            if (selectedIdsLength === 0 && !this.state.isSelectingYourPlaces) {
-                this.setState({
-                    multiSelect: false,
-                    selectedIds: {}
-                })
-            } else
-                this.setState({ selectedIds: selectedIds })
-        } else {
-            this.setState({
-                showCard: true,
-                card: res,
-                cardSrc: src
-            })
+        else {
+            this.setState({ isRequestingGeoLocation: true })
         }
     }
 
-    close = () => this.setState({
-        showCard: false,
-        turnCard: false,
-        showGeoLocRequest: false
-    })
-    turnCard = () => this.setState(prevState => {
-        return { turnCard: !prevState.turnCard }
-    })
-
-    touchStartHandler = (id) => {
-        const timer = setTimeout(
-            () => this.multiSelectStartHandler(id),
-            400
-        )
-        this.setState({ timer: timer })
-    }
-    touchEndHandler = () => {
-        if (this.state.timer) {
-            clearTimeout(this.state.timer)
-            this.setState({ timer: null })
-        }
-    }
-
-    multiSelectStartHandler = (id) => {
+    multiSelectStart = (id) => {
         const selectedIds = { ...this.state.selectedIds }
         selectedIds[id] = !selectedIds[id]
         this.setState({
-            multiSelect: true,
+            isMultiSelectActive: true,
             selectedIds: selectedIds
         })
     }
-    multiSelectEndHandler = () => {
+    multiSelectEnd = () => {
         this.setState({
-            multiSelect: false,
+            isMultiSelectActive: false,
             selectedIds: {}
         })
     }
@@ -172,7 +176,7 @@ class Restaurants extends Component {
             this.props.onPostYourPlaces(this.state.selectedIds)
             this.setState({
                 isSelectingYourPlaces: false,
-                multiSelect: false,
+                isMultiSelectActive: false,
                 selectedIds: {}
             })
         }
@@ -222,94 +226,64 @@ class Restaurants extends Component {
         return restaurants
     }
 
-    closeModalHandler = () => {
-        this.setState({ closeModal: true })
-    }
-
     render() {
         let redirect = null
-        if (this.state.redirectToSettings)
+        if (this.state.shouldRedirect)
             redirect = <Redirect to={paths.SETTINGS} />
 
-        let geoLocReqClasses = classes.GeoLocReq
-        if (this.state.showGeoLocRequest)
-            geoLocReqClasses = [geoLocReqClasses, classes.GeoLocReqOpen].join(' ')
-        let geoLocReq = (
-            <div className={geoLocReqClasses}>
-                <div>
-                    To use current location, please allow location sharing in app settings.
-                </div>
-                <div>
-                    <Button wide
-                        click={this.redirectToSettings}>Take me there
-                    </Button>
-                </div>
-            </div>
+        let geoLocReqModal = (
+            <Modal
+                isOpen={this.state.isRequestingGeoLocation}
+                click={this.shouldRedirectHandler}
+                close={this.closeModalHandler}
+                btnMsg={'Take me there'}>
+                To use current location, please allow location sharing in app
+                settings.
+            </Modal>
+        )
+
+        let yourPlacesModal = (
+            <Modal
+                isOpen={this.state.isYourPlacesModalOpen}
+                click={this.closeModalHandler}
+                close={this.closeModalHandler}
+                btnMsg={'Okay!'}>
+                Please select places you have been to.
+            </Modal>
+        )
+
+        let card = (
+            <Card restaurant
+                click={this.turnCardHandler}
+                cardSrc={this.state.cardSrc}
+                isTurned={this.state.isCardTurned}
+                isOpen={this.state.isCardOpen}>{this.state.card}</Card>
         )
 
         let backdrop = (
             <Backdrop restaurant
-                click={this.close}
-                isOpen={this.state.showCard || this.state.showGeoLocRequest}></Backdrop>
-        )
-        let card = (
-            <Card restaurant
-                click={this.turnCard}
-                cardSrc={this.state.cardSrc}
-                isTurned={this.state.turnCard}
-                isOpen={this.state.showCard}>{this.state.card}</Card>
+                click={this.toggleBackdropHandler}
+                isOpen={this.state.isBackdropOpen}></Backdrop>
         )
 
-        let yourPlacesCTAClassnames = classes.YourPlacesCTA
-        if (this.state.closeModal)
-            yourPlacesCTAClassnames = [yourPlacesCTAClassnames, classes.CloseModal].join(' ')
-
-        let yourPlacesCTA = null
-        if (this.state.isSelectingYourPlaces) {
-            yourPlacesCTA = (
-                <div className={yourPlacesCTAClassnames}>
-                    <p>
-                        Please select places you have been to.
-                    </p>
-                    <Button wide click={this.closeModalHandler}>Okay!</Button>
-                </div>
-            )
-        }
-        
-        let doneButtonClasses = classes.Done
-        if (this.state.isSelectingYourPlaces)
-            doneButtonClasses = [doneButtonClasses, classes.GeoLocReqOpen].join(' ')
         let doneButton = (
-            <div className={doneButtonClasses} onClick={this.doneHandler}>
-                <Button circle>
-                    <div className='material-icons'>done</div>
-                </Button>
-            </div>
+            <Fab
+                isOpen={this.state.isSelectingYourPlaces}
+                click={this.doneHandler}>done</Fab>
         )
 
-        let cancelClasses = classes.CancelMultiSelect
+        let cancelButton = (
+            <Fab
+                isOpen={this.state.isMultiSelectActive
+                    && !this.state.isSelectingYourPlaces}
+                click={this.multiSelectEnd}>close</Fab>
+        )
+
         let searchBarClasses = classes.SearchBar
-        if (this.state.multiSelect) {
-            if (!this.state.isSelectingYourPlaces)
-                cancelClasses = [cancelClasses, classes.ShowCancelMultiSelect].join(' ')
+        if (this.state.isMultiSelectActive)
             searchBarClasses = [searchBarClasses, classes.HideSearchBar].join(' ')
-        }
-
-        let cancelMultiSelectButton = (
-            <div className={cancelClasses} onClick={this.multiSelectEndHandler}>
-                <Button circle>
-                    <div className='material-icons'>close</div>
-                </Button>
-            </div>
-        )
-
         let searchBar = (
             <div className={searchBarClasses}>
-                <div className={classes.DrawerToggleContainer}>
-                    <DrawerToggle
-                        toggleDrawer={this.toggleFiltersHandler}
-                        showDrawer={this.state.showFilters} />
-                </div>
                 <form onSubmit={this.searchHandler}>
                     <Input wide center thin transparent
                         type='text'
@@ -336,7 +310,7 @@ class Restaurants extends Component {
                     {this.displayRestaurants()}
                 </div>
             )
-        } else if (this.props.yelpLoading || this.props.googleLoading) {
+        } else if (this.props.isYelpLoading || this.props.isGoogleLoading) {
             callToAction = (
                 <p className={classes.CTA}>
                     Getting
@@ -358,15 +332,15 @@ class Restaurants extends Component {
         return (
             <div className={classes.Restaurants}>
                 {redirect}
-                {yourPlacesCTA}
                 {callToAction}
                 {restaurantsGrid}
-                {cancelMultiSelectButton}
-                {doneButton}
                 {searchBar}
+                {cancelButton}
+                {doneButton}
                 {card}
+                {yourPlacesModal}
+                {geoLocReqModal}
                 {backdrop}
-                {geoLocReq}
             </div>
         )
     }
