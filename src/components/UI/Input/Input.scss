@@ -46,14 +46,21 @@
 }
 
 .OnOppAdj {
-    border-color: $lighter-main-color;
+    border-color: $main-color;
 
     &:hover, &:focus {
-        border-color: $main-color;
+        background: $lighter-main-color;
         box-shadow: $box-shadow;
     }
 
     &::placeholder {
         color: $main-color;
+    }
+}
+
+.Accented {
+    &:hover, &:focus {
+        color: $opp-adj-color;
+        border-color: $opp-adj-color;
     }
 }

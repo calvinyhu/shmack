@@ -6,17 +6,19 @@ const input = (props) => {
     let classNames = classes.Input
 
     if (props.wide)
-        classNames = [classNames, classes.Wide].join(' ')
+        classNames += ' ' + classes.Wide
     if (props.thin)
-        classNames = [classNames, classes.Thin].join(' ')
+        classNames += ' ' + classes.Thin
     if (props.transparent)
-        classNames = [classNames, classes.Transparent].join(' ')
+        classNames += ' ' + classes.Transparent
     if (props.center)
-        classNames = [classNames, classes.TextCenter].join(' ')
+        classNames += ' ' + classes.TextCenter
     if (props.onMain)
-        classNames = [classNames, classes.OnMain].join(' ')
+        classNames += ' ' + classes.OnMain
     if (props.onOppAdj)
-        classNames = [classNames, classes.OnOppAdj].join(' ')
+        classNames += ' ' + classes.OnOppAdj
+    if (props.accented)
+        classNames += ' ' + classes.Accented
 
     return (
         <input

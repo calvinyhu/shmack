@@ -13,7 +13,6 @@ import Input from '../../components/UI/Input/Input'
 import Button from '../../components/UI/Button/Button'
 import Fab from '../../components/UI/Fab/Fab'
 import Modal from '../../components/UI/Modal/Modal'
-import Backdrop from '../../components/UI/Backdrop/Backdrop'
 import Card from '../../components/UI/Card/Card'
 
 export const SOURCE = {
@@ -39,8 +38,10 @@ const mapStateToProps = (state) => {
 
 const mapDispatchToProps = (dispatch) => {
     return {
-        onRestaurantInputChange: (name, value) => dispatch(actions.restaurantInputChange(name, value)),
-        onRestaurantSearch: (food, location) => dispatch(actions.restaurantSearch(food, location)),
+        onRestaurantInputChange: (name, value) =>
+            dispatch(actions.restaurantInputChange(name, value)),
+        onRestaurantSearch: (food, location) =>
+            dispatch(actions.restaurantSearch(food, location)),
         onPostYourPlaces: (places) => dispatch(postYourPlaces(places))
     }
 }
@@ -51,27 +52,25 @@ class Restaurants extends Component {
         isSelectingYourPlaces: false,
         isRequestingGeoLocation: false,
         isYourPlacesModalOpen: false,
-        isModalOpen: false,
         isCardOpen: false,
         isCardTurned: false,
-        isBackdropOpen: false,
         isMultiSelectActive: false,
+        isScrollingDown: false,
         touchStartTimeStamp: null,
         selectedIds: {},
         timer: null,
         card: null,
-        cardSrc: null
+        cardSrc: null,
+        prevPageYOffset: 0
     }
 
-    // componentDidMount() {
-    //     if (this.props.isAuth && !this.props.yourPlaces && this.props.hasGeoLocatePermission) {
-    //         this.props.onRestaurantSearch(this.props.food, this.props.location)
-    //         this.setState({
-    //             isSelectingYourPlaces: true,
-    //             isYourPlacesModalOpen: true,
-    //             isMultiSelectActive: true })
-    //     }
-    // }
+    componentDidMount() {
+        window.addEventListener('scroll', this.gridScrollHandler)
+    }
+
+    componentWillUnmount() {
+        window.removeEventListener('scroll', this.gridScrollHandler)
+    }
 
     inputChangeHandler = (event) => {
         this.props.onRestaurantInputChange(
@@ -80,25 +79,15 @@ class Restaurants extends Component {
         )
     }
 
-    toggleModalHandler = () => this.setState(prevState => {
-        return { isModalOpen: !prevState.isModalOpen }
-    })
-
-    toggleCardHandler = () => this.setState(prevState => {
-        return { isCardOpen: !prevState.isCardOpen }
-    })
-
     turnCardHandler = () => this.setState(prevState => {
         return { isCardTurned: !prevState.isCardTurned }
     })
 
     closeModalHandler = () => this.setState({
         isRequestingGeoLocation: false,
-        isYourPlacesModalOpen: false
-    })
-
-    toggleBackdropHandler = () => this.setState(prevState => {
-        return { isBackdropOpen: !prevState.isBackdropOpen }
+        isYourPlacesModalOpen: false,
+        isCardOpen: false,
+        isCardTurned: false
     })
 
     shouldRedirectHandler = () => this.setState({ shouldRedirect: true })
@@ -135,7 +124,7 @@ class Restaurants extends Component {
                 this.setState({ selectedIds: selectedIds })
         } else {
             this.setState({
-                isModalOpen: true,
+                isCardOpen: true,
                 card: res,
                 cardSrc: src
             })
@@ -152,9 +141,8 @@ class Restaurants extends Component {
             console.log('[ Restaurants ] Using current location')
             this.props.onRestaurantSearch(this.props.food, this.props.location)
         }
-        else {
+        else
             this.setState({ isRequestingGeoLocation: true })
-        }
     }
 
     multiSelectStart = (id) => {
@@ -195,9 +183,13 @@ class Restaurants extends Component {
                             touchEnd={this.touchEndHandler}
                             isSelected={this.state.selectedIds[res.id]}
                             id={res.id}
-                            click={(id) => this.restaurantClicked(res, SOURCE.YELP, id)}
+                            click={(id) => this.restaurantClicked(
+                                res, SOURCE.YELP, id
+                            )}
                             key={res.id}
-                            img={res.image_url}>{res.name}{res.rating}{res.review_count}</Restaurant>
+                            img={res.image_url}
+                        >{res.name}{res.rating}{res.review_count}
+                        </Restaurant>
                     );
                     resNames[res.name] = 1
                 }
@@ -207,7 +199,10 @@ class Restaurants extends Component {
             this.props.googleRestaurants.forEach(res => {
                 if (res.photos && !resNames[res.name]) {
                     const photo = res.photos[0]
-                    const imgUrl = createGooglePlacePhotoQuery(photo.photo_reference, photo.width)
+                    const imgUrl = createGooglePlacePhotoQuery(
+                        photo.photo_reference,
+                        photo.width
+                    )
                     restaurants.push(
                         <Restaurant
                             touchStart={this.touchStartHandler}
@@ -215,7 +210,9 @@ class Restaurants extends Component {
                             touchEnd={this.touchEndHandler}
                             isSelected={this.state.selectedIds[res.id]}
                             id={res.id}
-                            click={(id) => this.restaurantClicked(res, SOURCE.GOOGLE, id)}
+                            click={(id) => this.restaurantClicked(
+                                res, SOURCE.GOOGLE, id
+                            )}
                             key={res.id}
                             img={imgUrl}>{res.name}</Restaurant>
                     );
@@ -224,6 +221,13 @@ class Restaurants extends Component {
             })
         }
         return restaurants
+    }
+
+    gridScrollHandler = () => {
+        this.setState({
+            isScrollingDown: window.pageYOffset > this.state.prevPageYOffset,
+            prevPageYOffset: window.pageYOffset
+        })
     }
 
     render() {
@@ -255,15 +259,10 @@ class Restaurants extends Component {
         let card = (
             <Card restaurant
                 click={this.turnCardHandler}
+                close={this.closeModalHandler}
                 cardSrc={this.state.cardSrc}
                 isTurned={this.state.isCardTurned}
                 isOpen={this.state.isCardOpen}>{this.state.card}</Card>
-        )
-
-        let backdrop = (
-            <Backdrop restaurant
-                click={this.toggleBackdropHandler}
-                isOpen={this.state.isBackdropOpen}></Backdrop>
         )
 
         let doneButton = (
@@ -280,23 +279,25 @@ class Restaurants extends Component {
         )
 
         let searchBarClasses = classes.SearchBar
-        if (this.state.isMultiSelectActive)
-            searchBarClasses = [searchBarClasses, classes.HideSearchBar].join(' ')
+        if (this.state.isMultiSelectActive || this.state.isScrollingDown)
+            searchBarClasses += ' ' + classes.HideSearchBar
         let searchBar = (
             <div className={searchBarClasses}>
                 <form onSubmit={this.searchHandler}>
-                    <Input wide center thin transparent
-                        type='text'
-                        name='food'
-                        placeholder='Food'
-                        value={this.props.food}
-                        change={this.inputChangeHandler} />
-                    <Input wide center transparent
-                        type='text'
-                        name='location'
-                        placeholder='Current Location'
-                        value={this.props.location}
-                        change={this.inputChangeHandler} />
+                    <div>
+                        <Input wide center accented
+                            type='text'
+                            name='food'
+                            placeholder='Food'
+                            value={this.props.food}
+                            change={this.inputChangeHandler} />
+                        <Input wide center accented
+                            type='text'
+                            name='location'
+                            placeholder='Current Location'
+                            value={this.props.location}
+                            change={this.inputChangeHandler} />
+                    </div>
                     <Button thin>Go</Button>
                 </form>
             </div>
@@ -315,7 +316,9 @@ class Restaurants extends Component {
                 <p className={classes.CTA}>
                     Getting
                     {this.props.food ? ` ${this.props.food}` : ' food '}
-                    {this.props.location ? ` in ${this.props.location} ` : ' at your current location '}
+                    {this.props.location
+                        ? ` in ${this.props.location} `
+                        : ' at your current location '}
                     for you...
                 </p>
             )
@@ -333,14 +336,13 @@ class Restaurants extends Component {
             <div className={classes.Restaurants}>
                 {redirect}
                 {callToAction}
+                {card}
                 {restaurantsGrid}
-                {searchBar}
                 {cancelButton}
                 {doneButton}
-                {card}
+                {searchBar}
                 {yourPlacesModal}
                 {geoLocReqModal}
-                {backdrop}
             </div>
         )
     }

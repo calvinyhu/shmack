@@ -34,11 +34,11 @@
         display: none;
 
         &:checked + .SwitchThumb {
-            background-color: $main-color;
+            background-color: $opp-adj-color;
         }
     
         &:checked + .SwitchThumb:before {
-            background-color: $opp-adj-color;
+            background-color: $main-color;
             transform: translateX($width) translateY(50%);;
         }
     }
@@ -49,7 +49,7 @@
         left: 0;
         right: 0;
         bottom: 0;
-        background-color: $lighter-main-color;
+        background-color: $lighter-opp-adj-color;
         border-radius: $height;
         box-shadow: $box-shadow;
         transition: $transition;

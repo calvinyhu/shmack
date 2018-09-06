@@ -2,7 +2,9 @@ import React from 'react'
 
 import classes from './Card.css'
 import { SOURCE } from '../../../containers/Restaurants/Restaurants'
-import { createGooglePlacePhotoQuery } from '../../../utilities/google';
+import { createGooglePlacePhotoQuery } from '../../../utilities/google'
+import Aux from '../../../hoc/Auxiliary/Auxiliary'
+import Backdrop from '../Backdrop/Backdrop'
 
 const card = (props) => {
     let card = null
@@ -81,10 +83,13 @@ const card = (props) => {
         )
 
         card = (
-            <div className={classNames} onClick={props.click}>
-                {front}
-                {back}
-            </div>
+            <Aux>
+                <div className={classNames} onClick={props.click}>
+                    {front}
+                    {back}
+                </div>
+                <Backdrop isOpen={props.isOpen} click={props.close}/>
+            </Aux>
         )
     }
 

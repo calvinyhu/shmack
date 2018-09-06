@@ -5,13 +5,22 @@ import Restaurant from '../../components/Restaurant/Restaurant'
 
 class Home extends Component {
     state = {
+        isScrollingDown: false,
         restaurants: [],
-        img: null
+        img: null,
+        pageYOffset: 0
     }
 
     componentDidMount() {
+        window.addEventListener('scroll', this.scrollHandler)
         this.displayRestaurants()
     }
+
+    componentWillUnmount() {
+        window.removeEventListener('scroll', this.scrollHandler)
+    }
+
+    scrollHandler = () => this.setState({ pageYOffset: window.pageYOffset })
 
     touchStart = () => {
 
@@ -51,9 +60,13 @@ class Home extends Component {
     }
 
     render() {
+        let headerClasses = classes.Header
+        if (this.state.pageYOffset > 0)
+            headerClasses += ' ' + classes.ScrollingDown
+        
         return (
             <div className={classes.Home}>
-                <header>shmack</header>
+                <header className={headerClasses}>shmack</header>
                 <main>
                     <section>
                         <div className={classes.Category}>Your Places</div>

@@ -7,21 +7,21 @@ const button = (props) => {
 
     if (props.link)
         classNames = classes.PlaceholderLink
-    
-    if (props.className)
-        classNames = props.className
 
     if (props.wide)
-        classNames = [classNames, classes.Wide].join(' ')
+        classNames += ' ' + classes.Wide
 
     if (props.thin)
-        classNames = [classNames, classes.Thin].join(' ')
+        classNames += ' ' + classes.Thin
 
     if (props.circle)
-        classNames = [classNames, classes.Circle].join(' ')
+        classNames += ' ' + classes.Circle
         
     if (props.onMain)
-        classNames = [classNames, classes.OnMain].join(' ')
+        classNames += ' ' + classes.OnMain
+
+    if (props.oppAdjAccented)
+        classNames += ' ' + classes.OppAdjAccented
 
     return (
         <button
