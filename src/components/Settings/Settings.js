@@ -37,21 +37,20 @@ class Settings extends Component {
     clearError = () => this.props.onClearError()
 
     render() {
-        let geoErrorMessage = (
+        let geoError = (
             <Modal
                 isOpen={this.props.geoError}
                 click={this.clearError}
                 close={this.clearError}
                 btnMsg={'Okay!'}>
-                You have blocked location sharing in your browser. Please allow
-                location sharing in your browser settings.
+                {this.props.geoError}
             </Modal>
         )
         return (
             <div className={classes.Settings}>
                 <h5>Settings</h5>
                 <div className={classes.Setting}>
-                    <div className={classes.Label}>Location</div>
+                    <div className={classes.Label}>Location Sharing</div>
                     <label className={classes.SwitchTrack}>
                         <input
                             type='checkbox'
@@ -60,7 +59,7 @@ class Settings extends Component {
                         <div className={classes.SwitchThumb}></div>
                     </label>
                 </div>
-                {geoErrorMessage}
+                {geoError}
             </div>
         )
     }

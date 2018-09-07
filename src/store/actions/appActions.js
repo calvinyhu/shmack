@@ -14,7 +14,7 @@ export const geoLocate = () => {
                     dispatch(geoSuccess(position))
                 },
                 (error) => {
-                    dispatch(geoError(error))
+                    dispatch(geoError(geoErrorHandler(error)))
                 }
             )
         } else {
@@ -49,6 +49,20 @@ const geoFail = (error) => {
         type: actionTypes.GEO_FAIL,
         hasGeoLocatePermission: false,
         error: error
+    }
+}
+
+const geoErrorHandler = (error) => {
+    switch (error.code) {
+        case 1: 
+            return `Location sharing is blocked or turned off. Please allow 
+            location sharing in your browser settings or your device.`
+        case 2:
+            return `Your location is temporarily unavailable. Please try again.`
+        case 3:
+            return `Obtaining your location took too long. Please try again.`
+        default:
+            return `There was an unexpected error. Please try again.`
     }
 }
 
