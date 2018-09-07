@@ -21,6 +21,8 @@
     width: 100vw;
     grid-template-columns: repeat(2, 50%);
     grid-auto-rows: 50vw;
+    grid-gap: 1px;
+    overflow-x: hidden;
 
     @include media-min-width($desktop-width) {
         grid-template-columns: repeat(3, 33.3%);

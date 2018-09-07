@@ -2,9 +2,11 @@ import React, { Component } from 'react'
 import { Switch, Route, Redirect, withRouter } from 'react-router-dom'
 import { connect } from 'react-redux'
 
-import * as actions from './store/actions/authActions'
-import * as paths from './utilities/paths'
+import * as actions from './store/actions/appActions'
+import { authTryAutoLogIn } from './store/actions/authActions'
 import { getYourPlaces } from './store/actions/homeActions'
+import * as paths from './utilities/paths'
+import { auth } from './utilities/firebase'
 import Layout from './hoc/Layout/Layout'
 import Home from './containers/Home/Home'
 import About from './components/About/About'
@@ -13,7 +15,6 @@ import LogOut from './containers/Auth/LogOut/LogOut'
 import Restaurants from './containers/Restaurants/Restaurants'
 import More from './containers/More/More'
 import Settings from './components/Settings/Settings'
-import { auth } from './utilities/firebase'
 
 const mapStateToProps = (state) => {
     return {
@@ -23,7 +24,8 @@ const mapStateToProps = (state) => {
 
 const mapDispatchToProps = (dispatch) => {
     return {
-        onAuthTryAutoLogIn: () => dispatch(actions.authTryAutoLogIn()),
+        onCheckGeoLocatePermission: () => dispatch(actions.checkGeoLocatePermission()),
+        onAuthTryAutoLogIn: () => dispatch(authTryAutoLogIn()),
         onGetYourPlaces: () => dispatch(getYourPlaces())
     }
 }
@@ -31,6 +33,7 @@ const mapDispatchToProps = (dispatch) => {
 class App extends Component {
     componentDidMount() {
         this.props.onAuthTryAutoLogIn()
+        this.props.onCheckGeoLocatePermission()
 
         auth.onAuthStateChanged(user => {
             if (user)
