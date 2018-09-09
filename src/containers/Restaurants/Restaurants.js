@@ -64,6 +64,18 @@ class Restaurants extends Component {
         prevScrollTop: 0
     }
 
+    componentDidMount() {
+        if (this.props.yourPlaces) {
+            this.setState({ selectedIds: this.props.yourPlaces })
+        }
+    }
+
+    componentWillReceiveProps(nextProps) {
+        if (nextProps.yourPlaces) {
+            this.setState({ selectedIds: nextProps.yourPlaces })
+        }
+    }
+
     inputChangeHandler = (event) => {
         this.props.onRestaurantInputChange(
             event.target.name,
@@ -97,9 +109,8 @@ class Restaurants extends Component {
 
     restaurantClicked = (res, src, id) => {
         if (this.state.isMultiSelectActive) {
-            console.log(src)
             const selectedIds = { ...this.state.selectedIds }
-            selectedIds[id] = selectedIds[id] ? null : src
+            selectedIds[id] = selectedIds[id] ? null : res
 
             if (!selectedIds[id])
                 delete selectedIds[id]
@@ -135,9 +146,9 @@ class Restaurants extends Component {
             this.setState({ isRequestingGeoLocation: true })
     }
 
-    multiSelectStart = (id, src) => {
+    multiSelectStart = (res, id) => {
         const selectedIds = { ...this.state.selectedIds }
-        selectedIds[id] = selectedIds[id] ? null : src
+        selectedIds[id] = selectedIds[id] ? null : res
         this.setState({
             isMultiSelectActive: true,
             selectedIds: selectedIds
@@ -146,7 +157,7 @@ class Restaurants extends Component {
     multiSelectEnd = () => {
         this.setState({
             isMultiSelectActive: false,
-            selectedIds: {}
+            selectedIds: { ...this.props.yourPlaces }
         })
     }
     addToYourPlacesHandler = () => {
@@ -176,11 +187,12 @@ class Restaurants extends Component {
                     restaurants.push(
                         <Restaurant
                             touchStart={() => this.touchStartHandler(
-                                res.id, SOURCE.YELP
+                                res, res.id
                             )}
                             touchMove={this.touchEndHandler}
                             touchEnd={this.touchEndHandler}
-                            isSelected={this.state.selectedIds[res.id]}
+                            isSelected={this.state.isMultiSelectActive
+                                && this.state.selectedIds[res.id]}
                             id={res.id}
                             click={() => this.restaurantClicked(
                                 res, SOURCE.YELP, res.id
@@ -205,11 +217,12 @@ class Restaurants extends Component {
                     restaurants.push(
                         <Restaurant
                             touchStart={() => this.touchStartHandler(
-                                res.place_id, SOURCE.GOOGLE
+                                res, res.place_id
                             )}
                             touchMove={this.touchEndHandler}
                             touchEnd={this.touchEndHandler}
-                            isSelected={this.state.selectedIds[res.place_id]}
+                            isSelected={this.state.isMultiSelectActive
+                                && this.state.selectedIds[res.place_id]}
                             id={res.place_id}
                             click={() => this.restaurantClicked(
                                 res, SOURCE.GOOGLE, res.place_id
@@ -277,7 +290,8 @@ class Restaurants extends Component {
         let addToYourPlacesFab = (
             <Fab mini action secondaryColor
                 isOpen={this.state.isMultiSelectActive
-                    && !this.state.isSelectingYourPlaces}
+                    && !this.state.isSelectingYourPlaces
+                    && this.props.isAuth}
                 click={this.addToYourPlacesHandler}>add_location</Fab>
         )
 
@@ -310,7 +324,7 @@ class Restaurants extends Component {
         let restaurantsGrid = null
         if (this.props.yelpRestaurants || this.props.googleRestaurants) {
             restaurantsGrid = (
-                <div 
+                <div
                     className={classes.RestaurantsGrid}
                     onScroll={this.scrollHandler}>
                     {this.displayRestaurants()}

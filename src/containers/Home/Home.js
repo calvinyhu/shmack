@@ -12,7 +12,7 @@ const mapStateToProps = (state) => {
         isAuth: state.auth.isAuth,
         isGettingYourPlaces: state.home.getting,
         yourPlaces: state.home.yourPlaces,
-        yourPlacesDetails: state.home.yourPlacesDetails
+        yourCuisines: state.home.yourCuisines
     }
 }
 
@@ -29,26 +29,26 @@ class Home extends Component {
     }
 
     componentDidMount() {
-        if (this.props.yourPlacesDetails) {
+        if (this.props.yourPlaces) {
             this.setState({
-                yourPlaces: this.displayYourPlaces(this.props.yourPlacesDetails),
+                yourPlaces: this.displayYourPlaces(this.props.yourPlaces),
                 restaurants: this.displayRestaurants()
             })
         }
     }
 
     componentWillReceiveProps(nextProps) {
-        if (nextProps.yourPlacesDetails) {
+        if (nextProps.yourPlaces) {
             this.setState({
-                yourPlaces: this.displayYourPlaces(nextProps.yourPlacesDetails),
+                yourPlaces: this.displayYourPlaces(nextProps.yourPlaces),
                 restaurants: this.displayRestaurants()
             })
         }
     }
 
     shouldComponentUpdate(nextProps, nextState) {
-        if (nextProps.yourPlacesDetails && this.props.yourPlacesDetails 
-            && nextProps.yourPlacesDetails.length !== this.props.yourPlacesDetails.length)
+        if (nextProps.yourPlaces && this.props.yourPlaces
+            && nextProps.yourPlaces.length !== this.props.yourPlaces.length)
             return true
         else if (nextProps.isGettingYourPlaces !== this.props.isGettingYourPlaces)
             return true
@@ -57,7 +57,7 @@ class Home extends Component {
                 || nextState.isAtTop !== this.state.isAtTop
                 || nextState.isCardOpen !== this.state.isCardOpen
                 || nextState.isCardTurned !== this.state.isCardTurned)
-            return true
+                return true
             else return false
         }
         else
@@ -92,20 +92,20 @@ class Home extends Component {
         isCardTurned: false
     })
 
-    displayYourPlaces = (yourPlacesDetails) => {
-        if (!yourPlacesDetails) return null
+    displayYourPlaces = (yourPlaces) => {
+        if (!yourPlaces) return null
 
-        const yourPlaces = []
-        yourPlacesDetails.forEach(placeDetails => {
-            let place = placeDetails.data
+        const places = []
+        for (let placeId in yourPlaces) {
+            let place = yourPlaces[placeId]
+            if (!place) continue
             let id = place.id
             let src = SOURCE.YELP
             let imgUrl = place.image_url
             let name = place.name
             let rating = place.rating
 
-            if (placeDetails.data.result) {
-                place = placeDetails.data.result
+            if (place.place_id) {
                 id = place.place_id
                 src = SOURCE.GOOGLE
                 if (place.photos) {
@@ -118,18 +118,18 @@ class Home extends Component {
                 rating = place.rating
             }
 
-            yourPlaces.push(
+            places.push(
                 <div key={id} className={classes.Item}>
                     <Restaurant
                         id={id}
-                        click={() => this.restaurantClicked(place, src, id)}
+                        click={() => this.restaurantClicked(place, src)}
                         img={imgUrl}>
                         {name}{rating}
                     </Restaurant>
                 </div>
             )
-        })
-        return yourPlaces
+        }
+        return places
     }
 
     displayRestaurants = () => {
@@ -159,14 +159,17 @@ class Home extends Component {
             headerClasses += ' ' + classes.AtTop
 
         let yourPlaces = null
-        if (this.state.yourPlaces)
-            yourPlaces = this.state.yourPlaces
-        else if (this.props.isGettingYourPlaces)
+        if (this.props.isGettingYourPlaces)
             yourPlaces = <p>Getting your places...</p>
+        else if (this.state.yourPlaces 
+                && Object.keys(this.state.yourPlaces).length > 0)
+            yourPlaces = this.state.yourPlaces
         else if (this.props.isAuth)
-            yourPlaces = <p>Mark your places down to get recommendations.</p>
+            yourPlaces = <p>You don't have any places!</p>
         else
             yourPlaces = <p>Login to get your places.</p>
+
+        let yourRecommendations = <p>Coming soon!</p>
 
         let card = (
             <Card restaurant
@@ -190,7 +193,7 @@ class Home extends Component {
                     <section>
                         <div className={classes.Category}>Your Recommendations</div>
                         <div className={classes.List}>
-                            {this.state.restaurants}
+                            {yourRecommendations}
                         </div>
                     </section>
                     <section>

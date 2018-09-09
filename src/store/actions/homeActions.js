@@ -17,26 +17,7 @@ export const getYourPlaces = () => {
         preferencesRef.doc(labels.YOUR_PLACES).get()
             .then(doc => {
                 if (doc.exists) {
-                    const yelpQueries = []
-                    const googleQueries = []
-                    for (let id in doc.data()) {
-                        if (doc.data()[id] === 1)
-                            yelpQueries.push(createYelpBusinessQuery(id))
-                        else
-                            googleQueries.push(createGooglePlaceDetailsQuery(id))
-                    }
-                    const yelpPromises = yelpQueries.map(query => 
-                        axios.get(query, yelpConfig)
-                    )
-                    const googlePromises = googleQueries.map(query => 
-                        axios.get(query)
-                    )
-
-                    const promises = [...yelpPromises, ...googlePromises]
-                    axios.all(promises)
-                        .then(axios.spread((...places) => {
-                            dispatch(getYourPlacesSuccess(doc.data(), places))
-                        }))
+                    dispatch(getYourPlacesSuccess(doc.data()))
                 } else
                     dispatch(getYourPlacesEmpty())
             })
@@ -53,6 +34,7 @@ export const postYourPlaces = (places) => {
         const preferencesRef = user.collection(labels.PREFERENCES)
         preferencesRef.doc(labels.YOUR_PLACES).set(places)
             .then(_ => {
+                dispatch(getYourPlaces())
                 dispatch(postYourPlacesSuccess(places))
             }).catch(error => {
                 dispatch(postYourPlacesFail(error.response))
@@ -68,11 +50,10 @@ const getYourPlacesStart = () => {
     }
 }
 
-const getYourPlacesSuccess = (yourPlaces, yourPlacesDetails) => {
+const getYourPlacesSuccess = (yourPlaces) => {
     return {
         type: actionTypes.HOME_GET_YOUR_PLACES_SUCCESS,
         yourPlaces: yourPlaces,
-        yourPlacesDetails: yourPlacesDetails,
         getting: false
     }
 }

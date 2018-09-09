@@ -3,7 +3,7 @@ import { updateObject } from '../../utilities/utilities';
 
 const initialState = {
     yourPlaces: null,
-    yourPlacesDetails: null,
+    // yourPlacesDetails: null,
     getting: false,
     posting: false,
     error: null
@@ -19,7 +19,6 @@ const getYourPlacesStart = (state, action) => {
 const getYourPlacesSuccess = (state, action) => {
     return updateObject(state, {
         yourPlaces: action.yourPlaces,
-        yourPlacesDetails: action.yourPlacesDetails,
         getting: action.getting
     })
 }
