@@ -3,11 +3,7 @@ import axios from 'axios'
 import * as actionTypes from '../actions/actionTypes'
 import { auth, usersRef } from '../../utilities/firebase'
 import * as labels from '../../utilities/database'
-import { createGooglePlaceDetailsQuery } from '../../utilities/google'
-import {
-    yelpConfig,
-    createYelpBusinessQuery
-} from '../../utilities/yelp'
+import { createGeoLocYelpSearchQuery, yelpConfig } from '../../utilities/yelp'
 
 export const getYourPlaces = () => {
     return dispatch => {
@@ -27,6 +23,48 @@ export const getYourPlaces = () => {
     }
 }
 
+export const getYourCuisines = (hasGeoLocatePermission) => {
+    return dispatch => {
+        dispatch(getYourCusinesStart())
+        const user = usersRef.doc(auth.currentUser.uid)
+        const preferencesRef = user.collection(labels.PREFERENCES)
+        preferencesRef.doc(labels.YOUR_CUISINES).get()
+            .then(doc => {
+                if (doc.exists && hasGeoLocatePermission) {
+                    navigator.geolocation.getCurrentPosition(
+                        (response) => {
+                            const position = {
+                                lat: response.coords.latitude,
+                                long: response.coords.longitude
+                            }
+                            const queries = Object.keys(doc.data()).map(
+                                cuisine => createGeoLocYelpSearchQuery(
+                                    cuisine, position.lat, position.long
+                                )
+                            )
+                            const promises = queries.map(
+                                query => axios.get(query, yelpConfig)
+                            )
+                            axios.all(promises)
+                                .then(axios.spread((...responses) => 
+                                    dispatch(getYourCuisinesSuccess(
+                                        doc.data(), responses
+                                    ))
+                                ))
+                        },
+                        (error) => {
+
+                        }
+                    )
+                } else
+                    dispatch(getYourCuisinesEmpty())
+            })
+            .catch(error => {
+                dispatch(getYourCuisinesFail(error.response))
+            })
+    }
+}
+
 export const postYourPlaces = (places) => {
     return dispatch => {
         dispatch(postYourPlacesStart())
@@ -42,11 +80,20 @@ export const postYourPlaces = (places) => {
     }
 }
 
+
 const getYourPlacesStart = () => {
     return {
         type: actionTypes.HOME_GET_YOUR_PLACES_START,
         getting: true,
         error: null
+    }
+}
+
+const getYourCusinesStart = () => {
+    return {
+        type: actionTypes.HOME_GET_YOUR_CUISINES_START,
+        gettingCuisines: true,
+        cuisinesError: null
     }
 }
 
@@ -58,6 +105,15 @@ const getYourPlacesSuccess = (yourPlaces) => {
     }
 }
 
+const getYourCuisinesSuccess = (yourCuisineCategories, yourCuisines) => {
+    return {
+        type: actionTypes.HOME_GET_YOUR_CUISINES_SUCCESS,
+        yourCuisineCategories: yourCuisineCategories,
+        yourCuisines: yourCuisines,
+        gettingCuisines: false
+    }
+}
+
 const getYourPlacesFail = (error) => {
     return {
         type: actionTypes.HOME_GET_YOUR_PLACES_FAIL,
@@ -66,10 +122,25 @@ const getYourPlacesFail = (error) => {
     }
 }
 
+const getYourCuisinesFail = (error) => {
+    return {
+        type: actionTypes.HOME_GET_YOUR_CUISINES_FAIL,
+        gettingCuisines: false,
+        cuisinesError: error
+    }
+}
+
 const getYourPlacesEmpty = () => {
     return {
         type: actionTypes.HOME_GET_YOUR_PLACES_SUCCESS,
         getting: false
+    }
+}
+
+const getYourCuisinesEmpty = () => {
+    return {
+        type: actionTypes.HOME_GET_YOUR_CUISINES_SUCCESS,
+        gettingCuisines: false
     }
 }
 

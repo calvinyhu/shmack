@@ -17,11 +17,11 @@ export const yelpConfig = {
 }
 
 export const createYelpSearchQuery = (food, location) => {
-    return BUSINESSES_API + `search?term=${food}&location=${location}`
+    return BUSINESSES_API + `search?term=${food}&location=${location}&category=restaurants`
 }
 
 export const createGeoLocYelpSearchQuery = (food, lat, long) => {
-    return BUSINESSES_API + `search?term=${food}&latitude=${lat}&longitude=${long}`
+    return BUSINESSES_API + `search?term=${food}&latitude=${lat}&longitude=${long}&category=restaurants`
 }
 
 export const createYelpBusinessQuery = (id) => {

@@ -11,8 +11,11 @@ const mapStateToProps = (state) => {
     return {
         isAuth: state.auth.isAuth,
         isGettingYourPlaces: state.home.getting,
+        isGettingYourCuisines: state.home.gettingCuisines,
         yourPlaces: state.home.yourPlaces,
-        yourCuisines: state.home.yourCuisines
+        yourCuisineCategories: state.home.yourCuisineCategories,
+        yourCuisines: state.home.yourCuisines,
+        hasGeoLocatePermission: state.app.hasGeoLocatePermission,
     }
 }
 
@@ -24,15 +27,21 @@ class Home extends Component {
         card: null,
         cardSrc: null,
         yourPlaces: null,
-        restaurants: null,
+        yourCuisines: null,
         img: null
     }
 
     componentDidMount() {
         if (this.props.yourPlaces) {
             this.setState({
-                yourPlaces: this.displayYourPlaces(this.props.yourPlaces),
-                restaurants: this.displayRestaurants()
+                yourPlaces: this.displayYourPlaces(this.props.yourPlaces)
+            })
+        }
+        if (this.props.yourCuisines) {
+            this.setState({
+                yourCuisines: this.displayYourCuisines(
+                    this.props.yourCuisineCategories, this.props.yourCuisines
+                )
             })
         }
     }
@@ -40,8 +49,14 @@ class Home extends Component {
     componentWillReceiveProps(nextProps) {
         if (nextProps.yourPlaces) {
             this.setState({
-                yourPlaces: this.displayYourPlaces(nextProps.yourPlaces),
-                restaurants: this.displayRestaurants()
+                yourPlaces: this.displayYourPlaces(nextProps.yourPlaces)
+            })
+        }
+        if (nextProps.yourCuisines) {
+            this.setState({
+                yourCuisines: this.displayYourCuisines(
+                    nextProps.yourCuisineCategories, nextProps.yourCuisines
+                )
             })
         }
     }
@@ -132,25 +147,42 @@ class Home extends Component {
         return places
     }
 
-    displayRestaurants = () => {
-        const restaurants = []
-        const src = 'https://www.nrn.com/sites/nrn.com/files/styles/article_featured_standard/public/burgerandfriescosts_0.jpg?itok=_S_HQsx_'
+    displayYourCuisines = (yourCuisineCategories, yourCuisines) => {
+        const cuisines = []
+        const cuisineRestaurants = {}
 
-        for (let i = 0; i < 10; i++) {
-            restaurants.push(
-                <div key={i} className={classes.Item}>
-                    <Restaurant
-                        touchStart={this.touchStart}
-                        touchMove={this.touchMove}
-                        touchEnd={this.touchEnd}
-                        click={this.click}
-                        img={src}>{i}
-                    </Restaurant>
-                </div>
+        yourCuisines.forEach((cuisine, index) => {
+            const restaurants = cuisine.data.businesses
+            const category = Object.keys(yourCuisineCategories)[index]
+            cuisineRestaurants[category] = []
+            restaurants.forEach(res => {
+                cuisineRestaurants[category].push(
+                    <div key={res.id} className={classes.Item}>
+                        <Restaurant
+                            touchStart={this.touchStart}
+                            touchMove={this.touchMove}
+                            touchEnd={this.touchEnd}
+                            click={() => this.restaurantClicked(res, SOURCE.YELP)}
+                            img={res.image_url}>
+                            {res.name}
+                        </Restaurant>
+                    </div>
+                )
+            })
+        })
+
+        Object.keys(cuisineRestaurants).forEach((cuisine, index) => {
+            cuisines.push(
+                <section key={index}>
+                    <div className={classes.Category}>{cuisine}</div>
+                    <div className={classes.List}>
+                        {cuisineRestaurants[cuisine]}
+                    </div>
+                </section>
             )
-        }
+        })
 
-        return restaurants
+        return cuisines
     }
 
     render() {
@@ -161,8 +193,8 @@ class Home extends Component {
         let yourPlaces = null
         if (this.props.isGettingYourPlaces)
             yourPlaces = <p>Getting your places...</p>
-        else if (this.state.yourPlaces 
-                && Object.keys(this.state.yourPlaces).length > 0)
+        else if (this.state.yourPlaces
+            && Object.keys(this.state.yourPlaces).length > 0)
             yourPlaces = this.state.yourPlaces
         else if (this.props.isAuth)
             yourPlaces = <p>You don't have any places!</p>
@@ -170,6 +202,15 @@ class Home extends Component {
             yourPlaces = <p>Login to get your places.</p>
 
         let yourRecommendations = <p>Coming soon!</p>
+
+        let yourCuisines = null
+        if (this.props.isGettingYourCuisines)
+            yourCuisines = <p>Getting your cuisines near you...</p>
+        else if (this.state.yourCuisines)
+            yourCuisines = this.state.yourCuisines
+        else
+            yourCuisines = <p>
+                Turn on location sharing to get cuisines near you.</p>
 
         let card = (
             <Card restaurant
@@ -196,36 +237,8 @@ class Home extends Component {
                             {yourRecommendations}
                         </div>
                     </section>
-                    <section>
-                        <div className={classes.Category}>Mexican</div>
-                        <div className={classes.List}>
-                            {this.state.restaurants}
-                        </div>
-                    </section>
-                    <section>
-                        <div className={classes.Category}>Chinese</div>
-                        <div className={classes.List}>
-                            {this.state.restaurants}
-                        </div>
-                    </section>
-                    <section>
-                        <div className={classes.Category}>Italian</div>
-                        <div className={classes.List}>
-                            {this.state.restaurants}
-                        </div>
-                    </section>
-                    <section>
-                        <div className={classes.Category}>French</div>
-                        <div className={classes.List}>
-                            {this.state.restaurants}
-                        </div>
-                    </section>
-                    <section>
-                        <div className={classes.Category}>Japanese</div>
-                        <div className={classes.List}>
-                            {this.state.restaurants}
-                        </div>
-                    </section>
+                    <p className={classes.CuisinesNearYou}>Near You</p>
+                    {yourCuisines}
                 </main>
                 {card}
             </div>

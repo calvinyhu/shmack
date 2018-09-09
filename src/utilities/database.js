@@ -4,6 +4,7 @@ export const PREFERENCES = 'preferences'
 
 // Documents
 export const YOUR_PLACES = 'yourPlaces'
+export const YOUR_CUISINES = 'yourCuisines'
 
 // Fields
 export const FIELDS = {
