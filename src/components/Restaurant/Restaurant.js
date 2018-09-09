@@ -10,8 +10,8 @@ const restaurant = (props) => {
     return (
         <div
             className={classNames}
-            onClick={() => props.click(props.id)}
-            onTouchStart={() => props.touchStart(props.id)}
+            onClick={props.click}
+            onTouchStart={props.touchStart}
             onTouchMove={props.touchEnd}
             onTouchEnd={props.touchEnd} >
             <div className={classes.RestaurantImgContainer}>

@@ -5,7 +5,7 @@ import { CORS } from './cors'
 import Aux from '../hoc/Auxiliary/Auxiliary'
 
 const YELP_API = 'https://api.yelp.com/v3/'
-const BUSINESSES_API = CORS + YELP_API + '/businesses/search?'
+const BUSINESSES_API = CORS + YELP_API + '/businesses/'
 
 const TOKEN_MISSING = 'TOKEN_MISSING'
 const TOKEN_INVALID = 'TOKEN_INVALID'
@@ -16,12 +16,16 @@ export const yelpConfig = {
     }
 }
 
-export const createYelpQuery = (food, location) => {
-    return BUSINESSES_API + `term=${food}&location=${location}`
+export const createYelpSearchQuery = (food, location) => {
+    return BUSINESSES_API + `search?term=${food}&location=${location}`
 }
 
-export const createGeoLocYelpQuery = (food, lat, long) => {
-    return BUSINESSES_API + `term=${food}&latitude=${lat}&longitude=${long}`
+export const createGeoLocYelpSearchQuery = (food, lat, long) => {
+    return BUSINESSES_API + `search?term=${food}&latitude=${lat}&longitude=${long}`
+}
+
+export const createYelpBusinessQuery = (id) => {
+    return BUSINESSES_API + `${id}`
 }
 
 export const handleYelpError = (error) => {

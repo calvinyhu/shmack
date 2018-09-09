@@ -33,10 +33,12 @@ const card = (props) => {
                 phone = details.display_phone
             }
             if (props.cardSrc === SOURCE.GOOGLE) {
-                img = createGooglePlacePhotoQuery(
-                    details.photos[0].photo_reference,
-                    details.photos[0].width
-                )
+                if (details.photos) {
+                    img = createGooglePlacePhotoQuery(
+                        details.photos[0].photo_reference,
+                        details.photos[0].width
+                    )
+                }
                 switch (details.price_level) {
                     case 1: price = '$'; break
                     case 2: price = '$$'; break

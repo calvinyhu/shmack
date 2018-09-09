@@ -2,8 +2,8 @@ import axios from 'axios'
 
 import * as actionTypes from './actionTypes'
 import {
-    createYelpQuery,
-    createGeoLocYelpQuery,
+    createYelpSearchQuery,
+    createGeoLocYelpSearchQuery,
     yelpConfig
 } from '../../utilities/yelp'
 import {
@@ -56,9 +56,9 @@ const getRestaurants = (dispatch, food, location) => {
 const startAsyncYelpRequest = (dispatch, food, location) => {
     let query = null
     if (location && location.lat)
-        query = createGeoLocYelpQuery(food, location.lat, location.long)
+        query = createGeoLocYelpSearchQuery(food, location.lat, location.long)
     else
-        query = createYelpQuery(food, location)
+        query = createYelpSearchQuery(food, location)
 
     return axios.get(query, yelpConfig)
         .then(response => {

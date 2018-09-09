@@ -20,8 +20,11 @@ const button = (props) => {
     if (props.onMain)
         classNames += ' ' + classes.OnMain
 
-    if (props.oppAdjAccented)
-        classNames += ' ' + classes.OppAdjAccented
+    if (props.secondaryColor)
+        classNames += ' ' + classes.SecondaryColor
+    
+    if (props.mini)
+        classNames += ' ' + classes.Mini
 
     return (
         <button

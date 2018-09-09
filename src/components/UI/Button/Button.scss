@@ -57,6 +57,11 @@
     height: $fab-size;
 }
 
+.Mini {
+    width: $fab-size-mini;
+    height: $fab-size-mini;
+}
+
 .OnMain {
     background: white;
     color: $main-color;
@@ -69,6 +74,6 @@
     }
 }
 
-.OppAdjAccented {
+.SecondaryColor {
     background: $opp-adj-color;
 }

@@ -14,6 +14,7 @@ export const createGoogleGeocodeLookupQuery = (location) => {
 
 /********************************** Places API *********************************/
 const PLACES_API = 'place/'
+const PLACE_DETAILS = 'details/'
 const FIND_PLACE = 'findplacefromtext/'
 const NEARBY_SEARCH = 'nearbysearch/'
 const PLACE_PHOTO = 'photo'
@@ -24,6 +25,12 @@ export const createGoogleFindPlaceQuery = (food, location) => {
     const fields = 'photos,formatted_address,name,rating,opening_hours'
     const parameters = `key=${GOOGLE_PLACES_API_KEY}&input=${input}&inputtype=${inputType}&fields=${fields}`
     return CORS + GOOGLE_MAPS_API + PLACES_API + FIND_PLACE + `${OUTPUT}?${parameters}`
+}
+
+export const createGooglePlaceDetailsQuery = (placeid) => {
+    const fields = 'name,photo,rating,price_level,place_id'
+    const parameters = `key=${GOOGLE_PLACES_API_KEY}&placeid=${placeid}&fields=${fields}`
+    return CORS + GOOGLE_MAPS_API + PLACES_API + PLACE_DETAILS + `${OUTPUT}?${parameters}`
 }
 
 export const createGoogleNearbySearchQuery = (food, location, radius, type) => {

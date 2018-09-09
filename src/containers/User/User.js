@@ -4,7 +4,6 @@ import { connect } from 'react-redux'
 import classes from './User.css'
 import * as actions from '../../store/actions/userActions'
 import { FIELDS } from '../../utilities/database'
-import { auth } from '../../utilities/firebase'
 import { updateObject } from '../../utilities/utilities'
 import EditUser from './EditUser/EditUser'
 import Aux from '../../hoc/Auxiliary/Auxiliary'
@@ -36,10 +35,11 @@ class User extends Component {
     }
 
     componentDidMount() {
-        auth.onAuthStateChanged(user => {
-            if (user)
-                this.props.onGetUserInfo()
-        })
+        if (this.props.userInfo) {
+            this.setState({
+                userInfo: this.props.userInfo
+            })
+        }
     }
 
     componentWillReceiveProps(nextProps) {     

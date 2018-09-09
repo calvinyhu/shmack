@@ -32,7 +32,9 @@ export const geoLocate = () => {
                 }
             )
         } else {
-            dispatch(geoFail('Sorry, this browser does not support geo location'))
+            dispatch(
+                geoFail('Sorry, this browser does not support geo location')
+            )
         }
     }
 }

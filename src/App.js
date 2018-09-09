@@ -4,6 +4,7 @@ import { connect } from 'react-redux'
 
 import * as actions from './store/actions/appActions'
 import { authTryAutoLogIn } from './store/actions/authActions'
+import { getUserInfo } from './store/actions/userActions'
 import { getYourPlaces } from './store/actions/homeActions'
 import * as paths from './utilities/paths'
 import { auth } from './utilities/firebase'
@@ -26,6 +27,7 @@ const mapDispatchToProps = (dispatch) => {
     return {
         onCheckGeoLocatePermission: () => dispatch(actions.checkGeoLocatePermission()),
         onAuthTryAutoLogIn: () => dispatch(authTryAutoLogIn()),
+        onGetUserInfo: () => dispatch(getUserInfo()),
         onGetYourPlaces: () => dispatch(getYourPlaces())
     }
 }
@@ -36,8 +38,10 @@ class App extends Component {
         this.props.onCheckGeoLocatePermission()
 
         auth.onAuthStateChanged(user => {
-            if (user)
+            if (user) {
+                this.props.onGetUserInfo()
                 this.props.onGetYourPlaces()
+            }
         })
     }
 

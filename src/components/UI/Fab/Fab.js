@@ -12,9 +12,12 @@ const fab = (props) => {
     else
         fabClasses += ' ' + classes.CloseFab
 
+    if (props.action)
+        fabClasses += ' ' + classes.ActionFab
+
     return (
         <div className={fabClasses} onClick={props.click}>
-            <Button circle>
+            <Button circle mini={props.mini} secondaryColor={props.secondaryColor}>
                 <div className={MAT_ICONS}>{props.children}</div>
             </Button>
         </div>
