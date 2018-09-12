@@ -2,65 +2,69 @@
 @import './src/assets/scss/_mixins.scss';
 
 .Input {
-    outline: none;
-    padding: $padding-tiny * 3 $padding-tiny * 4;
-    border: $border-input;
-    border-radius: $border-radius-input;
-    min-width: 0;
+  outline: none;
+  padding: $padding-tiny * 3 $padding-tiny * 4;
+  border: $border-input;
+  border-radius: $border-radius-input;
+  min-width: 0;
 
-    &:hover, &:focus {
-        border-color: gray;
-        box-shadow: $box-shadow;
-    }
+  &:hover,
+  &:focus {
+    border-color: gray;
+    box-shadow: $box-shadow;
+  }
 }
 
 .Wide {
-    width: 100%;
+  width: 100%;
 }
 
 .Thin {
-    padding: $padding-tiny * 2 $padding-tiny * 4;
+  padding: $padding-tiny * 2 $padding-tiny * 4;
 }
 
 .Transparent {
-    background: rgba(0, 0, 0, 0);
+  background: rgba(0, 0, 0, 0);
 }
 
 .TextCenter {
-    text-align: center;
+  text-align: center;
 }
 
 .OnMain {
-    background: $lighter-main-color;
+  background: $lighter-main-color;
+  color: $opp-adj-color;
+  border-color: $opp-adj-color;
+
+  &:hover,
+  &:focus {
+    border-color: $dark-opp-adj-color;
+    box-shadow: $box-shadow;
+  }
+
+  &::placeholder {
     color: $opp-adj-color;
-    border-color: $opp-adj-color;
-
-    &:hover, &:focus {
-        border-color: $dark-opp-adj-color;
-        box-shadow: $box-shadow;
-    }
-
-    &::placeholder {
-        color: $opp-adj-color;
-    }
+  }
 }
 
 .OnOppAdj {
-    border-color: $main-color;
+  border-color: $main-color;
 
-    &:hover, &:focus {
-        background: $lighter-main-color;
-        box-shadow: $box-shadow;
-    }
+  &:hover,
+  &:focus {
+    background: $lighter-main-color;
+    box-shadow: $box-shadow;
+  }
 
-    &::placeholder {
-        color: $main-color;
-    }
+  &::placeholder {
+    color: $main-color;
+  }
 }
 
 .Accented {
-    &:hover, &:focus {
-        color: $opp-adj-color;
-        border-color: $opp-adj-color;
-    }
+  &:hover,
+  &:focus {
+    color: $opp-adj-color;
+    border-color: $opp-adj-color;
+  }
 }

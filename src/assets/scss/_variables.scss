@@ -3,7 +3,7 @@ $desktop-width: 40rem;
 
 // Transitions
 $transition-function-card: cubic-bezier(0.4, 0, 0.17, 1.28);
-$transition-function: cubic-bezier(0.4, 0.0, 0.2, 1);
+$transition-function: cubic-bezier(0.4, 0, 0.2, 1);
 $transition-duration: 0.3s;
 $transition-card: $transition-duration $transition-function-card;
 $transition: $transition-duration $transition-function;
@@ -14,7 +14,7 @@ $padding-tiny: 0.2rem;
 
 // Border
 $border-input: 1px solid #ccc;
-$border-input-oa: 1px solid #5481A4;
+$border-input-oa: 1px solid #5481a4;
 $border-radius-input: 2px;
 $border-radius-button: 4px;
 $border-radius-card: 6px;
@@ -23,9 +23,9 @@ $border-radius-card: 6px;
 $margin: 1rem;
 
 // Box Shadow
-$box-shadow-top: 0px -3px 6px -2px rgba(0,0,0,0.2);
-$box-shadow: 0px 3px 6px -2px rgba(0,0,0,0.2);
-$box-shadow-card: 0px 3px 20px 0px rgba(0,0,0,0.5);
+$box-shadow-top: 0px -3px 6px -2px rgba(0, 0, 0, 0.2);
+$box-shadow: 0px 3px 6px -2px rgba(0, 0, 0, 0.2);
+$box-shadow-card: 0px 3px 20px 0px rgba(0, 0, 0, 0.5);
 
 // Font
 $font-size: 1rem;
@@ -49,17 +49,17 @@ $adj-color: #ffc67a;
 $dark-adj-color: #dda04d;
 $darker-adj-color: #be7e28;
 
-$lighter-opp-color: #B5E7D2;
-$light-opp-color: #B5E7D2;
-$opp-color: #54AF88;
-$dark-opp-color: #35986E;
-$darker-opp-color: #1B8256;
+$lighter-opp-color: #b5e7d2;
+$light-opp-color: #b5e7d2;
+$opp-color: #54af88;
+$dark-opp-color: #35986e;
+$darker-opp-color: #1b8256;
 
-$lighter-opp-adj-color: #B6D0E4;
-$light-opp-adj-color: #81A8C6;
-$opp-adj-color: #5481A4;
-$dark-opp-adj-color: #38698E;
-$darker-opp-adj-color: #20537A;
+$lighter-opp-adj-color: #b6d0e4;
+$light-opp-adj-color: #81a8c6;
+$opp-adj-color: #5481a4;
+$dark-opp-adj-color: #38698e;
+$darker-opp-adj-color: #20537a;
 
 // Toolbar
 $toolbar-width: 4.2rem;
