@@ -54,8 +54,7 @@
     "gulp": "gulp",
     "lint": "eslint",
     "prettier": "prettier --single-quote --write ./src/**/*.js && prettier --single-quote --write ./src/*.js && prettier --single-quote --write ./src/**/*.scss",
-    "clean": "rm -rf node_modules",
-    "reinstall": "npm run clean && npm install"
+    "clean": "rm -rf node_modules"
   },
   "jest": {
     "collectCoverageFrom": [
