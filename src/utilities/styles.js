@@ -1,1 +1,1 @@
-export const MAT_ICONS = 'material-icons'
+export const MAT_ICONS = 'material-icons';

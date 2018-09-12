@@ -1,30 +1,30 @@
-@import './src/assets/scss/_variables.scss';
-@import './src/assets/scss/_mixins.scss';
+@import "./src/assets/scss/_variables.scss";
+@import "./src/assets/scss/_mixins.scss";
 
 .More {
-    display: flex;
-    flex-direction: column;
-    align-items: center;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
 
-    ul {
-        list-style-type: none;
-        padding: 0;
-        margin: 0;
-        width: 100%;
+  ul {
+    list-style-type: none;
+    padding: 0;
+    margin: 0;
+    width: 100%;
 
-        li {
-            height: $toolbar-width / 1.5;
-            border-bottom: 1px solid $opp-adj-color;
-        }
-
-        @include media-min-width($desktop-width) {
-            max-width: 30%;
-        }
+    li {
+      height: $toolbar-width / 1.5;
+      border-bottom: 1px solid $opp-adj-color;
     }
+
+    @include media-min-width($desktop-width) {
+      max-width: 30%;
+    }
+  }
 }
 
 .User {
-    background: $opp-adj-color;
-    color: white;
-    width: 100%;
+  background: $opp-adj-color;
+  color: white;
+  width: 100%;
 }

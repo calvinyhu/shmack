@@ -1,75 +1,75 @@
-@import './src/assets/scss/_variables.scss';
-@import './src/assets/scss/_mixins.scss';
+@import "./src/assets/scss/_variables.scss";
+@import "./src/assets/scss/_mixins.scss";
 
 .Auth {
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  align-items: center;
+  min-height: 33.3vh;
+  padding: $padding;
+
+  form {
     display: flex;
     flex-direction: column;
-    justify-content: center;
     align-items: center;
-    min-height: 33.3vh;
-    padding: $padding;
+    width: 80vw;
+    max-width: $width * 30;
 
-    form {
-        display: flex;
-        flex-direction: column;
-        align-items: center;
-        width: 80vw;
-        max-width: $width * 30;
-
-        input {
-            margin-bottom: $margin;
-        }
-
-        button {
-            margin-bottom: $margin;
-            color: white;
-        }
+    input {
+      margin-bottom: $margin;
     }
+
+    button {
+      margin-bottom: $margin;
+      color: white;
+    }
+  }
 }
 
 .Switch {
-    display: flex;
-    justify-content: space-evenly;
-    align-items: center;
-    margin: $margin 0;
-    width: 80vw;
-    max-width: $width * 20;
+  display: flex;
+  justify-content: space-evenly;
+  align-items: center;
+  margin: $margin 0;
+  width: 80vw;
+  max-width: $width * 20;
 
-    p {
-        text-align: center;
-        margin: 0;
+  p {
+    text-align: center;
+    margin: 0;
+  }
+
+  #LogIn {
+    margin: 0;
+    width: auto;
+
+    a {
+      outline: none;
+      background: white;
+      color: black;
+      padding: 0;
+      border: none;
+      text-decoration: none;
+      box-shadow: none;
+      font-weight: 600;
+      font-size: $font-size;
+      transition: $transition;
+
+      &:hover {
+        text-decoration: underline;
+      }
+
+      &:focus {
+        text-decoration: underline;
+      }
     }
-
-    #LogIn {
-        margin: 0;
-        width: auto;
-    
-        a {
-            outline: none;
-            background: white;
-            color: black;
-            padding: 0;
-            border: none;
-            text-decoration: none;
-            box-shadow: none;
-            font-weight: 600;
-            font-size: $font-size;
-            transition: $transition;
-    
-            &:hover {
-                text-decoration: underline;
-            }
-
-            &:focus {
-                text-decoration: underline;
-            }
-        }
-    }
+  }
 }
 
 .Message {
-    margin: 0;
-    padding: $padding * 2;
-    font-size: $font-size * 2;
-    text-align: center;
+  margin: 0;
+  padding: $padding * 2;
+  font-size: $font-size * 2;
+  text-align: center;
 }

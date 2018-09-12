@@ -1,62 +1,62 @@
-@import './src/assets/scss/_variables.scss';
-@import './src/assets/scss/_mixins.scss';
+@import "./src/assets/scss/_variables.scss";
+@import "./src/assets/scss/_mixins.scss";
 
 .Restaurant {
-    display: flex;
-    justify-self: center;
-    align-self: center;
-    position: relative;
-    text-align: center;
-    width: 100%;
-    height: 100%;
-    transition: $transition;
-    user-select: none;
+  display: flex;
+  justify-self: center;
+  align-self: center;
+  position: relative;
+  text-align: center;
+  width: 100%;
+  height: 100%;
+  transition: $transition;
+  user-select: none;
 
-    &:hover {
-        cursor: pointer;
-    }
+  &:hover {
+    cursor: pointer;
+  }
 }
 
 .RestaurantImgContainer {
+  width: 100%;
+  height: 100%;
+  overflow: hidden;
+
+  img {
     width: 100%;
     height: 100%;
-    overflow: hidden;
-
-    img {
-        width: 100%;
-        height: 100%;
-        object-fit: cover;
-    }
+    object-fit: cover;
+  }
 }
 
 .RestaurantInfo {
-    display: flex;
-    justify-content: center;
-    align-items: center;
-    position: absolute;
-    top: 0;
-    left: 0;
-    width: 100%;
-    height: 100%;
-    background: rgba(0, 0, 0, 0.3);
-    border-radius: $border-radius-button / 2;
-    color: white;
-    font-size: $font-size;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  position: absolute;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 100%;
+  background: rgba(0, 0, 0, 0.3);
+  border-radius: $border-radius-button / 2;
+  color: white;
+  font-size: $font-size;
+  opacity: 1;
+  transition: $transition;
+
+  &:hover {
     opacity: 1;
-    transition: $transition;
+  }
 
-    &:hover {
-        opacity: 1;
-    }
-
-    @include media-min-width($desktop-width) {
-        opacity: 0;
-        font-size: $font-size * 1.2;
-    }
+  @include media-min-width($desktop-width) {
+    opacity: 0;
+    font-size: $font-size * 1.2;
+  }
 }
 
 .Selected {
-    width: 90%;
-    height: 90%;
-    transition: $transition;
+  width: 90%;
+  height: 90%;
+  transition: $transition;
 }

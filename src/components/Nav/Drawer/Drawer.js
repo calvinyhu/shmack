@@ -1,31 +1,25 @@
-import React from 'react'
+import React from 'react';
 
-import classes from './Drawer.css'
+import classes from './Drawer.css';
 
-const drawer = (props) => {
-    let classNames = null
+const drawer = props => {
+  let classNames = null;
 
-    if (props.top) {
-        classNames = classes.TopDrawer
-        if (props.isOpen)
-            classNames = [classNames, classes.OpenTopDrawer].join(' ')
-        else
-            classNames = [classNames, classes.CloseTopDrawer].join(' ')
-    }
-    
-    if (props.right) {
-        classNames = classes.RightDrawer
-        if (props.isOpen)
-            classNames = [classNames, classes.OpenRightDrawer].join(' ')
-        else
-            classNames = [classNames, classes.CloseRightDrawer].join(' ')
-    }
+  if (props.top) {
+    classNames = classes.TopDrawer;
+    if (props.isOpen)
+      classNames = [classNames, classes.OpenTopDrawer].join(' ');
+    else classNames = [classNames, classes.CloseTopDrawer].join(' ');
+  }
 
-    return (
-        <div className={classNames}>
-            {props.children}
-        </div>
-    )
-}
+  if (props.right) {
+    classNames = classes.RightDrawer;
+    if (props.isOpen)
+      classNames = [classNames, classes.OpenRightDrawer].join(' ');
+    else classNames = [classNames, classes.CloseRightDrawer].join(' ');
+  }
 
-export default drawer
+  return <div className={classNames}>{props.children}</div>;
+};
+
+export default drawer;

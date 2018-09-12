@@ -1,11 +1,9 @@
-import React from 'react'
+import React from 'react';
 
-import classes from './Cancel.css'
+import classes from './Cancel.css';
 
-const cancel = (props) => {
-    return (
-        <button></button>
-    )
-}
+const cancel = props => {
+  return <button />;
+};
 
-export default cancel
+export default cancel;

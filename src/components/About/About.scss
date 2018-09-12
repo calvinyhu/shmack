@@ -1,22 +1,22 @@
-@import './src/assets/scss/_variables.scss';
-@import './src/assets/scss/_mixins.scss';
+@import "./src/assets/scss/_variables.scss";
+@import "./src/assets/scss/_mixins.scss";
 
 .About {
-    display: flex;
-    flex-direction: column;
-    justify-content: center;
-    align-items: center;
-    height: 33vh;
-    background: $main-color;
-    color: white;
-    font-size: $font-size * 3;
-    font-weight: bold;
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  align-items: center;
+  height: 33vh;
+  background: $main-color;
+  color: white;
+  font-size: $font-size * 3;
+  font-weight: bold;
 
-    h1 {
-        margin: 0 $margin;
-    }
+  h1 {
+    margin: 0 $margin;
+  }
 
-    @include media-min-width($desktop-width / 1.5) {
-        flex-direction: row;
-    }
+  @include media-min-width($desktop-width / 1.5) {
+    flex-direction: row;
+  }
 }

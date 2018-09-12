@@ -1,25 +1,25 @@
-import React from 'react'
+import React from 'react';
 
-import classes from './Restaurant.css'
+import classes from './Restaurant.css';
 
-const restaurant = (props) => {
-    let classNames = classes.Restaurant
-    if (props.isSelected)
-        classNames = [classNames, classes.Selected].join(' ')
+const restaurant = props => {
+  let classNames = classes.Restaurant;
+  if (props.isSelected) classNames = [classNames, classes.Selected].join(' ');
 
-    return (
-        <div
-            className={classNames}
-            onClick={props.click}
-            onTouchStart={props.touchStart}
-            onTouchMove={props.touchEnd}
-            onTouchEnd={props.touchEnd} >
-            <div className={classes.RestaurantImgContainer}>
-                <img src={props.img} alt='Restaurant'/>
-            </div>
-            <div className={classes.RestaurantInfo}>{props.children}</div>
-        </div>
-    )
-}
+  return (
+    <div
+      className={classNames}
+      onClick={props.click}
+      onTouchStart={props.touchStart}
+      onTouchMove={props.touchEnd}
+      onTouchEnd={props.touchEnd}
+    >
+      <div className={classes.RestaurantImgContainer}>
+        <img src={props.img} alt="Restaurant" />
+      </div>
+      <div className={classes.RestaurantInfo}>{props.children}</div>
+    </div>
+  );
+};
 
-export default restaurant
+export default restaurant;
