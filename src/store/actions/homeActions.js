@@ -24,7 +24,7 @@ export const getYourPlaces = () => {
   };
 };
 
-export const getYourCuisines = hasGeoLocatePermission => {
+export const getYourCuisines = () => {
   return dispatch => {
     dispatch(getYourCusinesStart());
     const user = usersRef.doc(auth.currentUser.uid);
@@ -33,7 +33,7 @@ export const getYourCuisines = hasGeoLocatePermission => {
       .doc(labels.YOUR_CUISINES)
       .get()
       .then(doc => {
-        if (doc.exists && hasGeoLocatePermission) {
+        if (doc.exists) {
           navigator.geolocation.getCurrentPosition(
             response => {
               const position = {
@@ -65,6 +65,32 @@ export const getYourCuisines = hasGeoLocatePermission => {
       .catch(error => {
         dispatch(getYourCuisinesFail(error.response));
       });
+  };
+};
+
+export const getDefaultCuisines = () => {
+  return dispatch => {
+    dispatch(getYourCusinesStart());
+
+    const defaults = { American: '', Chinese: '' };
+    navigator.geolocation.getCurrentPosition(
+      response => {
+        const position = {
+          lat: response.coords.latitude,
+          long: response.coords.longitude
+        };
+        const queries = Object.keys(defaults).map(cuisine =>
+          createGeoLocYelpSearchQuery(cuisine, position.lat, position.long)
+        );
+        const promises = queries.map(query => axios.get(query, yelpConfig));
+        axios.all(promises).then(
+          axios.spread((...responses) => {
+            dispatch(getYourCuisinesSuccess(defaults, responses));
+          })
+        );
+      },
+      error => {}
+    );
   };
 };
 

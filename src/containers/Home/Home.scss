@@ -2,7 +2,7 @@
 @import './src/assets/scss/_mixins.scss';
 
 .Home {
-  height: 100vh;
+  height: 100%;
 
   .Header {
     position: fixed;
@@ -29,7 +29,6 @@
     align-items: left;
     padding: 0 $padding;
     padding-top: $padding * 4;
-    padding-bottom: $toolbar-height;
     height: 100%;
     overflow: auto;
   }

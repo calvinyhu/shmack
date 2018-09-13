@@ -1,2 +1,7 @@
 @import './src/assets/scss/_variables.scss';
 @import './src/assets/scss/_mixins.scss';
+
+.Main {
+  height: 100vh;
+  padding-bottom: $toolbar-height;
+}

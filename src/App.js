@@ -5,7 +5,11 @@ import { connect } from 'react-redux';
 import * as actions from './store/actions/appActions';
 import { authTryAutoLogIn } from './store/actions/authActions';
 import { getUserInfo } from './store/actions/userActions';
-import { getYourPlaces, getYourCuisines } from './store/actions/homeActions';
+import {
+  getYourPlaces,
+  getYourCuisines,
+  getDefaultCuisines
+} from './store/actions/homeActions';
 import * as paths from './utilities/paths';
 import { auth } from './utilities/firebase';
 import Layout from './hoc/Layout/Layout';
@@ -31,7 +35,8 @@ const mapDispatchToProps = dispatch => {
     onAuthTryAutoLogIn: () => dispatch(authTryAutoLogIn()),
     onGetUserInfo: () => dispatch(getUserInfo()),
     onGetYourPlaces: () => dispatch(getYourPlaces()),
-    onGetYourCuisines: perm => dispatch(getYourCuisines(perm))
+    onGetYourCuisines: perm => dispatch(getYourCuisines(perm)),
+    onGetDefaultCuisines: () => dispatch(getDefaultCuisines())
   };
 };
 
@@ -39,12 +44,13 @@ class App extends Component {
   componentDidMount() {
     this.props.onAuthTryAutoLogIn();
     this.props.onCheckGeoLocatePermission();
+    this.props.onGetDefaultCuisines();
 
     auth.onAuthStateChanged(user => {
       if (user) {
         this.props.onGetUserInfo();
         this.props.onGetYourPlaces();
-        this.props.onGetYourCuisines(this.props.hasGeoLocatePermission);
+        if (this.props.hasGeoLocatePermission) this.props.onGetYourCuisines();
       }
     });
   }

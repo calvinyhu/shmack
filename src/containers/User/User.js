@@ -88,6 +88,8 @@ class User extends Component {
   };
 
   render() {
+    if (!this.props.isAuth) return null;
+
     let user = null;
 
     if (this.props.getting) {

@@ -72,9 +72,14 @@ class Home extends Component {
       return true;
     else if (nextProps.isGettingYourPlaces !== this.props.isGettingYourPlaces)
       return true;
+    else if (
+      nextProps.isGettingYourCuisines !== this.props.isGettingYourCuisines
+    )
+      return true;
     else if (nextState !== this.state) {
       if (
         nextState.yourPlaces !== this.state.yourPlaces ||
+        nextState.yourCuisines !== this.state.yourCuisines ||
         nextState.isAtTop !== this.state.isAtTop ||
         nextState.isCardOpen !== this.state.isCardOpen ||
         nextState.isCardTurned !== this.state.isCardTurned
@@ -212,7 +217,7 @@ class Home extends Component {
 
     let yourCuisines = null;
     if (this.props.isGettingYourCuisines)
-      yourCuisines = <p>Getting your cuisines near you...</p>;
+      yourCuisines = <p>Getting cuisines near you...</p>;
     else if (this.state.yourCuisines) yourCuisines = this.state.yourCuisines;
     else
       yourCuisines = <p>Turn on location sharing to get cuisines near you.</p>;
