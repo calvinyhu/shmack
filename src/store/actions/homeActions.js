@@ -72,7 +72,13 @@ export const getDefaultCuisines = () => {
   return dispatch => {
     dispatch(getYourCusinesStart());
 
-    const defaults = { American: '', Chinese: '' };
+    const defaults = {
+      American: '',
+      Chinese: '',
+      Mexican: '',
+      Japanese: '',
+      Mediterranean: ''
+    };
     navigator.geolocation.getCurrentPosition(
       response => {
         const position = {
