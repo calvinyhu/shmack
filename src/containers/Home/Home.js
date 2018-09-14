@@ -219,11 +219,9 @@ class Home extends Component {
       this.state.yourPlaces &&
       Object.keys(this.state.yourPlaces).length > 0
     )
-      yourPlaces = this.state.yourPlaces;
+      yourPlaces = <div className={classes.List}>{this.state.yourPlaces}</div>;
     else if (this.props.isAuth) yourPlaces = <p>You don't have any places!</p>;
     else yourPlaces = <p>Login to get your places.</p>;
-
-    let yourRecommendations = <p>Coming soon!</p>;
 
     let yourCuisines = null;
     if (this.props.isGettingYourCuisines)
@@ -249,16 +247,10 @@ class Home extends Component {
       <div className={classes.Home}>
         <header className={headerClasses}>shmack</header>
         <main id="main" onScroll={this.mainScrollHandler}>
-          <section>
-            <div className={classes.Category}>Your Places</div>
-            <div className={classes.List}>{yourPlaces}</div>
-          </section>
-          <section>
-            <div className={classes.Category}>Your Recommendations</div>
-            <div className={classes.List}>{yourRecommendations}</div>
-          </section>
-          <p className={classes.CuisinesNearYou}>Near You</p>
-          {yourCuisines}
+          <p className={classes.Separator}>Your Places</p>
+          <section>{yourPlaces}</section>
+          <p className={classes.Separator}>Near You</p>
+          <section>{yourCuisines}</section>
         </main>
         {card}
       </div>
