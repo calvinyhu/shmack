@@ -112,6 +112,20 @@ export const postYourPlaces = places => {
   };
 };
 
+export const homeLogOut = () => {
+  return {
+    type: actionTypes.HOME_LOGOUT,
+    yourPlaces: null,
+    yourCuisineCategories: null,
+    yourCuisines: null,
+    getting: false,
+    gettingCuisines: false,
+    posting: false,
+    error: null,
+    cuisinesError: null
+  };
+};
+
 const getYourPlacesStart = () => {
   return {
     type: actionTypes.HOME_GET_YOUR_PLACES_START,

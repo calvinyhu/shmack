@@ -35,7 +35,7 @@ const mapDispatchToProps = dispatch => {
     onAuthTryAutoLogIn: () => dispatch(authTryAutoLogIn()),
     onGetUserInfo: () => dispatch(getUserInfo()),
     onGetYourPlaces: () => dispatch(getYourPlaces()),
-    onGetYourCuisines: perm => dispatch(getYourCuisines(perm)),
+    onGetYourCuisines: () => dispatch(getYourCuisines()),
     onGetDefaultCuisines: () => dispatch(getDefaultCuisines())
   };
 };
@@ -44,13 +44,15 @@ class App extends Component {
   componentDidMount() {
     this.props.onAuthTryAutoLogIn();
     this.props.onCheckGeoLocatePermission();
-    this.props.onGetDefaultCuisines();
 
     auth.onAuthStateChanged(user => {
       if (user) {
         this.props.onGetUserInfo();
         this.props.onGetYourPlaces();
         if (this.props.hasGeoLocatePermission) this.props.onGetYourCuisines();
+      } else {
+        if (this.props.hasGeoLocatePermission)
+          this.props.onGetDefaultCuisines();
       }
     });
   }

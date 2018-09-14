@@ -2,21 +2,25 @@ import * as actionTypes from '../actions/actionTypes';
 
 export const checkGeoLocatePermission = () => {
   return dispatch => {
-    navigator.permissions.query({ name: 'geolocation' }).then(permission => {
-      switch (permission.state) {
-        case 'prompt':
-          dispatch(toggleGeoLocPerm(false));
-          break;
-        case 'granted':
-          dispatch(toggleGeoLocPerm(true));
-          break;
-        case 'blocked':
-          dispatch(toggleGeoLocPerm(false));
-          break;
-        default:
-          dispatch(toggleGeoLocPerm(false));
-      }
-    });
+    if (navigator.permissions) {
+      navigator.permissions.query({ name: 'geolocation' }).then(permission => {
+        switch (permission.state) {
+          case 'prompt':
+            dispatch(toggleGeoLocPerm(false));
+            break;
+          case 'granted':
+            dispatch(toggleGeoLocPerm(true));
+            break;
+          case 'blocked':
+            dispatch(toggleGeoLocPerm(false));
+            break;
+          default:
+            dispatch(toggleGeoLocPerm(false));
+        }
+      });
+    } else {
+      console.log('This browser does not support Permissions API');
+    }
   };
 };
 

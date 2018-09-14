@@ -6,6 +6,11 @@ import { createGooglePlacePhotoQuery } from '../../utilities/google';
 import Restaurant from '../../components/Restaurant/Restaurant';
 import { SOURCE } from '../Restaurants/Restaurants';
 import Card from '../../components/UI/Card/Card';
+import { checkGeoLocatePermission } from '../../store/actions/appActions';
+import {
+  getYourCuisines,
+  getDefaultCuisines
+} from '../../store/actions/homeActions';
 
 const mapStateToProps = state => {
   return {
@@ -16,6 +21,14 @@ const mapStateToProps = state => {
     yourCuisineCategories: state.home.yourCuisineCategories,
     yourCuisines: state.home.yourCuisines,
     hasGeoLocatePermission: state.app.hasGeoLocatePermission
+  };
+};
+
+const mapDispatchToProps = dispatch => {
+  return {
+    onCheckGeoLocatePermission: () => dispatch(checkGeoLocatePermission()),
+    onGetYourCuisines: () => dispatch(getYourCuisines()),
+    onGetDefaultCuisines: () => dispatch(getDefaultCuisines())
   };
 };
 
@@ -32,35 +45,30 @@ class Home extends Component {
   };
 
   componentDidMount() {
-    if (this.props.yourPlaces) {
-      this.setState({
-        yourPlaces: this.displayYourPlaces(this.props.yourPlaces)
-      });
+    if (!this.props.yourCuisines) {
+      if (this.props.hasGeoLocatePermission) {
+        if (this.props.isAuth) this.props.onGetYourCuisines();
+        else this.props.onGetDefaultCuisines();
+      }
     }
-    if (this.props.yourCuisines) {
-      this.setState({
-        yourCuisines: this.displayYourCuisines(
-          this.props.yourCuisineCategories,
-          this.props.yourCuisines
-        )
-      });
-    }
+
+    this.setState({
+      yourPlaces: this.displayYourPlaces(this.props.yourPlaces),
+      yourCuisines: this.displayYourCuisines(
+        this.props.yourCuisineCategories,
+        this.props.yourCuisines
+      )
+    });
   }
 
   componentWillReceiveProps(nextProps) {
-    if (nextProps.yourPlaces) {
-      this.setState({
-        yourPlaces: this.displayYourPlaces(nextProps.yourPlaces)
-      });
-    }
-    if (nextProps.yourCuisines) {
-      this.setState({
-        yourCuisines: this.displayYourCuisines(
-          nextProps.yourCuisineCategories,
-          nextProps.yourCuisines
-        )
-      });
-    }
+    this.setState({
+      yourPlaces: this.displayYourPlaces(nextProps.yourPlaces),
+      yourCuisines: this.displayYourCuisines(
+        nextProps.yourCuisineCategories,
+        nextProps.yourCuisines
+      )
+    });
   }
 
   shouldComponentUpdate(nextProps, nextState) {
@@ -162,6 +170,8 @@ class Home extends Component {
   };
 
   displayYourCuisines = (yourCuisineCategories, yourCuisines) => {
+    if (!yourCuisines) return null;
+
     const cuisines = [];
     const cuisineRestaurants = {};
 
@@ -258,5 +268,5 @@ class Home extends Component {
 
 export default connect(
   mapStateToProps,
-  null
+  mapDispatchToProps
 )(Home);

@@ -76,6 +76,19 @@ const postYourPlacesFail = (state, action) => {
   });
 };
 
+const homeLogOut = (state, action) => {
+  return updateObject(state, {
+    yourPlaces: action.yourPlaces,
+    yourCuisineCategories: action.yourCuisineCategories,
+    yourCuisines: action.yourCuisines,
+    getting: action.getting,
+    gettingCuisines: action.gettingCuisines,
+    posting: action.posting,
+    error: action.error,
+    cuisinesError: action.cuisinesError
+  });
+};
+
 const homeReducer = (state = initialState, action) => {
   switch (action.type) {
     case actionTypes.HOME_GET_YOUR_CUISINES_START:
@@ -96,6 +109,8 @@ const homeReducer = (state = initialState, action) => {
       return postYourPlacesSuccess(state, action);
     case actionTypes.HOME_POST_YOUR_PLACES_FAIL:
       return postYourPlacesFail(state, action);
+    case actionTypes.HOME_LOGOUT:
+      return homeLogOut(state, action);
     default:
       return state;
   }
