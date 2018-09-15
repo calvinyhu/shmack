@@ -248,9 +248,9 @@ class Home extends Component {
         <header className={headerClasses}>shmack</header>
         <main id="main" onScroll={this.mainScrollHandler}>
           <p className={classes.Separator}>Your Places</p>
-          <section>{yourPlaces}</section>
+          <div className={classes.Content}>{yourPlaces}</div>
           <p className={classes.Separator}>Near You</p>
-          <section>{yourCuisines}</section>
+          <div className={classes.Content}>{yourCuisines}</div>
         </main>
         {card}
       </div>

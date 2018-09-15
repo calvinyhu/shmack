@@ -276,6 +276,7 @@ class Restaurants extends Component {
 
     let doneButton = (
       <Fab
+        multiSelect
         isOpen={this.state.isSelectingYourPlaces}
         click={this.addToYourPlacesHandler}
       >
@@ -285,6 +286,7 @@ class Restaurants extends Component {
 
     let cancelButton = (
       <Fab
+        multiSelect
         isOpen={
           this.state.isMultiSelectActive && !this.state.isSelectingYourPlaces
         }

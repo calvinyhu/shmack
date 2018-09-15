@@ -14,7 +14,7 @@
 
     li {
       height: $toolbar-width / 1.5;
-      border-bottom: 1px solid $opp-adj-color;
+      border-bottom: 1px solid lighten($lighter-opp-adj-color, 5%);
     }
 
     @include media-min-width($desktop-width) {

@@ -3,8 +3,6 @@
 
 .Fab {
   position: fixed;
-  left: 50%;
-  bottom: $toolbar-height * 1.5;
   z-index: 1;
   transition: $transition;
   user-select: none;
@@ -19,5 +17,23 @@
 }
 
 .ActionFab {
+  left: 50%;
   bottom: $toolbar-height * 3;
+}
+
+.MultiSelect {
+  left: 50%;
+  bottom: $toolbar-height * 1.5;
+}
+
+.Top {
+  top: $margin;
+}
+
+.Bottom {
+  bottom: $margin;
+}
+
+.Right {
+  right: 0;
 }

@@ -154,9 +154,11 @@ class Auth extends Component {
     return (
       <div className={classes.Auth}>
         {authRedirect}
+        <main>
+          {form}
+          {formSwitch}
+        </main>
         {loadingPrompt}
-        {form}
-        {formSwitch}
         {errorMessage}
       </div>
     );
