@@ -31,9 +31,10 @@
   height: 15%;
   opacity: 0;
   z-index: -100;
-  transition: opacity $transition, z-index 0s $transition-duration,
-    transform $transition, width $transition-duration $transition-duration / 2,
-    height $transition-duration;
+  transition: opacity $transition1, z-index 0s $transition-duration1,
+    transform $transition1,
+    width $transition-duration1 $transition-duration1 / 2,
+    height $transition-duration1;
 }
 
 .RestaurantCardOpen {
@@ -42,9 +43,9 @@
   max-height: 550px;
   opacity: 1;
   z-index: 1002;
-  transition: opacity $transition, transform $transition-duration * 2,
-    width $transition-duration,
-    height $transition-duration $transition-duration / 2;
+  transition: opacity $transition1, transform $transition-duration1 * 2,
+    width $transition-duration1,
+    height $transition-duration1 $transition-duration1 / 2;
 
   @include media-min-height($mobile-height-tall) {
     height: 55%;
@@ -66,7 +67,7 @@
 
 .RestaurantCardTurn {
   transform: translateY(-50%) translateX(-50%) rotateY(180deg);
-  transition: transform $transition-duration * 2;
+  transition: transform $transition-duration1 * 2;
 }
 
 .ImgContainer {
@@ -166,13 +167,13 @@
   width: 65%;
   opacity: 0;
   transform: translateX(100vw);
-  transition: $transition;
+  transition: $transition1;
 }
 
 .ShowInput {
   opacity: 1;
   transform: translateX(0);
-  transition: $transition;
+  transition: $transition1;
 }
 
 .FabContainer {

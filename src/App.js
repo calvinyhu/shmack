@@ -13,12 +13,10 @@ import {
 import * as paths from './utilities/paths';
 import { auth } from './utilities/firebase';
 import Layout from './hoc/Layout/Layout';
-import Home from './containers/Home/Home';
 import About from './components/About/About';
 import Auth from './containers/Auth/Auth';
 import LogOut from './containers/Auth/LogOut/LogOut';
 import Restaurants from './containers/Restaurants/Restaurants';
-import More from './containers/More/More';
 import Settings from './components/Settings/Settings';
 
 const mapStateToProps = state => {
@@ -58,62 +56,33 @@ class App extends Component {
   }
 
   render() {
-    const routes = [
-      <Route exact path={paths.HOME} component={Home} key={paths.HOME} />,
-      <Route
-        exact
-        path={paths.SEARCH}
-        component={Restaurants}
-        key={paths.SEARCH}
-      />,
-      <Route exact path={paths.MORE} component={More} key={paths.MORE} />,
-      <Route exact path={paths.ABOUT} component={About} key={paths.ABOUT} />,
-      <Route
-        exact
-        path={paths.SETTINGS}
-        component={Settings}
-        key={paths.SETTINGS}
-      />
-    ];
+    let routes = null;
 
     if (this.props.isAuth) {
-      routes.push(
-        <Route
-          exact
-          path={paths.LOGOUT}
-          component={LogOut}
-          key={paths.LOGOUT}
-        />
-      );
-      routes.push(
-        <Route path={paths.AUTH} component={Auth} key={paths.AUTH} />
+      routes = (
+        <Switch>
+          <Route exact path={paths.HOME} component={Restaurants} />
+          <Route exact path={paths.ABOUT} component={About} />
+          <Route exact path={paths.SETTINGS} component={Settings} />
+          <Route exact path={paths.LOGOUT} component={LogOut} />
+          <Route path={paths.AUTH} component={Auth} />
+          <Redirect to={paths.HOME} />
+        </Switch>
       );
     } else {
-      routes.push(
-        <Route
-          exact
-          path={paths.AUTH_SIGNUP}
-          component={Auth}
-          key={paths.AUTH_SIGNUP}
-        />
-      );
-      routes.push(
-        <Route
-          exact
-          path={paths.AUTH_LOGIN}
-          component={Auth}
-          key={paths.AUTH_LOGIN}
-        />
+      routes = (
+        <Switch>
+          <Route exact path={paths.HOME} component={Restaurants} />
+          <Route exact path={paths.ABOUT} component={About} />
+          <Route exact path={paths.SETTINGS} component={Settings} />
+          <Route exact path={paths.AUTH_SIGNUP} component={Auth} />
+          <Route exact path={paths.AUTH_LOGIN} component={Auth} />
+          <Redirect to={paths.HOME} />
+        </Switch>
       );
     }
 
-    routes.push(<Redirect to={paths.HOME} key={'Redirect'} />);
-
-    return (
-      <Layout isAuth={this.props.isAuth}>
-        <Switch>{routes}</Switch>
-      </Layout>
-    );
+    return <Layout isAuth={this.props.isAuth}>{routes}</Layout>;
   }
 }
 

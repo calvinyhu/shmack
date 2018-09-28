@@ -1,9 +1,9 @@
 import React, { Component } from 'react';
 import { connect } from 'react-redux';
+import { NavLink } from 'react-router-dom';
 
 import classes from './More.css';
 import * as paths from '../../utilities/paths';
-import NavItem from '../../components/Nav/NavItems/NavItem/NavItem';
 import User from '../User/User';
 
 const mapStateToProps = state => {
@@ -19,9 +19,7 @@ class More extends Component {
     if (this.props.isAuth) {
       links = (
         <li>
-          <NavItem link wide tall to={paths.LOGOUT}>
-            Log Out
-          </NavItem>
+          <NavLink to={paths.LOGOUT}>Log Out</NavLink>
         </li>
       );
     }
@@ -33,14 +31,10 @@ class More extends Component {
         </div>
         <ul>
           <li>
-            <NavItem link wide tall to={paths.ABOUT}>
-              About
-            </NavItem>
+            <NavLink to={paths.ABOUT}>About</NavLink>
           </li>
           <li>
-            <NavItem link wide tall to={paths.SETTINGS}>
-              Settings
-            </NavItem>
+            <NavLink to={paths.SETTINGS}>Settings</NavLink>
           </li>
           {links}
         </ul>

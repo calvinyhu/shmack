@@ -6,66 +6,49 @@
   flex-direction: column;
   justify-content: center;
   align-items: center;
-  min-height: 33.3vh;
+  width: 100%;
   height: 100%;
   padding: $padding;
+}
 
-  main {
-    overflow: auto;
+.AuthForm {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  width: 100%;
+  max-width: $width * 30;
+
+  input {
+    margin-bottom: $margin;
   }
 
-  form {
-    display: flex;
-    flex-direction: column;
-    align-items: center;
-    width: 80vw;
-    max-width: $width * 30;
-
-    input {
-      margin-bottom: $margin;
-    }
-
-    button {
-      margin-bottom: $margin;
-      color: white;
-    }
+  button {
+    margin-bottom: $margin;
+    color: white;
   }
 }
 
 .Switch {
   display: flex;
-  justify-content: space-evenly;
+  justify-content: space-around;
   align-items: center;
   margin: $margin 0;
+  width: 100%;
+  max-width: $width * 30;
 
   p {
     text-align: center;
     margin: 0;
   }
 
-  #LogIn {
-    margin: 0;
-    width: auto;
+  a {
+    color: $main-color;
+    font-weight: 600;
+    transition: $transition1;
 
-    a {
-      outline: none;
-      background: white;
-      color: black;
-      padding: 0;
-      border: none;
-      text-decoration: none;
-      box-shadow: none;
-      font-weight: 600;
-      font-size: $font-size;
-      transition: $transition;
-
-      &:hover {
-        text-decoration: underline;
-      }
-
-      &:focus {
-        text-decoration: underline;
-      }
+    &:hover {
+      color: $darker-main-color;
+      text-decoration: underline;
     }
   }
 }

@@ -1,11 +1,11 @@
 import React, { Component } from 'react';
 import { Redirect } from 'react-router-dom';
 import { connect } from 'react-redux';
+import { NavLink } from 'react-router-dom';
 
 import classes from './Auth.css';
 import * as actions from '../../store/actions/authActions';
 import * as paths from '../../utilities/paths';
-import NavItem from '../../components/Nav/NavItems/NavItem/NavItem';
 import Button from '../../components/UI/Button/Button';
 import Input from '../../components/UI/Input/Input';
 import Aux from '../../hoc/Auxiliary/Auxiliary';
@@ -20,14 +20,14 @@ const mapStateToProps = state => {
 
 const mapDispatchToProps = dispatch => {
   return {
-    onAuth: (userInfo, signingUp) =>
-      dispatch(actions.authenticate(userInfo, signingUp))
+    onAuth: (userInfo, isSigningUp) =>
+      dispatch(actions.authenticate(userInfo, isSigningUp))
   };
 };
 
 class Auth extends Component {
   state = {
-    signingUp: this.props.location.pathname === paths.AUTH_SIGNUP,
+    isSigningUp: this.props.location.pathname === paths.AUTH_SIGNUP,
     firstName: '',
     lastName: '',
     email: '',
@@ -36,7 +36,7 @@ class Auth extends Component {
 
   componentWillReceiveProps(nextProps) {
     const nextPath = nextProps.location.pathname;
-    this.setState({ signingUp: nextPath === paths.AUTH_SIGNUP });
+    this.setState({ isSigningUp: nextPath === paths.AUTH_SIGNUP });
   }
 
   shouldComponentUpdate(nextProps, _) {
@@ -47,11 +47,11 @@ class Auth extends Component {
     );
   }
 
-  inputChangeHandler = event => {
+  handleInputChange = event => {
     this.setState({ [event.target.name]: event.target.value });
   };
 
-  formSubmitHandler = event => {
+  handleFormSubmit = event => {
     event.preventDefault();
     const userInfo = {
       firstName: this.state.firstName,
@@ -59,26 +59,93 @@ class Auth extends Component {
       email: this.state.email,
       password: this.state.password
     };
-    this.props.onAuth(userInfo, this.state.signingUp);
+    this.props.onAuth(userInfo, this.state.isSigningUp);
   };
 
-  authChangeHandler = () => {
+  handleAuthChange = () => {
     this.setState(prevState => {
-      return { signingUp: !prevState.signingUp };
+      return { isSigningUp: !prevState.isSigningUp };
     });
   };
 
+  renderForm = () => {
+    let signingUpInputs = null;
+    let formButtonName = 'Log In';
+    let switchCTA = 'New user?';
+    let switchLink = paths.AUTH_SIGNUP;
+    let switchName = 'Sign Up';
+
+    if (this.state.isSigningUp) {
+      signingUpInputs = (
+        <Aux>
+          <Input
+            wide
+            type="text"
+            name="firstName"
+            placeholder="First Name"
+            change={this.handleInputChange}
+          />
+          <Input
+            wide
+            type="text"
+            name="lastName"
+            placeholder="Last Name"
+            change={this.handleInputChange}
+          />
+        </Aux>
+      );
+      formButtonName = 'Sign Up';
+      switchCTA = 'Existing user?';
+      switchLink = paths.AUTH_LOGIN;
+      switchName = 'Log In';
+    }
+
+    const form = (
+      <form className={classes.AuthForm} onSubmit={this.handleFormSubmit}>
+        {signingUpInputs}
+        <Input
+          wide
+          type="email"
+          name="email"
+          placeholder="Email"
+          change={this.handleInputChange}
+        />
+        <Input
+          wide
+          type="password"
+          name="password"
+          placeholder="Password"
+          change={this.handleInputChange}
+        />
+        <Button wide>{formButtonName}</Button>
+      </form>
+    );
+
+    const formSwitch = (
+      <div className={classes.Switch}>
+        <p>{switchCTA}</p>
+        <NavLink onClick={this.handleAuthChange} to={switchLink}>
+          {switchName}
+        </NavLink>
+      </div>
+    );
+
+    return { form: form, formSwitch: formSwitch };
+  };
+
   render() {
-    let authRedirect = null;
+    if (this.props.redirectPath)
+      return <Redirect to={this.props.redirectPath} />;
+
     let loadingPrompt = null;
+    let errorMessage = null;
     let form = null;
     let formSwitch = null;
-    let errorMessage = null;
 
     if (this.props.loading) {
       loadingPrompt = (
         <p className={classes.Message}>
-          {this.state.signingUp ? 'Signing Up...' : 'Logging In...'}
+          {this.state.isSigningUp ? 'Signing Up...' : 'Logging In...'}
         </p>
       );
     } else if (this.props.error) {
@@ -86,80 +153,17 @@ class Auth extends Component {
         <div className={classes.Message}>{this.props.error.message}</div>
       );
     } else {
-      let signingUpInputs = null;
-      let formButtonName = 'Log In';
-      let switchCTA = "Not shmackin' ?";
-      let switchLink = paths.AUTH_SIGNUP;
-      let switchName = 'Sign Up';
-
-      if (this.state.signingUp) {
-        signingUpInputs = (
-          <Aux>
-            <Input
-              wide
-              type="text"
-              name="firstName"
-              placeholder="First Name"
-              change={this.inputChangeHandler}
-            />
-            <Input
-              wide
-              type="text"
-              name="lastName"
-              placeholder="Last Name"
-              change={this.inputChangeHandler}
-            />
-          </Aux>
-        );
-        formButtonName = 'Sign Up';
-        switchCTA = "Already shmackin' ?";
-        switchLink = paths.AUTH_LOGIN;
-        switchName = 'Log In';
-      }
-
-      form = (
-        <form onSubmit={this.formSubmitHandler}>
-          {signingUpInputs}
-          <Input
-            wide
-            type="email"
-            name="email"
-            placeholder="Email"
-            change={this.inputChangeHandler}
-          />
-          <Input
-            wide
-            type="password"
-            name="password"
-            placeholder="Password"
-            change={this.inputChangeHandler}
-          />
-          <Button wide>{formButtonName}</Button>
-        </form>
-      );
-
-      formSwitch = (
-        <div className={classes.Switch}>
-          <p>{switchCTA}</p>
-          <NavItem link click={this.authChangeHandler} to={switchLink}>
-            {switchName}
-          </NavItem>
-        </div>
-      );
+      const formElements = this.renderForm();
+      form = formElements.form;
+      formSwitch = formElements.formSwitch;
     }
-
-    if (this.props.redirectPath)
-      authRedirect = <Redirect to={this.props.redirectPath} />;
 
     return (
       <div className={classes.Auth}>
-        {authRedirect}
-        <main>
-          {form}
-          {formSwitch}
-        </main>
         {loadingPrompt}
         {errorMessage}
+        {form}
+        {formSwitch}
       </div>
     );
   }

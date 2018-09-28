@@ -52,7 +52,7 @@
     background-color: $lighter-opp-adj-color;
     border-radius: $height;
     box-shadow: $box-shadow;
-    transition: $transition;
+    transition: $transition1;
     cursor: pointer;
 
     &:before {
@@ -66,7 +66,7 @@
       border-radius: $height;
       box-shadow: $box-shadow;
       transform: translateY(50%);
-      transition: $transition;
+      transition: $transition1;
     }
   }
 }
@@ -79,7 +79,7 @@
   padding: $padding;
   box-shadow: $box-shadow;
   transform: translateX(-50%) translateY(100vh);
-  transition: $transition;
+  transition: $transition1;
 }
 
 .ShowError {

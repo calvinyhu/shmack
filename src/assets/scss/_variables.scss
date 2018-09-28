@@ -6,11 +6,12 @@ $mobile-height-taller: 44rem;
 $mobile-height-tallest: 50rem;
 
 // Transitions
-$transition-function-card: cubic-bezier(0.4, 0, 0.17, 1.28);
-$transition-function: cubic-bezier(0.4, 0, 0.2, 1);
-$transition-duration: 0.3s;
-$transition-card: $transition-duration $transition-function-card;
-$transition: $transition-duration $transition-function;
+$timing-func-1: cubic-bezier(0.26, 0.94, 0.58, 1);
+$timing-func-2: cubic-bezier(0.4, 0, 0.2, 1);
+$transition-duration1: 0.5s;
+$transition-duration2: 0.3s;
+$transition1: $transition-duration1 $timing-func-1;
+$transition2: $transition-duration2 $timing-func-2;
 
 // Padding
 $padding: 1rem;
@@ -65,9 +66,12 @@ $opp-adj-color: #5481a4;
 $dark-opp-adj-color: #38698e;
 $darker-opp-adj-color: #20537a;
 
+$dark: rgb(50, 50, 50);
+$bright: rgba(255, 255, 255, 0.9);
+
 // Toolbar
 $toolbar-width: 4.2rem;
-$toolbar-height: $height * 3;
+$toolbar-height: $height * 3.3;
 
 // Fab
 $fab-size: 3.5rem;

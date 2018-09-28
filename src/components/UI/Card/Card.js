@@ -7,7 +7,6 @@ import Aux from '../../../hoc/Auxiliary/Auxiliary';
 import Backdrop from '../Backdrop/Backdrop';
 import Fab from '../Fab/Fab';
 import Input from '../Input/Input';
-import { MAT_ICONS } from '../../../utilities/styles';
 
 class Card extends Component {
   state = {
