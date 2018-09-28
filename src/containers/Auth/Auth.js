@@ -68,6 +68,12 @@ class Auth extends Component {
     });
   };
 
+  renderFormCTA = () => {
+    if (this.state.isSigningUp)
+      return <h3>Hello! Sign up to help vote on popular menu items.</h3>;
+    else return <h3>Welcome back! Log in to access to your places.</h3>;
+  };
+
   renderForm = () => {
     let signingUpInputs = null;
     let formButtonName = 'Log In';
@@ -117,7 +123,9 @@ class Auth extends Component {
           placeholder="Password"
           change={this.handleInputChange}
         />
-        <Button wide>{formButtonName}</Button>
+        <div className={classes.FormButton}>
+          <Button main>{formButtonName}</Button>
+        </div>
       </form>
     );
 
@@ -139,6 +147,7 @@ class Auth extends Component {
 
     let loadingPrompt = null;
     let errorMessage = null;
+    let formCTA = null;
     let form = null;
     let formSwitch = null;
 
@@ -154,6 +163,8 @@ class Auth extends Component {
       );
     } else {
       const formElements = this.renderForm();
+      const cta = this.renderFormCTA();
+      formCTA = cta;
       form = formElements.form;
       formSwitch = formElements.formSwitch;
     }
@@ -162,8 +173,11 @@ class Auth extends Component {
       <div className={classes.Auth}>
         {loadingPrompt}
         {errorMessage}
-        {form}
-        {formSwitch}
+        {formCTA}
+        <div className={classes.FormContainer}>
+          {form}
+          {formSwitch}
+        </div>
       </div>
     );
   }

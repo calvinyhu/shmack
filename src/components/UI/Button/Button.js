@@ -3,20 +3,16 @@ import React from 'react';
 import classes from './Button.css';
 
 const button = props => {
-  let classNames = classes.Button;
+  let buttonClasses = classes.Button;
 
-  if (props.link) classNames = classes.PlaceholderLink;
-
-  if (props.wide) classNames += ' ' + classes.Wide;
-  if (props.thin) classNames += ' ' + classes.Thin;
-  if (props.circle) classNames += ' ' + classes.Circle;
-  if (props.onMain) classNames += ' ' + classes.OnMain;
-  if (props.secondaryColor) classNames += ' ' + classes.SecondaryColor;
-  if (props.clear) classNames += ' ' + classes.Clear;
-  if (props.mini) classNames += ' ' + classes.Mini;
+  if (props.link) buttonClasses = classes.PlaceholderLink;
+  if (props.circle) buttonClasses += ' ' + classes.Circle;
+  if (props.main) buttonClasses += ' ' + classes.Main;
+  if (props.clear) buttonClasses += ' ' + classes.Clear;
+  if (props.translucent) buttonClasses += ' ' + classes.Translucent;
 
   return (
-    <button className={classNames} onClick={props.click}>
+    <button className={buttonClasses} onClick={props.click}>
       {props.children}
     </button>
   );

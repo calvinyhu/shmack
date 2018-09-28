@@ -66,7 +66,7 @@ class Layout extends PureComponent {
       </header>
     );
 
-    const main = <main>{this.props.children}</main>;
+    const main = <main className={classes.Main}>{this.props.children}</main>;
 
     return (
       <Aux>

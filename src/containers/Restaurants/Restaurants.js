@@ -13,6 +13,7 @@ import Input from '../../components/UI/Input/Input';
 import Button from '../../components/UI/Button/Button';
 import Modal from '../../components/UI/Modal/Modal';
 import Backdrop from '../../components/UI/Backdrop/Backdrop';
+import { MAT_ICONS } from '../../utilities/styles';
 
 export const SOURCE = {
   YELP: 1,
@@ -46,10 +47,19 @@ const mapDispatchToProps = dispatch => {
 };
 
 class Restaurants extends Component {
+  restaurants = [];
+  restaurantNames = {};
+  isYelpRendered = false;
+  isGoogleRendered = false;
+  restaurantClickHandlers = {};
+
   state = {
     isRedirecting: false,
     isRequestingLocation: false,
     isScrollingDown: false,
+    isPageOpen: false,
+    restaurant: null,
+    src: null,
     prevScrollTop: 0
   };
 
@@ -70,27 +80,14 @@ class Restaurants extends Component {
     this.setState({ isRequestingLocation: false });
   };
 
-  handleRestaurantClick = (res, src, id) => {
-    if (this.state.isMultiSelectActive) {
-      const selectedIds = { ...this.state.selectedIds };
-      selectedIds[id] = selectedIds[id] ? null : res;
+  handlePageClose = () => this.setState({ isPageOpen: false });
 
-      if (!selectedIds[id]) delete selectedIds[id];
-
-      const selectedIdsLength = Object.keys(selectedIds).length;
-      if (selectedIdsLength === 0 && !this.state.isSelectingYourPlaces) {
-        this.setState({
-          isMultiSelectActive: false,
-          selectedIds: {}
-        });
-      } else this.setState({ selectedIds: selectedIds });
-    } else {
-      this.setState({
-        isCardOpen: true,
-        card: res,
-        cardSrc: src
-      });
+  getRestaurantClickHandler = (id, res, src) => {
+    if (!this.restaurantClickHandlers[id]) {
+      this.restaurantClickHandlers[id] = () =>
+        this.setState({ isPageOpen: true, restaurant: res, src: src });
     }
+    return this.restaurantClickHandlers[id];
   };
 
   handleSearch = event => {
@@ -105,31 +102,28 @@ class Restaurants extends Component {
   };
 
   renderRestaurants = () => {
-    const restaurants = [];
-    const resNames = {};
-    if (this.props.yelpRestaurants) {
+    const restaurants = [...this.restaurants];
+    const resNames = { ...this.restaurantNames };
+
+    if (!this.isYelpRendered && this.props.yelpRestaurants) {
       this.props.yelpRestaurants.forEach(res => {
         if (res.image_url && !resNames[res.name]) {
           restaurants.push(
             <Restaurant
-              isSelected={
-                this.state.isMultiSelectActive && this.state.selectedIds[res.id]
-              }
-              id={res.id}
-              click={() => this.handleRestaurantClick(res, SOURCE.YELP, res.id)}
               key={res.id}
+              click={this.getRestaurantClickHandler(res.id, res, SOURCE.YELP)}
               img={res.image_url}
             >
-              {res.name}
-              {res.rating}
-              {res.review_count}
+              <h5>{res.name}</h5>
             </Restaurant>
           );
           resNames[res.name] = 1;
         }
       });
+      this.isYelpRendered = true;
     }
-    if (this.props.googleRestaurants) {
+
+    if (!this.isGoogleRendered && this.props.googleRestaurants) {
       this.props.googleRestaurants.forEach(res => {
         if (res.photos && !resNames[res.name]) {
           const photo = res.photos[0];
@@ -139,25 +133,20 @@ class Restaurants extends Component {
           );
           restaurants.push(
             <Restaurant
-              isSelected={
-                this.state.isMultiSelectActive &&
-                this.state.selectedIds[res.place_id]
-              }
-              id={res.place_id}
-              click={() =>
-                this.handleRestaurantClick(res, SOURCE.GOOGLE, res.place_id)
-              }
               key={res.place_id}
+              click={this.getRestaurantClickHandler(res.id, res, SOURCE.GOOGLE)}
               img={imgUrl}
             >
-              {res.name}
-              {res.rating}
+              <h5>{res.name}</h5>
             </Restaurant>
           );
           resNames[res.name] = 1;
         }
       });
+      this.isGoogleRendered = true;
     }
+    this.restaurants = restaurants;
+    this.restaurantNames = resNames;
     return restaurants;
   };
 
@@ -201,29 +190,24 @@ class Restaurants extends Component {
         close={this.handleCloseLocationRequest}
         btnMsg={'Take me there'}
       >
-        To use current location, please allow location sharing in app settings.
+        Please turn on location sharing in app settings to use current location.
       </Modal>
     );
 
-    let yourPlaces = null;
-    let yourCuisines = null;
-    let background = (
-      <div className={classes.Background}>
-        <p className={classes.Separator}>Your Places</p>
-        <div className={classes.Content}>{yourPlaces}</div>
-        <p className={classes.Separator}>Places Near You</p>
-        <div className={classes.Content}>{yourCuisines}</div>
-      </div>
-    );
+    // let yourPlaces = null;
+    // let yourCuisines = null;
+    // let background = (
+    //   <div className={classes.Background}>
+    //     <p className={classes.Separator}>Your Places</p>
+    //     <div className={classes.Content}>{yourPlaces}</div>
+    //     <p className={classes.Separator}>Places Near You</p>
+    //     <div className={classes.Content}>{yourCuisines}</div>
+    //   </div>
+    // );
 
-    let restaurantsGrid = null;
-    if (this.props.yelpRestaurants || this.props.googleRestaurants) {
-      restaurantsGrid = (
-        <div className={classes.RestaurantsGrid}>
-          {this.renderRestaurants()}
-        </div>
-      );
-    }
+    let restaurantsGrid = (
+      <div className={classes.RestaurantsGrid}>{this.renderRestaurants()}</div>
+    );
 
     let searchBarClasses = classes.SearchBar;
     if (
@@ -235,7 +219,7 @@ class Restaurants extends Component {
     let searchBar = (
       <div className={searchBarClasses}>
         <form onSubmit={this.handleSearch}>
-          <div>
+          <div className={classes.SearchInputs}>
             <Input
               wide
               center
@@ -257,10 +241,69 @@ class Restaurants extends Component {
               change={this.handleInputChange}
             />
           </div>
-          <Button thin>Go</Button>
+          <div className={classes.SearchButton}>
+            <Button main>Go</Button>
+          </div>
         </form>
       </div>
     );
+
+    let pageContent = null;
+    if (this.state.restaurant) {
+      const res = this.state.restaurant;
+
+      if (this.state.src === SOURCE.YELP) {
+        pageContent = (
+          <main>
+            <div className={classes.ImgContainer}>
+              <header>
+                <div className={classes.BackButton}>
+                  <Button translucent circle click={this.handlePageClose}>
+                    <div className={MAT_ICONS}>arrow_back</div>
+                  </Button>
+                </div>
+              </header>
+              <img src={res.image_url} alt="restaurant" />
+              <h5>{res.name}</h5>
+            </div>
+            <div className={classes.Details}>
+              <p>{res.location.display_address[0]}</p>
+              <p>{res.location.display_address[1]}</p>
+              <p>{res.location.display_address[2]}</p>
+              <p>{res.display_phone}</p>
+              <h6>What's Good?</h6>
+            </div>
+          </main>
+        );
+      } else {
+        const imgUrl = createGooglePlacePhotoQuery(
+          res.photos[0].photo_reference,
+          res.photos[0].width
+        );
+        pageContent = (
+          <main>
+            <div className={classes.ImgContainer}>
+              <header>
+                <div className={classes.BackButton}>
+                  <Button translucent circle click={this.handlePageClose}>
+                    <div className={MAT_ICONS}>arrow_back</div>
+                  </Button>
+                </div>
+              </header>
+              <img src={imgUrl} alt="restaurant" />
+              <h5>{res.name}</h5>
+            </div>
+            <div className={classes.Details}>
+              <p>{res.vicinity}</p>
+              <h6>What's Good?</h6>
+            </div>
+          </main>
+        );
+      }
+    }
+    let pageClasses = classes.Page;
+    if (this.state.isPageOpen) pageClasses += ' ' + classes.OpenPage;
+    let page = <div className={pageClasses}>{pageContent}</div>;
 
     return (
       <div className={classes.Restaurants} onScroll={this.handleScroll}>
@@ -268,9 +311,10 @@ class Restaurants extends Component {
         {errorMessage}
         {backdrop}
         {locationRequestModal}
-        {background}
+        {/* {background} */}
         {restaurantsGrid}
         {searchBar}
+        {page}
       </div>
     );
   }

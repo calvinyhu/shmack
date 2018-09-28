@@ -11,9 +11,11 @@ const modal = props => {
   return (
     <div className={modalClasses}>
       <p>{props.children}</p>
-      <Button wide click={props.click}>
-        {props.btnMsg}
-      </Button>
+      <div className={classes.ModalButton}>
+        <Button main circle click={props.click}>
+          {props.btnMsg}
+        </Button>
+      </div>
     </div>
   );
 };

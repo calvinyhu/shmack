@@ -5,81 +5,80 @@
   display: flex;
   justify-content: center;
   align-items: center;
-  outline: none;
-  appearance: none;
-  background: $main-color;
-  color: white;
-  padding: $padding-tiny * 4 $padding;
+  width: 100%;
+  height: 100%;
+  padding: 0;
   border: none;
   border-radius: $border-radius-button;
   box-shadow: $box-shadow;
-  transition: $transition1;
-  font-weight: 600;
-  width: 50%;
+  transition: $transition2;
 
-  &:hover,
   &:focus {
     outline: none;
-    background: $dark-main-color;
-    color: white;
+  }
+
+  &:hover {
     cursor: pointer;
   }
 }
 
 .PlaceholderLink {
-  background: none;
-  color: white;
+  display: flex;
+  justify-content: center;
+  align-items: center;
   border: none;
   padding: 0;
-  font-size: $font-size / 1.3;
-  font-weight: 600;
+
+  &:focus {
+    outline: none;
+  }
 
   &:hover {
-    outline: none;
-    color: $main-color;
     cursor: pointer;
   }
-}
-
-.Wide {
-  width: 100%;
-}
-
-.Thin {
-  padding: $padding-tiny * 2 $padding;
 }
 
 .Circle {
-  margin: 0;
-  padding: 0;
   border-radius: 50%;
-  box-shadow: $box-shadow;
-  width: $fab-size;
-  height: $fab-size;
-}
-
-.Mini {
-  width: $fab-size-mini;
-  height: $fab-size-mini;
-}
-
-.OnMain {
-  background: white;
-  color: $main-color;
-
-  &:hover,
-  &:focus {
-    outline: none;
-    background: $main-color;
-    color: white;
-    cursor: pointer;
-  }
-}
-
-.SecondaryColor {
-  background: $opp-adj-color;
 }
 
 .Clear {
-  background: rgba(0, 0, 0, 0.2);
+  background: transparent;
+  color: black;
+  font-weight: 600;
+  box-shadow: none;
+}
+
+.Translucent {
+  background: rgba(0, 0, 0, 0.3);
+  background: radial-gradient(
+    rgba(0, 0, 0, 0.5) 0%,
+    rgba(0, 0, 0, 0.2) 50%,
+    transparent 75%
+  );
+  color: white;
+  font-weight: 600;
+  box-shadow: none;
+}
+
+.Main {
+  background: $main-color;
+  color: white;
+  font-weight: 600;
+
+  &:hover {
+    background: $dark-main-color;
+  }
+}
+
+.Adj {
+  background: $adj-color;
+
+  &:hover {
+    background: $dark-adj-color;
+  }
+}
+
+.Opp {
+  background: $opp-color;
 }
