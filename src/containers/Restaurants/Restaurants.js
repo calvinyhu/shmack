@@ -251,55 +251,59 @@ class Restaurants extends Component {
     let pageContent = null;
     if (this.state.restaurant) {
       const res = this.state.restaurant;
+      let imgSrc, name, address1, address2, address3, rating, price;
 
       if (this.state.src === SOURCE.YELP) {
-        pageContent = (
-          <main>
-            <div className={classes.ImgContainer}>
-              <header>
-                <div className={classes.BackButton}>
-                  <Button translucent circle click={this.handlePageClose}>
-                    <div className={MAT_ICONS}>arrow_back</div>
-                  </Button>
-                </div>
-              </header>
-              <img src={res.image_url} alt="restaurant" />
-              <h5>{res.name}</h5>
-            </div>
-            <div className={classes.Details}>
-              <p>{res.location.display_address[0]}</p>
-              <p>{res.location.display_address[1]}</p>
-              <p>{res.location.display_address[2]}</p>
-              <p>{res.display_phone}</p>
-              <h6>What's Good?</h6>
-            </div>
-          </main>
-        );
+        imgSrc = res.image_url;
+        name = res.name;
+        address1 = res.location.display_address[0];
+        address2 = res.location.display_address[1];
+        address3 = res.location.display_address[2];
+        rating = res.rating;
+        price = res.price;
       } else {
-        const imgUrl = createGooglePlacePhotoQuery(
+        imgSrc = createGooglePlacePhotoQuery(
           res.photos[0].photo_reference,
           res.photos[0].width
         );
-        pageContent = (
-          <main>
-            <div className={classes.ImgContainer}>
-              <header>
-                <div className={classes.BackButton}>
-                  <Button translucent circle click={this.handlePageClose}>
-                    <div className={MAT_ICONS}>arrow_back</div>
-                  </Button>
-                </div>
-              </header>
-              <img src={imgUrl} alt="restaurant" />
-              <h5>{res.name}</h5>
-            </div>
-            <div className={classes.Details}>
-              <p>{res.vicinity}</p>
-              <h6>What's Good?</h6>
-            </div>
-          </main>
-        );
+        name = res.name;
+        address1 = res.vicinity;
+        address2 = null;
+        address3 = null;
+        rating = res.rating;
+        price = '';
+        for (let i = 0; i < res.price_level; i++) price += '$';
       }
+
+      pageContent = (
+        <main>
+          <div className={classes.ImgContainer}>
+            <header>
+              <div className={classes.BackButton}>
+                <Button translucent circle click={this.handlePageClose}>
+                  <div className={MAT_ICONS}>arrow_back</div>
+                </Button>
+              </div>
+            </header>
+            <img src={imgSrc} alt="restaurant" />
+            <h5>{name}</h5>
+            <h6 className={classes.Rating}>{rating} stars</h6>
+            <h6 className={classes.Price}>{price}</h6>
+          </div>
+          <div className={classes.Popular}>
+            <h6>What's Good?</h6>
+            {/* <ul>
+              <li>
+                <p>Item</p>
+                <div classNames={classes.Vote}>
+                  <Button clear>+</Button>
+                  <Button clear>-</Button>
+                </div>
+              </li>
+            </ul> */}
+          </div>
+        </main>
+      );
     }
     let pageClasses = classes.Page;
     if (this.state.isPageOpen) pageClasses += ' ' + classes.OpenPage;

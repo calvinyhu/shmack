@@ -12,7 +12,7 @@ const modal = props => {
     <div className={modalClasses}>
       <p>{props.children}</p>
       <div className={classes.ModalButton}>
-        <Button main circle click={props.click}>
+        <Button main click={props.click}>
           {props.btnMsg}
         </Button>
       </div>

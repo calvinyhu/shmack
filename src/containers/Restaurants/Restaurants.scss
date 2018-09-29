@@ -173,26 +173,23 @@
         padding: $padding;
         text-align: center;
       }
-    }
 
-    .Details {
-      padding: $padding;
-
-      p {
-        margin-bottom: $margin / 2;
-
-        @include media-min-width($desktop-width) {
-          font-size: $font-size * 1.2;
-        }
+      .Rating,
+      .Price {
+        position: absolute;
+        bottom: 0;
+        padding: $padding;
+        margin: 0;
+        background: rgba(0, 0, 0, 0.5);
+        color: white;
       }
 
-      h6 {
-        text-align: center;
-        font-weight: 600;
+      .Rating {
+        left: 0;
+      }
 
-        @include media-min-width($desktop-width) {
-          font-size: $font-size * 1.2;
-        }
+      .Price {
+        right: 0;
       }
     }
   }
@@ -200,4 +197,43 @@
 
 .OpenPage {
   transform: translateX(0);
+}
+
+.Popular {
+  padding: $padding;
+
+  p {
+    margin-bottom: $margin / 2;
+
+    @include media-min-width($desktop-width) {
+      font-size: $font-size * 1.2;
+    }
+  }
+
+  h6 {
+    text-align: center;
+    font-weight: 600;
+
+    @include media-min-width($desktop-width) {
+      font-size: $font-size * 1.2;
+    }
+  }
+
+  ul {
+    list-style: none;
+    padding: 0;
+    margin: 0;
+
+    li {
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+
+      .Vote {
+        display: flex;
+        justify-content: center;
+        align-items: center;
+      }
+    }
+  }
 }
