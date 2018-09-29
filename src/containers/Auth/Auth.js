@@ -170,11 +170,11 @@ class Auth extends Component {
     }
 
     return (
-      <div className={classes.Auth}>
-        {loadingPrompt}
-        {errorMessage}
-        {formCTA}
-        <div className={classes.FormContainer}>
+      <div className={classes.AuthContainer}>
+        <div className={classes.Auth}>
+          {loadingPrompt}
+          {errorMessage}
+          {formCTA}
           {form}
           {formSwitch}
         </div>
