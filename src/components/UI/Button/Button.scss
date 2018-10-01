@@ -51,11 +51,11 @@
 
 .Translucent {
   background: rgba(0, 0, 0, 0.3);
-  background: radial-gradient(
-    rgba(0, 0, 0, 0.5) 0%,
-    rgba(0, 0, 0, 0.2) 50%,
-    transparent 75%
-  );
+  // background: radial-gradient(
+  //   rgba(0, 0, 0, 0.5) 0%,
+  //   rgba(0, 0, 0, 0.2) 60%,
+  //   transparent 75%
+  // );
   color: white;
   font-weight: 600;
   box-shadow: none;

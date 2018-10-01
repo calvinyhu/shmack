@@ -56,3 +56,18 @@ export const createGooglePlacePhotoQuery = (photoreference, maxwidth) => {
   const parameters = `key=${GOOGLE_PLACES_API_KEY}&photoreference=${photoreference}&maxwidth=${maxwidth}`;
   return GOOGLE_MAPS_API + PLACES_API + PLACE_PHOTO + `?${parameters}`;
 };
+
+export const convertPrice = value => {
+  switch (value) {
+    case 1:
+      return '$';
+    case 2:
+      return '$$';
+    case 3:
+      return '$$$';
+    case 4:
+      return '$$$$';
+    default:
+      return '';
+  }
+};

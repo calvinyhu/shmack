@@ -1,13 +1,17 @@
 import React, { Component } from 'react';
 import { connect } from 'react-redux';
 import { Redirect } from 'react-router-dom';
+import throttle from 'raf-throttle';
 
 import classes from './Restaurants.css';
 import * as actions from '../../store/actions/restaurantsActions';
 import * as paths from '../../utilities/paths';
 import { postYourPlaces } from '../../store/actions/homeActions';
 import { handleYelpError } from '../../utilities/yelp';
-import { createGooglePlacePhotoQuery } from '../../utilities/google';
+import {
+  createGooglePlacePhotoQuery,
+  convertPrice
+} from '../../utilities/google';
 import Restaurant from '../../components/Restaurant/Restaurant';
 import Input from '../../components/UI/Input/Input';
 import Button from '../../components/UI/Button/Button';
@@ -63,6 +67,18 @@ class Restaurants extends Component {
     prevScrollTop: 0
   };
 
+  shouldComponentUpdate(nextProps, nextState) {
+    if (
+      nextProps !== this.props ||
+      nextState.isRedirecting !== this.state.isRedirecting ||
+      nextState.isRequestingLocation !== this.state.isRequestingLocation ||
+      nextState.isScrollingDown !== this.state.isScrollingDown ||
+      nextState.isPageOpen !== this.state.isPageOpen
+    )
+      return true;
+    return false;
+  }
+
   handleRedirect = () => this.setState({ isRedirecting: true });
 
   handleInputChange = event => {
@@ -70,9 +86,13 @@ class Restaurants extends Component {
   };
 
   handleScroll = event => {
+    throttle(this.animateSearchBar(event.target.scrollTop));
+  };
+
+  animateSearchBar = scrollTop => {
     this.setState({
-      isScrollingDown: event.target.scrollTop > this.state.prevScrollTop,
-      prevScrollTop: event.target.scrollTop
+      isScrollingDown: scrollTop > this.state.prevScrollTop,
+      prevScrollTop: scrollTop
     });
   };
 
@@ -114,7 +134,9 @@ class Restaurants extends Component {
               click={this.getRestaurantClickHandler(res.id, res, SOURCE.YELP)}
               img={res.image_url}
             >
-              <h5>{res.name}</h5>
+              <h6>{res.price}</h6>
+              <h6>{res.name}</h6>
+              <h6>{res.rating}</h6>
             </Restaurant>
           );
           resNames[res.name] = 1;
@@ -137,7 +159,9 @@ class Restaurants extends Component {
               click={this.getRestaurantClickHandler(res.id, res, SOURCE.GOOGLE)}
               img={imgUrl}
             >
-              <h5>{res.name}</h5>
+              <h6>{convertPrice(res.price_level)}</h6>
+              <h6>{res.name}</h6>
+              <h6>{res.rating}</h6>
             </Restaurant>
           );
           resNames[res.name] = 1;
@@ -194,17 +218,6 @@ class Restaurants extends Component {
       </Modal>
     );
 
-    // let yourPlaces = null;
-    // let yourCuisines = null;
-    // let background = (
-    //   <div className={classes.Background}>
-    //     <p className={classes.Separator}>Your Places</p>
-    //     <div className={classes.Content}>{yourPlaces}</div>
-    //     <p className={classes.Separator}>Places Near You</p>
-    //     <div className={classes.Content}>{yourCuisines}</div>
-    //   </div>
-    // );
-
     let restaurantsGrid = (
       <div className={classes.RestaurantsGrid}>{this.renderRestaurants()}</div>
     );
@@ -212,8 +225,7 @@ class Restaurants extends Component {
     let searchBarClasses = classes.SearchBar;
     if (
       this.state.isScrollingDown ||
-      this.props.isYelpLoading ||
-      this.props.isGoogleLoading
+      (this.props.isYelpLoading && this.props.isGoogleLoading)
     )
       searchBarClasses += ' ' + classes.HideSearchBar;
     let searchBar = (
@@ -251,28 +263,46 @@ class Restaurants extends Component {
     let pageContent = null;
     if (this.state.restaurant) {
       const res = this.state.restaurant;
-      let imgSrc, name, address1, address2, address3, rating, price;
+      let imgSrc,
+        name,
+        price,
+        rating,
+        open,
+        resOpenClasses,
+        address1,
+        address2,
+        address3,
+        phone;
 
       if (this.state.src === SOURCE.YELP) {
         imgSrc = res.image_url;
         name = res.name;
+        price = res.price;
+        rating = res.rating;
+        // open = !res.is_closed ? 'Open' : 'Closed';
+        resOpenClasses = !res.is_closed
+          ? classes.ResIsOpen
+          : classes.ResIsClosed;
         address1 = res.location.display_address[0];
         address2 = res.location.display_address[1];
         address3 = res.location.display_address[2];
-        rating = res.rating;
-        price = res.price;
+        phone = res.display_phone;
       } else {
         imgSrc = createGooglePlacePhotoQuery(
           res.photos[0].photo_reference,
           res.photos[0].width
         );
         name = res.name;
+        price = convertPrice(res.price_level);
+        rating = res.rating;
+        open = res.opening_hours.open_now ? 'Open' : 'Closed';
+        resOpenClasses = res.opening_hours.open_now
+          ? classes.ResIsOpen
+          : classes.ResIsClosed;
         address1 = res.vicinity;
         address2 = null;
         address3 = null;
-        rating = res.rating;
-        price = '';
-        for (let i = 0; i < res.price_level; i++) price += '$';
+        phone = '';
       }
 
       pageContent = (
@@ -286,21 +316,82 @@ class Restaurants extends Component {
               </div>
             </header>
             <img src={imgSrc} alt="restaurant" />
-            <h5>{name}</h5>
-            <h6 className={classes.Rating}>{rating} stars</h6>
-            <h6 className={classes.Price}>{price}</h6>
           </div>
-          <div className={classes.Popular}>
-            <h6>What's Good?</h6>
-            {/* <ul>
-              <li>
-                <p>Item</p>
-                <div classNames={classes.Vote}>
-                  <Button clear>+</Button>
-                  <Button clear>-</Button>
-                </div>
-              </li>
-            </ul> */}
+          <div className={classes.Info}>
+            <div className={classes.Details}>
+              <div className={classes.RO}>
+                <h5>{name}</h5>
+                <p className={resOpenClasses}>{open}</p>
+              </div>
+              <div className={classes.PR}>
+                <p>{price}</p>
+                <p>{rating}</p>
+              </div>
+              <p>{address1}</p>
+              <p>{address2}</p>
+              <p>{address3}</p>
+              <p>{phone}</p>
+            </div>
+            <div className={classes.Popular}>
+              <h6>What's Good?</h6>
+              <ul>
+                <li>
+                  <p>Item</p>
+                  <div className={classes.Vote}>
+                    <Button clear>
+                      <div className={MAT_ICONS}>thumb_up_alt</div>
+                    </Button>
+                    <Button clear>
+                      <div className={MAT_ICONS}>thumb_down_alt</div>
+                    </Button>
+                  </div>
+                </li>
+                <li>
+                  <p>Item</p>
+                  <div className={classes.Vote}>
+                    <Button clear>
+                      <div className={MAT_ICONS}>thumb_up_alt</div>
+                    </Button>
+                    <Button clear>
+                      <div className={MAT_ICONS}>thumb_down_alt</div>
+                    </Button>
+                  </div>
+                </li>
+                <li>
+                  <p>Item</p>
+                  <div className={classes.Vote}>
+                    <Button clear>
+                      <div className={MAT_ICONS}>thumb_up_alt</div>
+                    </Button>
+                    <Button clear>
+                      <div className={MAT_ICONS}>thumb_down_alt</div>
+                    </Button>
+                  </div>
+                </li>
+                <li>
+                  <p>Item</p>
+                  <div className={classes.Vote}>
+                    <Button clear>
+                      <div className={MAT_ICONS}>thumb_up_alt</div>
+                    </Button>
+                    <Button clear>
+                      <div className={MAT_ICONS}>thumb_down_alt</div>
+                    </Button>
+                  </div>
+                </li>
+                <li>
+                  <p>Item</p>
+                  <div className={classes.Vote}>
+                    <Button clear>
+                      <div className={MAT_ICONS}>thumb_up_alt</div>
+                    </Button>
+                    <Button clear>
+                      <div className={MAT_ICONS}>thumb_down_alt</div>
+                    </Button>
+                  </div>
+                </li>
+              </ul>
+            </div>
           </div>
         </main>
       );
