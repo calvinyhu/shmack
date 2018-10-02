@@ -65,6 +65,7 @@ class Restaurants extends Component {
     isRequestingLocation: false,
     isScrollingDown: false,
     isPageOpen: false,
+    isShowLocationInput: false,
     id: null,
     restaurant: null,
     src: null,
@@ -77,13 +78,24 @@ class Restaurants extends Component {
       nextState.isRedirecting !== this.state.isRedirecting ||
       nextState.isRequestingLocation !== this.state.isRequestingLocation ||
       nextState.isScrollingDown !== this.state.isScrollingDown ||
-      nextState.isPageOpen !== this.state.isPageOpen
+      nextState.isPageOpen !== this.state.isPageOpen ||
+      nextState.isShowLocationInput !== this.state.isShowLocationInput
     )
       return true;
     return false;
   }
 
   handleRedirect = () => this.setState({ isRedirecting: true });
+
+  handleShowLocationInput = () => {
+    if (!this.state.isShowLocationInput)
+      this.setState({ isShowLocationInput: true });
+  };
+
+  handleHideLocationInput = () => {
+    if (this.state.isShowLocationInput)
+      this.setState({ isShowLocationInput: false });
+  };
 
   handleInputChange = event => {
     this.props.onRestaurantInputChange(event.target.name, event.target.value);
@@ -98,6 +110,7 @@ class Restaurants extends Component {
       isScrollingDown: scrollTop > this.state.prevScrollTop,
       prevScrollTop: scrollTop
     });
+    this.handleHideLocationInput();
   };
 
   handleCloseLocationRequest = () => {
@@ -117,6 +130,7 @@ class Restaurants extends Component {
       this.restaurantClickHandlers[id] = () => {
         this.setState({ isPageOpen: true, id: id, restaurant: res, src: src });
         this.props.onGetPopularItems(id);
+        this.handleHideLocationInput();
       };
     }
     return this.restaurantClickHandlers[id];
@@ -131,6 +145,7 @@ class Restaurants extends Component {
       console.log('[ Restaurants ] Using current location');
       this.props.onRestaurantSearch(this.props.food, this.props.location);
     } else this.setState({ isRequestingLocation: true });
+    this.handleHideLocationInput();
   };
 
   renderThumbnails = () => {
@@ -238,28 +253,52 @@ class Restaurants extends Component {
       (this.props.isYelpLoading && this.props.isGoogleLoading)
     )
       searchBarClasses += ' ' + classes.HideSearchBar;
+
+    let foodInputContainerClasses = classes.FoodInputContainer;
+    let locationInputContainerClasses = classes.LocationInputContainer;
+    let searchButtonClasses = classes.SearchButton;
+    let foodInputPlaceholder = this.state.isShowLocationInput
+      ? 'Food'
+      : 'Food in Your Location';
+    if (this.state.isShowLocationInput || this.props.location) {
+      searchBarClasses += ' ' + classes.ExtendSearchBar;
+      foodInputContainerClasses += ' ' + classes.SlideUp;
+      locationInputContainerClasses += ' ' + classes.Show;
+      searchButtonClasses += ' ' + classes.ExtendSearchButton;
+    }
+
     let searchBar = (
       <div className={searchBarClasses}>
         <form onSubmit={this.handleSearch}>
           <div className={classes.SearchInputs}>
-            <Input
-              small
-              type="text"
-              name="food"
-              placeholder="Food"
-              value={this.props.food}
-              change={this.handleInputChange}
-            />
-            <Input
-              small
-              type="text"
-              name="location"
-              placeholder="Current Location"
-              value={this.props.location}
-              change={this.handleInputChange}
-            />
+            <div
+              className={foodInputContainerClasses}
+              onClick={this.handleShowLocationInput}
+            >
+              <Input
+                small
+                id="food"
+                type="text"
+                name="food"
+                placeholder={foodInputPlaceholder}
+                value={this.props.food}
+                change={this.handleInputChange}
+                click={this.handleClick}
+              />
+            </div>
+            <div className={locationInputContainerClasses}>
+              <Input
+                small
+                id="location"
+                type="text"
+                name="location"
+                placeholder="Your Location"
+                value={this.props.location}
+                change={this.handleInputChange}
+              />
+            </div>
           </div>
-          <div className={classes.SearchButton}>
+          <div className={searchButtonClasses}>
             <Button main>Go</Button>
           </div>
         </form>

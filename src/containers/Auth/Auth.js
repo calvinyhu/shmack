@@ -86,6 +86,8 @@ class Auth extends Component {
         <Aux>
           <Input
             medium
+            margin
+            floatText
             type="text"
             name="firstName"
             placeholder="First Name"
@@ -93,6 +95,8 @@ class Auth extends Component {
           />
           <Input
             medium
+            margin
+            floatText
             type="text"
             name="lastName"
             placeholder="Last Name"
@@ -111,6 +115,8 @@ class Auth extends Component {
         {signingUpInputs}
         <Input
           medium
+          margin
+          floatText
           type="email"
           name="email"
           placeholder="Email"
@@ -118,6 +124,8 @@ class Auth extends Component {
         />
         <Input
           medium
+          margin
+          floatText
           type="password"
           name="password"
           placeholder="Password"

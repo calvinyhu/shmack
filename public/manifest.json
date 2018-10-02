@@ -6,6 +6,7 @@
   "theme_color": "#ffa07a",
   "background_color": "#ffffff",
   "orientation": "portrait-primary",
+  "description": "Shmack shows popular menu items at a glance",
   "icons": [
     {
       "src": "/icon-192.png",
