@@ -1,0 +1,135 @@
+@import './src/assets/scss/_variables.scss';
+@import './src/assets/scss/_mixins.scss';
+
+.ResPage {
+  position: fixed;
+  top: 0;
+  left: 0;
+  z-index: 1;
+  transform: translateX(100%);
+  width: 100%;
+  height: 100%;
+  background: white;
+  transition: $transition1;
+
+  main {
+    position: relative;
+    height: 100%;
+    overflow-y: auto;
+  }
+}
+
+.OpenResPage {
+  transform: translateX(0);
+}
+
+.ImgContainer {
+  position: relative;
+  height: 50%;
+  box-shadow: $box-shadow;
+
+  img {
+    position: absolute;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    object-fit: cover;
+  }
+
+  .BackButton {
+    position: absolute;
+    top: 0;
+    left: 0;
+    z-index: 1;
+    margin: $margin;
+    width: $fab-size-mini;
+    height: $fab-size-mini;
+  }
+}
+
+.Info {
+  display: flex;
+  flex-direction: column;
+  height: 50%;
+  overflow: scroll;
+}
+
+.Details {
+  margin: $margin;
+  padding-bottom: $padding / 2;
+  border-bottom: 1px solid #ccc;
+
+  p {
+    margin-bottom: $margin / 2;
+  }
+
+  .RO {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+
+    p {
+      margin-left: $margin;
+    }
+  }
+
+  .ResIsOpen {
+    color: $pastel-green;
+  }
+
+  .ResIsClosed {
+    color: $pastel-red;
+  }
+
+  .PR {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+  }
+}
+
+.Popular {
+  margin: $margin;
+  margin-top: 0;
+  padding-top: $padding-tiny;
+
+  p {
+    margin-bottom: $margin / 2;
+
+    @include media-min-width($desktop-width) {
+      font-size: $font-size * 1.2;
+    }
+  }
+
+  h6 {
+    text-align: center;
+    margin-bottom: $margin * 1.2;
+
+    @include media-min-width($desktop-width) {
+      font-size: $font-size * 1.2;
+    }
+  }
+
+  ul {
+    list-style: none;
+    padding: 0;
+    margin: 0;
+  }
+}
+
+.AddItem {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  width: 100%;
+
+  .AddItemInputContainer {
+    width: 80%;
+  }
+
+  .AddItemSubmitButton {
+    width: $fab-size-mini;
+    height: $fab-size-mini;
+  }
+}

@@ -1,6 +1,7 @@
 import * as actionTypes from '../actions/actionTypes';
 import { FIELDS } from '../../utilities/database';
 import { auth, usersRef } from '../../utilities/firebase';
+import * as labels from '../../utilities/database';
 
 export const getUserInfo = () => {
   return dispatch => {
@@ -14,6 +15,20 @@ export const getUserInfo = () => {
       })
       .catch(error => {
         dispatch(getUserInfoFail(error.response));
+      });
+  };
+};
+
+export const getUserPlaces = () => {
+  return dispatch => {
+    const user = usersRef.doc(auth.currentUser.uid);
+    const editsRef = user.collection(labels.EDITS);
+    editsRef
+      .doc(labels.PLACES)
+      .get()
+      .then(doc => {
+        if (doc.exists) dispatch(getUserPlacesSuccess(doc.data()));
+        else dispatch(getUserPlacesSuccess(null));
       });
   };
 };
@@ -89,6 +104,13 @@ const getUserInfoFail = error => {
     type: actionTypes.USER_GET_INFO_FAIL,
     getting: false,
     error: error
+  };
+};
+
+const getUserPlacesSuccess = userPlaces => {
+  return {
+    type: actionTypes.USER_GET_PLACES_SUCCESS,
+    userPlaces: userPlaces
   };
 };
 

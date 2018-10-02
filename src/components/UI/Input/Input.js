@@ -3,19 +3,21 @@ import React from 'react';
 import classes from './Input.css';
 
 const input = props => {
-  let classNames = classes.Input;
+  let inputClasses = classes.Input;
 
-  if (props.wide) classNames += ' ' + classes.Wide;
-  if (props.thin) classNames += ' ' + classes.Thin;
-  if (props.transparent) classNames += ' ' + classes.Transparent;
-  if (props.center) classNames += ' ' + classes.TextCenter;
-  if (props.onMain) classNames += ' ' + classes.OnMain;
-  if (props.onOppAdj) classNames += ' ' + classes.OnOppAdj;
-  if (props.accented) classNames += ' ' + classes.Accented;
+  // Style
+  if (props.line) inputClasses += ' ' + classes.Line;
+
+  // Padding
+  if (props.small) inputClasses += ' ' + classes.Small;
+  if (props.medium) inputClasses += ' ' + classes.Medium;
+
+  // Color
+  if (props.transparent) inputClasses += ' ' + classes.Transparent;
 
   return (
     <input
-      className={classNames}
+      className={inputClasses}
       type={props.type}
       name={props.name}
       placeholder={props.placeholder}

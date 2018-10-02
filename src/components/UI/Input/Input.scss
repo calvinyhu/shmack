@@ -2,69 +2,39 @@
 @import './src/assets/scss/_mixins.scss';
 
 .Input {
+  position: relative;
+  width: 100%;
+  height: 100%;
   outline: none;
-  padding: $padding-tiny * 3 $padding-tiny * 4;
   border: $border-input;
-  border-radius: $border-radius-input;
+  border-radius: $border-radius-button;
   min-width: 0;
 
-  &:hover,
-  &:focus {
+  &:hover {
     border-color: gray;
     box-shadow: $box-shadow;
   }
 }
 
-.Wide {
-  width: 100%;
+.Line {
+  border: none;
+  border-bottom: $border-input;
+  border-radius: 0;
+
+  &:hover {
+    border-color: gray;
+    box-shadow: none;
+  }
 }
 
-.Thin {
-  padding: $padding-tiny * 2 $padding-tiny * 4;
+.Small {
+  padding: $padding-tiny * 2 $padding-tiny * 3;
+}
+
+.Medium {
+  padding: $padding-tiny * 3 $padding-tiny * 4;
 }
 
 .Transparent {
-  background: rgba(0, 0, 0, 0);
-}
-
-.TextCenter {
-  text-align: center;
-}
-
-.OnMain {
-  background: $lighter-main-color;
-  color: $opp-adj-color;
-  border-color: $opp-adj-color;
-
-  &:hover,
-  &:focus {
-    border-color: $dark-opp-adj-color;
-    box-shadow: $box-shadow;
-  }
-
-  &::placeholder {
-    color: $opp-adj-color;
-  }
-}
-
-.OnOppAdj {
-  border-color: $main-color;
-
-  &:hover,
-  &:focus {
-    background: $lighter-main-color;
-    box-shadow: $box-shadow;
-  }
-
-  &::placeholder {
-    color: $main-color;
-  }
-}
-
-.Accented {
-  &:hover,
-  &:focus {
-    color: $opp-adj-color;
-    border-color: $opp-adj-color;
-  }
+  background: transparent;
 }

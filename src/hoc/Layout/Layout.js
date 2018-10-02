@@ -29,33 +29,59 @@ class Layout extends PureComponent {
       />
     );
 
-    const drawer = (
-      <Drawer left isOpen={this.state.isDrawerOpen}>
-        <nav>
-          <div className={classes.AuthLinks}>
-            <NavLink
-              className={classes.SignUp}
-              to={paths.AUTH_SIGNUP}
-              onClick={this.handleCloseDrawer}
-            >
-              Sign Up
+    let drawer = null;
+    if (this.props.isAuth) {
+      drawer = (
+        <Drawer left isOpen={this.state.isDrawerOpen}>
+          <nav>
+            <div className={classes.Primary}>
+              <NavLink to={paths.HOME} onClick={this.handleCloseDrawer}>
+                Home
+              </NavLink>
+              <NavLink to={paths.ABOUT} onClick={this.handleCloseDrawer}>
+                About
+              </NavLink>
+              <NavLink to={paths.SETTINGS} onClick={this.handleCloseDrawer}>
+                Settings
+              </NavLink>
+            </div>
+            <NavLink to={paths.LOGOUT} onClick={this.handleCloseDrawer}>
+              Log Out
             </NavLink>
-            <NavLink to={paths.AUTH_LOGIN} onClick={this.handleCloseDrawer}>
-              Login
-            </NavLink>
-          </div>
-          <NavLink to={paths.HOME} onClick={this.handleCloseDrawer}>
-            Home
-          </NavLink>
-          <NavLink to={paths.ABOUT} onClick={this.handleCloseDrawer}>
-            About
-          </NavLink>
-          <NavLink to={paths.SETTINGS} onClick={this.handleCloseDrawer}>
-            Settings
-          </NavLink>
-        </nav>
-      </Drawer>
-    );
+          </nav>
+        </Drawer>
+      );
+    } else {
+      drawer = (
+        <Drawer left isOpen={this.state.isDrawerOpen}>
+          <nav>
+            <div className={classes.Primary}>
+              <div className={classes.AuthLinks}>
+                <NavLink
+                  className={classes.SignUp}
+                  to={paths.AUTH_SIGNUP}
+                  onClick={this.handleCloseDrawer}
+                >
+                  Sign Up
+                </NavLink>
+                <NavLink to={paths.AUTH_LOGIN} onClick={this.handleCloseDrawer}>
+                  Login
+                </NavLink>
+              </div>
+              <NavLink to={paths.HOME} onClick={this.handleCloseDrawer}>
+                Home
+              </NavLink>
+              <NavLink to={paths.ABOUT} onClick={this.handleCloseDrawer}>
+                About
+              </NavLink>
+              <NavLink to={paths.SETTINGS} onClick={this.handleCloseDrawer}>
+                Settings
+              </NavLink>
+            </div>
+          </nav>
+        </Drawer>
+      );
+    }
 
     const header = (
       <header>

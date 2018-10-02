@@ -35,10 +35,18 @@ header {
 nav {
   display: flex;
   flex-direction: column;
+  justify-content: space-between;
   width: 100%;
   height: 100%;
   background: $bright;
   padding: $padding;
+  overflow: auto;
+
+  .Primary {
+    display: flex;
+    flex-direction: column;
+    flex-shrink: 0;
+  }
 
   a {
     color: $main-color;

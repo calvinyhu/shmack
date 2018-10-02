@@ -1,10 +1,10 @@
 // Collections
 export const USERS = 'users';
-export const PREFERENCES = 'preferences';
+export const EDITS = 'edits';
+export const RESTAURANTS = 'restaurants';
 
 // Documents
-export const YOUR_PLACES = 'yourPlaces';
-export const YOUR_CUISINES = 'yourCuisines';
+export const PLACES = 'places';
 
 // Fields
 export const FIELDS = {

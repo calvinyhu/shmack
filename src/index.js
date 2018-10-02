@@ -13,13 +13,15 @@ import homeReducer from './store/reducers/homeReducer';
 import restaurantsReducer from './store/reducers/restaurantsReducer';
 import authReducer from './store/reducers/authReducer';
 import userReducer from './store/reducers/userReducer';
+import resPageReducer from './store/reducers/resPageReducer';
 
 const rootReducer = combineReducers({
   app: appReducer,
   home: homeReducer,
   restaurants: restaurantsReducer,
   auth: authReducer,
-  user: userReducer
+  user: userReducer,
+  resPage: resPageReducer
 });
 
 const composeEnhancers =

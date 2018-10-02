@@ -85,14 +85,14 @@ class Auth extends Component {
       signingUpInputs = (
         <Aux>
           <Input
-            wide
+            medium
             type="text"
             name="firstName"
             placeholder="First Name"
             change={this.handleInputChange}
           />
           <Input
-            wide
+            medium
             type="text"
             name="lastName"
             placeholder="Last Name"
@@ -110,14 +110,14 @@ class Auth extends Component {
       <form className={classes.AuthForm} onSubmit={this.handleFormSubmit}>
         {signingUpInputs}
         <Input
-          wide
+          medium
           type="email"
           name="email"
           placeholder="Email"
           change={this.handleInputChange}
         />
         <Input
-          wide
+          medium
           type="password"
           name="password"
           placeholder="Password"

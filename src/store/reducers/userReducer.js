@@ -10,6 +10,7 @@ const initialState = {
     [FIELDS.EMAIL]: '',
     [FIELDS.LOCATION]: ''
   },
+  userPlaces: null,
   posting: false,
   postSuccess: false,
   getting: false,
@@ -34,6 +35,12 @@ const getUserInfoFail = (state, action) => {
   return updateObject(state, {
     getting: action.getting,
     error: action.error
+  });
+};
+
+const getUserPlacesSuccess = (state, action) => {
+  return updateObject(state, {
+    userPlaces: action.userPlaces
   });
 };
 
@@ -82,6 +89,8 @@ const userReducer = (state = initialState, action) => {
       return getUserInfoSuccess(state, action);
     case actionTypes.USER_GET_INFO_FAIL:
       return getUserInfoFail(state, action);
+    case actionTypes.USER_GET_PLACES_SUCCESS:
+      return getUserPlacesSuccess(state, action);
     case actionTypes.USER_POST_INFO_START:
       return postUserInfoStart(state, action);
     case actionTypes.USER_POST_INFO_SUCCESS:

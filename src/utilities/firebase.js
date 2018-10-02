@@ -25,3 +25,4 @@ export const firestore = firebase.firestore();
 const settings = { /* your settings... */ timestampsInSnapshots: true };
 firestore.settings(settings);
 export const usersRef = firestore.collection(labels.USERS);
+export const resRef = firestore.collection(labels.RESTAURANTS);
