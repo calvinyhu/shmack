@@ -195,7 +195,6 @@ class ResPage extends Component {
           votedUp = userPlacesName.votedUp;
           votedDown = userPlacesName.votedDown;
         }
-        console.log(votedUp, votedDown);
 
         items.push(
           <ResItem
