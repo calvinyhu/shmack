@@ -1,5 +1,6 @@
 @import './src/assets/scss/_variables.scss';
 @import './src/assets/scss/_mixins.scss';
+@import './src/assets/scss/_classes.scss';
 
 .ResPage {
   position: fixed;
@@ -132,4 +133,12 @@
     width: $fab-size-mini;
     height: $fab-size-mini;
   }
+}
+
+@include loading;
+
+.LoaderContainer {
+  margin: auto;
+  width: 2rem;
+  height: 2rem;
 }

@@ -153,9 +153,11 @@ class Auth extends Component {
 
     if (this.props.loading) {
       loadingPrompt = (
-        <p className={classes.Message}>
-          {this.state.isSigningUp ? 'Signing Up...' : 'Logging In...'}
-        </p>
+        <div className={classes.LoaderContainer}>
+          <div className={classes.Loader}>
+            {this.state.isSigningUp ? 'Signing Up...' : 'Logging In...'}
+          </div>
+        </div>
       );
     } else if (this.props.error) {
       errorMessage = (

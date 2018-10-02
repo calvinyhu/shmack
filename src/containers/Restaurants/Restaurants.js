@@ -194,18 +194,12 @@ class Restaurants extends Component {
     if (this.state.isRedirecting) return <Redirect to={paths.SETTINGS} />;
 
     let loadingMessage = null;
-    if (this.props.isYelpLoading || this.props.isGoogleLoading) {
+    if (this.props.isYelpLoading || this.props.isGoogleLoading)
       loadingMessage = (
-        <p className={classes.Message}>
-          Getting
-          {this.props.food ? ` ${this.props.food}` : ' food '}
-          {this.props.location
-            ? ` in ${this.props.location} `
-            : ' at your current location '}
-          for you...
-        </p>
+        <div className={classes.LoaderContainer}>
+          <div className={classes.Loader}>Searching...</div>
+        </div>
       );
-    }
 
     let errorMessage = null;
     if (this.props.yelpError || this.props.googleError) {
@@ -288,7 +282,6 @@ class Restaurants extends Component {
         {errorMessage}
         {backdrop}
         {locationRequestModal}
-        {/* {background} */}
         {restaurantsGrid}
         {searchBar}
         {resPage}

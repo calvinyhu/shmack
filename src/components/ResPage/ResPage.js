@@ -206,8 +206,13 @@ class ResPage extends Component {
           />
         );
       });
-    } else if (this.props.isGettingItems) items = <p>Loading...</p>;
-    else
+    } else if (this.props.isGettingItems) {
+      items = (
+        <div className={classes.LoaderContainer}>
+          <div className={classes.Loader}>Searching...</div>
+        </div>
+      );
+    } else
       items = (
         <p>No foods yet! But help us grow by adding your recommendations!</p>
       );
