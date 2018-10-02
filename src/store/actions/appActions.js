@@ -97,3 +97,17 @@ const geoError = error => {
     error: error
   };
 };
+
+export const beforeInstallPrompt = event => {
+  return {
+    type: actionTypes.BEFORE_INSTALL_PROMPT,
+    deferredPrompt: event
+  };
+};
+
+export const clearDeferredPrompt = () => {
+  return {
+    type: actionTypes.CLEAR_DEFERRED_PROMPT,
+    deferredPrompt: null
+  };
+};

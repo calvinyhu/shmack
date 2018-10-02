@@ -7,6 +7,7 @@ import classes from './Restaurants.css';
 import * as actions from '../../store/actions/restaurantsActions';
 import * as paths from '../../utilities/paths';
 import { getItems } from '../../store/actions/resPageActions';
+import { clearDeferredPrompt } from '../../store/actions/appActions';
 import { handleYelpError } from '../../utilities/yelp';
 import {
   createGooglePlacePhotoQuery,
@@ -36,7 +37,8 @@ const mapStateToProps = state => {
     yelpError: state.restaurants.yelpError,
     isGoogleLoading: state.restaurants.isGoogleLoading,
     googleRestaurants: state.restaurants.googleRestaurants,
-    googleError: state.restaurants.googleError
+    googleError: state.restaurants.googleError,
+    deferredPrompt: state.app.deferredPrompt
   };
 };
 
@@ -46,7 +48,8 @@ const mapDispatchToProps = dispatch => {
       dispatch(actions.restaurantInputChange(name, value)),
     onRestaurantSearch: (food, location) =>
       dispatch(actions.restaurantSearch(food, location)),
-    onGetPopularItems: id => dispatch(getItems(id))
+    onGetPopularItems: id => dispatch(getItems(id)),
+    onClearDeferredPrompt: () => dispatch(clearDeferredPrompt())
   };
 };
 
@@ -101,7 +104,13 @@ class Restaurants extends Component {
     this.setState({ isRequestingLocation: false });
   };
 
-  handlePageClose = () => this.setState({ isPageOpen: false });
+  handlePageClose = () => {
+    if (this.props.deferredPrompt) {
+      this.props.deferredPrompt.prompt();
+      this.props.onClearDeferredPrompt();
+    }
+    this.setState({ isPageOpen: false });
+  };
 
   getRestaurantClickHandler = (id, res, src) => {
     if (!this.restaurantClickHandlers[id]) {

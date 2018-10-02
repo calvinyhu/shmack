@@ -27,7 +27,8 @@ const mapDispatchToProps = dispatch => {
       dispatch(actions.checkGeoLocatePermission()),
     onAuthTryAutoLogIn: () => dispatch(authTryAutoLogIn()),
     onGetUserInfo: () => dispatch(getUserInfo()),
-    onGetUserPlaces: () => dispatch(getUserPlaces())
+    onGetUserPlaces: () => dispatch(getUserPlaces()),
+    onBeforeInstallPrompt: event => dispatch(actions.beforeInstallPrompt(event))
   };
 };
 
@@ -41,6 +42,12 @@ class App extends Component {
         this.props.onGetUserInfo();
         this.props.onGetUserPlaces();
       }
+    });
+
+    window.addEventListener('beforeinstallprompt', event => {
+      event.preventDefault();
+      this.props.onBeforeInstallPrompt(event);
+      return false;
     });
   }
 

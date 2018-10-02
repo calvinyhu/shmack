@@ -4,7 +4,8 @@ import { updateObject } from '../../utilities/utilities';
 const initialState = {
   hasGeoLocatePermission: false,
   geoLocation: null,
-  error: null
+  error: null,
+  deferredPrompt: null
 };
 
 const geoStart = (state, action) => {
@@ -38,6 +39,18 @@ const geoToggle = (state, action) => {
   });
 };
 
+const beforeInstallPrompt = (state, action) => {
+  return updateObject(state, {
+    deferredPrompt: action.deferredPrompt
+  });
+};
+
+const clearDeferredPrompt = (state, action) => {
+  return updateObject(state, {
+    deferredPrompt: action.deferredPrompt
+  });
+};
+
 const appReducer = (state = initialState, action) => {
   switch (action.type) {
     case actionTypes.GEO_START:
@@ -50,6 +63,10 @@ const appReducer = (state = initialState, action) => {
       return geoError(state, action);
     case actionTypes.TOGGLE_GEO_LOC_PERM:
       return geoToggle(state, action);
+    case actionTypes.BEFORE_INSTALL_PROMPT:
+      return beforeInstallPrompt(state, action);
+    case actionTypes.CLEAR_DEFERRED_PROMPT:
+      return clearDeferredPrompt(state, action);
     default:
       return state;
   }
