@@ -37,7 +37,7 @@
 .Separator {
   text-align: center;
   font-size: $font-size * 1.1;
-  font-weight: 600;
+  font-weight: bold;
   margin: $margin 0;
   border-top: 1px solid $lighter-opp-adj-color;
   padding-top: $padding;
@@ -55,7 +55,7 @@
 
 section {
   margin-bottom: $margin;
-  font-weight: 600;
+  font-weight: bold;
 
   .Category {
     margin-bottom: $margin / 3;
@@ -74,7 +74,7 @@ section {
   width: 100%;
   overflow: auto;
   align-items: center;
-  font-weight: 400;
+  font-weight: bold;
 
   @include media-min-width($desktop-width) {
     max-height: 20vw;

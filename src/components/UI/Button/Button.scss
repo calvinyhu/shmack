@@ -45,26 +45,21 @@
 .Clear {
   background: transparent;
   color: black;
-  font-weight: 600;
+  font-weight: bold;
   box-shadow: none;
 }
 
 .Translucent {
   background: rgba(0, 0, 0, 0.3);
-  // background: radial-gradient(
-  //   rgba(0, 0, 0, 0.5) 0%,
-  //   rgba(0, 0, 0, 0.2) 60%,
-  //   transparent 75%
-  // );
   color: white;
-  font-weight: 600;
+  font-weight: bold;
   box-shadow: none;
 }
 
 .Main {
   background: $main-color;
   color: white;
-  font-weight: 600;
+  font-weight: bold;
 
   &:hover {
     background: $dark-main-color;
