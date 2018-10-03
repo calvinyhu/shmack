@@ -29,7 +29,6 @@ const mapStateToProps = state => {
   return {
     isAuth: state.auth.isAuth,
     hasGeoLocatePermission: state.app.hasGeoLocatePermission,
-    yourPlaces: state.home.yourPlaces,
     food: state.restaurants.food,
     location: state.restaurants.location,
     isYelpLoading: state.restaurants.isYelpLoading,

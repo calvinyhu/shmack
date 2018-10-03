@@ -32,6 +32,8 @@ const mapDispatchToProps = dispatch => {
   };
 };
 
+// TODO: Add user features
+
 class App extends Component {
   componentDidMount() {
     this.props.onAuthTryAutoLogIn();
@@ -39,8 +41,8 @@ class App extends Component {
 
     auth.onAuthStateChanged(user => {
       if (user) {
-        this.props.onGetUserInfo();
-        this.props.onGetUserPlaces();
+        // this.props.onGetUserInfo();
+        // this.props.onGetUserPlaces();
       }
     });
 

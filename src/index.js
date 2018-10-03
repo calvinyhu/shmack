@@ -9,19 +9,17 @@ import './index.css';
 import App from './App';
 import registerServiceWorker from './registerServiceWorker';
 import appReducer from './store/reducers/appReducer';
-import homeReducer from './store/reducers/homeReducer';
-import restaurantsReducer from './store/reducers/restaurantsReducer';
 import authReducer from './store/reducers/authReducer';
-import userReducer from './store/reducers/userReducer';
+import restaurantsReducer from './store/reducers/restaurantsReducer';
 import resPageReducer from './store/reducers/resPageReducer';
+import userReducer from './store/reducers/userReducer';
 
 const rootReducer = combineReducers({
   app: appReducer,
-  home: homeReducer,
-  restaurants: restaurantsReducer,
   auth: authReducer,
-  user: userReducer,
-  resPage: resPageReducer
+  restaurants: restaurantsReducer,
+  resPage: resPageReducer,
+  user: userReducer
 });
 
 const composeEnhancers =
