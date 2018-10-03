@@ -5,7 +5,8 @@ const initialState = {
   hasGeoLocatePermission: false,
   geoLocation: null,
   error: null,
-  deferredPrompt: null
+  deferredPrompt: null,
+  redirectPath: null
 };
 
 const geoStart = (state, action) => {
@@ -51,6 +52,12 @@ const clearDeferredPrompt = (state, action) => {
   });
 };
 
+const setRedirectPath = (state, action) => {
+  return updateObject(state, {
+    redirectPath: action.redirectPath
+  });
+};
+
 const appReducer = (state = initialState, action) => {
   switch (action.type) {
     case actionTypes.GEO_START:
@@ -67,6 +74,8 @@ const appReducer = (state = initialState, action) => {
       return beforeInstallPrompt(state, action);
     case actionTypes.CLEAR_DEFERRED_PROMPT:
       return clearDeferredPrompt(state, action);
+    case actionTypes.SET_REDIRECT_PATH:
+      return setRedirectPath(state, action);
     default:
       return state;
   }

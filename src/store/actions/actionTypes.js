@@ -32,6 +32,7 @@ export const GEO_SUCCESS = 'GEO_SUCCESS';
 export const GEO_FAIL = 'GEO_FAIL';
 export const GEO_ERROR = 'GEO_ERROR';
 export const TOGGLE_GEO_LOC_PERM = 'TOGGLE_GEO_LOC_PERM';
+export const SET_REDIRECT_PATH = 'SET_REDIRECT_PATH';
 
 // Home
 export const HOME_POST_YOUR_PLACES_START = 'HOME_POST_YOUR_PLACES_START';

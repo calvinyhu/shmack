@@ -7,7 +7,10 @@ import classes from './Restaurants.css';
 import * as actions from '../../store/actions/restaurantsActions';
 import * as paths from '../../utilities/paths';
 import { getItems } from '../../store/actions/resPageActions';
-import { clearDeferredPrompt } from '../../store/actions/appActions';
+import {
+  clearDeferredPrompt,
+  setRedirectPath
+} from '../../store/actions/appActions';
 import { handleYelpError } from '../../utilities/yelp';
 import {
   createGooglePlacePhotoQuery,
@@ -37,7 +40,8 @@ const mapStateToProps = state => {
     isGoogleLoading: state.restaurants.isGoogleLoading,
     googleRestaurants: state.restaurants.googleRestaurants,
     googleError: state.restaurants.googleError,
-    deferredPrompt: state.app.deferredPrompt
+    deferredPrompt: state.app.deferredPrompt,
+    redirectPath: state.app.redirectPath
   };
 };
 
@@ -48,7 +52,8 @@ const mapDispatchToProps = dispatch => {
     onRestaurantSearch: (food, location) =>
       dispatch(actions.restaurantSearch(food, location)),
     onGetPopularItems: id => dispatch(getItems(id)),
-    onClearDeferredPrompt: () => dispatch(clearDeferredPrompt())
+    onClearDeferredPrompt: () => dispatch(clearDeferredPrompt()),
+    onSetRedirectPath: path => dispatch(setRedirectPath(path))
   };
 };
 
@@ -60,7 +65,7 @@ class Restaurants extends Component {
   restaurantClickHandlers = {};
 
   state = {
-    isRedirecting: false,
+    isRedirectingToSettings: false,
     isRequestingLocation: false,
     isScrollingDown: false,
     isPageOpen: false,
@@ -74,7 +79,8 @@ class Restaurants extends Component {
   shouldComponentUpdate(nextProps, nextState) {
     if (
       nextProps !== this.props ||
-      nextState.isRedirecting !== this.state.isRedirecting ||
+      nextState.isRedirectingToSettings !==
+        this.state.isRedirectingToSettings ||
       nextState.isRequestingLocation !== this.state.isRequestingLocation ||
       nextState.isScrollingDown !== this.state.isScrollingDown ||
       nextState.isPageOpen !== this.state.isPageOpen ||
@@ -84,7 +90,10 @@ class Restaurants extends Component {
     return false;
   }
 
-  handleRedirect = () => this.setState({ isRedirecting: true });
+  handleRedirect = () => {
+    this.props.onSetRedirectPath(paths.HOME);
+    this.setState({ isRedirectingToSettings: true });
+  };
 
   handleShowLocationInput = () => {
     if (!this.state.isShowLocationInput)
@@ -137,19 +146,30 @@ class Restaurants extends Component {
 
   handleSearch = event => {
     event.preventDefault();
+    // Reset search state
+    this.restaurants = null;
+    this.restaurantNames = null;
+    this.isYelpRendered = false;
+    this.isGoogleRendered = false;
+
+    // Search
     if (this.props.location) {
       console.log('[ Restaurants ] Using typed in location');
       this.props.onRestaurantSearch(this.props.food, this.props.location);
+      this.handleHideLocationInput();
     } else if (this.props.hasGeoLocatePermission) {
       console.log('[ Restaurants ] Using current location');
       this.props.onRestaurantSearch(this.props.food, this.props.location);
+      this.handleHideLocationInput();
     } else this.setState({ isRequestingLocation: true });
-    this.handleHideLocationInput();
   };
 
   renderThumbnails = () => {
-    const restaurants = [...this.restaurants];
-    const resNames = { ...this.restaurantNames };
+    let restaurants = [];
+    let resNames = {};
+
+    if (this.restaurants) restaurants = [...this.restaurants];
+    if (this.restaurantNames) resNames = { ...this.restaurantNames };
 
     if (!this.isYelpRendered && this.props.yelpRestaurants) {
       this.props.yelpRestaurants.forEach(res => {
@@ -205,7 +225,8 @@ class Restaurants extends Component {
   };
 
   render() {
-    if (this.state.isRedirecting) return <Redirect to={paths.SETTINGS} />;
+    if (this.state.isRedirectingToSettings)
+      return <Redirect to={paths.SETTINGS} />;
 
     let loadingMessage = null;
     if (this.props.isYelpLoading || this.props.isGoogleLoading)

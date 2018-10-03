@@ -111,3 +111,10 @@ export const clearDeferredPrompt = () => {
     deferredPrompt: null
   };
 };
+
+export const setRedirectPath = redirectPath => {
+  return {
+    type: actionTypes.SET_REDIRECT_PATH,
+    redirectPath: redirectPath
+  };
+};
