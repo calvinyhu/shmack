@@ -1,12 +1,16 @@
 import * as actionTypes from '../actions/actionTypes';
-import { auth, usersRef, resRef } from '../../utilities/firebase';
+import {
+  auth,
+  usersColRef,
+  resColRef,
+  firestore
+} from '../../utilities/firebase';
 import * as labels from '../../utilities/database';
-import { getUserPlaces } from '../actions/userActions';
 
 export const getItems = restaurantId => {
   return dispatch => {
     dispatch(getItemsStart());
-    resRef
+    resColRef
       .doc(restaurantId)
       .get()
       .then(doc => {
@@ -19,74 +23,150 @@ export const getItems = restaurantId => {
   };
 };
 
-export const postItem = (restaurantId, itemName) => {
+export const postItem = (id, name) => {
   return dispatch => {
-    auth.onAuthStateChanged(user => {
-      if (user) {
-        // Post to user
-        let item = {
-          [restaurantId]: {
-            [itemName]: { votedUp: false, votedDown: false }
-          }
-        };
-        const user = usersRef.doc(auth.currentUser.uid);
-        const editsRef = user.collection(labels.EDITS);
-        editsRef.doc(labels.PLACES).set(item, { merge: true });
+    if (!auth.currentUser) return;
 
-        // Post to restaurants
-        item = {
-          [itemName]: { likes: 0, dislikes: 0 }
-        };
-        resRef
-          .doc(restaurantId)
-          .set(item, { merge: true })
-          .then(dispatch(postItemSuccess(itemName)));
-      }
-    });
+    return firestore
+      .runTransaction(transaction => {
+        const resDocRef = resColRef.doc(id);
+        let resDocRefExists = false;
+        let items = {};
+
+        const userDocRef = usersColRef.doc(auth.currentUser.uid);
+        const voteInfoColRef = userDocRef.collection(labels.VOTE_INFO);
+        const resVoteDocRef = voteInfoColRef.doc(id);
+        let resVoteDocRefExists = false;
+
+        return transaction
+          .get(resDocRef)
+          .then(doc => {
+            if (doc.exists) {
+              items = doc.data();
+              const item = items[name];
+              resDocRefExists = true;
+              if (item) return Promise.reject('Item exists.');
+            }
+            return { likes: 1, dislikes: 0 };
+          })
+          .then(item => {
+            return transaction.get(resVoteDocRef).then(doc => {
+              if (doc.exists) {
+                const voteInfo = doc.data();
+                const vote = voteInfo[name];
+                resVoteDocRefExists = true;
+                if (vote) return { item: item, vote: vote };
+              }
+              return { item: item, vote: { votedUp: 1, votedDown: 0 } };
+            });
+          })
+          .then(data => {
+            const item = data.item;
+            const vote = data.vote;
+
+            if (resDocRefExists)
+              transaction.update(resDocRef, { [name]: item });
+            else transaction.set(resDocRef, { [name]: item });
+
+            if (resVoteDocRefExists)
+              transaction.update(resVoteDocRef, { [name]: vote });
+            else transaction.set(resVoteDocRef, { [name]: vote });
+
+            return { ...items, [name]: item };
+          });
+      })
+      .then(items => {
+        dispatch(postItemSuccess(items));
+      })
+      .catch(error => {
+        dispatch(postItemFail(error));
+      });
   };
 };
 
-// TODO: Send a request to vote to firebase and let firebase have a single function to manage up votes and down votes
-export const postVote = (
-  restaurantId,
-  itemName,
-  likes,
-  dislikes,
-  direction,
-  value
-) => {
+export const postVote = (id, name, isUp) => {
   return dispatch => {
-    if (auth.currentUser) {
-      // Post to user
-      let item = null;
-      if (direction === 'up') {
-        item = {
-          [restaurantId]: {
-            [itemName]: { votedUp: value, votedDown: false }
-          }
-        };
-      } else {
-        item = {
-          [restaurantId]: {
-            [itemName]: { votedUp: false, votedDown: value }
-          }
-        };
-      }
-      const user = usersRef.doc(auth.currentUser.uid);
-      const editsRef = user.collection(labels.EDITS);
-      editsRef
-        .doc(labels.PLACES)
-        .set(item, { merge: true })
-        .then(dispatch(getUserPlaces()));
+    if (!auth.currentUser) return;
 
-      // Post to restaurants
-      resRef
-        .doc(restaurantId)
-        .update({
-          [itemName]: { likes: likes, dislikes: dislikes }
-        })
-        .then(dispatch(getItems(restaurantId)));
-    }
+    return firestore
+      .runTransaction(transaction => {
+        const resDocRef = resColRef.doc(id);
+        let resDocRefExists = false;
+        let items = {};
+
+        const userDocRef = usersColRef.doc(auth.currentUser.uid);
+        const voteInfoColRef = userDocRef.collection(labels.VOTE_INFO);
+        const resVoteDocRef = voteInfoColRef.doc(id);
+        let resVoteDocRefExists = false;
+
+        return transaction
+          .get(resDocRef)
+          .then(doc => {
+            if (doc.exists) {
+              items = doc.data();
+              const item = items[name];
+              resDocRefExists = true;
+              if (item) return { exists: true, item: item };
+            }
+            return { exists: false, item: { likes: 0, dislikes: 0 } };
+          })
+          .then(data => {
+            const exists = data.exists;
+            const item = data.item;
+
+            return transaction.get(resVoteDocRef).then(doc => {
+              if (doc.exists) {
+                const voteInfo = doc.data();
+                const vote = voteInfo[name];
+                resVoteDocRefExists = true;
+                if (vote && exists) return { item: item, vote: vote };
+              }
+              return { item: item, vote: { votedUp: 0, votedDown: 0 } };
+            });
+          })
+          .then(data => {
+            const item = data.item;
+            const vote = data.vote;
+
+            if (isUp && vote.votedUp) {
+              item.likes -= 1;
+              vote.votedUp = 0;
+            } else if (isUp && !vote.votedUp) {
+              item.likes += 1;
+              vote.votedUp = 1;
+              if (vote.votedDown) {
+                item.dislikes -= 1;
+                vote.votedDown = 0;
+              }
+            } else if (!isUp && vote.votedDown) {
+              item.dislikes -= 1;
+              vote.votedDown = 0;
+            } else if (!isUp && !vote.votedDown) {
+              item.dislikes += 1;
+              vote.votedDown = 1;
+              if (vote.votedUp) {
+                item.likes -= 1;
+                vote.votedUp = 0;
+              }
+            }
+
+            if (resDocRefExists)
+              transaction.update(resDocRef, { [name]: item });
+            else transaction.set(resDocRef, { [name]: item });
+
+            if (resVoteDocRefExists)
+              transaction.update(resVoteDocRef, { [name]: vote });
+            else transaction.set(resVoteDocRef, { [name]: vote });
+
+            return { ...items, [name]: item };
+          });
+      })
+      .then(items => {
+        dispatch(postVoteSuccess(items));
+      })
+      .catch(error => {
+        // console.log(error);
+      });
   };
 };
 
@@ -114,18 +194,24 @@ const getItemsFail = resPageError => {
   };
 };
 
-const postItemSuccess = itemName => {
+const postItemSuccess = items => {
   return {
     type: actionTypes.POST_ITEM_SUCCESS,
-    itemName: itemName
+    items: items,
+    resPageError: null
   };
 };
 
-// const postVoteSuccess = (itemName, likes, dislikes) => {
-//   return {
-//     type: actionTypes.POST_VOTE_SUCCESS,
-//     itemName: itemName,
-//     likes: likes,
-//     dislikes: dislikes
-//   };
-// };
+export const postItemFail = resPageError => {
+  return {
+    type: actionTypes.POST_ITEM_FAIL,
+    resPageError: resPageError
+  };
+};
+
+const postVoteSuccess = items => {
+  return {
+    type: actionTypes.POST_VOTE_SUCCESS,
+    items: items
+  };
+};

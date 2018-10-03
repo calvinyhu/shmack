@@ -29,20 +29,27 @@ const getItemsFail = (state, action) => {
 };
 
 const postItemSuccess = (state, action) => {
-  const items = updateObject(state.items, {
-    [action.itemName]: { likes: 0, dislikes: 0 }
-  });
   return updateObject(state, {
-    items: items
+    items: action.items,
+    resPageError: action.resPageError
+  });
+};
+
+const postItemFail = (state, action) => {
+  return updateObject(state, {
+    resPageError: action.resPageError
   });
 };
 
 const postVoteSuccess = (state, action) => {
-  const items = updateObject(state.items, {
-    [action.itemName]: { likes: action.likes, dislikes: action.dislikes }
-  });
   return updateObject(state, {
-    items: items
+    items: action.items
+  });
+};
+
+const postVoteFail = (state, action) => {
+  return updateObject(state, {
+    resPageError: action.resPageError
   });
 };
 
@@ -56,8 +63,12 @@ const resPageReducer = (state = initialState, action) => {
       return getItemsFail(state, action);
     case actionTypes.POST_ITEM_SUCCESS:
       return postItemSuccess(state, action);
+    case actionTypes.POST_ITEM_FAIL:
+      return postItemFail(state, action);
     case actionTypes.POST_VOTE_SUCCESS:
       return postVoteSuccess(state, action);
+    case actionTypes.POST_VOTE_FAIL:
+      return postVoteFail(state, action);
     default:
       return state;
   }

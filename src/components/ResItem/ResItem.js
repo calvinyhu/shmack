@@ -14,8 +14,7 @@ const mapStateToProps = state => {
 
 const mapDispatchToProps = dispatch => {
   return {
-    onPostVote: (id, name, likes, dislikes, direction, value) =>
-      dispatch(actions.postVote(id, name, likes, dislikes, direction, value))
+    onPostVote: (id, name, isUp) => dispatch(actions.postVote(id, name, isUp))
   };
 };
 
@@ -23,40 +22,16 @@ class ResItem extends PureComponent {
   voteUpHandlers = {};
   voteDownHandlers = {};
 
-  // TODO: Send a request to vote to firebase and let firebase have a single function to manage up votes and down votes
-  getVoteUpHandler = (id, name, likes, dislikes) => {
-    if (!this.voteUpHandlers[name]) {
-      this.voteUpHandlers[name] = () => {
-        const likeValue = !this.props.votedUp || this.props.votedDown ? 1 : -1;
-        const dislikeValue = this.props.votedDown ? -1 : 0;
-        this.props.onPostVote(
-          id,
-          name,
-          likes + likeValue,
-          dislikes + dislikeValue,
-          'up',
-          !this.props.votedUp
-        );
-      };
-    }
+  getVoteUpHandler = (id, name) => {
+    if (!this.voteUpHandlers[name])
+      this.voteUpHandlers[name] = () => this.props.onPostVote(id, name, true);
     return this.voteUpHandlers[name];
   };
 
-  getVoteDownHandler = (id, name, likes, dislikes) => {
+  getVoteDownHandler = (id, name) => {
     if (!this.voteDownHandlers[name]) {
-      this.voteDownHandlers[name] = () => {
-        const likeVaue = this.props.votedUp ? -1 : 0;
-        const dislikeValue =
-          !this.props.votedDown || this.props.votedUp ? 1 : -1;
-        this.props.onPostVote(
-          id,
-          name,
-          likes + likeVaue,
-          dislikes + dislikeValue,
-          'down',
-          !this.props.votedDown
-        );
-      };
+      this.voteDownHandlers[name] = () =>
+        this.props.onPostVote(id, name, false);
     }
     return this.voteDownHandlers[name];
   };

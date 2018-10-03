@@ -95,6 +95,10 @@
   margin-top: 0;
   padding-top: $padding-tiny;
 
+  .AddItemMessage {
+    color: $pastel-red;
+  }
+
   p {
     margin-bottom: $margin / 2;
 

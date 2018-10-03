@@ -17,9 +17,10 @@ import { auth } from '../../utilities/firebase';
 
 const mapStateToProps = state => {
   return {
-    userPlaces: state.user.userPlaces,
+    isGettingItems: state.resPage.isGettingItems,
     items: state.resPage.items,
-    isGettingItems: state.resPage.isGettingItems
+    resPageError: state.resPage.resPageError,
+    userPlaces: state.user.userPlaces
   };
 };
 
@@ -27,7 +28,8 @@ const mapDispatchToProps = dispatch => {
   return {
     onPostItem: (id, item) => dispatch(actions.postItem(id, item)),
     onPostVote: (id, name, likes, dislikes) =>
-      dispatch(actions.postVote(id, name, likes, dislikes))
+      dispatch(actions.postVote(id, name, likes, dislikes)),
+    onPostItemFail: error => dispatch(actions.postItemFail(error))
   };
 };
 
@@ -36,8 +38,7 @@ class ResPage extends Component {
 
   state = {
     items: null,
-    newItem: '',
-    addItemMessage: ''
+    newItem: ''
   };
 
   handleInputChange = event => this.setState({ newItem: event.target.value });
@@ -51,13 +52,9 @@ class ResPage extends Component {
   handleSubmit = (event, id) => {
     event.preventDefault();
     if (this.state.newItem) {
-      if (this.props.items && this.props.items[this.state.newItem])
-        this.setState({ addItemMessage: 'This item already exists.' });
-      else {
-        this.props.onPostItem(id, this.state.newItem);
-        this.setState({ newItem: '', addItemMessage: '' });
-      }
-    } else this.setState({ addItemMessage: 'The new item name is required.' });
+      this.props.onPostItem(id, this.state.newItem);
+      this.setState({ newItem: '' });
+    } else this.props.onPostItemFail('The item name is required.');
   };
 
   renderPageContent = () => {
@@ -131,7 +128,7 @@ class ResPage extends Component {
           <Aux>
             <ul>{items}</ul>
             {addItem}
-            <p>{this.state.addItemMessage}</p>
+            <p className={classes.AddItemMessage}>{this.props.resPageError}</p>
           </Aux>
         );
       }

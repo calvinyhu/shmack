@@ -1,6 +1,6 @@
 // Collections
 export const USERS = 'users';
-export const EDITS = 'edits';
+export const VOTE_INFO = 'voteInfo';
 export const RESTAURANTS = 'restaurants';
 
 // Documents

@@ -53,7 +53,9 @@ export const GET_ITEMS_START = 'GET_ITEMS_START';
 export const GET_ITEMS_SUCCESS = 'GET_ITEMS_SUCCESS';
 export const GET_ITEMS_FAIL = 'GET_ITEMS_FAIL';
 export const POST_ITEM_SUCCESS = 'POST_ITEM_SUCCESS';
+export const POST_ITEM_FAIL = 'POST_ITEM_FAIL';
 export const POST_VOTE_SUCCESS = 'POST_VOTE_SUCCESS';
+export const POST_VOTE_FAIL = 'POST_VOTE_FAIL';
 
 // Add to homescreen
 export const BEFORE_INSTALL_PROMPT = 'BEFORE_INSTALL_PROMPT';

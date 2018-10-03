@@ -1,12 +1,11 @@
 import * as actionTypes from '../actions/actionTypes';
 import { FIELDS } from '../../utilities/database';
-import { auth, usersRef } from '../../utilities/firebase';
-import * as labels from '../../utilities/database';
+import { auth, usersColRef } from '../../utilities/firebase';
 
 export const getUserInfo = () => {
   return dispatch => {
     dispatch(getUserInfoStart());
-    usersRef
+    usersColRef
       .doc(auth.currentUser.uid)
       .get()
       .then(doc => {
@@ -21,22 +20,22 @@ export const getUserInfo = () => {
 
 export const getUserPlaces = () => {
   return dispatch => {
-    const user = usersRef.doc(auth.currentUser.uid);
-    const editsRef = user.collection(labels.EDITS);
-    editsRef
-      .doc(labels.PLACES)
-      .get()
-      .then(doc => {
-        if (doc.exists) dispatch(getUserPlacesSuccess(doc.data()));
-        else dispatch(getUserPlacesSuccess(null));
-      });
+    // const user = usersColRef.doc(auth.currentUser.uid);
+    // const editsRef = user.collection(labels.EDITS);
+    // editsRef
+    //   .doc(labels.PLACES)
+    //   .get()
+    //   .then(doc => {
+    //     if (doc.exists) dispatch(getUserPlacesSuccess(doc.data()));
+    //     else dispatch(getUserPlacesSuccess(null));
+    //   });
   };
 };
 
 export const postUserInfo = info => {
   return dispatch => {
     dispatch(postUserInfoStart());
-    usersRef
+    usersColRef
       .doc(auth.currentUser.uid)
       .set(info)
       .then(_ => {
@@ -107,12 +106,12 @@ const getUserInfoFail = error => {
   };
 };
 
-const getUserPlacesSuccess = userPlaces => {
-  return {
-    type: actionTypes.USER_GET_PLACES_SUCCESS,
-    userPlaces: userPlaces
-  };
-};
+// const getUserPlacesSuccess = userPlaces => {
+//   return {
+//     type: actionTypes.USER_GET_PLACES_SUCCESS,
+//     userPlaces: userPlaces
+//   };
+// };
 
 const postUserInfoStart = () => {
   return {

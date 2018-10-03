@@ -1,14 +1,14 @@
 // import axios from 'axios';
 
 // import * as actionTypes from '../actions/actionTypes';
-// import { auth, usersRef } from '../../utilities/firebase';
+// import { auth, usersColRef } from '../../utilities/firebase';
 // import * as labels from '../../utilities/database';
 // import { createGeoLocYelpSearchQuery, yelpConfig } from '../../utilities/yelp';
 
 // export const getYourPlaces = () => {
 //   return dispatch => {
 //     dispatch(getYourPlacesStart());
-//     const user = usersRef.doc(auth.currentUser.uid);
+//     const user = usersColRef.doc(auth.currentUser.uid);
 //     const preferencesRef = user.collection(labels.PREFERENCES);
 //     preferencesRef
 //       .doc(labels.YOUR_PLACES)
@@ -27,7 +27,7 @@
 // export const getYourCuisines = () => {
 //   return dispatch => {
 //     dispatch(getYourCusinesStart());
-//     const user = usersRef.doc(auth.currentUser.uid);
+//     const user = usersColRef.doc(auth.currentUser.uid);
 //     const preferencesRef = user.collection(labels.PREFERENCES);
 //     preferencesRef
 //       .doc(labels.YOUR_CUISINES)
@@ -103,7 +103,7 @@
 // export const postYourPlaces = places => {
 //   return dispatch => {
 //     dispatch(postYourPlacesStart());
-//     const user = usersRef.doc(auth.currentUser.uid);
+//     const user = usersColRef.doc(auth.currentUser.uid);
 //     const preferencesRef = user.collection(labels.PREFERENCES);
 //     preferencesRef
 //       .doc(labels.YOUR_PLACES)
