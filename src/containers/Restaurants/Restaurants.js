@@ -178,17 +178,7 @@ class Restaurants extends Component {
     this.isGoogleRendered = false;
 
     // Search
-    if (this.props.location) {
-      console.log('[ Restaurants ] Using typed in location');
-      this.props.onRestaurantSearch(
-        this.props.food,
-        this.props.location,
-        this.state.radius * 1609
-      );
-      this.handleHideLocationInput();
-      this.handleHideFilters();
-    } else if (this.props.hasGeoLocatePermission) {
-      console.log('[ Restaurants ] Using current location');
+    if (this.props.location || this.props.hasGeoLocatePermission) {
       this.props.onRestaurantSearch(
         this.props.food,
         this.props.location,
@@ -293,9 +283,9 @@ class Restaurants extends Component {
         isOpen={this.state.isRequestingLocation}
         click={this.handleRedirect}
         close={this.handleCloseLocationRequest}
-        btnMsg={'Take me there'}
+        btnMsg={'Take me there!'}
       >
-        Please turn on location sharing in app settings to use current location.
+        Turn on location sharing, in app settings, to use current location.
       </Modal>
     );
 

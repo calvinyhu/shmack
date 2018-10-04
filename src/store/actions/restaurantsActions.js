@@ -22,11 +22,11 @@ export const restaurantInputChange = (name, value) => {
 // TODO: Make @location be selected from dropdown menu
 export const restaurantSearch = (food, location, radius) => {
   return dispatch => {
-    console.log(radius);
     // dispatch(restaurantYelpSearchStart());
     dispatch(restaurantGoogleSearchStart());
 
-    if (location === '') {
+    if (!location) {
+      console.log('[ Restaurants Actions ] Using current location');
       navigator.geolocation.getCurrentPosition(
         response => {
           const position = {
@@ -37,7 +37,10 @@ export const restaurantSearch = (food, location, radius) => {
         },
         error => console.log(error)
       );
-    } else getRestaurants(dispatch, food, location, radius);
+    } else {
+      console.log('[ Restaurants Actions ] Using typed location');
+      getRestaurants(dispatch, food, location, radius);
+    }
   };
 };
 

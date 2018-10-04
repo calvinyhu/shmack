@@ -4,23 +4,9 @@ export const checkGeoLocatePermission = () => {
   return dispatch => {
     if (navigator.permissions) {
       navigator.permissions.query({ name: 'geolocation' }).then(permission => {
-        switch (permission.state) {
-          case 'prompt':
-            dispatch(toggleGeoLocPerm(false));
-            break;
-          case 'granted':
-            dispatch(toggleGeoLocPerm(true));
-            break;
-          case 'blocked':
-            dispatch(toggleGeoLocPerm(false));
-            break;
-          default:
-            dispatch(toggleGeoLocPerm(false));
-        }
+        if (permission.state === 'granted') dispatch(toggleGeoLocPerm(true));
       });
-    } else {
-      console.log('This browser does not support Permissions API');
-    }
+    } else console.log('This browser does not support Permissions API');
   };
 };
 
@@ -79,8 +65,7 @@ const geoFail = error => {
 const geoErrorHandler = error => {
   switch (error.code) {
     case 1:
-      return `Location sharing is blocked or turned off. Please allow 
-            location sharing in your browser settings or your device.`;
+      return `Please allow location sharing in your browser settings or your device.`;
     case 2:
       return `Your location is temporarily unavailable. Please try again.`;
     case 3:

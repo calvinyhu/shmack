@@ -44,6 +44,7 @@ class Settings extends Component {
       this.props.onToggleGeoLocPerm(true);
       this.props.onGeoLocate();
 
+      // FIXME: Do not redirect if geolocation fails, only redirect if it succeeds
       if (this.props.redirectPath === paths.HOME)
         this.setState({ isRedirectingToHome: true });
     }
@@ -64,6 +65,7 @@ class Settings extends Component {
         {this.props.geoError}
       </Modal>
     );
+
     return (
       <div className={classes.Settings}>
         <h5>Settings</h5>
