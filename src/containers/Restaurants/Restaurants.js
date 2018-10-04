@@ -2,7 +2,6 @@ import React, { Component } from 'react';
 import { connect } from 'react-redux';
 import { Redirect } from 'react-router-dom';
 import throttle from 'raf-throttle';
-import Fade from 'react-reveal/Fade';
 
 import classes from './Restaurants.css';
 import * as actions from '../../store/actions/restaurantsActions';
@@ -18,12 +17,11 @@ import {
   convertPrice
 } from '../../utilities/google';
 import Thumbnail from '../../components/Thumbnail/Thumbnail';
-import Input from '../../components/UI/Input/Input';
-import Button from '../../components/UI/Button/Button';
 import Modal from '../../components/UI/Modal/Modal';
 import Backdrop from '../../components/UI/Backdrop/Backdrop';
 import ResPage from '../../components/ResPage/ResPage';
-import { MAT_ICONS } from '../../utilities/styles';
+import Filters from '../../components/Filters/Filters';
+import SearchBar from '../../components/SearchBar/SearchBar';
 
 export const SOURCE = {
   YELP: 1,
@@ -65,7 +63,6 @@ class Restaurants extends Component {
   isYelpRendered = false;
   isGoogleRendered = false;
   restaurantClickHandlers = {};
-  radiusHandlers = {};
 
   state = {
     isRedirectingToSettings: false,
@@ -103,6 +100,11 @@ class Restaurants extends Component {
     this.setState({ isRedirectingToSettings: true });
   };
 
+  // SearchBar Handles
+  handleInputChange = event => {
+    this.props.onRestaurantInputChange(event.target.name, event.target.value);
+  };
+
   handleShowLocationInput = () => {
     if (!this.state.isShowLocationInput)
       this.setState({ isShowLocationInput: true });
@@ -111,14 +113,6 @@ class Restaurants extends Component {
   handleHideLocationInput = () => {
     if (this.state.isShowLocationInput)
       this.setState({ isShowLocationInput: false });
-  };
-
-  handleHideFilters = () => {
-    if (this.state.isShowFilters) this.setState({ isShowFilters: false });
-  };
-
-  handleInputChange = event => {
-    this.props.onRestaurantInputChange(event.target.name, event.target.value);
   };
 
   handleScroll = event => {
@@ -134,41 +128,17 @@ class Restaurants extends Component {
     this.handleHideFilters();
   };
 
-  handleCloseLocationRequest = () => {
-    this.setState({ isRequestingLocation: false });
-  };
-
-  handlePageClose = () => {
-    if (this.props.deferredPrompt) {
-      this.props.deferredPrompt.prompt();
-      this.props.onClearDeferredPrompt();
-    }
-    this.setState({ isPageOpen: false });
-  };
-
-  getRestaurantClickHandler = (id, res, src) => {
-    if (!this.restaurantClickHandlers[id]) {
-      this.restaurantClickHandlers[id] = () => {
-        this.setState({ isPageOpen: true, id: id, restaurant: res, src: src });
-        this.props.onGetPopularItems(id);
-        this.handleHideLocationInput();
-        this.handleHideFilters();
-      };
-    }
-    return this.restaurantClickHandlers[id];
-  };
-
-  handleFilter = () => {
+  handleToggleFilters = () => {
     this.setState(prevState => {
       return { isShowFilters: !prevState.isShowFilters };
     });
   };
 
-  getSetRadiusHandler = radius => {
-    if (!this.radiusHandlers[radius])
-      this.radiusHandlers[radius] = () => this.setState({ radius: radius });
-    return this.radiusHandlers[radius];
+  handleHideFilters = () => {
+    if (this.state.isShowFilters) this.setState({ isShowFilters: false });
   };
+
+  handleClickRadius = event => this.setState({ radius: event.target.id });
 
   handleSearch = event => {
     if (event) event.preventDefault();
@@ -188,6 +158,33 @@ class Restaurants extends Component {
       this.handleHideLocationInput();
       this.handleHideFilters();
     } else this.setState({ isRequestingLocation: true });
+  };
+
+  // Geolocation Handles
+  handleCloseLocationRequest = () => {
+    this.setState({ isRequestingLocation: false });
+  };
+
+  // Restaurant Page Handles
+  handlePageClose = () => {
+    if (this.props.deferredPrompt) {
+      this.props.deferredPrompt.prompt();
+      this.props.onClearDeferredPrompt();
+    }
+    this.setState({ isPageOpen: false });
+  };
+
+  // Restaurant Grid Thumbnail Handles
+  getRestaurantClickHandler = (id, res, src) => {
+    if (!this.restaurantClickHandlers[id]) {
+      this.restaurantClickHandlers[id] = () => {
+        this.setState({ isPageOpen: true, id: id, restaurant: res, src: src });
+        this.props.onGetPopularItems(id);
+        this.handleHideLocationInput();
+        this.handleHideFilters();
+      };
+    }
+    return this.restaurantClickHandlers[id];
   };
 
   renderThumbnails = () => {
@@ -290,138 +287,34 @@ class Restaurants extends Component {
       </Modal>
     );
 
-    let restaurantsGrid = (
-      <div className={classes.RestaurantsGrid}>{this.renderThumbnails()}</div>
+    const options = { radius: this.state.radius };
+    const filters = (
+      <Filters
+        isOpen={this.state.isShowFilters}
+        isLifted={
+          this.state.isShowFilters &&
+          (this.state.isShowLocationInput || this.props.location)
+        }
+        clickRadius={this.handleClickRadius}
+        search={this.handleSearch}
+        options={options}
+      />
     );
 
-    let filtersClasses = classes.Filters;
-    let searchBarClasses = classes.SearchBar;
-
-    if (this.state.isShowFilters) {
-      filtersClasses += ' ' + classes.SlideYFilters;
-      searchBarClasses += ' ' + classes.SearchBarBoxShadow;
-    }
-    if (
-      this.state.isScrollingDown ||
-      this.props.isYelpLoading ||
-      this.props.isGoogleLoading
-    )
-      searchBarClasses += ' ' + classes.HideSearchBar;
-
-    let foodInputContainerClasses = classes.FoodInputContainer;
-    let locationInputContainerClasses = classes.LocationInputContainer;
-    let searchButtonClasses = classes.SearchButton;
-    let foodInputPlaceholder = this.state.isShowLocationInput
-      ? 'Food'
-      : 'Food in Your Location';
-    if (this.state.isShowLocationInput || this.props.location) {
-      searchBarClasses += ' ' + classes.ExtendSearchBar;
-      foodInputContainerClasses += ' ' + classes.SlideYFoodInput;
-      locationInputContainerClasses += ' ' + classes.Show;
-      searchButtonClasses += ' ' + classes.ExtendSearchButton;
-      if (this.state.isShowFilters) filtersClasses += ' ' + classes.LiftFilters;
-    }
-
-    let radiusClasses = {};
-    radiusClasses[this.state.radius] = classes.ActiveRadius;
-
-    let filters = (
-      <div className={filtersClasses}>
-        <header>
-          <p>Filters</p>
-          <div className={classes.FiltersApplyContainer}>
-            <Button main small click={this.handleSearch}>
-              Apply
-            </Button>
-          </div>
-        </header>
-        <div className={classes.Filter}>
-          <p>Radius (mi)</p>
-          <div className={classes.FilterOptions}>
-            <p
-              className={radiusClasses[1]}
-              onClick={this.getSetRadiusHandler(1)}
-            >
-              1
-            </p>
-            <p
-              className={radiusClasses[3]}
-              onClick={this.getSetRadiusHandler(3)}
-            >
-              3
-            </p>
-            <p
-              className={radiusClasses[5]}
-              onClick={this.getSetRadiusHandler(5)}
-            >
-              5
-            </p>
-            <p
-              className={radiusClasses[10]}
-              onClick={this.getSetRadiusHandler(10)}
-            >
-              10
-            </p>
-            <p
-              className={radiusClasses[20]}
-              onClick={this.getSetRadiusHandler(20)}
-            >
-              20
-            </p>
-            <p
-              className={radiusClasses[30]}
-              onClick={this.getSetRadiusHandler(30)}
-            >
-              30
-            </p>
-          </div>
-        </div>
-      </div>
-    );
-
-    let searchBar = (
-      <div className={searchBarClasses}>
-        <Fade>
-          <form onSubmit={this.handleSearch}>
-            <div className={classes.SearchInputs}>
-              <div
-                className={foodInputContainerClasses}
-                onClick={this.handleShowLocationInput}
-              >
-                <Input
-                  small
-                  id="food"
-                  type="text"
-                  name="food"
-                  placeholder={foodInputPlaceholder}
-                  value={this.props.food}
-                  change={this.handleInputChange}
-                  click={this.handleClick}
-                />
-              </div>
-              <div className={locationInputContainerClasses}>
-                <Input
-                  small
-                  id="location"
-                  type="text"
-                  name="location"
-                  placeholder="Your Location"
-                  value={this.props.location}
-                  change={this.handleInputChange}
-                />
-              </div>
-            </div>
-            <div className={searchButtonClasses}>
-              <Button main>Go</Button>
-            </div>
-          </form>
-          <div className={searchButtonClasses}>
-            <Button main click={this.handleFilter}>
-              <div className={MAT_ICONS}>filter_list</div>
-            </Button>
-          </div>
-        </Fade>
-      </div>
+    const searchBar = (
+      <SearchBar
+        isScrollingDown={this.state.isScrollingDown}
+        isYelpLoading={this.state.isYelpLoading}
+        isGoogleLoading={this.state.isGoogleLoading}
+        isShowFilters={this.state.isShowFilters}
+        isShowLocationInput={this.state.isShowLocationInput}
+        food={this.props.food}
+        location={this.props.location}
+        handleInputChange={this.handleInputChange}
+        handleShowLocationInput={this.handleShowLocationInput}
+        handleToggleFilters={this.handleToggleFilters}
+        handleSearch={this.handleSearch}
+      />
     );
 
     const resPage = (
@@ -432,6 +325,10 @@ class Restaurants extends Component {
         src={this.state.src}
         close={this.handlePageClose}
       />
+    );
+
+    const restaurantsGrid = (
+      <div className={classes.RestaurantsGrid}>{this.renderThumbnails()}</div>
     );
 
     return (
