@@ -1,5 +1,6 @@
 import React, { PureComponent } from 'react';
 import { NavLink } from 'react-router-dom';
+import Fade from 'react-reveal/Fade';
 
 import classes from './Layout.css';
 import Aux from '../Auxiliary/Auxiliary';
@@ -84,12 +85,14 @@ class Layout extends PureComponent {
     }
 
     const header = (
-      <header>
-        <div className={classes.DrawerToggle} onClick={this.handleClick}>
-          <div className={MAT_ICONS}>menu</div>
-        </div>
-        <h5>shmack</h5>
-      </header>
+      <Fade>
+        <header>
+          <div className={classes.DrawerToggle} onClick={this.handleClick}>
+            <div className={MAT_ICONS}>menu</div>
+          </div>
+          <h5>shmack</h5>
+        </header>
+      </Fade>
     );
 
     const main = <main className={classes.Main}>{this.props.children}</main>;

@@ -1,0 +1,12 @@
+@import './src/assets/scss/_variables.scss';
+
+* {
+  box-sizing: border-box;
+}
+
+body {
+  margin: 0;
+  padding: 0;
+  background: $bright;
+  font-family: 'Noto Sans', sans-serif;
+}

@@ -19,9 +19,11 @@
   outline: none;
   border: $border-input;
   border-radius: $border-radius-button;
+  background: $bright;
+  transition: $transition1;
 
   &:hover {
-    border-color: gray;
+    border-color: $opp-adj-color;
     box-shadow: $box-shadow;
   }
 }

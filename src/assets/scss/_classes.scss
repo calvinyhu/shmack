@@ -1,8 +1,8 @@
 @import './src/assets/scss/_variables.scss';
 @import './src/assets/scss/_mixins.scss';
 
-@include fade-in;
-@include slide-y(blockSlideY, 5rem, 0);
+@include fadeIn;
+@include slide-y(blockSlideY, 2rem, 0);
 
 .Loader,
 .Loader:after {
@@ -22,4 +22,9 @@
   border-left: 0.5rem solid #ffa07a;
   transform: translateZ(0);
   animation: loading 1.3s infinite linear;
+}
+
+.BlockSlideFadeIn {
+  animation: fadeIn 1s $timing-func-1 forwards,
+    blockSlideY 1s $timing-func-1 forwards;
 }

@@ -2,6 +2,7 @@ import React, { Component } from 'react';
 import { connect } from 'react-redux';
 import { Redirect } from 'react-router-dom';
 import throttle from 'raf-throttle';
+import Fade from 'react-reveal/Fade';
 
 import classes from './Restaurants.css';
 import * as actions from '../../store/actions/restaurantsActions';
@@ -385,44 +386,46 @@ class Restaurants extends Component {
 
     let searchBar = (
       <div className={searchBarClasses}>
-        <form onSubmit={this.handleSearch}>
-          <div className={classes.SearchInputs}>
-            <div
-              className={foodInputContainerClasses}
-              onClick={this.handleShowLocationInput}
-            >
-              <Input
-                small
-                id="food"
-                type="text"
-                name="food"
-                placeholder={foodInputPlaceholder}
-                value={this.props.food}
-                change={this.handleInputChange}
-                click={this.handleClick}
-              />
+        <Fade>
+          <form onSubmit={this.handleSearch}>
+            <div className={classes.SearchInputs}>
+              <div
+                className={foodInputContainerClasses}
+                onClick={this.handleShowLocationInput}
+              >
+                <Input
+                  small
+                  id="food"
+                  type="text"
+                  name="food"
+                  placeholder={foodInputPlaceholder}
+                  value={this.props.food}
+                  change={this.handleInputChange}
+                  click={this.handleClick}
+                />
+              </div>
+              <div className={locationInputContainerClasses}>
+                <Input
+                  small
+                  id="location"
+                  type="text"
+                  name="location"
+                  placeholder="Your Location"
+                  value={this.props.location}
+                  change={this.handleInputChange}
+                />
+              </div>
             </div>
-            <div className={locationInputContainerClasses}>
-              <Input
-                small
-                id="location"
-                type="text"
-                name="location"
-                placeholder="Your Location"
-                value={this.props.location}
-                change={this.handleInputChange}
-              />
+            <div className={searchButtonClasses}>
+              <Button main>Go</Button>
             </div>
-          </div>
+          </form>
           <div className={searchButtonClasses}>
-            <Button main>Go</Button>
+            <Button main click={this.handleFilter}>
+              <div className={MAT_ICONS}>filter_list</div>
+            </Button>
           </div>
-        </form>
-        <div className={searchButtonClasses}>
-          <Button main click={this.handleFilter}>
-            <div className={MAT_ICONS}>filter_list</div>
-          </Button>
-        </div>
+        </Fade>
       </div>
     );
 

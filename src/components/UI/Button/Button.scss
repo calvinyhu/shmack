@@ -11,7 +11,7 @@
   border: none;
   border-radius: $border-radius-button;
   box-shadow: $box-shadow;
-  transition: $transition2;
+  transition: $transition1;
 
   &:focus {
     outline: none;
@@ -51,18 +51,18 @@
 
 .Translucent {
   background: rgba(0, 0, 0, 0.3);
-  color: white;
+  color: $bright;
   font-weight: bold;
   box-shadow: none;
 }
 
 .Main {
-  background: $main-color;
-  color: white;
+  background: $dark-main-color;
+  color: $bright;
   font-weight: bold;
 
   &:hover {
-    background: $dark-main-color;
+    background: $main-color;
   }
 }
 

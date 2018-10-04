@@ -67,12 +67,12 @@ h3 {
   }
 
   a {
-    color: $main-color;
+    color: $dark-main-color;
     font-weight: bold;
     transition: $transition1;
 
     &:hover {
-      color: $darker-main-color;
+      color: $main-color;
       text-decoration: underline;
     }
   }

@@ -1,5 +1,6 @@
 @import './src/assets/scss/_variables.scss';
 @import './src/assets/scss/_mixins.scss';
+@import './src/assets/scss/_classes.scss';
 
 .Thumbnail {
   display: flex;
@@ -41,7 +42,7 @@
   height: 100%;
   background: rgba(0, 0, 0, 0.5);
   border-radius: $border-radius-button / 2;
-  color: white;
+  color: $bright;
   padding: $padding-tiny;
   font-size: $font-size;
   opacity: 1;
