@@ -1,11 +1,11 @@
 import axios from 'axios';
 
 import * as actionTypes from './actionTypes';
-import {
-  createYelpSearchQuery,
-  createGeoLocYelpSearchQuery,
-  yelpConfig
-} from '../../utilities/yelp';
+// import {
+//   createYelpSearchQuery,
+//   createGeoLocYelpSearchQuery,
+//   yelpConfig
+// } from '../../utilities/yelp';
 import {
   createGoogleGeocodeLookupQuery,
   createGoogleNearbySearchQuery
@@ -58,21 +58,21 @@ const getRestaurants = (dispatch, food, location, radius) => {
   console.log('[ Restaurants Actions ] Yelp and Google requests started');
 };
 
-const startAsyncYelpRequest = (dispatch, food, location) => {
-  let query = null;
-  if (location && location.lat)
-    query = createGeoLocYelpSearchQuery(food, location.lat, location.long);
-  else query = createYelpSearchQuery(food, location);
+// const startAsyncYelpRequest = (dispatch, food, location) => {
+//   let query = null;
+//   if (location && location.lat)
+//     query = createGeoLocYelpSearchQuery(food, location.lat, location.long);
+//   else query = createYelpSearchQuery(food, location);
 
-  return axios
-    .get(query, yelpConfig)
-    .then(response => {
-      dispatch(restaurantYelpSearchSuccess(response.data.businesses));
-    })
-    .catch(error => {
-      dispatch(restaurantYelpSearchFail(error.response));
-    });
-};
+//   return axios
+//     .get(query, yelpConfig)
+//     .then(response => {
+//       dispatch(restaurantYelpSearchSuccess(response.data.businesses));
+//     })
+//     .catch(error => {
+//       dispatch(restaurantYelpSearchFail(error.response));
+//     });
+// };
 
 const startAsyncGoogleRequest = (dispatch, food, location, radius) => {
   if (location && location.lat)
@@ -115,31 +115,31 @@ const getGoogleRestaurants = (dispatch, food, lat, long, radius) => {
     });
 };
 
-const restaurantYelpSearchStart = () => {
-  return {
-    type: actionTypes.RESTAURANT_YELP_SEARCH_START,
-    isYelpLoading: true,
-    yelpRestaurants: null
-  };
-};
+// const restaurantYelpSearchStart = () => {
+//   return {
+//     type: actionTypes.RESTAURANT_YELP_SEARCH_START,
+//     isYelpLoading: true,
+//     yelpRestaurants: null
+//   };
+// };
 
-const restaurantYelpSearchSuccess = restaurants => {
-  return {
-    type: actionTypes.RESTAURANT_YELP_SEARCH_SUCCESS,
-    isYelpLoading: false,
-    yelpRestaurants: restaurants,
-    yelpError: null
-  };
-};
+// const restaurantYelpSearchSuccess = restaurants => {
+//   return {
+//     type: actionTypes.RESTAURANT_YELP_SEARCH_SUCCESS,
+//     isYelpLoading: false,
+//     yelpRestaurants: restaurants,
+//     yelpError: null
+//   };
+// };
 
-const restaurantYelpSearchFail = error => {
-  return {
-    type: actionTypes.RESTAURANT_YELP_SEARCH_FAIL,
-    isYelpLoading: false,
-    yelpRestaurants: null,
-    yelpError: error
-  };
-};
+// const restaurantYelpSearchFail = error => {
+//   return {
+//     type: actionTypes.RESTAURANT_YELP_SEARCH_FAIL,
+//     isYelpLoading: false,
+//     yelpRestaurants: null,
+//     yelpError: error
+//   };
+// };
 
 const restaurantGoogleSearchStart = () => {
   return {
