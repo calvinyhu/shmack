@@ -66,7 +66,7 @@
   justify-content: space-between;
   align-items: center;
   width: 100%;
-  max-width: 50rem;
+  max-width: 30rem;
   height: 4rem;
   background: $bright;
   padding: $padding / 2;
@@ -153,6 +153,10 @@
   z-index: 1;
 }
 
+.SlideYFoodInput {
+  transform: translateY(0);
+}
+
 .LocationInputContainer {
   opacity: 0;
 }
@@ -164,11 +168,12 @@
   align-items: center;
   position: fixed;
   bottom: 4rem;
-  left: 0;
+  left: 50%;
   width: 100%;
+  max-width: 30rem;
   background: $bright;
   transition: $transition2;
-  transform: translateY(255%);
+  transform: translateX(-50%) translateY(255%);
   padding: $padding / 2;
   box-shadow: $box-shadow-top;
 
@@ -217,12 +222,12 @@
   }
 }
 
-.SlideY {
-  transform: translateY(0);
+.SlideYFilters {
+  transform: translateX(-50%) translateY(0);
 }
 
 .LiftFilters {
-  transform: translateY(-3.5rem);
+  transform: translateX(-50%) translateY(-3.5rem);
 }
 
 .Show {

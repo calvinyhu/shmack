@@ -91,7 +91,8 @@ class Restaurants extends Component {
       nextState.isPageOpen !== this.state.isPageOpen ||
       nextState.isShowLocationInput !== this.state.isShowLocationInput ||
       nextState.isShowFilters !== this.state.isShowFilters ||
-      nextState.radius !== this.state.radius
+      nextState.radius !== this.state.radius ||
+      nextState.id !== this.state.id
     )
       return true;
     return false;
@@ -297,7 +298,7 @@ class Restaurants extends Component {
     let searchBarClasses = classes.SearchBar;
 
     if (this.state.isShowFilters) {
-      filtersClasses += ' ' + classes.SlideY;
+      filtersClasses += ' ' + classes.SlideYFilters;
       searchBarClasses += ' ' + classes.SearchBarBoxShadow;
     }
     if (
@@ -315,7 +316,7 @@ class Restaurants extends Component {
       : 'Food in Your Location';
     if (this.state.isShowLocationInput || this.props.location) {
       searchBarClasses += ' ' + classes.ExtendSearchBar;
-      foodInputContainerClasses += ' ' + classes.SlideY;
+      foodInputContainerClasses += ' ' + classes.SlideYFoodInput;
       locationInputContainerClasses += ' ' + classes.Show;
       searchButtonClasses += ' ' + classes.ExtendSearchButton;
       if (this.state.isShowFilters) filtersClasses += ' ' + classes.LiftFilters;
