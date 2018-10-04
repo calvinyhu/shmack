@@ -1,15 +1,11 @@
 import axios from 'axios';
 
 import * as actionTypes from './actionTypes';
-// import {
-//   createYelpSearchQuery,
-//   createGeoLocYelpSearchQuery,
-//   yelpConfig
-// } from '../../utilities/yelp';
 import {
   createGoogleGeocodeLookupQuery,
   createGoogleNearbySearchQuery
 } from '../../utilities/google';
+import { toggleGeoLocPerm } from './appActions';
 
 export const restaurantInputChange = (name, value) => {
   return {
@@ -22,57 +18,34 @@ export const restaurantInputChange = (name, value) => {
 // TODO: Make @location be selected from dropdown menu
 export const restaurantSearch = (food, location, radius) => {
   return dispatch => {
-    // dispatch(restaurantYelpSearchStart());
     dispatch(restaurantGoogleSearchStart());
 
-    if (location) {
-      console.log('[ Restaurants Actions ] Using typed location');
-      getRestaurants(dispatch, food, location, radius);
-    } else {
-      console.log('[ Restaurants Actions ] Using current location');
-      navigator.geolocation.getCurrentPosition(
-        response => {
-          const position = {
-            lat: response.coords.latitude,
-            long: response.coords.longitude
-          };
-          getRestaurants(dispatch, food, position, radius);
-        },
-        error => console.log(error)
-      );
+    if (location) startAsyncGoogleRequest(dispatch, food, location, radius);
+    else {
+      if (navigator.permissions) {
+        navigator.permissions
+          .query({ name: 'geolocation' })
+          .then(permission => {
+            if (permission.state === 'granted') {
+              navigator.geolocation.getCurrentPosition(
+                response => {
+                  const position = {
+                    lat: response.coords.latitude,
+                    long: response.coords.longitude
+                  };
+                  startAsyncGoogleRequest(dispatch, food, position, radius);
+                },
+                error => console.log(error)
+              );
+            } else {
+              dispatch(toggleGeoLocPerm(false));
+              dispatch(requestLocation(true));
+            }
+          });
+      } else console.log('Browser does not support Permissions API');
     }
   };
 };
-
-const getRestaurants = (dispatch, food, location, radius) => {
-  axios
-    .all([
-      // startAsyncYelpRequest(dispatch, food, location),
-      startAsyncGoogleRequest(dispatch, food, location, radius)
-    ])
-    .then(
-      axios.spread(_ => {
-        console.log('[ Restaurants Actions ] Yelp and Google requests ended');
-      })
-    );
-  console.log('[ Restaurants Actions ] Yelp and Google requests started');
-};
-
-// const startAsyncYelpRequest = (dispatch, food, location) => {
-//   let query = null;
-//   if (location && location.lat)
-//     query = createGeoLocYelpSearchQuery(food, location.lat, location.long);
-//   else query = createYelpSearchQuery(food, location);
-
-//   return axios
-//     .get(query, yelpConfig)
-//     .then(response => {
-//       dispatch(restaurantYelpSearchSuccess(response.data.businesses));
-//     })
-//     .catch(error => {
-//       dispatch(restaurantYelpSearchFail(error.response));
-//     });
-// };
 
 const startAsyncGoogleRequest = (dispatch, food, location, radius) => {
   if (location && location.lat)
@@ -115,32 +88,6 @@ const getGoogleRestaurants = (dispatch, food, lat, long, radius) => {
     });
 };
 
-// const restaurantYelpSearchStart = () => {
-//   return {
-//     type: actionTypes.RESTAURANT_YELP_SEARCH_START,
-//     isYelpLoading: true,
-//     yelpRestaurants: null
-//   };
-// };
-
-// const restaurantYelpSearchSuccess = restaurants => {
-//   return {
-//     type: actionTypes.RESTAURANT_YELP_SEARCH_SUCCESS,
-//     isYelpLoading: false,
-//     yelpRestaurants: restaurants,
-//     yelpError: null
-//   };
-// };
-
-// const restaurantYelpSearchFail = error => {
-//   return {
-//     type: actionTypes.RESTAURANT_YELP_SEARCH_FAIL,
-//     isYelpLoading: false,
-//     yelpRestaurants: null,
-//     yelpError: error
-//   };
-// };
-
 const restaurantGoogleSearchStart = () => {
   return {
     type: actionTypes.RESTAURANT_GOOGLE_SEARCH_START,
@@ -164,5 +111,13 @@ const restaurantGoogleSearchFail = error => {
     isGoogleLoading: false,
     googleRestaurants: null,
     googleError: error
+  };
+};
+
+export const requestLocation = value => {
+  return {
+    type: actionTypes.RESTAURANT_REQUESTING_LOCATION,
+    isGoogleLoading: false,
+    isRequestingLocation: value
   };
 };

@@ -23,8 +23,8 @@ const mapStateToProps = state => {
 
 const mapDispatchToProps = dispatch => {
   return {
-    onCheckGeoLocatePermission: () =>
-      dispatch(actions.checkGeoLocatePermission()),
+    onCheckGeoLocatePermission: isExplicitToggleOff =>
+      dispatch(actions.checkGeoLocatePermission(isExplicitToggleOff)),
     onAuthTryAutoLogIn: () => dispatch(authTryAutoLogIn()),
     onGetUserInfo: () => dispatch(getUserInfo()),
     onGetUserPlaces: () => dispatch(getUserPlaces()),

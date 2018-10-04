@@ -3,6 +3,7 @@
 
 @include fadeIn;
 @include slide-y(blockSlideY, 2rem, 0);
+@include loading;
 
 .Loader,
 .Loader:after {

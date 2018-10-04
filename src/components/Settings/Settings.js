@@ -8,58 +8,53 @@ import {
   geoStart,
   geoLocate,
   toggleGeoLocPerm,
-  setRedirectPath
+  setRedirectParent,
+  checkGeoLocatePermission
 } from '../../store/actions/appActions';
 import Modal from '../UI/Modal/Modal';
 
 const mapStateToProps = state => {
   return {
     hasGeoLocatePermission: state.app.hasGeoLocatePermission,
+    isLocating: state.app.isLocating,
     geoError: state.app.error,
-    redirectPath: state.app.redirectPath
+    geoLocation: state.app.geoLocation,
+    redirectParent: state.app.redirectParent
   };
 };
 
 const mapDispatchToProps = dispatch => {
   return {
-    onGeoLocate: () => dispatch(geoLocate()),
+    onCheckGeoLocatePermission: () => dispatch(checkGeoLocatePermission()),
+    onGeoLocate: redirectParent => dispatch(geoLocate(redirectParent)),
     onToggleGeoLocPerm: perm => dispatch(toggleGeoLocPerm(perm)),
-    onClearError: () => dispatch(geoStart()),
-    onSetRedirectPath: path => dispatch(setRedirectPath(path))
+    onClear: () => dispatch(geoStart()),
+    onSetRedirectParent: parent => dispatch(setRedirectParent(parent))
   };
 };
 
 class Settings extends Component {
-  state = {
-    isRedirectingToHome: false
-  };
-
   componentWillUnmount() {
-    if (this.props.redirectPath !== null) this.props.onSetRedirectPath(null);
+    this.props.onSetRedirectParent(null);
+    this.props.onClear();
   }
 
   locationToggleHandler = () => {
     if (this.props.hasGeoLocatePermission) this.props.onToggleGeoLocPerm(false);
-    else {
-      this.props.onToggleGeoLocPerm(true);
-      this.props.onGeoLocate();
-
-      // FIXME: Do not redirect if geolocation fails, only redirect if it succeeds
-      if (this.props.redirectPath === paths.HOME)
-        this.setState({ isRedirectingToHome: true });
-    }
+    else this.props.onGeoLocate();
   };
 
-  clearError = () => this.props.onClearError();
+  clear = () => this.props.onClear();
 
   render() {
-    if (this.state.isRedirectingToHome) return <Redirect to={paths.HOME} />;
+    if (this.props.redirectParent === paths.HOME && this.props.geoLocation)
+      return <Redirect to={paths.HOME} />;
 
     let geoError = (
       <Modal
         isOpen={this.props.geoError}
-        click={this.clearError}
-        close={this.clearError}
+        click={this.clear}
+        close={this.clear}
         btnMsg={'Okay!'}
       >
         {this.props.geoError}

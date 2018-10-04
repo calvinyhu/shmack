@@ -5,14 +5,14 @@ export const checkGeoLocatePermission = () => {
     if (navigator.permissions) {
       navigator.permissions.query({ name: 'geolocation' }).then(permission => {
         if (permission.state === 'granted') dispatch(toggleGeoLocPerm(true));
+        else dispatch(toggleGeoLocPerm(false));
       });
     } else console.log('This browser does not support Permissions API');
   };
 };
 
-export const geoLocate = () => {
+export const geoLocate = redirectParent => {
   return dispatch => {
-    console.log('[ App Actions ] Locating position........');
     dispatch(geoStart());
     if (navigator.geolocation) {
       navigator.geolocation.getCurrentPosition(
@@ -24,7 +24,7 @@ export const geoLocate = () => {
           dispatch(geoSuccess(position));
         },
         error => {
-          dispatch(geoError(geoErrorHandler(error)));
+          dispatch(geoFail(geoErrorHandler(error)));
         }
       );
     } else {
@@ -43,6 +43,7 @@ export const toggleGeoLocPerm = hasGeoLocatePermission => {
 export const geoStart = () => {
   return {
     type: actionTypes.GEO_START,
+    geoLocation: null,
     error: null
   };
 };
@@ -50,6 +51,7 @@ export const geoStart = () => {
 const geoSuccess = geoLocation => {
   return {
     type: actionTypes.GEO_SUCCESS,
+    hasGeoLocatePermission: true,
     geoLocation: geoLocation
   };
 };
@@ -58,6 +60,7 @@ const geoFail = error => {
   return {
     type: actionTypes.GEO_FAIL,
     hasGeoLocatePermission: false,
+    geoLocation: null,
     error: error
   };
 };
@@ -75,14 +78,6 @@ const geoErrorHandler = error => {
   }
 };
 
-const geoError = error => {
-  return {
-    type: actionTypes.GEO_ERROR,
-    hasGeoLocatePermission: false,
-    error: error
-  };
-};
-
 export const beforeInstallPrompt = event => {
   return {
     type: actionTypes.BEFORE_INSTALL_PROMPT,
@@ -97,9 +92,9 @@ export const clearDeferredPrompt = () => {
   };
 };
 
-export const setRedirectPath = redirectPath => {
+export const setRedirectParent = redirectParent => {
   return {
-    type: actionTypes.SET_REDIRECT_PATH,
-    redirectPath: redirectPath
+    type: actionTypes.SET_REDIRECT_PARENT,
+    redirectParent: redirectParent
   };
 };

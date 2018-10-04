@@ -5,7 +5,6 @@ import classes from './ResPage.css';
 import Button from '../UI/Button/Button';
 import Input from '../UI/Input/Input';
 import { MAT_ICONS } from '../../utilities/styles';
-import { SOURCE } from '../../containers/Restaurants/Restaurants';
 import {
   createGooglePlacePhotoQuery,
   convertPrice
@@ -60,39 +59,20 @@ class ResPage extends Component {
   renderPageContent = () => {
     if (this.props.restaurant) {
       const res = this.props.restaurant;
-      let id, imgSrc, name, price, rating, open, isResOpen;
-      let address1, address2, address3, phone;
-
-      if (this.props.src === SOURCE.YELP) {
-        id = res.id;
-        imgSrc = res.image_url;
-        name = res.name;
-        price = res.price;
-        rating = res.rating;
-        // open = !res.is_closed ? 'Open' : 'Closed';
-        isResOpen = !res.is_closed ? classes.ResIsOpen : classes.ResIsClosed;
-        address1 = res.location.display_address[0];
-        address2 = res.location.display_address[1];
-        address3 = res.location.display_address[2];
-        phone = res.display_phone;
-      } else {
-        id = res.place_id;
-        imgSrc = createGooglePlacePhotoQuery(
-          res.photos[0].photo_reference,
-          res.photos[0].width
-        );
-        name = res.name;
-        price = convertPrice(res.price_level);
-        rating = res.rating;
-        open = res.opening_hours.open_now ? 'Open' : 'Closed';
-        isResOpen = res.opening_hours.open_now
-          ? classes.ResIsOpen
-          : classes.ResIsClosed;
-        address1 = res.vicinity;
-        address2 = null;
-        address3 = null;
-        phone = '';
-      }
+      const id = res.place_id;
+      const imgSrc = createGooglePlacePhotoQuery(
+        res.photos[0].photo_reference,
+        res.photos[0].width
+      );
+      const name = res.name;
+      const price = convertPrice(res.price_level);
+      const rating = res.rating;
+      const open = res.opening_hours.open_now ? 'Open' : 'Closed';
+      const isResOpen = res.opening_hours.open_now
+        ? classes.ResIsOpen
+        : classes.ResIsClosed;
+      const address = res.vicinity;
+      const phone = '';
 
       const items = this.renderItems();
       let addItem = null;
@@ -153,9 +133,7 @@ class ResPage extends Component {
                 <p>{price}</p>
                 <p>{rating}</p>
               </div>
-              <p>{address1}</p>
-              <p>{address2}</p>
-              <p>{address3}</p>
+              <p>{address}</p>
               <p>{phone}</p>
             </div>
             <div className={classes.Popular}>

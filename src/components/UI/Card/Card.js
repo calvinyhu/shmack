@@ -42,23 +42,13 @@ class Card extends Component {
       if (details) {
         title = details.name;
 
-        if (this.props.cardSrc === SOURCE.YELP) {
-          img = details.image_url;
-          address1 = details.location.display_address[0];
-          address2 = details.location.display_address[1];
-          address3 = details.location.display_address[2];
-          phone = details.display_phone;
+        if (details.photos) {
+          img = createGooglePlacePhotoQuery(
+            details.photos[0].photo_reference,
+            details.photos[0].width
+          );
         }
-
-        if (this.props.cardSrc === SOURCE.GOOGLE) {
-          if (details.photos) {
-            img = createGooglePlacePhotoQuery(
-              details.photos[0].photo_reference,
-              details.photos[0].width
-            );
-          }
-          address1 = details.vicinity;
-        }
+        address1 = details.vicinity;
       }
 
       let front = (

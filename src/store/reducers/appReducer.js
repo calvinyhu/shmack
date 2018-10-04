@@ -6,30 +6,27 @@ const initialState = {
   geoLocation: null,
   error: null,
   deferredPrompt: null,
-  redirectPath: null
+  redirectParent: null
 };
 
 const geoStart = (state, action) => {
   return updateObject(state, {
+    geoLocation: action.geoLocation,
     error: action.error
   });
 };
 
 const geoSuccess = (state, action) => {
   return updateObject(state, {
+    hasGeoLocatePermission: action.hasGeoLocatePermission,
     geoLocation: action.geoLocation
   });
 };
 
 const geoFail = (state, action) => {
   return updateObject(state, {
-    error: action.error
-  });
-};
-
-const geoError = (state, action) => {
-  return updateObject(state, {
     hasGeoLocatePermission: action.hasGeoLocatePermission,
+    geoLocation: action.geoLocation,
     error: action.error
   });
 };
@@ -52,9 +49,9 @@ const clearDeferredPrompt = (state, action) => {
   });
 };
 
-const setRedirectPath = (state, action) => {
+const setRedirectParent = (state, action) => {
   return updateObject(state, {
-    redirectPath: action.redirectPath
+    redirectParent: action.redirectParent
   });
 };
 
@@ -66,16 +63,14 @@ const appReducer = (state = initialState, action) => {
       return geoSuccess(state, action);
     case actionTypes.GEO_FAIL:
       return geoFail(state, action);
-    case actionTypes.GEO_ERROR:
-      return geoError(state, action);
     case actionTypes.TOGGLE_GEO_LOC_PERM:
       return geoToggle(state, action);
     case actionTypes.BEFORE_INSTALL_PROMPT:
       return beforeInstallPrompt(state, action);
     case actionTypes.CLEAR_DEFERRED_PROMPT:
       return clearDeferredPrompt(state, action);
-    case actionTypes.SET_REDIRECT_PATH:
-      return setRedirectPath(state, action);
+    case actionTypes.SET_REDIRECT_PARENT:
+      return setRedirectParent(state, action);
     default:
       return state;
   }

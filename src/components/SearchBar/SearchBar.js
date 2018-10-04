@@ -9,7 +9,7 @@ import { MAT_ICONS } from '../../utilities/styles';
 const searchBar = props => {
   let searchBarClasses = classes.SearchBar;
 
-  if (props.isScrollingDown || props.isYelpLoading || props.isGoogleLoading)
+  if (props.isScrollingDown || props.isGoogleLoading)
     searchBarClasses += ' ' + classes.HideSearchBar;
 
   if (props.isShowFilters) searchBarClasses += ' ' + classes.SearchBarBoxShadow;

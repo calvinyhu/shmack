@@ -1,5 +1,6 @@
 @import './src/assets/scss/_variables.scss';
 @import './src/assets/scss/_mixins.scss';
+@import './src/assets/scss/_classes.scss';
 
 .Settings {
   display: flex;
@@ -84,4 +85,10 @@
 
 .ShowError {
   transform: translateX(-50%) translateY(-50%);
+}
+
+.LoaderContainer {
+  width: 4rem;
+  height: 4rem;
+  margin-bottom: $margin * 6;
 }
