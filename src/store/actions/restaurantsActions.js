@@ -25,7 +25,10 @@ export const restaurantSearch = (food, location, radius) => {
     // dispatch(restaurantYelpSearchStart());
     dispatch(restaurantGoogleSearchStart());
 
-    if (!location) {
+    if (location) {
+      console.log('[ Restaurants Actions ] Using typed location');
+      getRestaurants(dispatch, food, location, radius);
+    } else {
       console.log('[ Restaurants Actions ] Using current location');
       navigator.geolocation.getCurrentPosition(
         response => {
@@ -37,9 +40,6 @@ export const restaurantSearch = (food, location, radius) => {
         },
         error => console.log(error)
       );
-    } else {
-      console.log('[ Restaurants Actions ] Using typed location');
-      getRestaurants(dispatch, food, location, radius);
     }
   };
 };
