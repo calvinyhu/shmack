@@ -65,15 +65,15 @@
   display: flex;
   justify-content: space-between;
   align-items: center;
-  width: 90%;
+  width: 100%;
   max-width: 50rem;
   height: 4rem;
   background: white;
   padding: $padding / 2;
   border-radius: $border-radius-button / 2;
-  transition: $transition1;
+  transition: $transition2;
   position: fixed;
-  bottom: $padding;
+  bottom: 0;
   left: 50%;
   transform: translateX(-50%);
 
@@ -95,9 +95,13 @@
   }
 }
 
+.SearchBarBoxShadow {
+  box-shadow: $box-shadow-top;
+}
+
 .HideSearchBar {
-  transform: translateX(-50%) translateY(125%);
-  transition: $transition1;
+  transform: translateX(-50%) translateY(100%);
+  transition: $transition2;
 }
 
 .ExtendSearchBar {
@@ -105,11 +109,12 @@
 }
 
 .SearchButton {
-  width: 5rem;
-  min-height: 2.5rem;
+  width: 3rem;
+  min-width: 3rem;
+  min-height: 3rem;
   height: 3rem;
   margin-left: $margin / 2;
-  transition: $transition1;
+  transition: $transition2;
 }
 
 .ExtendSearchButton {
@@ -137,10 +142,11 @@
 .FoodInputContainer,
 .LocationInputContainer {
   position: absolute;
-  bottom: 0;
+  bottom: 3.5rem;
   left: 0;
   width: 100%;
-  transition: $transition1;
+  transition: $transition2;
+  transform: translateY(3.5rem);
 }
 
 .FoodInputContainer {
@@ -151,10 +157,66 @@
   opacity: 0;
 }
 
-.SlideUp {
+.Filters {
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  align-items: center;
+  position: fixed;
+  bottom: 4rem;
+  left: 0;
+  width: 100%;
+  background: white;
+  transition: $transition2;
+  transform: translateY(255%);
+  padding: $padding / 2;
+  box-shadow: $box-shadow-top;
+
+  .Filter {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    width: 100%;
+    font-size: $font-size / 1.2;
+
+    p {
+      margin: 0;
+    }
+
+    .FilterOptions {
+      display: flex;
+      justify-content: space-evenly;
+      align-items: center;
+
+      p {
+        min-width: 2.3rem;
+        padding: $padding-tiny $padding / 1.5;
+        border-radius: $border-radius-button;
+        text-align: center;
+
+        &:hover {
+          cursor: pointer;
+          background: $main-color;
+          color: white;
+        }
+      }
+    }
+  }
+}
+
+.SlideY {
+  transform: translateY(0);
+}
+
+.LiftFilters {
   transform: translateY(-3.5rem);
 }
 
 .Show {
   opacity: 1;
+}
+
+.ActiveRadius {
+  background: $main-color;
+  color: white;
 }

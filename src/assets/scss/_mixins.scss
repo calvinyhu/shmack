@@ -42,3 +42,14 @@
     }
   }
 }
+
+@mixin slide-x($name, $from, $to) {
+  @keyframes #{$name} {
+    0% {
+      transform: translateX($from);
+    }
+    100% {
+      transform: translateX($to);
+    }
+  }
+}

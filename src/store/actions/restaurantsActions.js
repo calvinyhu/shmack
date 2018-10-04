@@ -20,9 +20,10 @@ export const restaurantInputChange = (name, value) => {
 };
 
 // TODO: Make @location be selected from dropdown menu
-export const restaurantSearch = (food, location) => {
+export const restaurantSearch = (food, location, radius) => {
   return dispatch => {
-    dispatch(restaurantYelpSearchStart());
+    console.log(radius);
+    // dispatch(restaurantYelpSearchStart());
     dispatch(restaurantGoogleSearchStart());
 
     if (location === '') {
@@ -32,22 +33,22 @@ export const restaurantSearch = (food, location) => {
             lat: response.coords.latitude,
             long: response.coords.longitude
           };
-          getRestaurants(dispatch, food, position);
+          getRestaurants(dispatch, food, position, radius);
         },
-        error => {}
+        error => console.log(error)
       );
-    } else getRestaurants(dispatch, food, location);
+    } else getRestaurants(dispatch, food, location, radius);
   };
 };
 
-const getRestaurants = (dispatch, food, location) => {
+const getRestaurants = (dispatch, food, location, radius) => {
   axios
     .all([
-      startAsyncYelpRequest(dispatch, food, location),
-      startAsyncGoogleRequest(dispatch, food, location)
+      // startAsyncYelpRequest(dispatch, food, location),
+      startAsyncGoogleRequest(dispatch, food, location, radius)
     ])
     .then(
-      axios.spread((yelp, google) => {
+      axios.spread(_ => {
         console.log('[ Restaurants Actions ] Yelp and Google requests ended');
       })
     );
@@ -70,16 +71,22 @@ const startAsyncYelpRequest = (dispatch, food, location) => {
     });
 };
 
-const startAsyncGoogleRequest = (dispatch, food, location) => {
+const startAsyncGoogleRequest = (dispatch, food, location, radius) => {
   if (location && location.lat)
-    return getGoogleRestaurants(dispatch, food, location.lat, location.long);
+    return getGoogleRestaurants(
+      dispatch,
+      food,
+      location.lat,
+      location.long,
+      radius
+    );
   else {
     return axios
       .get(createGoogleGeocodeLookupQuery(location))
       .then(response => {
         const lat = response.data.results[0].geometry.location.lat;
         const long = response.data.results[0].geometry.location.lng;
-        return getGoogleRestaurants(dispatch, food, lat, long);
+        return getGoogleRestaurants(dispatch, food, lat, long, radius);
       })
       .catch(error => {
         dispatch(restaurantGoogleSearchFail(error.data));
@@ -87,12 +94,12 @@ const startAsyncGoogleRequest = (dispatch, food, location) => {
   }
 };
 
-const getGoogleRestaurants = (dispatch, food, lat, long) => {
+const getGoogleRestaurants = (dispatch, food, lat, long, radius) => {
   // TODO: Make @radius (1500) dynamic through user input
   const query = createGoogleNearbySearchQuery(
     food,
     `${lat},${long}`,
-    5000,
+    radius,
     'restaurant'
   );
   return axios

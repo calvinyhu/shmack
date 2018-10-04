@@ -22,6 +22,7 @@ import Button from '../../components/UI/Button/Button';
 import Modal from '../../components/UI/Modal/Modal';
 import Backdrop from '../../components/UI/Backdrop/Backdrop';
 import ResPage from '../../components/ResPage/ResPage';
+import { MAT_ICONS } from '../../utilities/styles';
 
 export const SOURCE = {
   YELP: 1,
@@ -49,8 +50,8 @@ const mapDispatchToProps = dispatch => {
   return {
     onRestaurantInputChange: (name, value) =>
       dispatch(actions.restaurantInputChange(name, value)),
-    onRestaurantSearch: (food, location) =>
-      dispatch(actions.restaurantSearch(food, location)),
+    onRestaurantSearch: (food, location, radius) =>
+      dispatch(actions.restaurantSearch(food, location, radius)),
     onGetPopularItems: id => dispatch(getItems(id)),
     onClearDeferredPrompt: () => dispatch(clearDeferredPrompt()),
     onSetRedirectPath: path => dispatch(setRedirectPath(path))
@@ -63,6 +64,7 @@ class Restaurants extends Component {
   isYelpRendered = false;
   isGoogleRendered = false;
   restaurantClickHandlers = {};
+  radiusHandlers = {};
 
   state = {
     isRedirectingToSettings: false,
@@ -70,10 +72,12 @@ class Restaurants extends Component {
     isScrollingDown: false,
     isPageOpen: false,
     isShowLocationInput: false,
+    isShowFilters: false,
     id: null,
     restaurant: null,
     src: null,
-    prevScrollTop: 0
+    prevScrollTop: 0,
+    radius: 1
   };
 
   shouldComponentUpdate(nextProps, nextState) {
@@ -84,7 +88,9 @@ class Restaurants extends Component {
       nextState.isRequestingLocation !== this.state.isRequestingLocation ||
       nextState.isScrollingDown !== this.state.isScrollingDown ||
       nextState.isPageOpen !== this.state.isPageOpen ||
-      nextState.isShowLocationInput !== this.state.isShowLocationInput
+      nextState.isShowLocationInput !== this.state.isShowLocationInput ||
+      nextState.isShowFilters !== this.state.isShowFilters ||
+      nextState.radius !== this.state.radius
     )
       return true;
     return false;
@@ -105,6 +111,10 @@ class Restaurants extends Component {
       this.setState({ isShowLocationInput: false });
   };
 
+  handleHideFilters = () => {
+    if (this.state.isShowFilters) this.setState({ isShowFilters: false });
+  };
+
   handleInputChange = event => {
     this.props.onRestaurantInputChange(event.target.name, event.target.value);
   };
@@ -119,6 +129,7 @@ class Restaurants extends Component {
       prevScrollTop: scrollTop
     });
     this.handleHideLocationInput();
+    this.handleHideFilters();
   };
 
   handleCloseLocationRequest = () => {
@@ -139,13 +150,29 @@ class Restaurants extends Component {
         this.setState({ isPageOpen: true, id: id, restaurant: res, src: src });
         this.props.onGetPopularItems(id);
         this.handleHideLocationInput();
+        this.handleHideFilters();
       };
     }
     return this.restaurantClickHandlers[id];
   };
 
+  handleFilter = () => {
+    this.setState(prevState => {
+      return { isShowFilters: !prevState.isShowFilters };
+    });
+  };
+
+  getSetRadiusHandler = radius => {
+    if (!this.radiusHandlers[radius])
+      this.radiusHandlers[radius] = () => {
+        this.setState({ radius: radius });
+        this.handleSearch();
+      };
+    return this.radiusHandlers[radius];
+  };
+
   handleSearch = event => {
-    event.preventDefault();
+    if (event) event.preventDefault();
     // Reset search state
     this.restaurants = null;
     this.restaurantNames = null;
@@ -155,12 +182,22 @@ class Restaurants extends Component {
     // Search
     if (this.props.location) {
       console.log('[ Restaurants ] Using typed in location');
-      this.props.onRestaurantSearch(this.props.food, this.props.location);
+      this.props.onRestaurantSearch(
+        this.props.food,
+        this.props.location,
+        this.state.radius * 1609
+      );
       this.handleHideLocationInput();
+      this.handleHideFilters();
     } else if (this.props.hasGeoLocatePermission) {
       console.log('[ Restaurants ] Using current location');
-      this.props.onRestaurantSearch(this.props.food, this.props.location);
+      this.props.onRestaurantSearch(
+        this.props.food,
+        this.props.location,
+        this.state.radius * 1609
+      );
       this.handleHideLocationInput();
+      this.handleHideFilters();
     } else this.setState({ isRequestingLocation: true });
   };
 
@@ -219,6 +256,7 @@ class Restaurants extends Component {
       });
       this.isGoogleRendered = true;
     }
+
     this.restaurants = restaurants;
     this.restaurantNames = resNames;
     return restaurants;
@@ -267,10 +305,17 @@ class Restaurants extends Component {
       <div className={classes.RestaurantsGrid}>{this.renderThumbnails()}</div>
     );
 
+    let filtersClasses = classes.Filters;
     let searchBarClasses = classes.SearchBar;
+
+    if (this.state.isShowFilters) {
+      filtersClasses += ' ' + classes.SlideY;
+      searchBarClasses += ' ' + classes.SearchBarBoxShadow;
+    }
     if (
       this.state.isScrollingDown ||
-      (this.props.isYelpLoading && this.props.isGoogleLoading)
+      this.props.isYelpLoading ||
+      this.props.isGoogleLoading
     )
       searchBarClasses += ' ' + classes.HideSearchBar;
 
@@ -282,10 +327,61 @@ class Restaurants extends Component {
       : 'Food in Your Location';
     if (this.state.isShowLocationInput || this.props.location) {
       searchBarClasses += ' ' + classes.ExtendSearchBar;
-      foodInputContainerClasses += ' ' + classes.SlideUp;
+      foodInputContainerClasses += ' ' + classes.SlideY;
       locationInputContainerClasses += ' ' + classes.Show;
       searchButtonClasses += ' ' + classes.ExtendSearchButton;
+      if (this.state.isShowFilters) filtersClasses += ' ' + classes.LiftFilters;
     }
+
+    let radiusClasses = {};
+    radiusClasses[this.state.radius] = classes.ActiveRadius;
+
+    let filters = (
+      <div className={filtersClasses}>
+        <p>Filters</p>
+        <div className={classes.Filter}>
+          <p>Radius (mi)</p>
+          <div className={classes.FilterOptions}>
+            <p
+              className={radiusClasses[1]}
+              onClick={this.getSetRadiusHandler(1)}
+            >
+              1
+            </p>
+            <p
+              className={radiusClasses[3]}
+              onClick={this.getSetRadiusHandler(3)}
+            >
+              3
+            </p>
+            <p
+              className={radiusClasses[5]}
+              onClick={this.getSetRadiusHandler(5)}
+            >
+              5
+            </p>
+            <p
+              className={radiusClasses[10]}
+              onClick={this.getSetRadiusHandler(10)}
+            >
+              10
+            </p>
+            <p
+              className={radiusClasses[20]}
+              onClick={this.getSetRadiusHandler(20)}
+            >
+              20
+            </p>
+            <p
+              className={radiusClasses[30]}
+              onClick={this.getSetRadiusHandler(30)}
+            >
+              30
+            </p>
+          </div>
+        </div>
+      </div>
+    );
 
     let searchBar = (
       <div className={searchBarClasses}>
@@ -322,6 +418,11 @@ class Restaurants extends Component {
             <Button main>Go</Button>
           </div>
         </form>
+        <div className={searchButtonClasses}>
+          <Button main click={this.handleFilter}>
+            <div className={MAT_ICONS}>filter_list</div>
+          </Button>
+        </div>
       </div>
     );
 
@@ -342,6 +443,7 @@ class Restaurants extends Component {
         {backdrop}
         {locationRequestModal}
         {restaurantsGrid}
+        {filters}
         {searchBar}
         {resPage}
       </div>
