@@ -6,6 +6,7 @@ const button = props => {
   let buttonClasses = classes.Button;
 
   if (props.link) buttonClasses = classes.PlaceholderLink;
+  if (props.small) buttonClasses += ' ' + classes.Small;
   if (props.circle) buttonClasses += ' ' + classes.Circle;
   if (props.main) buttonClasses += ' ' + classes.Main;
   if (props.clear) buttonClasses += ' ' + classes.Clear;

@@ -165,10 +165,7 @@ class Restaurants extends Component {
 
   getSetRadiusHandler = radius => {
     if (!this.radiusHandlers[radius])
-      this.radiusHandlers[radius] = () => {
-        this.setState({ radius: radius });
-        this.handleSearch();
-      };
+      this.radiusHandlers[radius] = () => this.setState({ radius: radius });
     return this.radiusHandlers[radius];
   };
 
@@ -339,7 +336,14 @@ class Restaurants extends Component {
 
     let filters = (
       <div className={filtersClasses}>
-        <p>Filters</p>
+        <header>
+          <p>Filters</p>
+          <div className={classes.FiltersApplyContainer}>
+            <Button main small click={this.handleSearch}>
+              Apply
+            </Button>
+          </div>
+        </header>
         <div className={classes.Filter}>
           <p>Radius (mi)</p>
           <div className={classes.FilterOptions}>

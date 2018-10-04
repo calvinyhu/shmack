@@ -172,16 +172,29 @@
   padding: $padding / 2;
   box-shadow: $box-shadow-top;
 
+  p {
+    margin: 0;
+  }
+
+  header {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    width: 100%;
+    margin-bottom: $margin;
+
+    .FiltersApplyContainer {
+      font-size: $font-size / 1.2;
+    }
+  }
+
   .Filter {
     display: flex;
     justify-content: space-between;
     align-items: center;
     width: 100%;
     font-size: $font-size / 1.2;
-
-    p {
-      margin: 0;
-    }
+    margin-bottom: $margin / 2;
 
     .FilterOptions {
       display: flex;

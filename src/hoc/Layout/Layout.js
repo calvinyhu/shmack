@@ -86,7 +86,7 @@ class Layout extends PureComponent {
 
     const header = (
       <Fade>
-        <header>
+        <header className={classes.Header}>
           <div className={classes.DrawerToggle} onClick={this.handleClick}>
             <div className={MAT_ICONS}>menu</div>
           </div>
