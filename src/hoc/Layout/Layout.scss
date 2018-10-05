@@ -49,21 +49,6 @@ nav {
     flex-shrink: 0;
   }
 
-  a {
-    color: $dark-main-color;
-    padding: $padding / 2 $padding;
-    margin-bottom: $margin / 2;
-    min-width: 7rem;
-    border-radius: $border-radius-button;
-    transition: $transition1;
-
-    &:hover {
-      text-decoration: none;
-      color: $bright;
-      background: $dark-main-color;
-    }
-  }
-
   .AuthLinks {
     display: flex;
     justify-content: space-around;
@@ -72,10 +57,7 @@ nav {
 
     a {
       width: 30%;
-    }
-
-    .SignUp {
-      border: 1px solid $dark-main-color;
+      justify-content: center;
     }
   }
 }

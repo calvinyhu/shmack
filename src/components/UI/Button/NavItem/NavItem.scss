@@ -1,0 +1,37 @@
+@import './src/assets/scss/_variables.scss';
+@import './src/assets/scss/_mixins.scss';
+
+.NavItem {
+  display: flex;
+  align-items: center;
+  padding: $padding-tiny $padding;
+  margin-bottom: $margin / 2;
+  min-width: 6rem;
+  height: 3rem;
+  border-radius: $border-radius-button;
+  transition: $transition1;
+
+  &:hover {
+    color: $bright;
+    text-decoration: none;
+  }
+}
+
+.Main {
+  color: $dark-main-color;
+}
+
+.MainTouchHover {
+  transition: none;
+  color: $bright;
+  background: $dark-main-color;
+}
+
+.MainMouseHover {
+  color: $bright;
+  background: $dark-main-color;
+}
+
+.BorderMain {
+  border: 1px solid $dark-main-color;
+}

@@ -8,6 +8,7 @@ import Aux from '../Auxiliary/Auxiliary';
 import Backdrop from '../../components/UI/Backdrop/Backdrop';
 import Drawer from '../../components/UI/Drawer/Drawer';
 import Button from '../../components/UI/Button/Button';
+import NavItem from '../../components/UI/Button/NavItem/NavItem';
 import { MAT_ICONS } from '../../utilities/styles';
 import * as paths from '../../utilities/paths';
 import {
@@ -62,19 +63,19 @@ class Layout extends PureComponent {
         <Drawer left isOpen={this.state.isDrawerOpen}>
           <nav>
             <div className={classes.Primary}>
-              <NavLink to={paths.HOME} onClick={this.handleCloseDrawer}>
+              <NavItem main to={paths.HOME} click={this.handleCloseDrawer}>
                 Home
-              </NavLink>
-              <NavLink to={paths.ABOUT} onClick={this.handleCloseDrawer}>
+              </NavItem>
+              <NavItem main to={paths.ABOUT} click={this.handleCloseDrawer}>
                 About
-              </NavLink>
-              <NavLink to={paths.SETTINGS} onClick={this.handleCloseDrawer}>
+              </NavItem>
+              <NavItem main to={paths.SETTINGS} click={this.handleCloseDrawer}>
                 Settings
-              </NavLink>
+              </NavItem>
             </div>
-            <NavLink to={paths.LOGOUT} onClick={this.handleCloseDrawer}>
+            <NavItem main to={paths.LOGOUT} click={this.handleCloseDrawer}>
               Log Out
-            </NavLink>
+            </NavItem>
           </nav>
         </Drawer>
       );
@@ -84,26 +85,31 @@ class Layout extends PureComponent {
           <nav>
             <div className={classes.Primary}>
               <div className={classes.AuthLinks}>
-                <NavLink
-                  className={classes.SignUp}
+                <NavItem
+                  main
+                  borderMain
                   to={paths.AUTH_SIGNUP}
-                  onClick={this.handleCloseDrawer}
+                  click={this.handleCloseDrawer}
                 >
                   Sign Up
-                </NavLink>
-                <NavLink to={paths.AUTH_LOGIN} onClick={this.handleCloseDrawer}>
+                </NavItem>
+                <NavItem
+                  main
+                  to={paths.AUTH_LOGIN}
+                  click={this.handleCloseDrawer}
+                >
                   Login
-                </NavLink>
+                </NavItem>
               </div>
-              <NavLink to={paths.HOME} onClick={this.handleCloseDrawer}>
+              <NavItem main to={paths.HOME} click={this.handleCloseDrawer}>
                 Home
-              </NavLink>
-              <NavLink to={paths.ABOUT} onClick={this.handleCloseDrawer}>
+              </NavItem>
+              <NavItem main to={paths.ABOUT} click={this.handleCloseDrawer}>
                 About
-              </NavLink>
-              <NavLink to={paths.SETTINGS} onClick={this.handleCloseDrawer}>
+              </NavItem>
+              <NavItem main to={paths.SETTINGS} click={this.handleCloseDrawer}>
                 Settings
-              </NavLink>
+              </NavItem>
             </div>
           </nav>
         </Drawer>
