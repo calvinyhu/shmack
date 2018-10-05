@@ -13,6 +13,7 @@
   box-shadow: $box-shadow;
   transition: $transition1;
   font-weight: bold;
+  appearance: none;
 
   &:focus {
     outline: none;
