@@ -1,13 +1,22 @@
 import React, { PureComponent } from 'react';
 import { NavLink } from 'react-router-dom';
 import Fade from 'react-reveal/Fade';
+import { connect } from 'react-redux';
 
 import classes from './Layout.css';
 import Aux from '../Auxiliary/Auxiliary';
 import Backdrop from '../../components/UI/Backdrop/Backdrop';
 import Drawer from '../../components/UI/Drawer/Drawer';
+import Button from '../../components/UI/Button/Button';
 import { MAT_ICONS } from '../../utilities/styles';
 import * as paths from '../../utilities/paths';
+import { beforeInstallPrompt } from '../../store/actions/appActions';
+
+const mapDispatchToProps = dispatch => {
+  return {
+    onBeforeInstallPrompt: event => dispatch(beforeInstallPrompt(event))
+  };
+};
 
 class Layout extends PureComponent {
   state = {
@@ -21,6 +30,15 @@ class Layout extends PureComponent {
   };
 
   handleCloseDrawer = () => this.setState({ isDrawerOpen: false });
+
+  handleA2HS = () => {
+    console.log('Clicked A2HS');
+    window.addEventListener('beforeinstallprompt', event => {
+      console.log('A2HS Event:', event);
+      event.preventDefault();
+      this.props.onBeforeInstallPrompt(event);
+    });
+  };
 
   render() {
     const backdrop = (
@@ -91,6 +109,11 @@ class Layout extends PureComponent {
             <div className={MAT_ICONS}>menu</div>
           </div>
           <h5>shmack</h5>
+          <div>
+            <Button clear click={this.handleA2HS}>
+              <div className={MAT_ICONS}>add_to_home_screen</div>
+            </Button>
+          </div>
         </header>
       </Fade>
     );
@@ -108,4 +131,7 @@ class Layout extends PureComponent {
   }
 }
 
-export default Layout;
+export default connect(
+  null,
+  mapDispatchToProps
+)(Layout);

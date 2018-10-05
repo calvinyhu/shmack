@@ -45,12 +45,6 @@ class App extends Component {
         // this.props.onGetUserPlaces();
       }
     });
-
-    window.addEventListener('beforeinstallprompt', event => {
-      event.preventDefault();
-      this.props.onBeforeInstallPrompt(event);
-      return false;
-    });
   }
 
   render() {
