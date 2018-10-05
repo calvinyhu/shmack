@@ -69,16 +69,11 @@
 
 .MainTouchHover {
   transition: none;
-
-  &:hover {
-    background: $main-color;
-  }
+  background: $main-color;
 }
 
 .MainMouseHover {
-  &:hover {
-    background: $main-color;
-  }
+  background: $main-color;
 }
 
 .Adj {
