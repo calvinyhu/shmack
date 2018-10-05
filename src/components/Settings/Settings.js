@@ -34,6 +34,10 @@ const mapDispatchToProps = dispatch => {
 };
 
 class Settings extends Component {
+  componentDidMount() {
+    this.props.onCheckGeoLocatePermission();
+  }
+
   componentWillUnmount() {
     this.props.onSetRedirectParent(null);
     this.props.onClear();
