@@ -7,10 +7,7 @@ import classes from './Restaurants.css';
 import * as actions from '../../store/actions/restaurantsActions';
 import * as paths from '../../utilities/paths';
 import { getItems } from '../../store/actions/resPageActions';
-import {
-  clearDeferredPrompt,
-  setRedirectParent
-} from '../../store/actions/appActions';
+import { setRedirectParent } from '../../store/actions/appActions';
 import {
   createGooglePlacePhotoQuery,
   convertPrice
@@ -25,7 +22,6 @@ import SearchBar from '../../components/SearchBar/SearchBar';
 const mapStateToProps = state => {
   return {
     hasGeoLocatePermission: state.app.hasGeoLocatePermission,
-    deferredPrompt: state.app.deferredPrompt,
     redirectParent: state.app.redirectParent,
 
     isAuth: state.auth.isAuth,
@@ -46,7 +42,6 @@ const mapDispatchToProps = dispatch => {
     onRestaurantSearch: (food, location, radius) =>
       dispatch(actions.restaurantSearch(food, location, radius)),
     onGetPopularItems: id => dispatch(getItems(id)),
-    onClearDeferredPrompt: () => dispatch(clearDeferredPrompt()),
     onRequestLocation: value => dispatch(actions.requestLocation(value)),
     onSetRedirectParent: parent => dispatch(setRedirectParent(parent))
   };
@@ -156,13 +151,7 @@ class Restaurants extends Component {
   handleCloseLocationRequest = () => this.props.onRequestLocation(false);
 
   // Restaurant Page Handles
-  handlePageClose = () => {
-    if (this.props.deferredPrompt) {
-      this.props.deferredPrompt.prompt();
-      this.props.onClearDeferredPrompt();
-    }
-    this.setState({ isPageOpen: false });
-  };
+  handlePageClose = () => this.setState({ isPageOpen: false });
 
   // Restaurant Grid Thumbnail Handles
   getRestaurantClickHandler = (id, res) => {

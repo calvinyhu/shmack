@@ -10,11 +10,21 @@ import Drawer from '../../components/UI/Drawer/Drawer';
 import Button from '../../components/UI/Button/Button';
 import { MAT_ICONS } from '../../utilities/styles';
 import * as paths from '../../utilities/paths';
-import { beforeInstallPrompt } from '../../store/actions/appActions';
+import {
+  beforeInstallPrompt,
+  clearDeferredPrompt
+} from '../../store/actions/appActions';
+
+const mapStateToProps = state => {
+  return {
+    deferredPrompt: state.app.deferredPrompt
+  };
+};
 
 const mapDispatchToProps = dispatch => {
   return {
-    onBeforeInstallPrompt: event => dispatch(beforeInstallPrompt(event))
+    onBeforeInstallPrompt: event => dispatch(beforeInstallPrompt(event)),
+    onClearDeferredPrompt: () => dispatch(clearDeferredPrompt())
   };
 };
 
@@ -32,12 +42,10 @@ class Layout extends PureComponent {
   handleCloseDrawer = () => this.setState({ isDrawerOpen: false });
 
   handleA2HS = () => {
-    console.log('Clicked A2HS');
-    window.addEventListener('beforeinstallprompt', event => {
-      console.log('A2HS Event:', event);
-      event.preventDefault();
-      this.props.onBeforeInstallPrompt(event);
-    });
+    if (this.props.deferredPrompt) {
+      this.props.deferredPrompt.prompt();
+      this.props.onClearDeferredPrompt();
+    }
   };
 
   render() {
@@ -102,6 +110,17 @@ class Layout extends PureComponent {
       );
     }
 
+    let A2HSButton = null;
+    if (this.props.deferredPrompt) {
+      A2HSButton = (
+        <div>
+          <Button clear click={this.handleA2HS}>
+            <div className={MAT_ICONS}>add_to_home_screen</div>
+          </Button>
+        </div>
+      );
+    }
+
     const header = (
       <Fade>
         <header className={classes.Header}>
@@ -109,11 +128,7 @@ class Layout extends PureComponent {
             <div className={MAT_ICONS}>menu</div>
           </div>
           <h5>shmack</h5>
-          <div>
-            <Button clear click={this.handleA2HS}>
-              <div className={MAT_ICONS}>add_to_home_screen</div>
-            </Button>
-          </div>
+          {A2HSButton}
         </header>
       </Fade>
     );
@@ -132,6 +147,6 @@ class Layout extends PureComponent {
 }
 
 export default connect(
-  null,
+  mapStateToProps,
   mapDispatchToProps
 )(Layout);

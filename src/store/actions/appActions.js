@@ -79,7 +79,6 @@ const geoErrorHandler = error => {
 };
 
 export const beforeInstallPrompt = event => {
-  console.log('Adding beforeinstall prompt');
   return {
     type: actionTypes.BEFORE_INSTALL_PROMPT,
     deferredPrompt: event
