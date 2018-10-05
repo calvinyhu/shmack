@@ -3,7 +3,6 @@ import React, { PureComponent } from 'react';
 import classes from './Button.css';
 
 class Button extends PureComponent {
-  touchPos = { x: 0, y: 0 };
   touchBounds = { top: 0, bot: 0, left: 0, right: 0 };
 
   state = {
@@ -12,16 +11,11 @@ class Button extends PureComponent {
   };
 
   handleTouchStart = event => {
-    const touch = event.changedTouches[0];
-    this.touchPos.x = touch.clientX;
-    this.touchPos.y = touch.clientY;
-
-    // const targetHeight = event.target.clientHeight;
-    // const targetWidth = event.target.clientWidth;
-    // this.touchBounds.top = this.touchPos.y + targetHeight;
-    // this.touchBounds.bot = this.touchPos.y - targetHeight;
-    // this.touchBounds.left = this.touchPos.x - targetWidth;
-    // this.touchBounds.right = this.touchPos.x + targetWidth;
+    const rect = event.target.getBoundingClientRect();
+    this.touchBounds.top = rect.top;
+    this.touchBounds.bot = rect.bottom;
+    this.touchBounds.left = rect.left;
+    this.touchBounds.right = rect.right;
 
     this.setState({ isTouch: true });
   };
@@ -30,29 +24,20 @@ class Button extends PureComponent {
     if (event && event.cancelable) event.preventDefault();
 
     const touch = event.changedTouches[0];
-    // const withinX =
-    //   touch.clientX <= this.touchBounds.right &&
-    //   touch.clientX >= this.touchBounds.left;
-    // const withinY =
-    //   touch.clientY <= this.touchBounds.top &&
-    //   touch.clientY >= this.touchBounds.bot;
-    const samePos =
-      touch.clientX === this.touchPos.x && touch.clientY === this.touchPos.y;
+    const withinX =
+      touch.clientX <= this.touchBounds.right &&
+      touch.clientX >= this.touchBounds.left;
+    const withinY =
+      touch.clientY <= this.touchBounds.bot &&
+      touch.clientY >= this.touchBounds.top;
 
-    if (this.props.click && samePos) this.props.click();
+    if (this.props.click && withinX && withinY) this.props.click();
 
     this.setState({ isTouch: false });
   };
 
-  handleMouseEnter = () => {
-    console.log('handleMouseEnter');
-    this.setState({ isMouse: true });
-  };
-
-  handleMouseLeave = () => {
-    console.log('handleMouseLeave');
-    this.setState({ isMouse: false });
-  };
+  handleMouseEnter = () => this.setState({ isMouse: true });
+  handleMouseLeave = () => this.setState({ isMouse: false });
 
   render() {
     let buttonClasses = classes.Button;
@@ -76,8 +61,8 @@ class Button extends PureComponent {
         className={buttonClasses}
         onTouchStart={this.handleTouchStart}
         onTouchEnd={this.handleTouchEnd}
-        // onMouseEnter={this.handleMouseEnter}
-        // onMouseLeave={this.handleMouseLeave}
+        onMouseEnter={this.handleMouseEnter}
+        onMouseLeave={this.handleMouseLeave}
         onClick={this.props.click}
       >
         {this.props.children}
