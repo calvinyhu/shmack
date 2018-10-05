@@ -60,7 +60,9 @@ const searchBar = props => {
             </div>
           </div>
           <div className={searchButtonClasses}>
-            <Button main>Go</Button>
+            <Button main click={props.handleSearch}>
+              Go
+            </Button>
           </div>
         </form>
         <div className={searchButtonClasses}>

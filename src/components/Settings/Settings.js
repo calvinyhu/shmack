@@ -33,6 +33,14 @@ const mapDispatchToProps = dispatch => {
   };
 };
 
+// FIXME:
+// When on Settings page and location is turned off on mobile device, if device
+// location is turned on, the location sharing slider is unclickable.
+// This is fixed by refreshing the page.
+// TODO:
+// Add isLocating prop when onGeoLocate fires; this may solve the issue
+// above. i.e. it could just be my phone's glitchy location
+
 class Settings extends Component {
   componentDidMount() {
     this.props.onCheckGeoLocatePermission();
