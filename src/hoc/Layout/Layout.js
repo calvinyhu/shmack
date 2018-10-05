@@ -1,5 +1,4 @@
 import React, { PureComponent } from 'react';
-import { NavLink } from 'react-router-dom';
 import Fade from 'react-reveal/Fade';
 import { connect } from 'react-redux';
 
