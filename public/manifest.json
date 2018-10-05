@@ -3,7 +3,7 @@
   "name": "Shmack",
   "start_url": "/",
   "display": "standalone",
-  "theme_color": "#ffa07a",
+  "theme_color": "#dd764d",
   "background_color": "#ffffff",
   "orientation": "portrait-primary",
   "description": "Shmack shows popular menu items at a glance",
