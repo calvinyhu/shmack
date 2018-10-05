@@ -52,7 +52,7 @@ class Auth extends Component {
   };
 
   handleFormSubmit = event => {
-    event.preventDefault();
+    if (event) event.preventDefault();
     const userInfo = {
       firstName: this.state.firstName,
       lastName: this.state.lastName,
@@ -132,7 +132,9 @@ class Auth extends Component {
           change={this.handleInputChange}
         />
         <div className={classes.FormButton}>
-          <Button main>{formButtonName}</Button>
+          <Button main click={this.handleFormSubmit}>
+            {formButtonName}
+          </Button>
         </div>
       </form>
     );
