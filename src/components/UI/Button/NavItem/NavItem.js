@@ -27,9 +27,10 @@ class NavItem extends Button {
 
     if (this.state.isTouch) {
       if (this.props.main) navItemClasses += ' ' + classes.MainTouchHover;
+      this.isTouched = true;
     }
 
-    if (this.state.isMouse) {
+    if (!this.isTouched && this.state.isMouse) {
       if (this.props.main) navItemClasses += ' ' + classes.MainMouseHover;
     }
 

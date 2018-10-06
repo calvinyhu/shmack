@@ -1,8 +1,9 @@
-import React, { PureComponent } from 'react';
+import React, { Component, PureComponent } from 'react';
 
 import classes from './Button.css';
 
 class Button extends PureComponent {
+  isTouched = false;
   touchBounds = { top: 0, bot: 0, left: 0, right: 0 };
 
   state = {
@@ -50,10 +51,12 @@ class Button extends PureComponent {
     if (this.props.translucent) buttonClasses += ' ' + classes.Translucent;
 
     // Hover effects
-    if (this.state.isTouch && this.props.main)
+    if (this.state.isTouch && this.props.main) {
       buttonClasses += ' ' + classes.MainTouchHover;
+      this.isTouched = true;
+    }
 
-    if (this.state.isMouse && this.props.main)
+    if (!this.isTouched && this.state.isMouse && this.props.main)
       buttonClasses += ' ' + classes.MainMouseHover;
 
     return (
