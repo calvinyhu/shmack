@@ -56,25 +56,62 @@ class Layout extends PureComponent {
       />
     );
 
+    let signup = (
+      <NavItem
+        main
+        borderMain
+        to={paths.AUTH_SIGNUP}
+        click={this.handleCloseDrawer}
+      >
+        Sign Up
+      </NavItem>
+    );
+
+    let login = (
+      <NavItem main to={paths.AUTH_LOGIN} click={this.handleCloseDrawer}>
+        Login
+      </NavItem>
+    );
+
+    let home = (
+      <NavItem main to={paths.HOME} click={this.handleCloseDrawer}>
+        <div className={MAT_ICONS}>home</div>
+        Home
+      </NavItem>
+    );
+
+    let about = (
+      <NavItem main to={paths.ABOUT} click={this.handleCloseDrawer}>
+        <div className={MAT_ICONS}>info</div>
+        About
+      </NavItem>
+    );
+
+    let settings = (
+      <NavItem main to={paths.SETTINGS} click={this.handleCloseDrawer}>
+        <div className={MAT_ICONS}>settings</div>
+        Settings
+      </NavItem>
+    );
+
+    let logout = (
+      <NavItem main to={paths.LOGOUT} click={this.handleCloseDrawer}>
+        <div className={MAT_ICONS}>logout</div>
+        Log Out
+      </NavItem>
+    );
+
     let drawer = null;
     if (this.props.isAuth) {
       drawer = (
         <Drawer left isOpen={this.state.isDrawerOpen}>
           <nav>
             <div className={classes.Primary}>
-              <NavItem main to={paths.HOME} click={this.handleCloseDrawer}>
-                Home
-              </NavItem>
-              <NavItem main to={paths.ABOUT} click={this.handleCloseDrawer}>
-                About
-              </NavItem>
-              <NavItem main to={paths.SETTINGS} click={this.handleCloseDrawer}>
-                Settings
-              </NavItem>
+              {home}
+              {about}
+              {settings}
             </div>
-            <NavItem main to={paths.LOGOUT} click={this.handleCloseDrawer}>
-              Log Out
-            </NavItem>
+            {logout}
           </nav>
         </Drawer>
       );
@@ -84,31 +121,12 @@ class Layout extends PureComponent {
           <nav>
             <div className={classes.Primary}>
               <div className={classes.AuthLinks}>
-                <NavItem
-                  main
-                  borderMain
-                  to={paths.AUTH_SIGNUP}
-                  click={this.handleCloseDrawer}
-                >
-                  Sign Up
-                </NavItem>
-                <NavItem
-                  main
-                  to={paths.AUTH_LOGIN}
-                  click={this.handleCloseDrawer}
-                >
-                  Login
-                </NavItem>
+                {signup}
+                {login}
               </div>
-              <NavItem main to={paths.HOME} click={this.handleCloseDrawer}>
-                Home
-              </NavItem>
-              <NavItem main to={paths.ABOUT} click={this.handleCloseDrawer}>
-                About
-              </NavItem>
-              <NavItem main to={paths.SETTINGS} click={this.handleCloseDrawer}>
-                Settings
-              </NavItem>
+              {home}
+              {about}
+              {settings}
             </div>
           </nav>
         </Drawer>
@@ -118,7 +136,7 @@ class Layout extends PureComponent {
     let A2HSButton = null;
     if (this.props.deferredPrompt) {
       A2HSButton = (
-        <div>
+        <div className={classes.A2HSButtonContainer}>
           <Button clear click={this.handleA2HS}>
             <div className={MAT_ICONS}>add_to_home_screen</div>
           </Button>

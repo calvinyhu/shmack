@@ -6,7 +6,7 @@
   justify-content: space-between;
   align-items: center;
   background: $bright;
-  padding: $padding;
+  padding: $padding / 2;
   position: fixed;
   z-index: 1;
   width: 100%;
@@ -16,6 +16,7 @@
     display: flex;
     justify-content: center;
     align-items: center;
+    margin: $margin / 2;
 
     &:hover {
       cursor: pointer;
@@ -30,6 +31,11 @@
     color: $dark-main-color;
     font-size: $font-size * 1.3;
     font-family: Courgette, Raleway, sans-serif;
+    font-weight: bold;
+  }
+
+  .A2HSButtonContainer {
+    margin: $margin / 2;
   }
 }
 

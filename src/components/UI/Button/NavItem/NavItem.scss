@@ -10,6 +10,11 @@
   height: 3rem;
   border-radius: $border-radius-button;
   transition: $transition1;
+  font-weight: bold;
+
+  div {
+    margin-right: $margin;
+  }
 
   &:hover {
     color: $bright;

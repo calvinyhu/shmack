@@ -12,6 +12,7 @@ import {
   checkGeoLocatePermission
 } from '../../store/actions/appActions';
 import Modal from '../UI/Modal/Modal';
+import { MAT_ICONS } from '../../utilities/styles';
 
 const mapStateToProps = state => {
   return {
@@ -79,8 +80,14 @@ class Settings extends Component {
     return (
       <div className={classes.Settings}>
         <h5>Settings</h5>
+        {/* <div className={classes.ImgContainer}>
+          <div className={MAT_ICONS}>location_on</div>
+        </div> */}
         <div className={classes.Setting}>
-          <div className={classes.Label}>Location Sharing</div>
+          <div className={classes.Label}>
+            <div className={MAT_ICONS}>location_on</div>
+            <p>Location Sharing</p>
+          </div>
           <label className={classes.SwitchTrack}>
             <input
               className={inputClasses}

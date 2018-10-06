@@ -61,7 +61,7 @@ const searchBar = props => {
           </div>
           <div className={searchButtonClasses}>
             <Button main click={props.handleSearch}>
-              Go
+              <div className={MAT_ICONS}>search</div>
             </Button>
           </div>
         </form>
