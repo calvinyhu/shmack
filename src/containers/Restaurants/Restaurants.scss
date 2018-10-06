@@ -62,12 +62,9 @@
 }
 
 .Message {
-  position: absolute;
-  width: 100%;
-  top: 40%;
-  left: 50%;
-  transform: translateX(-50%) translateY(-50%);
+  position: relative;
   margin: $margin;
+  margin-bottom: $margin * 4;
   font-size: $font-size * 1.3;
 }
 

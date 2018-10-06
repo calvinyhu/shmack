@@ -13,6 +13,7 @@ import * as actions from '../../store/actions/resPageActions';
 import ResItem from '../ResItem/ResItem';
 import Aux from '../../hoc/Auxiliary/Auxiliary';
 import { auth } from '../../utilities/firebase';
+import poweredByGoogle from '../../assets/images/poweredByGoogle.png';
 
 const mapStateToProps = state => {
   return {
@@ -56,6 +57,52 @@ class ResPage extends Component {
     } else this.props.onPostItemFail('The item name is required.');
   };
 
+  convertRating = rating => {
+    if (rating > 5) rating = 5;
+    if (rating < 0) rating = 0;
+
+    let stars = [];
+    let filled;
+    for (filled = 0; filled < rating - 1; filled++) {
+      stars.push(
+        <div key={filled} className={MAT_ICONS}>
+          star
+        </div>
+      );
+    }
+
+    let remainder = rating - filled;
+    remainder = remainder.toFixed(1);
+    if (remainder >= 0.8) {
+      stars.push(
+        <div key={remainder} className={MAT_ICONS}>
+          star
+        </div>
+      );
+    } else if (remainder >= 0.3) {
+      stars.push(
+        <div key={remainder} className={MAT_ICONS}>
+          star_half
+        </div>
+      );
+    }
+
+    for (let empty = stars.length; empty < 5; empty++) {
+      stars.push(
+        <div key={empty} className={MAT_ICONS}>
+          star_border
+        </div>
+      );
+    }
+
+    return (
+      <div className={classes.RatingContainer}>
+        <p>{rating ? rating.toFixed(1) : null}</p>
+        {rating ? stars : null}
+      </div>
+    );
+  };
+
   renderPageContent = () => {
     if (this.props.restaurant) {
       const res = this.props.restaurant;
@@ -66,11 +113,15 @@ class ResPage extends Component {
       );
       const name = res.name;
       const price = convertPrice(res.price_level);
-      const rating = res.rating;
-      const open = res.opening_hours.open_now ? 'Open' : 'Closed';
-      const isResOpen = res.opening_hours.open_now
-        ? classes.ResIsOpen
-        : classes.ResIsClosed;
+      const rating = this.convertRating(res.rating);
+      let open = null;
+      let isResOpen = null;
+      if (res.opening_hours) {
+        open = res.opening_hours.open_now ? 'Open' : 'Closed';
+        isResOpen = res.opening_hours.open_now
+          ? classes.ResIsOpen
+          : classes.ResIsClosed;
+      }
       const address = res.vicinity;
       const phone = '';
 
@@ -125,16 +176,23 @@ class ResPage extends Component {
           </div>
           <div className={classes.Info}>
             <div className={classes.Details}>
-              <div className={classes.RO}>
+              <div className={classes.TitleOpenClosed}>
                 <h5>{name}</h5>
                 <p className={isResOpen}>{open}</p>
               </div>
-              <div className={classes.PR}>
-                <p>{price}</p>
-                <p>{rating}</p>
+              <div className={classes.PriceRating}>
+                {price}
+                {rating}
               </div>
-              <p>{address}</p>
-              <p>{phone}</p>
+              <div className={classes.Address}>
+                <p>{address}</p>
+              </div>
+              <div className={classes.Phone}>
+                <p>{phone}</p>
+              </div>
+              <div className={classes.Attribution}>
+                <img src={poweredByGoogle} alt="powered by Google" />
+              </div>
             </div>
             <div className={classes.Popular}>
               <h6>What's Good?</h6>

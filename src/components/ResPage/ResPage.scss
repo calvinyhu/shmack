@@ -59,35 +59,68 @@
 
 .Details {
   margin: $margin;
-  padding-bottom: $padding / 2;
   border-bottom: 1px solid #ccc;
 
+  h5,
   p {
-    margin-bottom: $margin / 2;
+    margin: 0;
   }
 
-  .RO {
+  .TitleOpenClosed {
     display: flex;
     justify-content: space-between;
     align-items: center;
+    margin-bottom: $margin;
 
-    p {
-      margin-left: $margin;
+    .ResIsOpen {
+      color: $pastel-green;
+    }
+
+    .ResIsClosed {
+      color: $pastel-red;
     }
   }
 
-  .ResIsOpen {
-    color: $pastel-green;
-  }
-
-  .ResIsClosed {
-    color: $pastel-red;
-  }
-
-  .PR {
+  .PriceRating {
     display: flex;
     justify-content: space-between;
     align-items: center;
+    margin-bottom: $margin;
+
+    .RatingContainer {
+      display: flex;
+      align-items: center;
+      color: $dark-main-color;
+
+      p {
+        color: black;
+      }
+    }
+  }
+
+  .Address {
+    margin-bottom: $margin;
+  }
+
+  .Phone {
+    margin-bottom: $margin;
+  }
+
+  .Attribution {
+    display: flex;
+    justify-content: space-between;
+    align-content: center;
+    position: relative;
+    width: 100%;
+    height: 0.8rem;
+    margin-bottom: $margin;
+
+    img {
+      position: relative;
+      width: auto;
+      height: 100%;
+      object-fit: contain;
+    }
   }
 }
 

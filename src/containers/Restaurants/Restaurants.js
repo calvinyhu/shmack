@@ -189,7 +189,7 @@ class Restaurants extends Component {
             >
               <h6>{convertPrice(res.price_level)}</h6>
               <h6>{res.name}</h6>
-              <h6>{res.rating}</h6>
+              <h6>{res.rating ? res.rating.toFixed(1) : null}</h6>
             </Thumbnail>
           );
           resNames[res.name] = 1;
@@ -200,6 +200,9 @@ class Restaurants extends Component {
 
     this.restaurants = restaurants;
     this.restaurantNames = resNames;
+
+    if (restaurants.length === 0 && this.props.isGoogleLoading === false)
+      return null;
     return restaurants;
   };
 
@@ -279,19 +282,29 @@ class Restaurants extends Component {
       />
     );
 
-    const restaurantsGrid = (
-      <div className={classes.RestaurantsGrid}>{this.renderThumbnails()}</div>
-    );
+    let restaurantsGrid = null;
+    let restaurants = this.renderThumbnails();
+    if (restaurants) {
+      restaurantsGrid = (
+        <div className={classes.RestaurantsGrid}>{restaurants}</div>
+      );
+    } else {
+      restaurantsGrid = (
+        <div className={classes.Message}>
+          No results. Try readjusting the filters.
+        </div>
+      );
+    }
 
     return (
       <div className={classes.Restaurants} onScroll={this.handleScroll}>
+        {restaurantsGrid}
+        {filters}
+        {searchBar}
         {loadingMessage}
         {errorMessage}
         {backdrop}
         {locationRequestModal}
-        {restaurantsGrid}
-        {filters}
-        {searchBar}
         {resPage}
       </div>
     );

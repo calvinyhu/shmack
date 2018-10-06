@@ -4,7 +4,7 @@ import { updateObject } from '../../utilities/utilities';
 const initialState = {
   food: '',
   location: '',
-  isGoogleLoading: false,
+  isGoogleLoading: null,
   googleRestaurants: null,
   googleError: null,
   isRequestingLocation: false
