@@ -29,6 +29,7 @@ const mapStateToProps = state => {
     isRequestingLocation: state.restaurants.isRequestingLocation,
     food: state.restaurants.food,
     location: state.restaurants.location,
+    isSearchSuccess: state.restaurants.isSearchSuccess,
     isGoogleLoading: state.restaurants.isGoogleLoading,
     googleRestaurants: state.restaurants.googleRestaurants,
     googleError: state.restaurants.googleError
@@ -62,7 +63,7 @@ class Restaurants extends Component {
     id: null,
     restaurant: null,
     prevScrollTop: 0,
-    radius: 1
+    radius: 5
   };
 
   shouldComponentUpdate(nextProps, nextState) {
@@ -151,7 +152,8 @@ class Restaurants extends Component {
   handleCloseLocationRequest = () => this.props.onRequestLocation(false);
 
   // Restaurant Page Handles
-  handlePageClose = () => this.setState({ isPageOpen: false });
+  handlePageClose = () =>
+    this.setState({ isPageOpen: false, isScrollingDown: false });
 
   // Restaurant Grid Thumbnail Handles
   getRestaurantClickHandler = (id, res) => {
@@ -200,9 +202,6 @@ class Restaurants extends Component {
 
     this.restaurants = restaurants;
     this.restaurantNames = resNames;
-
-    if (restaurants.length === 0 && this.props.isGoogleLoading === false)
-      return null;
     return restaurants;
   };
 
@@ -219,7 +218,7 @@ class Restaurants extends Component {
       );
 
     let errorMessage = null;
-    if (this.props.googleError) {
+    if (this.props.googleError && this.props.googleError !== -1) {
       errorMessage = (
         <div className={classes.Message}>{this.props.googleError}</div>
       );
@@ -284,11 +283,11 @@ class Restaurants extends Component {
 
     let restaurantsGrid = null;
     let restaurants = this.renderThumbnails();
-    if (restaurants) {
+    if (restaurants.length > 0) {
       restaurantsGrid = (
         <div className={classes.RestaurantsGrid}>{restaurants}</div>
       );
-    } else {
+    } else if (this.props.isSearchSuccess) {
       restaurantsGrid = (
         <div className={classes.Message}>
           No results. Try readjusting the filters.

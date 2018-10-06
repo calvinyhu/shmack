@@ -16,6 +16,7 @@ const inputChange = (state, action) => {
 
 const googleSearchStart = (state, action) => {
   return updateObject(state, {
+    isSearchSuccess: action.isSearchSuccess,
     isGoogleLoading: action.isGoogleLoading,
     googleRestaurants: action.googleRestaurants
   });
@@ -23,6 +24,7 @@ const googleSearchStart = (state, action) => {
 
 const googleSearchEnd = (state, action) => {
   return updateObject(state, {
+    isSearchSuccess: action.isSearchSuccess,
     isGoogleLoading: action.isGoogleLoading,
     googleRestaurants: action.googleRestaurants,
     googleError: action.googleError

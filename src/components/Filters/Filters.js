@@ -5,7 +5,6 @@ import Button from '../UI/Button/Button';
 
 const RADIUS = {
   ONE: 1,
-  THREE: 3,
   FIVE: 5,
   TEN: 10
 };
@@ -41,13 +40,6 @@ const filters = props => {
             onClick={props.clickRadius}
           >
             {RADIUS.ONE}
-          </p>
-          <p
-            id={RADIUS.THREE}
-            className={radiusClasses[RADIUS.THREE]}
-            onClick={props.clickRadius}
-          >
-            {RADIUS.THREE}
           </p>
           <p
             id={RADIUS.FIVE}

@@ -40,6 +40,7 @@ export const restaurantSearch = (food, location, radius) => {
             } else {
               dispatch(toggleGeoLocPerm(false));
               dispatch(requestLocation(true));
+              dispatch(restaurantGoogleSearchFail(-1));
             }
           });
       } else console.log('Browser does not support Permissions API');
@@ -49,15 +50,9 @@ export const restaurantSearch = (food, location, radius) => {
 
 const startAsyncGoogleRequest = (dispatch, food, location, radius) => {
   if (location && location.lat)
-    return getGoogleRestaurants(
-      dispatch,
-      food,
-      location.lat,
-      location.long,
-      radius
-    );
+    getGoogleRestaurants(dispatch, food, location.lat, location.long, radius);
   else {
-    return axios
+    axios
       .get(createGoogleGeocodeLookupQuery(location))
       .then(response => {
         const lat = response.data.results[0].geometry.location.lat;
@@ -71,14 +66,13 @@ const startAsyncGoogleRequest = (dispatch, food, location, radius) => {
 };
 
 const getGoogleRestaurants = (dispatch, food, lat, long, radius) => {
-  // TODO: Make @radius (1500) dynamic through user input
   const query = createGoogleNearbySearchQuery(
     food,
     `${lat},${long}`,
     radius,
     'restaurant'
   );
-  return axios
+  axios
     .get(query)
     .then(response => {
       dispatch(restaurantGoogleSearchSuccess(response.data.results));
@@ -92,6 +86,7 @@ const restaurantGoogleSearchStart = () => {
   return {
     type: actionTypes.RESTAURANT_GOOGLE_SEARCH_START,
     isGoogleLoading: true,
+    isSearchSuccess: false,
     googleRestaurants: null
   };
 };
@@ -100,6 +95,7 @@ const restaurantGoogleSearchSuccess = restaurants => {
   return {
     type: actionTypes.RESTAURANT_GOOGLE_SEARCH_SUCCESS,
     isGoogleLoading: false,
+    isSearchSuccess: true,
     googleRestaurants: restaurants,
     googleError: null
   };
@@ -109,6 +105,7 @@ const restaurantGoogleSearchFail = error => {
   return {
     type: actionTypes.RESTAURANT_GOOGLE_SEARCH_FAIL,
     isGoogleLoading: false,
+    isSearchSuccess: false,
     googleRestaurants: null,
     googleError: error
   };

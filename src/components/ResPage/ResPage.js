@@ -50,7 +50,7 @@ class ResPage extends Component {
   };
 
   handleSubmit = (event, id) => {
-    event.preventDefault();
+    if (event) event.preventDefault();
     if (this.state.newItem) {
       this.props.onPostItem(id, this.state.newItem);
       this.setState({ newItem: '' });
