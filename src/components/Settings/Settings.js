@@ -66,16 +66,18 @@ class Settings extends Component {
       </Modal>
     );
 
-    let loader = null;
     let inputClasses = null;
+    let loaderClasses = classes.LoaderContainer;
     if (this.props.isLocating) {
-      loader = (
-        <div className={classes.LoaderContainer}>
-          <div className={classes.Loader}>Locating...</div>
-        </div>
-      );
       inputClasses = classes.InputLoading;
+      loaderClasses += ' ' + classes.Show;
     }
+
+    let loader = (
+      <div className={loaderClasses}>
+        <div className={classes.Loader}>Locating...</div>
+      </div>
+    );
 
     return (
       <div className={classes.Settings}>
