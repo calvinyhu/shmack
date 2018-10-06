@@ -5,8 +5,8 @@ import * as paths from '../../utilities/paths';
 
 import classes from './Settings.css';
 import {
-  geoStart,
   geoLocate,
+  geoClear,
   toggleGeoLocPerm,
   setRedirectParent,
   checkGeoLocatePermission
@@ -26,34 +26,26 @@ const mapStateToProps = state => {
 const mapDispatchToProps = dispatch => {
   return {
     onCheckGeoLocatePermission: () => dispatch(checkGeoLocatePermission()),
-    onGeoLocate: redirectParent => dispatch(geoLocate(redirectParent)),
+    onGeoLocate: () => dispatch(geoLocate()),
     onToggleGeoLocPerm: perm => dispatch(toggleGeoLocPerm(perm)),
-    onClear: () => dispatch(geoStart()),
+    onClear: () => dispatch(geoClear()),
     onSetRedirectParent: parent => dispatch(setRedirectParent(parent))
   };
 };
 
-// FIXME:
-// When on Settings page and location is turned off on mobile device, if device
-// location is turned on, the location sharing slider is unclickable.
-// This is fixed by refreshing the page.
-// TODO:
-// Add isLocating prop when onGeoLocate fires; this may solve the issue
-// above. i.e. it could just be my phone's glitchy location
-
 class Settings extends Component {
-  componentDidMount() {
-    this.props.onCheckGeoLocatePermission();
-  }
-
   componentWillUnmount() {
     this.props.onSetRedirectParent(null);
     this.props.onClear();
   }
 
   locationToggleHandler = () => {
-    if (this.props.hasGeoLocatePermission) this.props.onToggleGeoLocPerm(false);
-    else this.props.onGeoLocate();
+    if (this.props.hasGeoLocatePermission && !this.props.isLocating)
+      this.props.onToggleGeoLocPerm(false);
+    else {
+      this.props.onToggleGeoLocPerm(true);
+      this.props.onGeoLocate();
+    }
   };
 
   clear = () => this.props.onClear();
@@ -73,6 +65,17 @@ class Settings extends Component {
       </Modal>
     );
 
+    let loader = null;
+    let inputClasses = null;
+    if (this.props.isLocating) {
+      loader = (
+        <div className={classes.LoaderContainer}>
+          <div className={classes.Loader}>Locating...</div>
+        </div>
+      );
+      inputClasses = classes.InputLoading;
+    }
+
     return (
       <div className={classes.Settings}>
         <h5>Settings</h5>
@@ -80,11 +83,12 @@ class Settings extends Component {
           <div className={classes.Label}>Location Sharing</div>
           <label className={classes.SwitchTrack}>
             <input
+              className={inputClasses}
               type="checkbox"
               onChange={this.locationToggleHandler}
               checked={this.props.hasGeoLocatePermission}
             />
-            <div className={classes.SwitchThumb} />
+            <div className={classes.SwitchThumb}>{loader}</div>
           </label>
         </div>
         {geoError}

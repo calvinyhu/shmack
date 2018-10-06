@@ -236,7 +236,8 @@ class Restaurants extends Component {
         close={this.handleCloseLocationRequest}
         btnMsg={'Take me there!'}
       >
-        Turn on location sharing, in app settings, to use current location.
+        To use current location, <strong>turn on location sharing</strong> in
+        app settings.
       </Modal>
     );
 

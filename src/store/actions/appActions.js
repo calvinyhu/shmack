@@ -11,7 +11,7 @@ export const checkGeoLocatePermission = () => {
   };
 };
 
-export const geoLocate = redirectParent => {
+export const geoLocate = () => {
   return dispatch => {
     dispatch(geoStart());
     if (navigator.geolocation) {
@@ -40,9 +40,10 @@ export const toggleGeoLocPerm = hasGeoLocatePermission => {
   };
 };
 
-export const geoStart = () => {
+const geoStart = () => {
   return {
     type: actionTypes.GEO_START,
+    isLocating: true,
     geoLocation: null,
     error: null
   };
@@ -51,6 +52,7 @@ export const geoStart = () => {
 const geoSuccess = geoLocation => {
   return {
     type: actionTypes.GEO_SUCCESS,
+    isLocating: false,
     hasGeoLocatePermission: true,
     geoLocation: geoLocation
   };
@@ -59,16 +61,25 @@ const geoSuccess = geoLocation => {
 const geoFail = error => {
   return {
     type: actionTypes.GEO_FAIL,
+    isLocating: false,
     hasGeoLocatePermission: false,
     geoLocation: null,
     error: error
   };
 };
 
+export const geoClear = () => {
+  return {
+    type: actionTypes.GEO_CLEAR,
+    geolocation: null,
+    error: null
+  };
+};
+
 const geoErrorHandler = error => {
   switch (error.code) {
     case 1:
-      return `Please allow location sharing in your browser settings or your device.`;
+      return `Shmack does not have location permission. Turn on or allow location permission in your device settings.`;
     case 2:
       return `Your location is temporarily unavailable. Please try again.`;
     case 3:

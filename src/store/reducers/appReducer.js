@@ -3,6 +3,7 @@ import { updateObject } from '../../utilities/utilities';
 
 const initialState = {
   hasGeoLocatePermission: false,
+  isLocating: false,
   geoLocation: null,
   error: null,
   deferredPrompt: null,
@@ -11,6 +12,7 @@ const initialState = {
 
 const geoStart = (state, action) => {
   return updateObject(state, {
+    isLocating: action.isLocating,
     geoLocation: action.geoLocation,
     error: action.error
   });
@@ -18,6 +20,7 @@ const geoStart = (state, action) => {
 
 const geoSuccess = (state, action) => {
   return updateObject(state, {
+    isLocating: action.isLocating,
     hasGeoLocatePermission: action.hasGeoLocatePermission,
     geoLocation: action.geoLocation
   });
@@ -25,6 +28,7 @@ const geoSuccess = (state, action) => {
 
 const geoFail = (state, action) => {
   return updateObject(state, {
+    isLocating: action.isLocating,
     hasGeoLocatePermission: action.hasGeoLocatePermission,
     geoLocation: action.geoLocation,
     error: action.error
@@ -34,6 +38,13 @@ const geoFail = (state, action) => {
 const geoToggle = (state, action) => {
   return updateObject(state, {
     hasGeoLocatePermission: action.hasGeoLocatePermission
+  });
+};
+
+const geoClear = (state, action) => {
+  return updateObject(state, {
+    geoLocation: action.geoLocation,
+    error: action.error
   });
 };
 
@@ -63,6 +74,8 @@ const appReducer = (state = initialState, action) => {
       return geoSuccess(state, action);
     case actionTypes.GEO_FAIL:
       return geoFail(state, action);
+    case actionTypes.GEO_CLEAR:
+      return geoClear(state, action);
     case actionTypes.TOGGLE_GEO_LOC_PERM:
       return geoToggle(state, action);
     case actionTypes.BEFORE_INSTALL_PROMPT:

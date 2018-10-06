@@ -28,6 +28,7 @@ export const USER_CLOSE_EDIT = 'USER_CLOSE_EDIT';
 export const GEO_START = 'GEO_START';
 export const GEO_SUCCESS = 'GEO_SUCCESS';
 export const GEO_FAIL = 'GEO_FAIL';
+export const GEO_CLEAR = 'GEO_CLEAR';
 export const TOGGLE_GEO_LOC_PERM = 'TOGGLE_GEO_LOC_PERM';
 export const SET_REDIRECT_PARENT = 'SET_REDIRECT_PARENT';
 
