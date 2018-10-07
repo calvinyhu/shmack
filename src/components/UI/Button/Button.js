@@ -49,6 +49,7 @@ class Button extends PureComponent {
     if (this.props.main) buttonClasses += ' ' + classes.Main;
     if (this.props.clear) buttonClasses += ' ' + classes.Clear;
     if (this.props.translucent) buttonClasses += ' ' + classes.Translucent;
+    if (this.props.noShadow) buttonClasses += ' ' + classes.NoShadow;
 
     // Hover effects
     if (this.state.isTouch && this.props.main) {

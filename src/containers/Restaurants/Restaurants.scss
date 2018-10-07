@@ -13,43 +13,42 @@
   position: relative;
 }
 
-.Background {
-  position: relative;
-  width: 100%;
-  height: 100%;
-
-  @include media-min-width($desktop-width) {
-    width: 66.6%;
-  }
-
-  .Separator {
-    text-align: center;
-    font-size: $font-size * 1.1;
-    font-weight: bold;
-    margin: $margin 0;
-    border-top: 1px solid $lighter-main-color;
-    padding-top: $padding;
-
-    &:first-child {
-      margin-top: 0;
-      border-top: none;
-      padding-top: 0;
-    }
-  }
-
-  .Content {
-    text-align: center;
-  }
-}
-
-.RestaurantsGrid {
+.NearByContainer {
   position: absolute;
   top: 0;
   left: 50%;
   transform: translateX(-50%);
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  width: 100%;
+  min-height: 100%;
+  padding: $padding;
+}
+
+.GridContainer {
+  display: flex;
+  justify-content: center;
+  position: fixed;
+  bottom: 0;
+  right: 0;
+  width: 100%;
+  height: 100%;
+  overflow-y: scroll;
+  overflow-x: hidden;
+  transform: translateX(100%);
+  transition: $transition1;
+  background: $bright;
+  padding-top: $header-height;
+}
+
+.SlideIn {
+  transform: translateX(0);
+}
+
+.RestaurantsGrid {
   display: grid;
   width: 100%;
-  background: transparent;
   grid-template-columns: repeat(2, 50%);
   grid-auto-rows: 50vw;
   grid-gap: 2px;
@@ -72,4 +71,23 @@
   width: 4rem;
   height: 4rem;
   margin-bottom: $margin * 6;
+}
+
+.ToggleGridButton {
+  position: fixed;
+  top: $header-height;
+  right: $margin;
+  transform: translateY(-50%) translateX($margin + $fab-size-mini);
+  z-index: 1;
+  transition: $transition1;
+  width: $fab-size-mini;
+  height: $fab-size-mini;
+}
+
+.Show {
+  transform: translateY(-50%) translateX(0);
+}
+
+.Rotate {
+  transform: translateY(-50%) translateX(0) rotateZ(180deg);
 }

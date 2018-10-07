@@ -6,6 +6,7 @@ import {
   createGoogleNearbySearchQuery
 } from '../../utilities/google';
 import { toggleGeoLocPerm } from './appActions';
+import { NEAR_BY_RADIUS } from '../../containers/Restaurants/Restaurants';
 
 export const restaurantInputChange = (name, value) => {
   return {
@@ -18,7 +19,8 @@ export const restaurantInputChange = (name, value) => {
 // TODO: Make @location be selected from dropdown menu
 export const restaurantSearch = (food, location, radius) => {
   return dispatch => {
-    dispatch(restaurantGoogleSearchStart());
+    if (radius === NEAR_BY_RADIUS) dispatch(nearBySearchStart());
+    else dispatch(restaurantGoogleSearchStart());
 
     if (location) startAsyncGoogleRequest(dispatch, food, location, radius);
     else {
@@ -38,9 +40,17 @@ export const restaurantSearch = (food, location, radius) => {
                 error => console.log(error)
               );
             } else {
-              dispatch(toggleGeoLocPerm(false));
-              dispatch(requestLocation(true));
-              dispatch(restaurantGoogleSearchFail(-1));
+              if (radius === NEAR_BY_RADIUS) {
+                dispatch(
+                  nearBySearchFail(
+                    'Grant location to Shmack to see nearby restaurants.'
+                  )
+                );
+              } else {
+                dispatch(toggleGeoLocPerm(false));
+                dispatch(requestLocation(true));
+                dispatch(restaurantGoogleSearchFail(-1));
+              }
             }
           });
       } else console.log('Browser does not support Permissions API');
@@ -75,10 +85,13 @@ const getGoogleRestaurants = (dispatch, food, lat, long, radius) => {
   axios
     .get(query)
     .then(response => {
-      dispatch(restaurantGoogleSearchSuccess(response.data.results));
+      if (radius === NEAR_BY_RADIUS)
+        dispatch(nearBySearchSuccess(response.data.results));
+      else dispatch(restaurantGoogleSearchSuccess(response.data.results));
     })
     .catch(error => {
-      dispatch(restaurantGoogleSearchFail(error.data));
+      if (radius === NEAR_BY_RADIUS) dispatch(nearBySearchFail(error.data));
+      else dispatch(restaurantGoogleSearchFail(error.data));
     });
 };
 
@@ -87,6 +100,7 @@ const restaurantGoogleSearchStart = () => {
     type: actionTypes.RESTAURANT_GOOGLE_SEARCH_START,
     isGoogleLoading: true,
     isSearchSuccess: false,
+    isShowGrid: false,
     googleRestaurants: null
   };
 };
@@ -96,6 +110,7 @@ const restaurantGoogleSearchSuccess = restaurants => {
     type: actionTypes.RESTAURANT_GOOGLE_SEARCH_SUCCESS,
     isGoogleLoading: false,
     isSearchSuccess: true,
+    isShowGrid: true,
     googleRestaurants: restaurants,
     googleError: null
   };
@@ -106,6 +121,7 @@ const restaurantGoogleSearchFail = error => {
     type: actionTypes.RESTAURANT_GOOGLE_SEARCH_FAIL,
     isGoogleLoading: false,
     isSearchSuccess: false,
+    isShowGrid: true,
     googleRestaurants: null,
     googleError: error
   };
@@ -116,5 +132,35 @@ export const requestLocation = value => {
     type: actionTypes.RESTAURANT_REQUESTING_LOCATION,
     isGoogleLoading: false,
     isRequestingLocation: value
+  };
+};
+
+const nearBySearchStart = () => {
+  return {
+    type: actionTypes.NEAR_BY_SEARCH_START,
+    isNearByLoading: true
+  };
+};
+
+const nearBySearchSuccess = nearByRestaurants => {
+  return {
+    type: actionTypes.NEAR_BY_SEARCH_SUCCESS,
+    isNearByLoading: false,
+    nearByRestaurants: nearByRestaurants
+  };
+};
+
+const nearBySearchFail = nearByError => {
+  return {
+    type: actionTypes.NEAR_BY_SEARCH_FAIL,
+    isNearByLoading: false,
+    nearByError: nearByError
+  };
+};
+
+export const toggleGrid = isShowGrid => {
+  return {
+    type: actionTypes.TOGGLE_GRID,
+    isShowGrid: !isShowGrid
   };
 };

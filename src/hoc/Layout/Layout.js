@@ -17,7 +17,8 @@ import {
 
 const mapStateToProps = state => {
   return {
-    deferredPrompt: state.app.deferredPrompt
+    deferredPrompt: state.app.deferredPrompt,
+    isSearchSuccess: state.restaurants.isSearchSuccess
   };
 };
 
@@ -144,9 +145,11 @@ class Layout extends PureComponent {
       );
     }
 
+    let headerClasses = classes.Header;
+    if (this.props.isSearchSuccess) headerClasses += ' ' + classes.BoxShadow;
     const header = (
       <Fade>
-        <header className={classes.Header}>
+        <header className={headerClasses}>
           <div className={classes.DrawerToggle} onClick={this.handleClick}>
             <div className={MAT_ICONS}>menu</div>
           </div>

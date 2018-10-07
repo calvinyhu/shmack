@@ -14,10 +14,14 @@ import {
 } from '../../utilities/google';
 import Thumbnail from '../../components/Thumbnail/Thumbnail';
 import Modal from '../../components/UI/Modal/Modal';
+import Button from '../../components/UI/Button/Button';
 import Backdrop from '../../components/UI/Backdrop/Backdrop';
 import ResPage from '../../components/ResPage/ResPage';
 import Filters from '../../components/Filters/Filters';
 import SearchBar from '../../components/SearchBar/SearchBar';
+import { MAT_ICONS } from '../../utilities/styles';
+
+export const NEAR_BY_RADIUS = 400;
 
 const mapStateToProps = state => {
   return {
@@ -27,6 +31,7 @@ const mapStateToProps = state => {
     isAuth: state.auth.isAuth,
 
     isRequestingLocation: state.restaurants.isRequestingLocation,
+    isShowGrid: state.restaurants.isShowGrid,
     food: state.restaurants.food,
     location: state.restaurants.location,
     isSearchSuccess: state.restaurants.isSearchSuccess,
@@ -44,7 +49,10 @@ const mapDispatchToProps = dispatch => {
       dispatch(actions.restaurantSearch(food, location, radius)),
     onGetPopularItems: id => dispatch(getItems(id)),
     onRequestLocation: value => dispatch(actions.requestLocation(value)),
-    onSetRedirectParent: parent => dispatch(setRedirectParent(parent))
+    onSetRedirectParent: parent => dispatch(setRedirectParent(parent)),
+    onGetNearBy: () =>
+      dispatch(actions.restaurantSearch('', '', NEAR_BY_RADIUS)),
+    onToggleGrid: isShowGrid => dispatch(actions.toggleGrid(isShowGrid))
   };
 };
 
@@ -65,6 +73,10 @@ class Restaurants extends Component {
     prevScrollTop: 0,
     radius: 5
   };
+
+  componentDidMount() {
+    // if (this.props.hasGeoLocatePermission) this.props.onGetNearBy();
+  }
 
   shouldComponentUpdate(nextProps, nextState) {
     if (
@@ -146,6 +158,11 @@ class Restaurants extends Component {
       this.handleHideLocationInput();
       this.handleHideFilters();
     } else this.props.onRequestLocation(true);
+  };
+
+  handleToggleGrid = () => {
+    this.setState({ isScrollingDown: false });
+    this.props.onToggleGrid(this.props.isShowGrid);
   };
 
   // Geolocation Handles
@@ -295,9 +312,42 @@ class Restaurants extends Component {
       );
     }
 
+    let gridClasses = classes.GridContainer;
+    if (this.props.isShowGrid) gridClasses += ' ' + classes.SlideIn;
+    let gridContainer = <div className={gridClasses}>{restaurantsGrid}</div>;
+
+    let toggleGridClasses = classes.ToggleGridButton;
+    if (this.props.isSearchSuccess) {
+      toggleGridClasses += ' ' + classes.Show;
+      if (this.props.isShowGrid) toggleGridClasses += ' ' + classes.Rotate;
+    }
+    let toggleGridButton = (
+      <div className={toggleGridClasses}>
+        <Button circle main noShadow click={this.handleToggleGrid}>
+          <div className={MAT_ICONS}>chevron_left</div>
+        </Button>
+      </div>
+    );
+
+    let nearBy = (
+      <div className={classes.NearBy}>
+        <p>Are you at...</p>
+        <div className={classes.NearByPlace}>
+          <p>Title</p>
+        </div>
+      </div>
+    );
+
+    let nearByContainer = null;
+    if (this.props.hasGeoLocatePermission)
+      nearByContainer = <div className={classes.NearByContainer}>{nearBy}</div>;
+
     return (
       <div className={classes.Restaurants} onScroll={this.handleScroll}>
-        {restaurantsGrid}
+        {nearByContainer}
+        {gridContainer}
+        {/* {restaurantsGrid} */}
+        {toggleGridButton}
         {filters}
         {searchBar}
         {loadingMessage}
