@@ -1,12 +1,12 @@
-# 3FINITY
+# Shmack
 
-A progressive web app that aims to simplify and speed up finding the best restaurants, joints, cafes, bars, and eateries for you.
+A progressive web app that simplifies and speeds up finding the best foods at restaurants.
 
 ## Getting Started
 
 Download the project to your directory by running
 ```
-git clone https://github.com/calvinyhu/3finity.git
+git clone https://github.com/calvinyhu/shmack.git
 ```
 
 ### Prerequisites
@@ -17,14 +17,10 @@ You will need to have these installed on your machine for development:
 
 ### Installing
 
-- Navigate to `/3finity`.
+- Navigate to `/shmack`.
 - Install dependecies by running `npm install`.
 - Start the project on your local server by running `npm start`.
 - Add your own API keys to `src/secrets.js`.
-
-## Testing
-
-## Deploying
 
 ## Built With
 
@@ -32,20 +28,7 @@ You will need to have these installed on your machine for development:
 - [npm](https://docs.npmjs.com/) - Package Manager
 - [create-react-app](https://github.com/facebookincubator/create-react-app) - React App Bootstrapper
 - [gulp](https://github.com/gulpjs/gulp/blob/v3.9.1/docs/API.md) - Workflow Automater
-- [react](https://reactjs.org/) - JavaScript Web Framework
-- [react-redux](https://redux.js.org/basics/usagewithreact) - State Container for JavaScript Apps
-- [axios](https://www.npmjs.com/package/axios) - Promise-based HTTP Client
-
-## Contributing
-
-- [Calvin Hu](https://github.com/calvinyhu)
-
-## Versioning
 
 ## Authors
 
 - [Calvin Hu](https://github.com/calvinyhu)
-
-## License
-
-## Acknowledgments
