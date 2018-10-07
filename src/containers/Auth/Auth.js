@@ -2,6 +2,7 @@ import React, { Component } from 'react';
 import { Redirect } from 'react-router-dom';
 import { connect } from 'react-redux';
 import { NavLink } from 'react-router-dom';
+import Fade from 'react-reveal/Fade';
 
 import classes from './Auth.css';
 import * as actions from '../../store/actions/authActions';
@@ -183,13 +184,15 @@ class Auth extends Component {
 
     return (
       <div className={classes.AuthContainer}>
-        <div className={classes.Auth}>
-          {loadingPrompt}
-          {errorMessage}
-          {formCTA}
-          {form}
-          {formSwitch}
-        </div>
+        <Fade>
+          <div className={classes.Auth}>
+            {loadingPrompt}
+            {errorMessage}
+            {formCTA}
+            {form}
+            {formSwitch}
+          </div>
+        </Fade>
       </div>
     );
   }

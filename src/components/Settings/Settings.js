@@ -2,6 +2,7 @@ import React, { Component } from 'react';
 import { connect } from 'react-redux';
 import { Redirect } from 'react-router-dom';
 import * as paths from '../../utilities/paths';
+import Fade from 'react-reveal/Fade';
 
 import classes from './Settings.css';
 import {
@@ -81,26 +82,28 @@ class Settings extends Component {
 
     return (
       <div className={classes.Settings}>
-        <h5>Settings</h5>
-        {/* <div className={classes.ImgContainer}>
+        <Fade>
+          <h5>Settings</h5>
+          {/* <div className={classes.ImgContainer}>
           <div className={MAT_ICONS}>location_on</div>
         </div> */}
-        <div className={classes.Setting}>
-          <div className={classes.Label}>
-            <div className={MAT_ICONS}>location_on</div>
-            <p>Location Sharing</p>
+          <div className={classes.Setting}>
+            <div className={classes.Label}>
+              <div className={MAT_ICONS}>location_on</div>
+              <p>Location Sharing</p>
+            </div>
+            <label className={classes.SwitchTrack}>
+              <input
+                className={inputClasses}
+                type="checkbox"
+                onChange={this.locationToggleHandler}
+                checked={this.props.hasGeoLocatePermission}
+              />
+              <div className={classes.SwitchThumb}>{loader}</div>
+            </label>
           </div>
-          <label className={classes.SwitchTrack}>
-            <input
-              className={inputClasses}
-              type="checkbox"
-              onChange={this.locationToggleHandler}
-              checked={this.props.hasGeoLocatePermission}
-            />
-            <div className={classes.SwitchThumb}>{loader}</div>
-          </label>
-        </div>
-        {geoError}
+          {geoError}
+        </Fade>
       </div>
     );
   }
