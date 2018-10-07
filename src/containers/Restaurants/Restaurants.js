@@ -2,6 +2,7 @@ import React, { Component } from 'react';
 import { connect } from 'react-redux';
 import { Redirect } from 'react-router-dom';
 import throttle from 'raf-throttle';
+import Fade from 'react-reveal/Fade';
 
 import classes from './Restaurants.css';
 import * as actions from '../../store/actions/restaurantsActions';
@@ -21,6 +22,7 @@ import Filters from '../../components/Filters/Filters';
 import SearchBar from '../../components/SearchBar/SearchBar';
 import { MAT_ICONS } from '../../utilities/styles';
 
+// 0.5 mile
 export const NEAR_BY_RADIUS = 400;
 
 const mapStateToProps = state => {
@@ -37,7 +39,10 @@ const mapStateToProps = state => {
     isSearchSuccess: state.restaurants.isSearchSuccess,
     isGoogleLoading: state.restaurants.isGoogleLoading,
     googleRestaurants: state.restaurants.googleRestaurants,
-    googleError: state.restaurants.googleError
+    googleError: state.restaurants.googleError,
+    isNearByLoading: state.restaurants.isNearByLoading,
+    nearByRestaurants: state.restaurants.nearByRestaurants,
+    nearByError: state.restaurants.nearByError
   };
 };
 
@@ -73,10 +78,6 @@ class Restaurants extends Component {
     prevScrollTop: 0,
     radius: 5
   };
-
-  componentDidMount() {
-    // if (this.props.hasGeoLocatePermission) this.props.onGetNearBy();
-  }
 
   shouldComponentUpdate(nextProps, nextState) {
     if (
@@ -222,12 +223,44 @@ class Restaurants extends Component {
     return restaurants;
   };
 
+  // NearBy
+
+  handleRefresh = () => this.props.onGetNearBy();
+
+  renderNearByThumbnails = () => {
+    let nearByThumbnails = [];
+    if (this.props.nearByRestaurants) {
+      this.props.nearByRestaurants.forEach(res => {
+        if (res.photos) {
+          const photo = res.photos[0];
+          const imgUrl = createGooglePlacePhotoQuery(
+            photo.photo_reference,
+            photo.width
+          );
+          nearByThumbnails.push(
+            <div key={res.place_id} className={classes.NearByRestaurant}>
+              <Thumbnail
+                click={this.getRestaurantClickHandler(res.place_id, res)}
+                img={imgUrl}
+              >
+                <h6>{convertPrice(res.price_level)}</h6>
+                <h6>{res.name}</h6>
+                <h6>{res.rating ? res.rating.toFixed(1) : null}</h6>
+              </Thumbnail>
+            </div>
+          );
+        }
+      });
+    }
+    return nearByThumbnails;
+  };
+
   render() {
     if (this.state.isRedirectingToSettings)
       return <Redirect to={paths.SETTINGS} />;
 
     let loadingMessage = null;
-    if (this.props.isGoogleLoading)
+    if (this.props.isGoogleLoading || this.props.isNearByLoading)
       loadingMessage = (
         <div className={classes.LoaderContainer}>
           <div className={classes.Loader}>Searching...</div>
@@ -329,24 +362,56 @@ class Restaurants extends Component {
       </div>
     );
 
-    let nearBy = (
-      <div className={classes.NearBy}>
-        <p>Are you at...</p>
-        <div className={classes.NearByPlace}>
-          <p>Title</p>
+    let nearByRestaurants = null;
+    if (this.props.nearByError) {
+      nearByRestaurants = (
+        <div className={classes.NearByMessage}>
+          <p>{this.props.nearByError}</p>
+          <div className={classes.GrantButton}>
+            <Button main click={this.handleRedirect}>
+              Grant
+            </Button>
+          </div>
         </div>
-      </div>
+      );
+    } else if (!this.props.isNearByLoading) {
+      nearByRestaurants = this.renderNearByThumbnails();
+      if (nearByRestaurants.length === 0) {
+        nearByRestaurants = (
+          <div className={classes.NearByMessage}>
+            <p>
+              There are no restaurants near your current location. Try again or
+              search below.
+            </p>
+          </div>
+        );
+      }
+    }
+
+    let nearBy = (
+      <Fade>
+        <div className={classes.NearBy}>
+          <div className={classes.NearByHeader}>
+            <h4>Near You</h4>
+            <div className={classes.NearByRefresh}>
+              <Button clear click={this.handleRefresh}>
+                <div className={MAT_ICONS}>refresh</div>
+              </Button>
+            </div>
+          </div>
+          {nearByRestaurants}
+        </div>
+      </Fade>
     );
 
-    let nearByContainer = null;
-    if (this.props.hasGeoLocatePermission)
-      nearByContainer = <div className={classes.NearByContainer}>{nearBy}</div>;
+    let nearByContainer = (
+      <div className={classes.NearByContainer}>{nearBy}</div>
+    );
 
     return (
       <div className={classes.Restaurants} onScroll={this.handleScroll}>
         {nearByContainer}
         {gridContainer}
-        {/* {restaurantsGrid} */}
         {toggleGridButton}
         {filters}
         {searchBar}

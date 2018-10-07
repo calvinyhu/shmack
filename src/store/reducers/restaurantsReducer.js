@@ -10,7 +10,8 @@ const initialState = {
   isRequestingLocation: false,
   isShowGrid: false,
   isNearByLoading: false,
-  nearByRestaurants: null
+  nearByRestaurants: null,
+  nearByError: null
 };
 
 const inputChange = (state, action) => {
@@ -45,7 +46,8 @@ const requestLocation = (state, action) => {
 
 const nearBySearchStart = (state, action) => {
   return updateObject(state, {
-    isNearByLoading: action.isNearByLoading
+    isNearByLoading: action.isNearByLoading,
+    nearByError: action.nearByError
   });
 };
 

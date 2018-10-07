@@ -3,6 +3,7 @@ import { Switch, Route, Redirect, withRouter } from 'react-router-dom';
 import { connect } from 'react-redux';
 
 import * as actions from './store/actions/appActions';
+import { restaurantSearch } from './store/actions/restaurantsActions';
 import { authTryAutoLogIn } from './store/actions/authActions';
 import { getUserInfo, getUserPlaces } from './store/actions/userActions';
 import * as paths from './utilities/paths';
@@ -13,6 +14,7 @@ import Auth from './containers/Auth/Auth';
 import LogOut from './containers/Auth/LogOut/LogOut';
 import Restaurants from './containers/Restaurants/Restaurants';
 import Settings from './components/Settings/Settings';
+import { NEAR_BY_RADIUS } from './containers/Restaurants/Restaurants';
 
 const mapStateToProps = state => {
   return {
@@ -28,7 +30,9 @@ const mapDispatchToProps = dispatch => {
     onAuthTryAutoLogIn: () => dispatch(authTryAutoLogIn()),
     onGetUserInfo: () => dispatch(getUserInfo()),
     onGetUserPlaces: () => dispatch(getUserPlaces()),
-    onBeforeInstallPrompt: event => dispatch(actions.beforeInstallPrompt(event))
+    onBeforeInstallPrompt: event =>
+      dispatch(actions.beforeInstallPrompt(event)),
+    onGetNearBy: () => dispatch(restaurantSearch('', '', NEAR_BY_RADIUS))
   };
 };
 
@@ -38,6 +42,7 @@ class App extends Component {
   componentDidMount() {
     this.props.onAuthTryAutoLogIn();
     this.props.onCheckGeoLocatePermission();
+    this.props.onGetNearBy();
 
     auth.onAuthStateChanged(user => {
       if (user) {

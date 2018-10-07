@@ -138,7 +138,8 @@ export const requestLocation = value => {
 const nearBySearchStart = () => {
   return {
     type: actionTypes.NEAR_BY_SEARCH_START,
-    isNearByLoading: true
+    isNearByLoading: true,
+    nearByError: null
   };
 };
 
