@@ -30,13 +30,16 @@
 
   .NearByHeader {
     display: flex;
-    justify-content: space-between;
     align-items: center;
     padding: $padding;
 
     h4,
     p {
       margin: 0;
+    }
+
+    .NearByRefresh {
+      margin-left: $margin;
     }
   }
 }
@@ -70,7 +73,7 @@
   overflow-x: hidden;
   transform: translateX(100%);
   transition: $transition1;
-  background: $bright;
+  background: $md-white;
 }
 
 .SlideIn {

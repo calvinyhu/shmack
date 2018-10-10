@@ -42,39 +42,56 @@ $height: 1rem;
 // Width
 $width: 1rem;
 
-// Color
-$lighter-main-color: #ffd8c8;
-$light-main-color: #ffbb80;
-$main-color: #ffa07a;
-$dark-main-color: #dd764d;
-$darker-main-color: #be5328;
-
-$lighter-adj-color: #ffe8c8;
-$light-adj-color: #ffd6a0;
-$adj-color: #ffc67a;
-$dark-adj-color: #dda04d;
-$darker-adj-color: #be7e28;
-
-$lighter-opp-color: #b5e7d2;
-$light-opp-color: #b5e7d2;
-$opp-color: #54af88;
-$dark-opp-color: #35986e;
-$darker-opp-color: #1b8256;
-
-$lighter-opp-adj-color: #b6d0e4;
-$light-opp-adj-color: #81a8c6;
-$opp-adj-color: #5481a4;
-$dark-opp-adj-color: #38698e;
-$darker-opp-adj-color: #20537a;
-
-$dark: rgb(50, 50, 50);
-$bright: rgb(245, 245, 245);
-$pastel-red: rgb(255, 105, 97);
-$pastel-green: rgb(123, 179, 141);
-
 // Toolbar
 $header-height: 3.5rem;
 
 // Fab
 $fab-size: 3.5rem;
 $fab-size-mini: 2.5rem;
+
+// Paletton Colors
+$lighter-main-color: #fff3e7;
+$light-main-color: #ffe2c4;
+$main-color: #ffd1a0;
+$dark-main-color: #ffbf7d;
+$darker-main-color: #d9954d;
+
+$lighter-adj-color: #fff8e7;
+$light-adj-color: #ffeec4;
+$adj-color: #ffe3a0;
+$dark-adj-color: #ffd97d;
+$darker-adj-color: #d9b04d;
+
+$lighter-opp-color: #e0f1f6;
+$light-opp-color: #b0d5e1;
+$opp-color: #7eb3c4;
+$dark-opp-color: #518c9f;
+$darker-opp-color: #337287;
+
+$lighter-opp-adj-color: #e3e7f8;
+$light-opp-adj-color: #b8c0e6;
+$opp-adj-color: #8a96cd;
+$dark-opp-adj-color: #606eae;
+$darker-opp-adj-color: #404f94;
+
+// Material Design Colors
+$md-main: #ffd1a0;
+$md-main-light: #ffffd1;
+$md-main-dark: #caa071;
+
+$md-adj: #ffe3a0;
+$md-adj-light: #ffffd2;
+$md-adj-dark: #cbb171;
+
+$md-opp: #7eb3c4;
+$md-opp-light: #afe5f7;
+$md-opp-dark: #4e8394;
+
+$md-opp-adj: #8a96cd;
+$md-opp-adj-light: #bbc6ff;
+$md-opp-adj-dark: #5b689c;
+
+$md-black: #212121;
+$md-white: #fafafa;
+$pastel-red: #ff9393;
+$pastel-green: #98cc7a;

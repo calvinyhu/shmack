@@ -65,17 +65,6 @@ h3 {
     text-align: center;
     margin: 0;
   }
-
-  a {
-    color: $dark-main-color;
-    font-weight: bold;
-    transition: $transition1;
-
-    &:hover {
-      color: $main-color;
-      text-decoration: underline;
-    }
-  }
 }
 
 .Message {

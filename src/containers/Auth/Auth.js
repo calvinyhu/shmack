@@ -8,6 +8,7 @@ import classes from './Auth.css';
 import * as actions from '../../store/actions/authActions';
 import * as paths from '../../utilities/paths';
 import Button from '../../components/UI/Button/Button';
+import NavItem from '../../components/UI/Button/NavItem/NavItem';
 import Input from '../../components/UI/Input/Input';
 import Aux from '../../hoc/Auxiliary/Auxiliary';
 
@@ -143,9 +144,9 @@ class Auth extends Component {
     const formSwitch = (
       <div className={classes.Switch}>
         <p>{switchCTA}</p>
-        <NavLink onClick={this.handleAuthChange} to={switchLink}>
+        <NavItem link to={switchLink} click={this.handleAuthChange}>
           {switchName}
-        </NavLink>
+        </NavItem>
       </div>
     );
 

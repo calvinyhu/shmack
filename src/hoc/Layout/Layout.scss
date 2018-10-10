@@ -5,7 +5,7 @@
   display: flex;
   justify-content: space-between;
   align-items: center;
-  background: $bright;
+  background: $md-white;
   padding: $padding / 2;
   position: fixed;
   z-index: 1;
@@ -28,7 +28,7 @@
     left: 50%;
     transform: translateX(-50%);
     margin: 0;
-    color: $dark-main-color;
+    color: $md-black;
     font-size: $font-size * 1.3;
     font-family: Courgette, Raleway, sans-serif;
     font-weight: bold;
@@ -45,7 +45,7 @@ nav {
   justify-content: space-between;
   width: 100%;
   height: 100%;
-  background: $bright;
+  background: $light-main-color;
   padding: $padding;
   overflow: auto;
 

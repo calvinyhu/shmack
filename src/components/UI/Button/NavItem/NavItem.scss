@@ -15,28 +15,55 @@
   div {
     margin-right: $margin;
   }
+}
+
+.Link {
+  color: $md-black;
+  min-width: 0;
+  height: auto;
+  padding: 0;
+  margin: 0;
 
   &:hover {
-    color: $bright;
+    color: $md-black;
     text-decoration: none;
   }
 }
 
+.LinkTouchHover {
+  transition: none;
+
+  &:hover {
+    color: $md-black;
+    text-decoration: underline;
+  }
+}
+
+.LinkMouseHover {
+  &:hover {
+    color: $md-black;
+    text-decoration: underline;
+  }
+}
+
 .Main {
-  color: $dark-main-color;
+  color: $md-black;
+
+  &:hover {
+    color: $md-black;
+    text-decoration: none;
+  }
 }
 
 .MainTouchHover {
   transition: none;
-  color: $bright;
   background: $dark-main-color;
 }
 
 .MainMouseHover {
-  color: $bright;
   background: $dark-main-color;
 }
 
 .BorderMain {
-  border: 1px solid $dark-main-color;
+  border: 1px solid $darker-main-color;
 }

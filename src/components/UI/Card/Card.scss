@@ -11,7 +11,7 @@
 
 .RestaurantCardFront,
 .RestaurantCardBack {
-  background: $bright;
+  background: $md-white;
   border-radius: $border-radius-card;
   position: absolute;
   height: 100%;
@@ -135,7 +135,7 @@
       position: absolute;
       left: 50%;
       transform: translateX(-50%);
-      background: $bright;
+      background: $md-white;
       width: 100%;
       text-align: center;
       padding: $padding / 2 0;
@@ -157,7 +157,7 @@
   position: absolute;
   width: 100%;
   height: 3rem;
-  background: $bright;
+  background: $md-white;
 }
 
 .InputContainer {

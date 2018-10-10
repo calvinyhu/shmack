@@ -11,7 +11,7 @@
   width: 100%;
   max-width: 30rem;
   height: 100%;
-  background: $bright;
+  background: $md-white;
   transition: $transition1;
 
   main {
@@ -94,7 +94,7 @@
       color: $dark-main-color;
 
       p {
-        color: black;
+        color: $md-black;
       }
     }
   }

@@ -22,16 +22,19 @@ class NavItem extends Button {
   render() {
     let navItemClasses = classes.NavItem;
 
+    if (this.props.link) navItemClasses += ' ' + classes.Link;
     if (this.props.main) navItemClasses += ' ' + classes.Main;
     if (this.props.borderMain) navItemClasses += ' ' + classes.BorderMain;
 
     if (this.state.isTouch) {
       if (this.props.main) navItemClasses += ' ' + classes.MainTouchHover;
+      if (this.props.link) navItemClasses += ' ' + classes.LinkTouchHover;
       this.isTouched = true;
     }
 
     if (!this.isTouched && this.state.isMouse) {
       if (this.props.main) navItemClasses += ' ' + classes.MainMouseHover;
+      if (this.props.link) navItemClasses += ' ' + classes.LinkMouseHover;
     }
 
     return (

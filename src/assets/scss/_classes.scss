@@ -17,10 +17,10 @@
   font-size: $font-size;
   position: relative;
   text-indent: -9999rem;
-  border-top: 0.5rem solid rgba(255, 160, 122, 0.2);
-  border-right: 0.5rem solid rgba(255, 160, 122, 0.2);
-  border-bottom: 0.5rem solid rgba(255, 160, 122, 0.2);
-  border-left: 0.5rem solid #ffa07a;
+  border-top: 0.5rem solid $lighter-main-color;
+  border-right: 0.5rem solid $lighter-main-color;
+  border-bottom: 0.5rem solid $lighter-main-color;
+  border-left: 0.5rem solid $dark-main-color;
   transform: translateZ(0);
   animation: loading 1.3s infinite linear;
 }

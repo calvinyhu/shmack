@@ -27,7 +27,6 @@
 
 .Small {
   padding: $padding-tiny $padding / 2;
-  font-weight: normal;
 }
 
 .PlaceholderLink {
@@ -52,28 +51,28 @@
 
 .Clear {
   background: transparent;
-  color: black;
+  color: $md-black;
   box-shadow: none;
 }
 
 .Translucent {
   background: rgba(0, 0, 0, 0.3);
-  color: $bright;
+  color: $md-white;
   box-shadow: none;
 }
 
 .Main {
-  background: $dark-main-color;
-  color: $bright;
+  background: $main-color;
+  color: $md-black;
 }
 
 .MainTouchHover {
   transition: none;
-  background: $main-color;
+  background: $dark-main-color;
 }
 
 .MainMouseHover {
-  background: $main-color;
+  background: $dark-main-color;
 }
 
 .Adj {
