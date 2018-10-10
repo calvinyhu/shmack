@@ -1,7 +1,6 @@
 import React, { Component } from 'react';
 import { Redirect } from 'react-router-dom';
 import { connect } from 'react-redux';
-import { NavLink } from 'react-router-dom';
 import Fade from 'react-reveal/Fade';
 
 import classes from './Auth.css';
