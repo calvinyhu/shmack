@@ -1,7 +1,7 @@
 import React from 'react';
 
 import styles from './Modal.module.scss';
-import Button from '../Button/Button';
+import Button from 'components/UI/Button/Button';
 
 const modal = props => {
   let modalClasses = styles.Modal;

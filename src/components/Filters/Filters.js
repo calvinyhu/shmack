@@ -1,7 +1,7 @@
 import React from 'react';
 
 import styles from './Filters.module.scss';
-import Button from '../UI/Button/Button';
+import Button from 'components/UI/Button/Button';
 
 const RADIUS = {
   ONE: 1,

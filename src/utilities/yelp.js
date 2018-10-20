@@ -2,7 +2,7 @@ import React from 'react';
 
 import { YELP_API_KEY } from '../secrets';
 import { CORS } from './cors';
-import Aux from '../hoc/Auxiliary/Auxiliary';
+import Aux from 'hoc/Auxiliary/Auxiliary';
 
 const YELP_API = 'https://api.yelp.com/v3/';
 const BUSINESSES_API = CORS + YELP_API + '/businesses/';

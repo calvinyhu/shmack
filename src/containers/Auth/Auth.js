@@ -4,12 +4,12 @@ import { connect } from 'react-redux';
 import Fade from 'react-reveal/Fade';
 
 import styles from './Auth.module.scss';
-import * as actions from '../../store/actions/authActions';
-import * as paths from '../../utilities/paths';
-import Button from '../../components/UI/Button/Button';
-import NavItem from '../../components/UI/Button/NavItem/NavItem';
-import Input from '../../components/UI/Input/Input';
-import Aux from '../../hoc/Auxiliary/Auxiliary';
+import * as actions from 'store/actions/authActions';
+import * as paths from 'utilities/paths';
+import Button from 'components/UI/Button/Button';
+import NavItem from 'components/UI/Button/NavItem/NavItem';
+import Input from 'components/UI/Input/Input';
+import Aux from 'hoc/Auxiliary/Auxiliary';
 
 const mapStateToProps = state => {
   return {

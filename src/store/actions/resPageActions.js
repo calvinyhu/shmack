@@ -1,11 +1,6 @@
-import * as actionTypes from '../actions/actionTypes';
-import {
-  auth,
-  usersColRef,
-  resColRef,
-  firestore
-} from '../../utilities/firebase';
-import * as labels from '../../utilities/database';
+import * as actionTypes from './actionTypes';
+import { auth, usersColRef, resColRef, firestore } from 'utilities/firebase';
+import * as labels from 'utilities/database';
 
 export const getItems = restaurantId => {
   return dispatch => {

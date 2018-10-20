@@ -2,18 +2,15 @@ import React, { Component } from 'react';
 import { connect } from 'react-redux';
 
 import styles from './ResPage.module.scss';
-import Button from '../UI/Button/Button';
-import Input from '../UI/Input/Input';
-import { MAT_ICONS } from '../../utilities/styles';
-import {
-  createGooglePlacePhotoQuery,
-  convertPrice
-} from '../../utilities/google';
-import * as actions from '../../store/actions/resPageActions';
-import ResItem from '../ResItem/ResItem';
-import Aux from '../../hoc/Auxiliary/Auxiliary';
-import { auth } from '../../utilities/firebase';
-import poweredByGoogle from '../../assets/images/poweredByGoogle.png';
+import Button from 'components/UI/Button/Button';
+import Input from 'components/UI/Input/Input';
+import { MAT_ICONS } from 'utilities/styles';
+import { createGooglePlacePhotoQuery, convertPrice } from 'utilities/google';
+import * as actions from 'store/actions/resPageActions';
+import ResItem from 'components/ResItem/ResItem';
+import Aux from 'hoc/Auxiliary/Auxiliary';
+import { auth } from 'utilities/firebase';
+import poweredByGoogle from 'assets/images/poweredByGoogle.png';
 
 const mapStateToProps = state => {
   return {

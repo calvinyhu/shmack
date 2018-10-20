@@ -3,17 +3,17 @@ import Fade from 'react-reveal/Fade';
 import { connect } from 'react-redux';
 
 import styles from './Layout.module.scss';
-import Aux from '../Auxiliary/Auxiliary';
-import Backdrop from '../../components/UI/Backdrop/Backdrop';
-import Drawer from '../../components/UI/Drawer/Drawer';
-import Button from '../../components/UI/Button/Button';
-import NavItem from '../../components/UI/Button/NavItem/NavItem';
-import { MAT_ICONS } from '../../utilities/styles';
-import * as paths from '../../utilities/paths';
+import Aux from 'hoc/Auxiliary/Auxiliary';
+import Backdrop from 'components/UI/Backdrop/Backdrop';
+import Drawer from 'components/UI/Drawer/Drawer';
+import Button from 'components/UI/Button/Button';
+import NavItem from 'components/UI/Button/NavItem/NavItem';
+import { MAT_ICONS } from 'utilities/styles';
+import * as paths from 'utilities/paths';
 import {
   beforeInstallPrompt,
   clearDeferredPrompt
-} from '../../store/actions/appActions';
+} from 'store/actions/appActions';
 
 const mapStateToProps = state => {
   return {

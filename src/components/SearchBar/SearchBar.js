@@ -2,9 +2,9 @@ import React from 'react';
 import Fade from 'react-reveal/Fade';
 
 import styles from './SearchBar.module.scss';
-import Input from '../UI/Input/Input';
-import Button from '../UI/Button/Button';
-import { MAT_ICONS } from '../../utilities/styles';
+import Input from 'components/UI/Input/Input';
+import Button from 'components/UI/Button/Button';
+import { MAT_ICONS } from 'utilities/styles';
 
 const searchBar = props => {
   let searchBarClasses = styles.SearchBar;

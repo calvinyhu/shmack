@@ -1,6 +1,6 @@
-import * as actionTypes from '../actions/actionTypes';
-import { FIELDS } from '../../utilities/database';
-import { updateObject } from '../../utilities/utilities';
+import * as actionTypes from 'store/actions/actionTypes';
+import { FIELDS } from 'utilities/database';
+import { updateObject } from 'utilities/utilities';
 
 const initialState = {
   userInfo: {

@@ -5,22 +5,19 @@ import throttle from 'raf-throttle';
 import Fade from 'react-reveal/Fade';
 
 import styles from './Restaurants.module.scss';
-import * as actions from '../../store/actions/restaurantsActions';
-import * as paths from '../../utilities/paths';
-import { getItems } from '../../store/actions/resPageActions';
-import { setRedirectParent } from '../../store/actions/appActions';
-import {
-  createGooglePlacePhotoQuery,
-  convertPrice
-} from '../../utilities/google';
-import Thumbnail from '../../components/Thumbnail/Thumbnail';
-import Modal from '../../components/UI/Modal/Modal';
-import Button from '../../components/UI/Button/Button';
-import Backdrop from '../../components/UI/Backdrop/Backdrop';
-import ResPage from '../../components/ResPage/ResPage';
-import Filters from '../../components/Filters/Filters';
-import SearchBar from '../../components/SearchBar/SearchBar';
-import { MAT_ICONS } from '../../utilities/styles';
+import * as actions from 'store/actions/restaurantsActions';
+import * as paths from 'utilities/paths';
+import { getItems } from 'store/actions/resPageActions';
+import { setRedirectParent } from 'store/actions/appActions';
+import { createGooglePlacePhotoQuery, convertPrice } from 'utilities/google';
+import Thumbnail from 'components/Thumbnail/Thumbnail';
+import Modal from 'components/UI/Modal/Modal';
+import Button from 'components/UI/Button/Button';
+import Backdrop from 'components/UI/Backdrop/Backdrop';
+import ResPage from 'components/ResPage/ResPage';
+import Filters from 'components/Filters/Filters';
+import SearchBar from 'components/SearchBar/SearchBar';
+import { MAT_ICONS } from 'utilities/styles';
 
 // 0.5 mile
 export const NEAR_BY_RADIUS = 400;

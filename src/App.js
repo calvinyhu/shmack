@@ -2,19 +2,19 @@ import React, { Component } from 'react';
 import { Switch, Route, Redirect, withRouter } from 'react-router-dom';
 import { connect } from 'react-redux';
 
-import * as actions from './store/actions/appActions';
-import { restaurantSearch } from './store/actions/restaurantsActions';
-import { authTryAutoLogIn } from './store/actions/authActions';
-import { getUserInfo, getUserPlaces } from './store/actions/userActions';
-import * as paths from './utilities/paths';
-import { auth } from './utilities/firebase';
-import Layout from './hoc/Layout/Layout';
-import About from './components/About/About';
-import Auth from './containers/Auth/Auth';
-import LogOut from './containers/Auth/LogOut/LogOut';
-import Restaurants from './containers/Restaurants/Restaurants';
-import Settings from './components/Settings/Settings';
-import { NEAR_BY_RADIUS } from './containers/Restaurants/Restaurants';
+import * as actions from 'store/actions/appActions';
+import { restaurantSearch } from 'store/actions/restaurantsActions';
+import { authTryAutoLogIn } from 'store/actions/authActions';
+import { getUserInfo, getUserPlaces } from 'store/actions/userActions';
+import * as paths from 'utilities/paths';
+import { auth } from 'utilities/firebase';
+import Layout from 'hoc/Layout/Layout';
+import About from 'components/About/About';
+import Auth from 'containers/Auth/Auth';
+import LogOut from 'containers/Auth/LogOut/LogOut';
+import Restaurants from 'containers/Restaurants/Restaurants';
+import Settings from 'components/Settings/Settings';
+import { NEAR_BY_RADIUS } from 'containers/Restaurants/Restaurants';
 
 const mapStateToProps = state => {
   return {

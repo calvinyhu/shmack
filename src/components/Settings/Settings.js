@@ -1,19 +1,19 @@
 import React, { Component } from 'react';
 import { connect } from 'react-redux';
 import { Redirect } from 'react-router-dom';
-import * as paths from '../../utilities/paths';
 import Fade from 'react-reveal/Fade';
 
 import styles from './Settings.module.scss';
+import * as paths from 'utilities/paths';
 import {
   geoLocate,
   geoClear,
   toggleGeoLocPerm,
   setRedirectParent,
   checkGeoLocatePermission
-} from '../../store/actions/appActions';
-import Modal from '../UI/Modal/Modal';
-import { MAT_ICONS } from '../../utilities/styles';
+} from 'store/actions/appActions';
+import Modal from 'components/UI/Modal/Modal';
+import { MAT_ICONS } from 'utilities/styles';
 
 const mapStateToProps = state => {
   return {

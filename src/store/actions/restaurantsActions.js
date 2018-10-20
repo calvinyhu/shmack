@@ -4,9 +4,9 @@ import * as actionTypes from './actionTypes';
 import {
   createGoogleGeocodeLookupQuery,
   createGoogleNearbySearchQuery
-} from '../../utilities/google';
+} from 'utilities/google';
 import { toggleGeoLocPerm } from './appActions';
-import { NEAR_BY_RADIUS } from '../../containers/Restaurants/Restaurants';
+import { NEAR_BY_RADIUS } from 'containers/Restaurants/Restaurants';
 
 export const restaurantInputChange = (name, value) => {
   return {

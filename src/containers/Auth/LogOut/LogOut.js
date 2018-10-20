@@ -2,8 +2,8 @@ import React, { Component } from 'react';
 import { Redirect } from 'react-router-dom';
 import { connect } from 'react-redux';
 
-import * as authActions from '../../../store/actions/authActions';
-import * as userActions from '../../../store/actions/userActions';
+import * as authActions from 'store/actions/authActions';
+import * as userActions from 'store/actions/userActions';
 
 const mapDispatchToProps = dispatch => {
   return {

@@ -1,8 +1,8 @@
-import * as actionTypes from '../actions/actionTypes';
-import * as paths from '../../utilities/paths';
-import { auth } from '../../utilities/firebase';
+import * as actionTypes from 'store/actions/actionTypes';
+import * as paths from 'utilities/paths';
+import { auth } from 'utilities/firebase';
 import { postUserInfo } from './userActions';
-import { FIELDS } from '../../utilities/database';
+import { FIELDS } from 'utilities/database';
 
 export const authenticate = (info, signingUp) => {
   return dispatch => {

@@ -1,6 +1,6 @@
-import * as actionTypes from '../actions/actionTypes';
-import { FIELDS } from '../../utilities/database';
-import { auth, usersColRef } from '../../utilities/firebase';
+import * as actionTypes from './actionTypes';
+import { FIELDS } from 'utilities/database';
+import { auth, usersColRef } from 'utilities/firebase';
 
 export const getUserInfo = () => {
   return dispatch => {

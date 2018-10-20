@@ -1,5 +1,5 @@
-import * as actionTypes from '../actions/actionTypes';
-import { updateObject } from '../../utilities/utilities';
+import * as actionTypes from 'store/actions/actionTypes';
+import { updateObject } from 'utilities/utilities';
 
 const initialState = {
   isAuth: false,

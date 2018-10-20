@@ -2,9 +2,9 @@ import React, { PureComponent } from 'react';
 import { connect } from 'react-redux';
 
 import styles from './ResItem.module.scss';
-import * as actions from '../../store/actions/resPageActions';
-import Button from '../UI/Button/Button';
-import { MAT_ICONS } from '../../utilities/styles';
+import * as actions from 'store/actions/resPageActions';
+import Button from 'components/UI/Button/Button';
+import { MAT_ICONS } from 'utilities/styles';
 
 const mapStateToProps = state => {
   return {
