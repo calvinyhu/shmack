@@ -5,10 +5,10 @@ import throttle from 'raf-throttle';
 import Fade from 'react-reveal/Fade';
 
 import styles from './Restaurants.module.scss';
-import * as actions from 'store/actions/restaurantsActions';
+import * as restaurantActions from 'store/actions/restaurantsActions';
+import * as appActions from 'store/actions/appActions';
+import * as resPageActions from 'store/actions/resPageActions';
 import * as paths from 'utilities/paths';
-import { getItems } from 'store/actions/resPageActions';
-import { setRedirectParent } from 'store/actions/appActions';
 import { createGooglePlacePhotoQuery, convertPrice } from 'utilities/google';
 import Thumbnail from 'components/Thumbnail/Thumbnail';
 import Modal from 'components/UI/Modal/Modal';
@@ -22,41 +22,39 @@ import { MAT_ICONS } from 'utilities/styles';
 // 0.5 mile
 export const NEAR_BY_RADIUS = 400;
 
-const mapStateToProps = state => {
-  return {
-    hasGeoLocatePermission: state.app.hasGeoLocatePermission,
-    redirectParent: state.app.redirectParent,
+const mapStateToProps = state => ({
+  hasGeoLocatePermission: state.app.hasGeoLocatePermission,
+  redirectParent: state.app.redirectParent,
 
-    isAuth: state.auth.isAuth,
+  isAuth: state.auth.isAuth,
 
-    isRequestingLocation: state.restaurants.isRequestingLocation,
-    isShowGrid: state.restaurants.isShowGrid,
-    food: state.restaurants.food,
-    location: state.restaurants.location,
-    isSearchSuccess: state.restaurants.isSearchSuccess,
-    isGoogleLoading: state.restaurants.isGoogleLoading,
-    googleRestaurants: state.restaurants.googleRestaurants,
-    googleError: state.restaurants.googleError,
-    isNearByLoading: state.restaurants.isNearByLoading,
-    nearByRestaurants: state.restaurants.nearByRestaurants,
-    nearByError: state.restaurants.nearByError
-  };
-};
+  isRequestingLocation: state.restaurants.isRequestingLocation,
+  isShowGrid: state.restaurants.isShowGrid,
+  food: state.restaurants.food,
+  location: state.restaurants.location,
+  isSearchSuccess: state.restaurants.isSearchSuccess,
+  isGoogleLoading: state.restaurants.isGoogleLoading,
+  googleRestaurants: state.restaurants.googleRestaurants,
+  googleError: state.restaurants.googleError,
+  isNearByLoading: state.restaurants.isNearByLoading,
+  nearByRestaurants: state.restaurants.nearByRestaurants,
+  nearByError: state.restaurants.nearByError
+});
 
-const mapDispatchToProps = dispatch => {
-  return {
-    onRestaurantInputChange: (name, value) =>
-      dispatch(actions.restaurantInputChange(name, value)),
-    onRestaurantSearch: (food, location, radius) =>
-      dispatch(actions.restaurantSearch(food, location, radius)),
-    onGetPopularItems: id => dispatch(getItems(id)),
-    onRequestLocation: value => dispatch(actions.requestLocation(value)),
-    onSetRedirectParent: parent => dispatch(setRedirectParent(parent)),
-    onGetNearBy: () =>
-      dispatch(actions.restaurantSearch('', '', NEAR_BY_RADIUS)),
-    onToggleGrid: isShowGrid => dispatch(actions.toggleGrid(isShowGrid))
-  };
-};
+const mapDispatchToProps = dispatch => ({
+  onRestaurantInputChange: (name, value) =>
+    dispatch(restaurantActions.restaurantInputChange(name, value)),
+  onRestaurantSearch: (food, location, radius) =>
+    dispatch(restaurantActions.restaurantSearch(food, location, radius)),
+  onRequestLocation: value =>
+    dispatch(restaurantActions.requestLocation(value)),
+  onGetNearBy: (food, location, radius) =>
+    dispatch(restaurantActions.restaurantSearch(food, location, radius)),
+  onToggleGrid: value => dispatch(restaurantActions.toggleGrid(value)),
+
+  onGetPopularItems: id => dispatch(resPageActions.getItems(id)),
+  onSetRedirectParent: path => dispatch(appActions.setRedirectParent(path))
+});
 
 class Restaurants extends Component {
   restaurants = [];
@@ -221,8 +219,7 @@ class Restaurants extends Component {
   };
 
   // NearBy
-
-  handleRefresh = () => this.props.onGetNearBy();
+  handleRefresh = () => this.props.onGetNearBy('', '', NEAR_BY_RADIUS);
 
   renderNearByThumbnails = () => {
     let nearByThumbnails = [];
@@ -404,6 +401,8 @@ class Restaurants extends Component {
     let nearByContainer = (
       <div className={styles.NearByContainer}>{nearBy}</div>
     );
+
+    console.log({ props: this.props });
 
     return (
       <div className={styles.Restaurants} onScroll={this.handleScroll}>

@@ -8,6 +8,8 @@ import {
 import { toggleGeoLocPerm } from './appActions';
 import { NEAR_BY_RADIUS } from 'containers/Restaurants/Restaurants';
 
+export const hello = 'hello';
+
 export const restaurantInputChange = (name, value) => {
   return {
     type: actionTypes.RESTAURANT_INPUT_CHANGE,
@@ -16,7 +18,6 @@ export const restaurantInputChange = (name, value) => {
   };
 };
 
-// TODO: Make @location be selected from dropdown menu
 export const restaurantSearch = (food, location, radius) => {
   return dispatch => {
     if (radius === NEAR_BY_RADIUS) dispatch(nearBySearchStart());
