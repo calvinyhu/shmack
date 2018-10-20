@@ -31,35 +31,45 @@ export const geoLocate = () => dispatch => {
 
 export const toggleGeoLocPerm = hasGeoLocatePermission => ({
   type: actionTypes.TOGGLE_GEO_LOC_PERM,
-  hasGeoLocatePermission: hasGeoLocatePermission
+  payload: {
+    hasGeoLocatePermission: hasGeoLocatePermission
+  }
 });
 
 const geoStart = () => ({
   type: actionTypes.GEO_START,
-  isLocating: true,
-  geoLocation: null,
-  error: null
+  payload: {
+    isLocating: true,
+    geoLocation: null,
+    error: null
+  }
 });
 
 const geoSuccess = geoLocation => ({
   type: actionTypes.GEO_SUCCESS,
-  isLocating: false,
-  hasGeoLocatePermission: true,
-  geoLocation: geoLocation
+  payload: {
+    isLocating: false,
+    hasGeoLocatePermission: true,
+    geoLocation: geoLocation
+  }
 });
 
 const geoFail = error => ({
   type: actionTypes.GEO_FAIL,
-  isLocating: false,
-  hasGeoLocatePermission: false,
-  geoLocation: null,
-  error: error
+  payload: {
+    isLocating: false,
+    hasGeoLocatePermission: false,
+    geoLocation: null,
+    error: error
+  }
 });
 
 export const geoClear = () => ({
   type: actionTypes.GEO_CLEAR,
-  geolocation: null,
-  error: null
+  payload: {
+    geolocation: null,
+    error: null
+  }
 });
 
 const geoErrorHandler = error => {
@@ -77,15 +87,21 @@ const geoErrorHandler = error => {
 
 export const beforeInstallPrompt = event => ({
   type: actionTypes.BEFORE_INSTALL_PROMPT,
-  deferredPrompt: event
+  payload: {
+    deferredPrompt: event
+  }
 });
 
 export const clearDeferredPrompt = () => ({
   type: actionTypes.CLEAR_DEFERRED_PROMPT,
-  deferredPrompt: null
+  payload: {
+    deferredPrompt: null
+  }
 });
 
 export const setRedirectParent = redirectParent => ({
   type: actionTypes.SET_REDIRECT_PARENT,
-  redirectParent: redirectParent
+  payload: {
+    redirectParent: redirectParent
+  }
 });

@@ -1,5 +1,4 @@
 import * as actionTypes from 'store/actions/actionTypes';
-import { updateObject } from 'utilities/utilities';
 
 const initialState = {
   items: null,
@@ -7,68 +6,22 @@ const initialState = {
   resPageError: null
 };
 
-const getItemsStart = (state, action) => {
-  return updateObject(state, {
-    items: action.items,
-    isGettingItems: action.isGettingItems
-  });
-};
-
-const getItemsSuccess = (state, action) => {
-  return updateObject(state, {
-    items: action.items,
-    isGettingItems: action.isGettingItems
-  });
-};
-
-const getItemsFail = (state, action) => {
-  return updateObject(state, {
-    isGettingItems: action.isGettingItems,
-    resPageError: action.resPageError
-  });
-};
-
-const postItemSuccess = (state, action) => {
-  return updateObject(state, {
-    items: action.items,
-    resPageError: action.resPageError
-  });
-};
-
-const postItemFail = (state, action) => {
-  return updateObject(state, {
-    resPageError: action.resPageError
-  });
-};
-
-const postVoteSuccess = (state, action) => {
-  return updateObject(state, {
-    items: action.items
-  });
-};
-
-const postVoteFail = (state, action) => {
-  return updateObject(state, {
-    resPageError: action.resPageError
-  });
-};
-
 const resPageReducer = (state = initialState, action) => {
   switch (action.type) {
     case actionTypes.GET_ITEMS_START:
-      return getItemsStart(state, action);
+      return { ...state, ...action.payload };
     case actionTypes.GET_ITEMS_SUCCESS:
-      return getItemsSuccess(state, action);
+      return { ...state, ...action.payload };
     case actionTypes.GET_ITEMS_FAIL:
-      return getItemsFail(state, action);
+      return { ...state, ...action.payload };
     case actionTypes.POST_ITEM_SUCCESS:
-      return postItemSuccess(state, action);
+      return { ...state, ...action.payload };
     case actionTypes.POST_ITEM_FAIL:
-      return postItemFail(state, action);
+      return { ...state, ...action.payload };
     case actionTypes.POST_VOTE_SUCCESS:
-      return postVoteSuccess(state, action);
+      return { ...state, ...action.payload };
     case actionTypes.POST_VOTE_FAIL:
-      return postVoteFail(state, action);
+      return { ...state, ...action.payload };
     default:
       return state;
   }

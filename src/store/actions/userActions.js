@@ -16,20 +16,26 @@ export const postUserInfo = info => dispatch => {
 
 const postUserInfoStart = () => ({
   type: actionTypes.USER_POST_INFO_START,
-  posting: true,
-  error: null
+  payload: {
+    posting: true,
+    error: null
+  }
 });
 
 const postUserInfoSuccess = userInfo => ({
   type: actionTypes.USER_POST_INFO_SUCCESS,
-  posting: false,
-  postSuccess: true,
-  error: null
+  payload: {
+    posting: false,
+    postSuccess: true,
+    error: null
+  }
 });
 
 const postUserInfoFail = error => ({
   type: actionTypes.USER_POST_INFO_FAIL,
-  posting: false,
-  postSuccess: false,
-  error: error
+  payload: {
+    posting: false,
+    postSuccess: false,
+    error: error
+  }
 });

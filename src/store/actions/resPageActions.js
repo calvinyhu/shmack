@@ -159,34 +159,46 @@ export const postVote = (id, name, isUp) => dispatch => {
 
 const getItemsStart = () => ({
   type: actionTypes.GET_ITEMS_START,
-  isGettingItems: true,
-  items: null
+  payload: {
+    isGettingItems: true,
+    items: null
+  }
 });
 
 const getItemsSuccess = items => ({
   type: actionTypes.GET_ITEMS_SUCCESS,
-  isGettingItems: false,
-  items: items
+  payload: {
+    isGettingItems: false,
+    items: items
+  }
 });
 
 const getItemsFail = resPageError => ({
   type: actionTypes.GET_ITEMS_FAIL,
-  isGettingItems: false,
-  resPageError: resPageError
+  payload: {
+    isGettingItems: false,
+    resPageError: resPageError
+  }
 });
 
 const postItemSuccess = items => ({
   type: actionTypes.POST_ITEM_SUCCESS,
-  items: items,
-  resPageError: null
+  payload: {
+    items: items,
+    resPageError: null
+  }
 });
 
 export const postItemFail = resPageError => ({
   type: actionTypes.POST_ITEM_FAIL,
-  resPageError: resPageError
+  payload: {
+    resPageError: resPageError
+  }
 });
 
 const postVoteSuccess = items => ({
   type: actionTypes.POST_VOTE_SUCCESS,
-  items: items
+  payload: {
+    items: items
+  }
 });

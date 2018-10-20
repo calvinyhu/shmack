@@ -51,33 +51,43 @@ export const authLogOut = () => dispatch => {
 
 const authStart = () => ({
   type: actionTypes.AUTH_START,
-  loading: true
+  payload: {
+    loading: true
+  }
 });
 
 const authSuccess = signingUp => ({
   type: actionTypes.AUTH_SUCCESS,
-  isAuth: true,
-  loading: false,
-  redirectPath: signingUp ? paths.MORE : paths.HOME
+  payload: {
+    isAuth: true,
+    loading: false,
+    redirectPath: signingUp ? paths.MORE : paths.HOME
+  }
 });
 
 const authFail = error => ({
   type: actionTypes.AUTH_FAIL,
-  loading: false,
-  error: error
+  payload: {
+    loading: false,
+    error: error
+  }
 });
 
 const authLogOutSuccess = () => ({
   type: actionTypes.AUTH_LOGOUT_SUCCESS,
-  isAuth: false,
-  loading: false,
-  error: null,
-  redirectPath: null
+  payload: {
+    isAuth: false,
+    loading: false,
+    error: null,
+    redirectPath: null
+  }
 });
 
 const authLogOutFail = error => ({
   type: actionTypes.AUTH_LOGOUT_FAIL,
-  loading: false,
-  error: error,
-  redirectPath: null
+  payload: {
+    loading: false,
+    error: error,
+    redirectPath: null
+  }
 });

@@ -90,55 +90,71 @@ const getGoogleRestaurants = (dispatch, food, lat, long, radius) => {
 
 const restaurantGoogleSearchStart = () => ({
   type: actionTypes.RESTAURANT_GOOGLE_SEARCH_START,
-  isGoogleLoading: true,
-  isSearchSuccess: false,
-  isShowGrid: false,
-  googleRestaurants: null
+  payload: {
+    isGoogleLoading: true,
+    isSearchSuccess: false,
+    isShowGrid: false,
+    googleRestaurants: null
+  }
 });
 
 const restaurantGoogleSearchSuccess = restaurants => ({
   type: actionTypes.RESTAURANT_GOOGLE_SEARCH_SUCCESS,
-  isGoogleLoading: false,
-  isSearchSuccess: true,
-  isShowGrid: true,
-  googleRestaurants: restaurants,
-  googleError: null
+  payload: {
+    isGoogleLoading: false,
+    isSearchSuccess: true,
+    isShowGrid: true,
+    googleRestaurants: restaurants,
+    googleError: null
+  }
 });
 
 const restaurantGoogleSearchFail = error => ({
   type: actionTypes.RESTAURANT_GOOGLE_SEARCH_FAIL,
-  isGoogleLoading: false,
-  isSearchSuccess: false,
-  isShowGrid: true,
-  googleRestaurants: null,
-  googleError: error
+  payload: {
+    isGoogleLoading: false,
+    isSearchSuccess: false,
+    isShowGrid: true,
+    googleRestaurants: null,
+    googleError: error
+  }
 });
 
 export const requestLocation = value => ({
   type: actionTypes.RESTAURANT_REQUESTING_LOCATION,
-  isGoogleLoading: false,
-  isRequestingLocation: value
+  payload: {
+    isGoogleLoading: false,
+    isRequestingLocation: value
+  }
 });
 
 const nearBySearchStart = () => ({
   type: actionTypes.NEAR_BY_SEARCH_START,
-  isNearByLoading: true,
-  nearByError: null
+  payload: {
+    isNearByLoading: true,
+    nearByError: null
+  }
 });
 
 const nearBySearchSuccess = nearByRestaurants => ({
   type: actionTypes.NEAR_BY_SEARCH_SUCCESS,
-  isNearByLoading: false,
-  nearByRestaurants: nearByRestaurants
+  payload: {
+    isNearByLoading: false,
+    nearByRestaurants: nearByRestaurants
+  }
 });
 
 const nearBySearchFail = nearByError => ({
   type: actionTypes.NEAR_BY_SEARCH_FAIL,
-  isNearByLoading: false,
-  nearByError: nearByError
+  payload: {
+    isNearByLoading: false,
+    nearByError: nearByError
+  }
 });
 
 export const toggleGrid = isShowGrid => ({
   type: actionTypes.TOGGLE_GRID,
-  isShowGrid: !isShowGrid
+  payload: {
+    isShowGrid: !isShowGrid
+  }
 });

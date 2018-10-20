@@ -1,5 +1,4 @@
 import * as actionTypes from 'store/actions/actionTypes';
-import { updateObject } from 'utilities/utilities';
 
 const initialState = {
   isAuth: false,
@@ -8,56 +7,18 @@ const initialState = {
   redirectPath: ''
 };
 
-const authStart = (state, action) => {
-  return updateObject(state, {
-    loading: action.loading
-  });
-};
-
-const authSuccess = (state, action) => {
-  return updateObject(state, {
-    isAuth: action.isAuth,
-    loading: action.loading,
-    redirectPath: action.redirectPath
-  });
-};
-
-const authFail = (state, action) => {
-  return updateObject(state, {
-    loading: action.loading,
-    error: action.error
-  });
-};
-
-const authLogOutSuccess = (state, action) => {
-  return updateObject(state, {
-    isAuth: action.isAuth,
-    loading: action.loading,
-    error: action.error,
-    redirectPath: action.redirectPath
-  });
-};
-
-const authLogOutFail = (state, action) => {
-  return updateObject(state, {
-    loading: action.loading,
-    error: action.error,
-    redirectPath: action.redirectPath
-  });
-};
-
 const authReducer = (state = initialState, action) => {
   switch (action.type) {
     case actionTypes.AUTH_START:
-      return authStart(state, action);
+      return { ...state, ...action.payload };
     case actionTypes.AUTH_SUCCESS:
-      return authSuccess(state, action);
+      return { ...state, ...action.payload };
     case actionTypes.AUTH_FAIL:
-      return authFail(state, action);
+      return { ...state, ...action.payload };
     case actionTypes.AUTH_LOGOUT_SUCCESS:
-      return authLogOutSuccess(state, action);
+      return { ...state, ...action.payload };
     case actionTypes.AUTH_LOGOUT_FAIL:
-      return authLogOutFail(state, action);
+      return { ...state, ...action.payload };
     default:
       return state;
   }
