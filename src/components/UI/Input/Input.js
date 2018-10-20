@@ -1,29 +1,29 @@
 import React from 'react';
 
-import classes from './Input.css';
+import styles from './Input.module.scss';
 
 const input = props => {
-  let inputGroupClasses = classes.InputGroup;
-  let inputClasses = classes.Input;
+  let inputGroupClasses = styles.InputGroup;
+  let inputClasses = styles.Input;
 
   // Style
-  if (props.line) inputClasses += ' ' + classes.Line;
+  if (props.line) inputClasses += ' ' + styles.Line;
 
   // Padding
-  if (props.small) inputClasses += ' ' + classes.Small;
-  if (props.medium) inputClasses += ' ' + classes.Medium;
+  if (props.small) inputClasses += ' ' + styles.Small;
+  if (props.medium) inputClasses += ' ' + styles.Medium;
 
   // Margin
-  if (props.margin) inputGroupClasses += ' ' + classes.Margin;
+  if (props.margin) inputGroupClasses += ' ' + styles.Margin;
 
   // Color
-  if (props.transparent) inputClasses += ' ' + classes.Transparent;
+  if (props.transparent) inputClasses += ' ' + styles.Transparent;
 
   // Label
   let label = null;
   if (props.floatText) {
     label = (
-      <label className={classes.InputPlaceholder} htmlFor="food">
+      <label className={styles.InputPlaceholder} htmlFor="food">
         {props.placeholder}
       </label>
     );

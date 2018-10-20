@@ -1,11 +1,11 @@
 import React from 'react';
 import Fade from 'react-reveal';
 
-import classes from './About.css';
+import styles from './About.module.scss';
 
 const about = () => {
   return (
-    <div className={classes.About}>
+    <div className={styles.About}>
       <Fade>
         <header>
           <h1>ABOUT</h1>
@@ -13,12 +13,12 @@ const about = () => {
         </header>
         <main>
           <Fade up>
-            <p className={classes.SectionTitle}>What is Shmack?</p>
+            <p className={styles.SectionTitle}>What is Shmack?</p>
             <p>
               Shmack provides a simple, easy-to-use, and fast user experience
               for viewing and editing food that people eat at restaurants.
             </p>
-            <p className={classes.SectionTitle}>
+            <p className={styles.SectionTitle}>
               How is this different from Yelp, Google, or other food apps?
             </p>
             <p>
@@ -28,13 +28,13 @@ const about = () => {
               order, but Shmack wants to make that data accessible to the users
               who provide that data.
             </p>
-            <p className={classes.SectionTitle}>How can you help?</p>
+            <p className={styles.SectionTitle}>How can you help?</p>
             <p>
               The best way to help is adding your favorite foods you have eaten
               at restaurants. The more users contribute to Shmack the more
               useful it is to them.
             </p>
-            <p className={classes.SectionTitle}>
+            <p className={styles.SectionTitle}>
               Please help Shmack grow. Thank you!
             </p>
             <p>

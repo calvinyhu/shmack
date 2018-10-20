@@ -1,7 +1,7 @@
 import React from 'react';
 import { NavLink } from 'react-router-dom';
 
-import classes from './NavItem.css';
+import styles from './NavItem.module.scss';
 import Button from '../Button';
 
 class NavItem extends Button {
@@ -20,21 +20,21 @@ class NavItem extends Button {
   };
 
   render() {
-    let navItemClasses = classes.NavItem;
+    let navItemClasses = styles.NavItem;
 
-    if (this.props.link) navItemClasses += ' ' + classes.Link;
-    if (this.props.main) navItemClasses += ' ' + classes.Main;
-    if (this.props.borderMain) navItemClasses += ' ' + classes.BorderMain;
+    if (this.props.link) navItemClasses += ' ' + styles.Link;
+    if (this.props.main) navItemClasses += ' ' + styles.Main;
+    if (this.props.borderMain) navItemClasses += ' ' + styles.BorderMain;
 
     if (this.state.isTouch) {
-      if (this.props.main) navItemClasses += ' ' + classes.MainTouchHover;
-      if (this.props.link) navItemClasses += ' ' + classes.LinkTouchHover;
+      if (this.props.main) navItemClasses += ' ' + styles.MainTouchHover;
+      if (this.props.link) navItemClasses += ' ' + styles.LinkTouchHover;
       this.isTouched = true;
     }
 
     if (!this.isTouched && this.state.isMouse) {
-      if (this.props.main) navItemClasses += ' ' + classes.MainMouseHover;
-      if (this.props.link) navItemClasses += ' ' + classes.LinkMouseHover;
+      if (this.props.main) navItemClasses += ' ' + styles.MainMouseHover;
+      if (this.props.link) navItemClasses += ' ' + styles.LinkMouseHover;
     }
 
     return (

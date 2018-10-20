@@ -1,6 +1,6 @@
 import React, { PureComponent } from 'react';
 
-import classes from './Button.css';
+import styles from './Button.module.scss';
 
 class Button extends PureComponent {
   isTouched = false;
@@ -41,24 +41,24 @@ class Button extends PureComponent {
   handleMouseLeave = () => this.setState({ isMouse: false });
 
   render() {
-    let buttonClasses = classes.Button;
+    let buttonClasses = styles.Button;
 
-    if (this.props.link) buttonClasses = classes.PlaceholderLink;
-    if (this.props.small) buttonClasses += ' ' + classes.Small;
-    if (this.props.circle) buttonClasses += ' ' + classes.Circle;
-    if (this.props.main) buttonClasses += ' ' + classes.Main;
-    if (this.props.clear) buttonClasses += ' ' + classes.Clear;
-    if (this.props.translucent) buttonClasses += ' ' + classes.Translucent;
-    if (this.props.noShadow) buttonClasses += ' ' + classes.NoShadow;
+    if (this.props.link) buttonClasses = styles.PlaceholderLink;
+    if (this.props.small) buttonClasses += ' ' + styles.Small;
+    if (this.props.circle) buttonClasses += ' ' + styles.Circle;
+    if (this.props.main) buttonClasses += ' ' + styles.Main;
+    if (this.props.clear) buttonClasses += ' ' + styles.Clear;
+    if (this.props.translucent) buttonClasses += ' ' + styles.Translucent;
+    if (this.props.noShadow) buttonClasses += ' ' + styles.NoShadow;
 
     // Hover effects
     if (this.state.isTouch && this.props.main) {
-      buttonClasses += ' ' + classes.MainTouchHover;
+      buttonClasses += ' ' + styles.MainTouchHover;
       this.isTouched = true;
     }
 
     if (!this.isTouched && this.state.isMouse && this.props.main)
-      buttonClasses += ' ' + classes.MainMouseHover;
+      buttonClasses += ' ' + styles.MainMouseHover;
 
     return (
       <button

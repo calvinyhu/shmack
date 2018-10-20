@@ -1,7 +1,7 @@
 import React, { Component } from 'react';
 import { connect } from 'react-redux';
 
-import classes from './ResPage.css';
+import styles from './ResPage.module.scss';
 import Button from '../UI/Button/Button';
 import Input from '../UI/Input/Input';
 import { MAT_ICONS } from '../../utilities/styles';
@@ -96,7 +96,7 @@ class ResPage extends Component {
     }
 
     return (
-      <div className={classes.RatingContainer}>
+      <div className={styles.RatingContainer}>
         <p>{rating ? rating.toFixed(1) : null}</p>
         {rating ? stars : null}
       </div>
@@ -119,8 +119,8 @@ class ResPage extends Component {
       if (res.opening_hours) {
         open = res.opening_hours.open_now ? 'Open' : 'Closed';
         isResOpen = res.opening_hours.open_now
-          ? classes.ResIsOpen
-          : classes.ResIsClosed;
+          ? styles.ResIsOpen
+          : styles.ResIsClosed;
       }
       const address = res.vicinity;
       const phone = '';
@@ -129,11 +129,8 @@ class ResPage extends Component {
       let addItem = null;
       if (!this.props.isGettingItems) {
         addItem = (
-          <form
-            className={classes.AddItem}
-            onSubmit={this.getSubmitHandler(id)}
-          >
-            <div className={classes.AddItemInputContainer}>
+          <form className={styles.AddItem} onSubmit={this.getSubmitHandler(id)}>
+            <div className={styles.AddItemInputContainer}>
               <Input
                 small
                 line
@@ -144,7 +141,7 @@ class ResPage extends Component {
                 change={this.handleInputChange}
               />
             </div>
-            <div className={classes.AddItemSubmitButton}>
+            <div className={styles.AddItemSubmitButton}>
               <Button circle clear click={this.getSubmitHandler(id)}>
                 <div className={MAT_ICONS}>add</div>
               </Button>
@@ -159,42 +156,42 @@ class ResPage extends Component {
           <Aux>
             <ul>{items}</ul>
             {addItem}
-            <p className={classes.AddItemMessage}>{this.props.resPageError}</p>
+            <p className={styles.AddItemMessage}>{this.props.resPageError}</p>
           </Aux>
         );
       }
 
       return (
         <main>
-          <div className={classes.ImgContainer}>
-            <div className={classes.BackButton}>
+          <div className={styles.ImgContainer}>
+            <div className={styles.BackButton}>
               <Button translucent circle click={this.props.close}>
                 <div className={MAT_ICONS}>arrow_back</div>
               </Button>
             </div>
             <img src={imgSrc} alt="restaurant" />
           </div>
-          <div className={classes.Info}>
-            <div className={classes.Details}>
-              <div className={classes.TitleOpenClosed}>
+          <div className={styles.Info}>
+            <div className={styles.Details}>
+              <div className={styles.TitleOpenClosed}>
                 <h5>{name}</h5>
                 <p className={isResOpen}>{open}</p>
               </div>
-              <div className={classes.PriceRating}>
+              <div className={styles.PriceRating}>
                 {price}
                 {rating}
               </div>
-              <div className={classes.Address}>
+              <div className={styles.Address}>
                 <p>{address}</p>
               </div>
-              <div className={classes.Phone}>
+              <div className={styles.Phone}>
                 <p>{phone}</p>
               </div>
-              <div className={classes.Attribution}>
+              <div className={styles.Attribution}>
                 <img src={poweredByGoogle} alt="powered by Google" />
               </div>
             </div>
-            <div className={classes.Popular}>
+            <div className={styles.Popular}>
               <h6>What's Good?</h6>
               {popular}
             </div>
@@ -241,8 +238,8 @@ class ResPage extends Component {
       });
     } else if (this.props.isGettingItems) {
       items = (
-        <div className={classes.LoaderContainer}>
-          <div className={classes.Loader}>Searching...</div>
+        <div className={styles.LoaderContainer}>
+          <div className={styles.Loader}>Searching...</div>
         </div>
       );
     } else
@@ -254,8 +251,8 @@ class ResPage extends Component {
   };
 
   render() {
-    let resPageClasses = classes.ResPage;
-    if (this.props.isOpen) resPageClasses += ' ' + classes.OpenResPage;
+    let resPageClasses = styles.ResPage;
+    if (this.props.isOpen) resPageClasses += ' ' + styles.OpenResPage;
     const pageContent = this.renderPageContent();
     return <div className={resPageClasses}>{pageContent}</div>;
   }

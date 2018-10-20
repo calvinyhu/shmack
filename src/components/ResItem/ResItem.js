@@ -1,7 +1,7 @@
 import React, { PureComponent } from 'react';
 import { connect } from 'react-redux';
 
-import classes from './ResItem.css';
+import styles from './ResItem.module.scss';
 import * as actions from '../../store/actions/resPageActions';
 import Button from '../UI/Button/Button';
 import { MAT_ICONS } from '../../utilities/styles';
@@ -40,7 +40,7 @@ class ResItem extends PureComponent {
     return (
       <li>
         <p>{this.props.name}</p>
-        <div className={classes.Vote}>
+        <div className={styles.Vote}>
           <p>{this.props.items[this.props.name].likes}</p>
           <Button
             clear

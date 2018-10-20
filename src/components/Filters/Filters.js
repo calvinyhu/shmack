@@ -1,6 +1,6 @@
 import React from 'react';
 
-import classes from './Filters.css';
+import styles from './Filters.module.scss';
 import Button from '../UI/Button/Button';
 
 const RADIUS = {
@@ -10,30 +10,30 @@ const RADIUS = {
 };
 
 const filters = props => {
-  let filtersClasses = classes.Filters;
+  let filtersClasses = styles.Filters;
 
   if (props.isOpen) {
-    filtersClasses += ' ' + classes.SlideYFilters;
+    filtersClasses += ' ' + styles.SlideYFilters;
 
-    if (props.isLifted) filtersClasses += ' ' + classes.LiftFilters;
+    if (props.isLifted) filtersClasses += ' ' + styles.LiftFilters;
   }
 
   let radiusClasses = {};
-  radiusClasses[props.options.radius] = classes.ActiveRadius;
+  radiusClasses[props.options.radius] = styles.ActiveRadius;
 
   let filtersContainer = (
     <div className={filtersClasses}>
       <header>
         <p>Filters</p>
-        <div className={classes.FiltersApplyContainer}>
+        <div className={styles.FiltersApplyContainer}>
           <Button main small click={props.search}>
             Apply
           </Button>
         </div>
       </header>
-      <div className={classes.Filter}>
+      <div className={styles.Filter}>
         <p>Radius (mi)</p>
-        <div className={classes.FilterOptions}>
+        <div className={styles.FilterOptions}>
           <p
             id={RADIUS.ONE}
             className={radiusClasses[RADIUS.ONE]}

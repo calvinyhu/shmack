@@ -1,12 +1,12 @@
 import React from 'react';
 
-import classes from './Backdrop.css';
+import styles from './Backdrop.module.scss';
 
 const backdrop = props => {
-  let backdropClasses = classes.Backdrop;
+  let backdropClasses = styles.Backdrop;
 
-  if (props.isOpen) backdropClasses += ' ' + classes.OpenBackdrop;
-  else backdropClasses += ' ' + classes.CloseBackdrop;
+  if (props.isOpen) backdropClasses += ' ' + styles.OpenBackdrop;
+  else backdropClasses += ' ' + styles.CloseBackdrop;
 
   return <div className={backdropClasses} onClick={props.click} />;
 };

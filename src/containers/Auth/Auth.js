@@ -3,7 +3,7 @@ import { Redirect } from 'react-router-dom';
 import { connect } from 'react-redux';
 import Fade from 'react-reveal/Fade';
 
-import classes from './Auth.css';
+import styles from './Auth.module.scss';
 import * as actions from '../../store/actions/authActions';
 import * as paths from '../../utilities/paths';
 import Button from '../../components/UI/Button/Button';
@@ -112,7 +112,7 @@ class Auth extends Component {
     }
 
     const form = (
-      <form className={classes.AuthForm} onSubmit={this.handleFormSubmit}>
+      <form className={styles.AuthForm} onSubmit={this.handleFormSubmit}>
         {signingUpInputs}
         <Input
           medium
@@ -132,7 +132,7 @@ class Auth extends Component {
           placeholder="Password"
           change={this.handleInputChange}
         />
-        <div className={classes.FormButton}>
+        <div className={styles.FormButton}>
           <Button main click={this.handleFormSubmit}>
             {formButtonName}
           </Button>
@@ -141,7 +141,7 @@ class Auth extends Component {
     );
 
     const formSwitch = (
-      <div className={classes.Switch}>
+      <div className={styles.Switch}>
         <p>{switchCTA}</p>
         <NavItem link to={switchLink} click={this.handleAuthChange}>
           {switchName}
@@ -164,15 +164,15 @@ class Auth extends Component {
 
     if (this.props.loading) {
       loadingPrompt = (
-        <div className={classes.LoaderContainer}>
-          <div className={classes.Loader}>
+        <div className={styles.LoaderContainer}>
+          <div className={styles.Loader}>
             {this.state.isSigningUp ? 'Signing Up...' : 'Logging In...'}
           </div>
         </div>
       );
     } else if (this.props.error) {
       errorMessage = (
-        <div className={classes.Message}>{this.props.error.message}</div>
+        <div className={styles.Message}>{this.props.error.message}</div>
       );
     } else {
       const formElements = this.renderForm();
@@ -183,9 +183,9 @@ class Auth extends Component {
     }
 
     return (
-      <div className={classes.AuthContainer}>
+      <div className={styles.AuthContainer}>
         <Fade>
-          <div className={classes.Auth}>
+          <div className={styles.Auth}>
             {loadingPrompt}
             {errorMessage}
             {formCTA}

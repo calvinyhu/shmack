@@ -5,6 +5,7 @@ A progressive web app that simplifies and speeds up finding the best foods at re
 ## Getting Started
 
 Download the project to your directory by running
+
 ```
 git clone https://github.com/calvinyhu/shmack.git
 ```
@@ -12,6 +13,7 @@ git clone https://github.com/calvinyhu/shmack.git
 ### Prerequisites
 
 You will need to have these installed on your machine for development:
+
 - [node](https://nodejs.org/en/)
 - [npm](https://www.npmjs.com/get-npm) - Should already come with nodejs
 
@@ -27,7 +29,6 @@ You will need to have these installed on your machine for development:
 - [node](https://nodejs.org/en/) - JavaScript Runtime
 - [npm](https://docs.npmjs.com/) - Package Manager
 - [create-react-app](https://github.com/facebookincubator/create-react-app) - React App Bootstrapper
-- [gulp](https://github.com/gulpjs/gulp/blob/v3.9.1/docs/API.md) - Workflow Automater
 
 ## Authors
 

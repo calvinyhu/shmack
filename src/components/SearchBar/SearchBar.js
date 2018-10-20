@@ -1,38 +1,38 @@
 import React from 'react';
 import Fade from 'react-reveal/Fade';
 
-import classes from './SearchBar.css';
+import styles from './SearchBar.module.scss';
 import Input from '../UI/Input/Input';
 import Button from '../UI/Button/Button';
 import { MAT_ICONS } from '../../utilities/styles';
 
 const searchBar = props => {
-  let searchBarClasses = classes.SearchBar;
+  let searchBarClasses = styles.SearchBar;
 
   if (props.isScrollingDown || props.isGoogleLoading)
-    searchBarClasses += ' ' + classes.HideSearchBar;
+    searchBarClasses += ' ' + styles.HideSearchBar;
 
-  if (props.isShowFilters) searchBarClasses += ' ' + classes.SearchBarBoxShadow;
+  if (props.isShowFilters) searchBarClasses += ' ' + styles.SearchBarBoxShadow;
 
-  let foodInputContainerClasses = classes.FoodInputContainer;
-  let locationInputContainerClasses = classes.LocationInputContainer;
-  let searchButtonClasses = classes.SearchButton;
+  let foodInputContainerClasses = styles.FoodInputContainer;
+  let locationInputContainerClasses = styles.LocationInputContainer;
+  let searchButtonClasses = styles.SearchButton;
   let foodInputPlaceholder = props.isShowLocationInput
     ? 'Food'
     : 'Food at Your Location';
 
   if (props.isShowLocationInput || props.location) {
-    searchBarClasses += ' ' + classes.ExtendSearchBar;
-    foodInputContainerClasses += ' ' + classes.SlideYFoodInput;
-    locationInputContainerClasses += ' ' + classes.Show;
-    searchButtonClasses += ' ' + classes.ExtendSearchButton;
+    searchBarClasses += ' ' + styles.ExtendSearchBar;
+    foodInputContainerClasses += ' ' + styles.SlideYFoodInput;
+    locationInputContainerClasses += ' ' + styles.Show;
+    searchButtonClasses += ' ' + styles.ExtendSearchButton;
   }
 
   let bar = (
     <div className={searchBarClasses}>
       <Fade>
         <form onSubmit={props.handleSearch}>
-          <div className={classes.SearchInputs}>
+          <div className={styles.SearchInputs}>
             <div
               className={foodInputContainerClasses}
               onClick={props.handleShowLocationInput}

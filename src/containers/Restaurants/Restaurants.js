@@ -4,7 +4,7 @@ import { Redirect } from 'react-router-dom';
 import throttle from 'raf-throttle';
 import Fade from 'react-reveal/Fade';
 
-import classes from './Restaurants.css';
+import styles from './Restaurants.module.scss';
 import * as actions from '../../store/actions/restaurantsActions';
 import * as paths from '../../utilities/paths';
 import { getItems } from '../../store/actions/resPageActions';
@@ -238,7 +238,7 @@ class Restaurants extends Component {
             photo.width
           );
           nearByThumbnails.push(
-            <div key={res.place_id} className={classes.NearByRestaurant}>
+            <div key={res.place_id} className={styles.NearByRestaurant}>
               <Thumbnail
                 click={this.getRestaurantClickHandler(res.place_id, res)}
                 img={imgUrl}
@@ -262,15 +262,15 @@ class Restaurants extends Component {
     let loadingMessage = null;
     if (this.props.isGoogleLoading || this.props.isNearByLoading)
       loadingMessage = (
-        <div className={classes.LoaderContainer}>
-          <div className={classes.Loader}>Searching...</div>
+        <div className={styles.LoaderContainer}>
+          <div className={styles.Loader}>Searching...</div>
         </div>
       );
 
     let errorMessage = null;
     if (this.props.googleError && this.props.googleError !== -1) {
       errorMessage = (
-        <div className={classes.Message}>{this.props.googleError}</div>
+        <div className={styles.Message}>{this.props.googleError}</div>
       );
     }
 
@@ -335,24 +335,24 @@ class Restaurants extends Component {
     let restaurants = this.renderThumbnails();
     if (restaurants.length > 0) {
       restaurantsGrid = (
-        <div className={classes.RestaurantsGrid}>{restaurants}</div>
+        <div className={styles.RestaurantsGrid}>{restaurants}</div>
       );
     } else if (this.props.isSearchSuccess) {
       restaurantsGrid = (
-        <div className={classes.Message}>
+        <div className={styles.Message}>
           No results. Try readjusting the filters.
         </div>
       );
     }
 
-    let gridClasses = classes.GridContainer;
-    if (this.props.isShowGrid) gridClasses += ' ' + classes.SlideIn;
+    let gridClasses = styles.GridContainer;
+    if (this.props.isShowGrid) gridClasses += ' ' + styles.SlideIn;
     let gridContainer = <div className={gridClasses}>{restaurantsGrid}</div>;
 
-    let toggleGridClasses = classes.ToggleGridButton;
+    let toggleGridClasses = styles.ToggleGridButton;
     if (this.props.isSearchSuccess) {
-      toggleGridClasses += ' ' + classes.Show;
-      if (this.props.isShowGrid) toggleGridClasses += ' ' + classes.Rotate;
+      toggleGridClasses += ' ' + styles.Show;
+      if (this.props.isShowGrid) toggleGridClasses += ' ' + styles.Rotate;
     }
     let toggleGridButton = (
       <div className={toggleGridClasses}>
@@ -365,9 +365,9 @@ class Restaurants extends Component {
     let nearByRestaurants = null;
     if (this.props.nearByError) {
       nearByRestaurants = (
-        <div className={classes.NearByMessage}>
+        <div className={styles.NearByMessage}>
           <p>{this.props.nearByError}</p>
-          <div className={classes.GrantButton}>
+          <div className={styles.GrantButton}>
             <Button main click={this.handleRedirect}>
               Grant
             </Button>
@@ -378,7 +378,7 @@ class Restaurants extends Component {
       nearByRestaurants = this.renderNearByThumbnails();
       if (nearByRestaurants.length === 0) {
         nearByRestaurants = (
-          <div className={classes.NearByMessage}>
+          <div className={styles.NearByMessage}>
             <p>
               There are no restaurants near your current location. Try again or
               search below.
@@ -390,10 +390,10 @@ class Restaurants extends Component {
 
     let nearBy = (
       <Fade>
-        <div className={classes.NearBy}>
-          <div className={classes.NearByHeader}>
+        <div className={styles.NearBy}>
+          <div className={styles.NearByHeader}>
             <h4>Near You</h4>
-            <div className={classes.NearByRefresh}>
+            <div className={styles.NearByRefresh}>
               <Button clear click={this.handleRefresh}>
                 <div className={MAT_ICONS}>refresh</div>
               </Button>
@@ -405,11 +405,11 @@ class Restaurants extends Component {
     );
 
     let nearByContainer = (
-      <div className={classes.NearByContainer}>{nearBy}</div>
+      <div className={styles.NearByContainer}>{nearBy}</div>
     );
 
     return (
-      <div className={classes.Restaurants} onScroll={this.handleScroll}>
+      <div className={styles.Restaurants} onScroll={this.handleScroll}>
         {nearByContainer}
         {gridContainer}
         {toggleGridButton}

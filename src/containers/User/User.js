@@ -1,7 +1,7 @@
 import React, { Component } from 'react';
 import { connect } from 'react-redux';
 
-import classes from './User.css';
+import styles from './User.module.scss';
 import * as actions from '../../store/actions/userActions';
 import { FIELDS } from '../../utilities/database';
 import { updateObject } from '../../utilities/utilities';
@@ -94,7 +94,7 @@ class User extends Component {
 
     if (this.props.getting) {
       user = (
-        <div className={classes.User}>
+        <div className={styles.User}>
           <p>Loading...</p>
         </div>
       );
@@ -122,20 +122,20 @@ class User extends Component {
     if (this.state.userInfo) {
       const userInfo = (
         <Aux>
-          <div className={classes.PictureContainer}>
+          <div className={styles.PictureContainer}>
             <img
               src={this.props.userInfo[FIELDS.PROFILE_PICTURE]}
               alt="Profile"
             />
           </div>
-          <div className={classes.Name}>
+          <div className={styles.Name}>
             {this.props.userInfo[FIELDS.FIRST_NAME]}{' '}
             {this.props.userInfo[FIELDS.LAST_NAME]}
           </div>
-          <div className={classes.Email}>
+          <div className={styles.Email}>
             {this.props.userInfo[FIELDS.EMAIL]}
           </div>
-          <div className={classes.Location}>
+          <div className={styles.Location}>
             {this.props.userInfo[FIELDS.LOCATION]}
           </div>
         </Aux>
@@ -146,7 +146,7 @@ class User extends Component {
         </Button>
       );
       user = (
-        <div className={classes.User}>
+        <div className={styles.User}>
           {userInfo}
           {editUserInfoButton}
         </div>

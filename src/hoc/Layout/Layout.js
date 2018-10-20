@@ -2,7 +2,7 @@ import React, { PureComponent } from 'react';
 import Fade from 'react-reveal/Fade';
 import { connect } from 'react-redux';
 
-import classes from './Layout.css';
+import styles from './Layout.module.scss';
 import Aux from '../Auxiliary/Auxiliary';
 import Backdrop from '../../components/UI/Backdrop/Backdrop';
 import Drawer from '../../components/UI/Drawer/Drawer';
@@ -107,7 +107,7 @@ class Layout extends PureComponent {
       drawer = (
         <Drawer left isOpen={this.state.isDrawerOpen}>
           <nav>
-            <div className={classes.Primary}>
+            <div className={styles.Primary}>
               {home}
               {about}
               {settings}
@@ -120,8 +120,8 @@ class Layout extends PureComponent {
       drawer = (
         <Drawer left isOpen={this.state.isDrawerOpen}>
           <nav>
-            <div className={classes.Primary}>
-              <div className={classes.AuthLinks}>
+            <div className={styles.Primary}>
+              <div className={styles.AuthLinks}>
                 {signup}
                 {login}
               </div>
@@ -137,7 +137,7 @@ class Layout extends PureComponent {
     let A2HSButton = null;
     if (this.props.deferredPrompt) {
       A2HSButton = (
-        <div className={classes.A2HSButtonContainer}>
+        <div className={styles.A2HSButtonContainer}>
           <Button clear click={this.handleA2HS}>
             <div className={MAT_ICONS}>add_to_home_screen</div>
           </Button>
@@ -145,12 +145,12 @@ class Layout extends PureComponent {
       );
     }
 
-    let headerClasses = classes.Header;
-    if (this.props.isSearchSuccess) headerClasses += ' ' + classes.BoxShadow;
+    let headerClasses = styles.Header;
+    if (this.props.isSearchSuccess) headerClasses += ' ' + styles.BoxShadow;
     const header = (
       <Fade>
         <header className={headerClasses}>
-          <div className={classes.DrawerToggle} onClick={this.handleClick}>
+          <div className={styles.DrawerToggle} onClick={this.handleClick}>
             <div className={MAT_ICONS}>menu</div>
           </div>
           <h5>shmack</h5>
@@ -159,7 +159,7 @@ class Layout extends PureComponent {
       </Fade>
     );
 
-    const main = <main className={classes.Main}>{this.props.children}</main>;
+    const main = <main className={styles.Main}>{this.props.children}</main>;
 
     return (
       <Aux>

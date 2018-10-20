@@ -1,6 +1,6 @@
 import React, { Component } from 'react';
 
-import classes from './Card.css';
+import styles from './Card.module.scss';
 import { SOURCE } from '../../../containers/Restaurants/Restaurants';
 import { createGooglePlacePhotoQuery } from '../../../utilities/google';
 import Aux from '../../../hoc/Auxiliary/Auxiliary';
@@ -24,12 +24,12 @@ class Card extends Component {
     let card = null;
 
     if (this.props.restaurant) {
-      let classNames = classes.RestaurantCard;
+      let classNames = styles.RestaurantCard;
 
-      if (this.props.isOpen) classNames += ' ' + classes.RestaurantCardOpen;
-      else classNames += ' ' + classes.RestaurantCardClose;
+      if (this.props.isOpen) classNames += ' ' + styles.RestaurantCardOpen;
+      else classNames += ' ' + styles.RestaurantCardClose;
 
-      if (this.props.isTurned) classNames += ' ' + classes.RestaurantCardTurn;
+      if (this.props.isTurned) classNames += ' ' + styles.RestaurantCardTurn;
 
       let details = this.props.children;
       let img = null;
@@ -52,24 +52,24 @@ class Card extends Component {
       }
 
       let front = (
-        <div className={classes.RestaurantCardFront}>
+        <div className={styles.RestaurantCardFront}>
           <Fab mini top right clear isOpen click={this.props.click}>
             flip
           </Fab>
-          <div className={classes.ImgContainer}>
+          <div className={styles.ImgContainer}>
             <img src={img} alt="restaurant" />
           </div>
-          <div className={classes.DetailsContainer}>
-            <div className={classes.Details}>
-              <div className={classes.Headline}>
-                <div className={classes.Title}>{title}</div>
+          <div className={styles.DetailsContainer}>
+            <div className={styles.Details}>
+              <div className={styles.Headline}>
+                <div className={styles.Title}>{title}</div>
               </div>
-              <div className={classes.Location}>
+              <div className={styles.Location}>
                 <div>{address1}</div>
                 <div>{address2}</div>
                 <div>{address3}</div>
               </div>
-              <div className={classes.Phone}>{phone}</div>
+              <div className={styles.Phone}>{phone}</div>
             </div>
           </div>
         </div>
@@ -78,18 +78,18 @@ class Card extends Component {
       let items = [];
       for (let i = 0; i < 20; i++) items.push(<div key={i}>Item {i}</div>);
 
-      let inputClasses = classes.InputContainer;
-      if (this.state.isAddingItem) inputClasses += ' ' + classes.ShowInput;
+      let inputClasses = styles.InputContainer;
+      if (this.state.isAddingItem) inputClasses += ' ' + styles.ShowInput;
 
       let back = (
-        <div className={classes.RestaurantCardBack}>
+        <div className={styles.RestaurantCardBack}>
           <Fab mini top right clear isOpen click={this.props.click}>
             flip
           </Fab>
-          <div className={classes.PopularItemsContainer}>
-            <div className={classes.PopularItems}>
-              <div className={classes.Title}>What's Good?</div>
-              <div className={classes.Items}>{items}</div>
+          <div className={styles.PopularItemsContainer}>
+            <div className={styles.PopularItems}>
+              <div className={styles.Title}>What's Good?</div>
+              <div className={styles.Items}>{items}</div>
             </div>
             <Fab mini bottom right isOpen click={this.toggleAddItemHandler}>
               add

@@ -4,7 +4,7 @@ import { Redirect } from 'react-router-dom';
 import * as paths from '../../utilities/paths';
 import Fade from 'react-reveal/Fade';
 
-import classes from './Settings.css';
+import styles from './Settings.module.scss';
 import {
   geoLocate,
   geoClear,
@@ -68,38 +68,38 @@ class Settings extends Component {
     );
 
     let inputClasses = null;
-    let loaderClasses = classes.LoaderContainer;
+    let loaderClasses = styles.LoaderContainer;
     if (this.props.isLocating) {
-      inputClasses = classes.InputLoading;
-      loaderClasses += ' ' + classes.Show;
+      inputClasses = styles.InputLoading;
+      loaderClasses += ' ' + styles.Show;
     }
 
     let loader = (
       <div className={loaderClasses}>
-        <div className={classes.Loader}>Locating...</div>
+        <div className={styles.Loader}>Locating...</div>
       </div>
     );
 
     return (
-      <div className={classes.Settings}>
+      <div className={styles.Settings}>
         <Fade>
           <h5>Settings</h5>
-          {/* <div className={classes.ImgContainer}>
+          {/* <div className={styles.ImgContainer}>
           <div className={MAT_ICONS}>location_on</div>
         </div> */}
-          <div className={classes.Setting}>
-            <div className={classes.Label}>
+          <div className={styles.Setting}>
+            <div className={styles.Label}>
               <div className={MAT_ICONS}>location_on</div>
               <p>Location Sharing</p>
             </div>
-            <label className={classes.SwitchTrack}>
+            <label className={styles.SwitchTrack}>
               <input
                 className={inputClasses}
                 type="checkbox"
                 onChange={this.locationToggleHandler}
                 checked={this.props.hasGeoLocatePermission}
               />
-              <div className={classes.SwitchThumb}>{loader}</div>
+              <div className={styles.SwitchThumb}>{loader}</div>
             </label>
           </div>
           {geoError}

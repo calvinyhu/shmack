@@ -1,17 +1,17 @@
 import React from 'react';
 
-import classes from './Modal.css';
+import styles from './Modal.module.scss';
 import Button from '../Button/Button';
 
 const modal = props => {
-  let modalClasses = classes.Modal;
-  if (props.isOpen) modalClasses += ' ' + classes.OpenModal;
-  else modalClasses += ' ' + classes.CloseModal;
+  let modalClasses = styles.Modal;
+  if (props.isOpen) modalClasses += ' ' + styles.OpenModal;
+  else modalClasses += ' ' + styles.CloseModal;
 
   return (
     <div className={modalClasses}>
       <p>{props.children}</p>
-      <div className={classes.ModalButton}>
+      <div className={styles.ModalButton}>
         <Button main click={props.click}>
           {props.btnMsg}
         </Button>

@@ -1,6 +1,6 @@
 import React from 'react';
 
-import classes from './EditUser.css';
+import styles from './EditUser.module.scss';
 import { FIELDS } from '../../../utilities/database';
 import Aux from '../../../hoc/Auxiliary/Auxiliary';
 import Button from '../../../components/UI/Button/Button';
@@ -44,7 +44,7 @@ const EditUser = props => {
   }
 
   return (
-    <div className={classes.UserInfo}>
+    <div className={styles.UserInfo}>
       <form onSubmit={props.submit}>
         {inputs}
         <Button wide>Save</Button>
