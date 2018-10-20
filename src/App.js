@@ -5,7 +5,6 @@ import { connect } from 'react-redux';
 import * as actions from 'store/actions/appActions';
 import { restaurantSearch } from 'store/actions/restaurantsActions';
 import { authTryAutoLogIn } from 'store/actions/authActions';
-import { getUserInfo, getUserPlaces } from 'store/actions/userActions';
 import * as paths from 'utilities/paths';
 import { auth } from 'utilities/firebase';
 import Layout from 'hoc/Layout/Layout';
@@ -28,8 +27,6 @@ const mapDispatchToProps = dispatch => {
     onCheckGeoLocatePermission: isExplicitToggleOff =>
       dispatch(actions.checkGeoLocatePermission(isExplicitToggleOff)),
     onAuthTryAutoLogIn: () => dispatch(authTryAutoLogIn()),
-    onGetUserInfo: () => dispatch(getUserInfo()),
-    onGetUserPlaces: () => dispatch(getUserPlaces()),
     onBeforeInstallPrompt: event =>
       dispatch(actions.beforeInstallPrompt(event)),
     onGetNearBy: () => dispatch(restaurantSearch('', '', NEAR_BY_RADIUS))

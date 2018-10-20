@@ -3,19 +3,16 @@ import { Redirect } from 'react-router-dom';
 import { connect } from 'react-redux';
 
 import * as authActions from 'store/actions/authActions';
-import * as userActions from 'store/actions/userActions';
 
 const mapDispatchToProps = dispatch => {
   return {
-    onAuthLogOut: () => dispatch(authActions.authLogOut()),
-    onUserLogOut: () => dispatch(userActions.userLogOut())
+    onAuthLogOut: () => dispatch(authActions.authLogOut())
   };
 };
 
 class LogOut extends Component {
   componentDidMount() {
     this.props.onAuthLogOut();
-    this.props.onUserLogOut();
   }
 
   render() {
