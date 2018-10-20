@@ -4,10 +4,8 @@ import { connect } from 'react-redux';
 
 import * as authActions from 'store/actions/authActions';
 
-const mapDispatchToProps = dispatch => {
-  return {
-    onAuthLogOut: () => dispatch(authActions.authLogOut())
-  };
+const mapDispatchToProps = {
+  onAuthLogOut: authActions.authLogOut
 };
 
 class LogOut extends Component {

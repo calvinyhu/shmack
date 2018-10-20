@@ -19,15 +19,12 @@ const mapStateToProps = state => ({
   hasGeoLocatePermission: state.app.hasGeoLocatePermission
 });
 
-const mapDispatchToProps = dispatch => ({
-  onCheckGeoLocatePermission: () =>
-    dispatch(appActions.checkGeoLocatePermission()),
-  onBeforeInstallPrompt: event =>
-    dispatch(appActions.beforeInstallPrompt(event)),
-  onAuthTryAutoLogIn: () => dispatch(authActions.authTryAutoLogIn()),
-  onGetNearBy: (food, location, radius) =>
-    dispatch(restaurantActions.restaurantSearch(food, location, radius))
-});
+const mapDispatchToProps = {
+  onCheckGeoLocatePermission: appActions.checkGeoLocatePermission,
+  onBeforeInstallPrompt: appActions.beforeInstallPrompt,
+  onAuthTryAutoLogIn: authActions.authTryAutoLogIn,
+  onGetNearBy: restaurantActions.restaurantSearch
+};
 
 class App extends Component {
   componentDidMount() {
@@ -42,7 +39,7 @@ class App extends Component {
   }
 
   render() {
-    let routes = null;
+    let routes;
 
     if (this.props.isAuth) {
       routes = (

@@ -5,11 +5,11 @@ import Fade from 'react-reveal/Fade';
 
 import styles from './Auth.module.scss';
 import * as actions from 'store/actions/authActions';
-import * as paths from 'utilities/paths';
+import Aux from 'hoc/Auxiliary/Auxiliary';
 import Button from 'components/UI/Button/Button';
 import NavItem from 'components/UI/Button/NavItem/NavItem';
 import Input from 'components/UI/Input/Input';
-import Aux from 'hoc/Auxiliary/Auxiliary';
+import * as paths from 'utilities/paths';
 
 const mapStateToProps = state => {
   return {
@@ -19,11 +19,8 @@ const mapStateToProps = state => {
   };
 };
 
-const mapDispatchToProps = dispatch => {
-  return {
-    onAuth: (userInfo, isSigningUp) =>
-      dispatch(actions.authenticate(userInfo, isSigningUp))
-  };
+const mapDispatchToProps = {
+  onAuth: actions.authenticate
 };
 
 class Auth extends Component {

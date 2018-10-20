@@ -1,80 +1,66 @@
 import * as actionTypes from 'store/actions/actionTypes';
 
-export const checkGeoLocatePermission = () => {
-  return dispatch => {
-    if (navigator.permissions) {
-      navigator.permissions.query({ name: 'geolocation' }).then(permission => {
-        if (permission.state === 'granted') dispatch(toggleGeoLocPerm(true));
-        else dispatch(toggleGeoLocPerm(false));
-      });
-    } else console.log('This browser does not support Permissions API');
-  };
+export const checkGeoLocatePermission = () => dispatch => {
+  if (navigator.permissions) {
+    navigator.permissions.query({ name: 'geolocation' }).then(permission => {
+      if (permission.state === 'granted') dispatch(toggleGeoLocPerm(true));
+      else dispatch(toggleGeoLocPerm(false));
+    });
+  } else console.log('This browser does not support Permissions API');
 };
 
-export const geoLocate = () => {
-  return dispatch => {
-    dispatch(geoStart());
-    if (navigator.geolocation) {
-      navigator.geolocation.getCurrentPosition(
-        response => {
-          const position = {
-            lat: response.coords.latitude,
-            long: response.coords.longitude
-          };
-          dispatch(geoSuccess(position));
-        },
-        error => {
-          dispatch(geoFail(geoErrorHandler(error)));
-        }
-      );
-    } else {
-      dispatch(geoFail('Sorry, this browser does not support geo location'));
-    }
-  };
+export const geoLocate = () => dispatch => {
+  dispatch(geoStart());
+  if (navigator.geolocation) {
+    navigator.geolocation.getCurrentPosition(
+      response => {
+        const position = {
+          lat: response.coords.latitude,
+          long: response.coords.longitude
+        };
+        dispatch(geoSuccess(position));
+      },
+      error => {
+        dispatch(geoFail(geoErrorHandler(error)));
+      }
+    );
+  } else {
+    dispatch(geoFail('Sorry, this browser does not support geo location'));
+  }
 };
 
-export const toggleGeoLocPerm = hasGeoLocatePermission => {
-  return {
-    type: actionTypes.TOGGLE_GEO_LOC_PERM,
-    hasGeoLocatePermission: hasGeoLocatePermission
-  };
-};
+export const toggleGeoLocPerm = hasGeoLocatePermission => ({
+  type: actionTypes.TOGGLE_GEO_LOC_PERM,
+  hasGeoLocatePermission: hasGeoLocatePermission
+});
 
-const geoStart = () => {
-  return {
-    type: actionTypes.GEO_START,
-    isLocating: true,
-    geoLocation: null,
-    error: null
-  };
-};
+const geoStart = () => ({
+  type: actionTypes.GEO_START,
+  isLocating: true,
+  geoLocation: null,
+  error: null
+});
 
-const geoSuccess = geoLocation => {
-  return {
-    type: actionTypes.GEO_SUCCESS,
-    isLocating: false,
-    hasGeoLocatePermission: true,
-    geoLocation: geoLocation
-  };
-};
+const geoSuccess = geoLocation => ({
+  type: actionTypes.GEO_SUCCESS,
+  isLocating: false,
+  hasGeoLocatePermission: true,
+  geoLocation: geoLocation
+});
 
-const geoFail = error => {
-  return {
-    type: actionTypes.GEO_FAIL,
-    isLocating: false,
-    hasGeoLocatePermission: false,
-    geoLocation: null,
-    error: error
-  };
-};
+const geoFail = error => ({
+  type: actionTypes.GEO_FAIL,
+  isLocating: false,
+  hasGeoLocatePermission: false,
+  geoLocation: null,
+  error: error
+});
 
-export const geoClear = () => {
-  return {
-    type: actionTypes.GEO_CLEAR,
-    geolocation: null,
-    error: null
-  };
-};
+export const geoClear = () => ({
+  type: actionTypes.GEO_CLEAR,
+  geolocation: null,
+  error: null
+});
 
 const geoErrorHandler = error => {
   switch (error.code) {
@@ -89,23 +75,17 @@ const geoErrorHandler = error => {
   }
 };
 
-export const beforeInstallPrompt = event => {
-  return {
-    type: actionTypes.BEFORE_INSTALL_PROMPT,
-    deferredPrompt: event
-  };
-};
+export const beforeInstallPrompt = event => ({
+  type: actionTypes.BEFORE_INSTALL_PROMPT,
+  deferredPrompt: event
+});
 
-export const clearDeferredPrompt = () => {
-  return {
-    type: actionTypes.CLEAR_DEFERRED_PROMPT,
-    deferredPrompt: null
-  };
-};
+export const clearDeferredPrompt = () => ({
+  type: actionTypes.CLEAR_DEFERRED_PROMPT,
+  deferredPrompt: null
+});
 
-export const setRedirectParent = redirectParent => {
-  return {
-    type: actionTypes.SET_REDIRECT_PARENT,
-    redirectParent: redirectParent
-  };
-};
+export const setRedirectParent = redirectParent => ({
+  type: actionTypes.SET_REDIRECT_PARENT,
+  redirectParent: redirectParent
+});
