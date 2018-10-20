@@ -1,14 +1,12 @@
 import axios from 'axios';
 
 import * as actionTypes from './actionTypes';
+import { toggleGeoLocPerm } from './appActions';
 import {
   createGoogleGeocodeLookupQuery,
-  createGoogleNearbySearchQuery
+  createGoogleNearbySearchQuery,
+  NEAR_BY_RADIUS
 } from 'utilities/google';
-import { toggleGeoLocPerm } from './appActions';
-import { NEAR_BY_RADIUS } from 'containers/Restaurants/Restaurants';
-
-export const hello = 'hello';
 
 export const restaurantInputChange = (name, value) => {
   return {

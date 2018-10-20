@@ -5,14 +5,14 @@ import { connect } from 'react-redux';
 import * as appActions from 'store/actions/appActions';
 import * as restaurantActions from 'store/actions/restaurantsActions';
 import * as authActions from 'store/actions/authActions';
-import * as paths from 'utilities/paths';
 import Layout from 'hoc/Layout/Layout';
 import Auth from 'containers/Auth/Auth';
 import Restaurants from 'containers/Restaurants/Restaurants';
 import LogOut from 'containers/Auth/LogOut/LogOut';
 import About from 'components/About/About';
 import Settings from 'components/Settings/Settings';
-import { NEAR_BY_RADIUS } from 'containers/Restaurants/Restaurants';
+import * as paths from 'utilities/paths';
+import { NEAR_BY_RADIUS } from 'utilities/google';
 
 const mapStateToProps = state => ({
   isAuth: state.auth.isAuth,

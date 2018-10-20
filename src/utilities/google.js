@@ -13,6 +13,8 @@ export const createGoogleGeocodeLookupQuery = location => {
 };
 
 /********************************** Places API *********************************/
+// 0.5 miles
+export const NEAR_BY_RADIUS = 400;
 const PLACES_API = 'place/';
 const PLACE_DETAILS = 'details/';
 const FIND_PLACE = 'findplacefromtext/';
