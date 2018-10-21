@@ -308,7 +308,11 @@ class Restaurants extends Component {
 
     let gridClasses = styles.GridContainer;
     if (this.props.isShowGrid) gridClasses += ' ' + styles.SlideIn;
-    let gridContainer = <div className={gridClasses}>{restaurantsGrid}</div>;
+    let gridContainer = (
+      <div className={gridClasses} onScroll={this.handleScroll}>
+        {restaurantsGrid}
+      </div>
+    );
 
     let toggleGridClasses = styles.ToggleGridButton;
     if (this.props.isSearchSuccess) {
