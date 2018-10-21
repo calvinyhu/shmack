@@ -8,7 +8,12 @@
   width: 100%;
   min-height: 100%;
   position: relative;
-  padding: $padding * 2 $padding;
+  padding: $padding;
+  transition: $transition1;
+
+  @include media-min-width($desktop-width) {
+    padding: $padding * 2 $padding;
+  }
 }
 
 .Message {

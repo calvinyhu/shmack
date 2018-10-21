@@ -193,37 +193,6 @@ class Restaurants extends Component {
     if (this.state.isRedirectingToSettings)
       return <Redirect to={paths.SETTINGS} />;
 
-    let loadingMessage = null;
-    if (this.props.isGoogleLoading) {
-      loadingMessage = (
-        <div className={styles.LoaderContainer}>
-          <div className={styles.Loader}>Searching...</div>
-        </div>
-      );
-    }
-
-    let errorMessage = null;
-    if (this.props.error)
-      errorMessage = <div className={styles.Message}>{this.props.error}</div>;
-
-    const backdrop = (
-      <Backdrop
-        isOpen={this.props.isRequestingLocation}
-        click={this.handleCloseLocationRequest}
-      />
-    );
-
-    const locationRequestModal = (
-      <Modal
-        isOpen={this.props.isRequestingLocation}
-        click={this.handleRedirect}
-        close={this.handleCloseLocationRequest}
-        btnMsg={'Take me there!'}
-      >
-        Turn on location sharing in app settings
-      </Modal>
-    );
-
     const options = { radius: this.state.radius };
     const filters = (
       <Filters
@@ -262,27 +231,58 @@ class Restaurants extends Component {
       />
     );
 
+    const backdrop = (
+      <Backdrop
+        isOpen={this.props.isRequestingLocation}
+        click={this.handleCloseLocationRequest}
+      />
+    );
+
+    const locationRequestModal = (
+      <Modal
+        isOpen={this.props.isRequestingLocation}
+        click={this.handleRedirect}
+        close={this.handleCloseLocationRequest}
+        btnMsg={'Take me there!'}
+      >
+        Turn on location sharing in app settings
+      </Modal>
+    );
+
+    let loadingMessage = null;
+    let errorMessage = null;
     let restaurantsGrid = null;
-    let restaurants = this.renderThumbnails();
-    if (restaurants.length > 0) {
-      restaurantsGrid = (
-        <div className={styles.RestaurantsGrid}>{restaurants}</div>
-      );
-    } else if (this.props.isSearchSuccess) {
-      restaurantsGrid = (
-        <div className={styles.Message}>
-          No results. Try readjusting the filters.
+    let gridContainer = null;
+
+    if (this.props.isGoogleLoading) {
+      loadingMessage = (
+        <div className={styles.LoaderContainer}>
+          <div className={styles.Loader}>Searching...</div>
         </div>
       );
+    } else if (this.props.error) {
+      errorMessage = <div className={styles.Message}>{this.props.error}</div>;
+    } else {
+      let restaurants = this.renderThumbnails();
+      if (restaurants.length > 0) {
+        restaurantsGrid = (
+          <div className={styles.RestaurantsGrid}>{restaurants}</div>
+        );
+      } else if (this.props.isSearchSuccess) {
+        restaurantsGrid = (
+          <div className={styles.Message}>
+            No results. Try readjusting the filters.
+          </div>
+        );
+      } else {
+        restaurantsGrid = (
+          <div className={styles.Message}>What are you looking for?</div>
+        );
+      }
+      gridContainer = (
+        <div className={styles.GridContainer}>{restaurantsGrid}</div>
+      );
     }
-
-    let gridClasses = styles.GridContainer;
-    if (this.props.isShowGrid) gridClasses += ' ' + styles.SlideIn;
-    let gridContainer = (
-      <div className={gridClasses} onScroll={this.handleScroll}>
-        {restaurantsGrid}
-      </div>
-    );
 
     return (
       <div className={styles.Restaurants}>
@@ -291,8 +291,8 @@ class Restaurants extends Component {
         {searchBar}
         {loadingMessage}
         {errorMessage}
-        {backdrop}
         {resPage}
+        {backdrop}
         {locationRequestModal}
       </div>
     );

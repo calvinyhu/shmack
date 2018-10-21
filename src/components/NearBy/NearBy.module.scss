@@ -9,8 +9,6 @@
   align-items: center;
   width: 100%;
   min-height: 100%;
-  box-shadow: $box-shadow-card;
-  border-radius: $border-radius-card;
   overflow: hidden;
 
   @include media-min-width($desktop-width) {
@@ -25,7 +23,7 @@
     display: flex;
     justify-content: space-between;
     align-items: center;
-    padding: $padding;
+    margin-bottom: $margin;
 
     h4,
     p {

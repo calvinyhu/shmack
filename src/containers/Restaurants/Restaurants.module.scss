@@ -16,9 +16,14 @@
   justify-content: center;
   position: relative;
   width: 100%;
-  overflow-x: hidden;
+  overflow: hidden;
   transition: $transition1;
   background: $md-white;
+  transition: $transition1;
+
+  @include media-min-width($desktop-width) {
+    padding: $padding * 2 $padding;
+  }
 }
 
 .RestaurantsGrid {
@@ -27,6 +32,7 @@
   grid-template-columns: repeat(2, 50%);
   grid-auto-rows: 50vw;
   grid-gap: 2px;
+  // overflow: hidden;
 
   @include media-min-width($desktop-width) {
     grid-template-columns: repeat(3, 33.3%);

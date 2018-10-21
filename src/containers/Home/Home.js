@@ -82,9 +82,19 @@ class Home extends Component {
     if (this.state.isRedirectingToSettings)
       return <Redirect to={paths.SETTINGS} />;
 
+    const resPage = (
+      <ResPage
+        isOpen={this.state.isPageOpen}
+        id={this.state.id}
+        restaurant={this.state.restaurant}
+        close={this.handlePageClose}
+      />
+    );
+
     let nearBy;
     let errorMessage = null;
     let loadingMessage = null;
+
     if (this.props.isNearByLoading) {
       loadingMessage = (
         <div className={styles.LoaderContainer}>
@@ -122,15 +132,6 @@ class Home extends Component {
         />
       );
     }
-
-    const resPage = (
-      <ResPage
-        isOpen={this.state.isPageOpen}
-        id={this.state.id}
-        restaurant={this.state.restaurant}
-        close={this.handlePageClose}
-      />
-    );
 
     return (
       <div className={styles.Home}>

@@ -12,6 +12,10 @@
   height: 100%;
   transition: $transition1;
   user-select: none;
+  box-shadow: $box-shadow;
+  border-radius: $border-radius-button;
+  overflow: hidden;
+  margin: $margin 0;
 
   &:hover {
     cursor: pointer;
