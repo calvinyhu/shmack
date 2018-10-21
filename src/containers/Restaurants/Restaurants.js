@@ -68,8 +68,18 @@ class Restaurants extends Component {
   };
 
   componentDidMount() {
-    if (!this.props.nearByRestaurants)
+    if (
+      !this.props.nearByRestaurants &&
+      !this.props.isNearByLoading &&
+      !this.props.error
+    )
       this.props.onGetNearBy('', '', NEAR_BY_RADIUS);
+
+    window.addEventListener('scroll', this.handleScroll);
+  }
+
+  componentWillUnmount() {
+    window.removeEventListener('scroll', this.handleScroll);
   }
 
   shouldComponentUpdate(nextProps, nextState) {
@@ -138,7 +148,10 @@ class Restaurants extends Component {
     if (event) event.preventDefault();
 
     // Search
-    if (this.props.location || this.props.hasGeoLocatePermission) {
+    if (
+      (this.props.location || this.props.hasGeoLocatePermission) &&
+      !this.props.isGoogleLoading
+    ) {
       this.props.onRestaurantSearch(
         this.props.food,
         this.props.location,
@@ -340,7 +353,7 @@ class Restaurants extends Component {
     );
 
     return (
-      <div className={styles.Restaurants} onScroll={this.handleScroll}>
+      <div className={styles.Restaurants}>
         {nearBy}
         {gridContainer}
         {toggleGridButton}
