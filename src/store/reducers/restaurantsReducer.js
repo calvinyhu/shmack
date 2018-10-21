@@ -2,7 +2,6 @@ import * as actionTypes from 'store/actions/actionTypes';
 
 const initialState = {
   isRequestingLocation: false,
-  isShowGrid: false,
   isGoogleLoading: false,
   isNearByLoading: false,
   food: '',
@@ -29,8 +28,6 @@ const restaurantsReducer = (state = initialState, action) => {
     case actionTypes.NEAR_BY_SEARCH_SUCCESS:
       return { ...state, ...action.payload };
     case actionTypes.NEAR_BY_SEARCH_FAIL:
-      return { ...state, ...action.payload };
-    case actionTypes.TOGGLE_GRID:
       return { ...state, ...action.payload };
     case actionTypes.RESTAURANT_CLEAR_ERROR:
       return { ...state, ...action.payload };

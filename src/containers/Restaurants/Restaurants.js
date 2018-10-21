@@ -9,19 +9,12 @@ import * as appActions from 'store/actions/appActions';
 import * as resPageActions from 'store/actions/resPageActions';
 import Thumbnail from 'components/Thumbnail/Thumbnail';
 import Modal from 'components/UI/Modal/Modal';
-import Button from 'components/UI/Button/Button';
 import Backdrop from 'components/UI/Backdrop/Backdrop';
 import ResPage from 'components/ResPage/ResPage';
 import Filters from 'components/Filters/Filters';
 import SearchBar from 'components/SearchBar/SearchBar';
-import NearBy from 'components/NearBy/NearBy';
 import * as paths from 'utilities/paths';
-import { MAT_ICONS } from 'utilities/styles';
-import {
-  createGooglePlacePhotoQuery,
-  convertPrice,
-  NEAR_BY_RADIUS
-} from 'utilities/google';
+import { createGooglePlacePhotoQuery, convertPrice } from 'utilities/google';
 
 const mapStateToProps = state => ({
   // App
@@ -36,11 +29,9 @@ const mapStateToProps = state => ({
   isShowGrid: state.restaurants.isShowGrid,
   isSearchSuccess: state.restaurants.isSearchSuccess,
   isGoogleLoading: state.restaurants.isGoogleLoading,
-  isNearByLoading: state.restaurants.isNearByLoading,
   food: state.restaurants.food,
   location: state.restaurants.location,
   googleRestaurants: state.restaurants.googleRestaurants,
-  nearByRestaurants: state.restaurants.nearByRestaurants,
   error: state.restaurants.error
 });
 
@@ -48,8 +39,6 @@ const mapDispatchToProps = {
   onRestaurantInputChange: restaurantActions.restaurantInputChange,
   onRestaurantSearch: restaurantActions.restaurantSearch,
   onRequestLocation: restaurantActions.requestLocation,
-  onGetNearBy: restaurantActions.restaurantSearch,
-  onToggleGrid: restaurantActions.toggleGrid,
   onClearError: restaurantActions.clearError,
   onGetPopularItems: resPageActions.getItems,
   onSetRedirectParent: appActions.setRedirectParent
@@ -68,13 +57,6 @@ class Restaurants extends Component {
   };
 
   componentDidMount() {
-    if (
-      !this.props.nearByRestaurants &&
-      !this.props.isNearByLoading &&
-      !this.props.error
-    )
-      this.props.onGetNearBy('', '', NEAR_BY_RADIUS);
-
     window.addEventListener('scroll', this.handleScroll);
   }
 
@@ -88,7 +70,7 @@ class Restaurants extends Component {
   }
 
   handleRedirect = () => {
-    this.props.onSetRedirectParent(paths.HOME);
+    this.props.onSetRedirectParent(paths.SEARCH);
     this.props.onRequestLocation(false);
     this.setState({ isRedirectingToSettings: true });
   };
@@ -117,8 +99,8 @@ class Restaurants extends Component {
     this.prevScrollTop = scrollTop;
   };
 
-  handleScroll = event => {
-    throttle(this.animateSearchBar(event.target.scrollTop));
+  handleScroll = () => {
+    throttle(this.animateSearchBar(window.scrollY));
   };
 
   animateSearchBar = scrollTop => {
@@ -155,11 +137,6 @@ class Restaurants extends Component {
       this.hideLocationInput();
       this.hideFilters();
     } else this.props.onRequestLocation(true);
-  };
-
-  handleToggleGrid = () => {
-    this.setState({ isScrollingDown: false });
-    this.props.onToggleGrid(this.props.isShowGrid);
   };
 
   // Geolocation Handles
@@ -212,43 +189,22 @@ class Restaurants extends Component {
     return restaurants;
   };
 
-  // NearBy
-  handleRefresh = () => {
-    if (!this.props.isNearByLoading)
-      this.props.onGetNearBy('', '', NEAR_BY_RADIUS);
-  };
-
   render() {
     if (this.state.isRedirectingToSettings)
       return <Redirect to={paths.SETTINGS} />;
 
     let loadingMessage = null;
-    if (this.props.isGoogleLoading || this.props.isNearByLoading)
+    if (this.props.isGoogleLoading) {
       loadingMessage = (
         <div className={styles.LoaderContainer}>
           <div className={styles.Loader}>Searching...</div>
         </div>
       );
+    }
 
     let errorMessage = null;
-    if (this.props.error) {
-      let grantButton = null;
-      if (this.props.error === 'Your location is unknown. Grant location.') {
-        grantButton = (
-          <div className={styles.GrantButton}>
-            <Button main click={this.handleRedirect}>
-              Grant
-            </Button>
-          </div>
-        );
-      }
-      errorMessage = (
-        <div className={styles.Message}>
-          {this.props.error}
-          {grantButton}
-        </div>
-      );
-    }
+    if (this.props.error)
+      errorMessage = <div className={styles.Message}>{this.props.error}</div>;
 
     const backdrop = (
       <Backdrop
@@ -328,44 +284,16 @@ class Restaurants extends Component {
       </div>
     );
 
-    let toggleGridClasses = styles.ToggleGridButton;
-    if (this.props.isSearchSuccess) {
-      toggleGridClasses += ' ' + styles.Show;
-      if (this.props.isShowGrid) toggleGridClasses += ' ' + styles.Rotate;
-    }
-    let toggleGridButton = (
-      <div className={toggleGridClasses}>
-        <Button circle main noShadow click={this.handleToggleGrid}>
-          <div className={MAT_ICONS}>chevron_left</div>
-        </Button>
-      </div>
-    );
-
-    let nearBy = (
-      <NearBy
-        isLoading={this.props.isNearByLoading || this.props.isGoogleLoading}
-        error={this.props.error}
-        nearByRestaurants={this.props.nearByRestaurants}
-        getRestaurantClickHandler={(place_id, res) =>
-          this.getRestaurantClickHandler(place_id, res)
-        }
-        handleRedirect={this.handleRedirect}
-        handleRefresh={this.handleRefresh}
-      />
-    );
-
     return (
       <div className={styles.Restaurants}>
-        {nearBy}
         {gridContainer}
-        {toggleGridButton}
         {filters}
         {searchBar}
         {loadingMessage}
         {errorMessage}
         {backdrop}
-        {locationRequestModal}
         {resPage}
+        {locationRequestModal}
       </div>
     );
   }

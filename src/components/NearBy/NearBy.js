@@ -44,7 +44,7 @@ const NearBy = props => {
         <div className={styles.NearByMessage}>
           <p>
             There are no restaurants near your current location. Try again or
-            search below.
+            manually search.
           </p>
         </div>
       );

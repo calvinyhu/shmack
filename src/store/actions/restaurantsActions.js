@@ -158,10 +158,3 @@ const nearBySearchFail = error => ({
     error
   }
 });
-
-export const toggleGrid = isShowGrid => ({
-  type: actionTypes.TOGGLE_GRID,
-  payload: {
-    isShowGrid: !isShowGrid
-  }
-});

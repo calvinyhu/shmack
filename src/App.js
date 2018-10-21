@@ -6,6 +6,7 @@ import * as appActions from 'store/actions/appActions';
 import * as authActions from 'store/actions/authActions';
 import Layout from 'hoc/Layout/Layout';
 import Auth from 'containers/Auth/Auth';
+import Home from 'containers/Home/Home';
 import Restaurants from 'containers/Restaurants/Restaurants';
 import LogOut from 'containers/Auth/LogOut/LogOut';
 import About from 'components/About/About';
@@ -40,7 +41,8 @@ class App extends Component {
     if (this.props.isAuth) {
       routes = (
         <Switch>
-          <Route exact path={paths.HOME} component={Restaurants} />
+          <Route exact path={paths.HOME} component={Home} />
+          <Route exact path={paths.SEARCH} component={Restaurants} />
           <Route exact path={paths.ABOUT} component={About} />
           <Route exact path={paths.SETTINGS} component={Settings} />
           <Route exact path={paths.LOGOUT} component={LogOut} />
@@ -51,7 +53,8 @@ class App extends Component {
     } else {
       routes = (
         <Switch>
-          <Route exact path={paths.HOME} component={Restaurants} />
+          <Route exact path={paths.HOME} component={Home} />
+          <Route exact path={paths.SEARCH} component={Restaurants} />
           <Route exact path={paths.ABOUT} component={About} />
           <Route exact path={paths.SETTINGS} component={Settings} />
           <Route exact path={paths.AUTH_SIGNUP} component={Auth} />

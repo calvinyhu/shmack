@@ -2,37 +2,13 @@
 @import './src/assets/scss/_mixins.scss';
 @import './src/assets/scss/_classes.scss';
 
-.Restaurants {
+.Home {
   display: flex;
   justify-content: center;
-  align-items: center;
   width: 100%;
   min-height: 100%;
   position: relative;
-}
-
-.GridContainer {
-  display: flex;
-  justify-content: center;
-  position: relative;
-  width: 100%;
-  overflow-x: hidden;
-  transition: $transition1;
-  background: $md-white;
-}
-
-.RestaurantsGrid {
-  display: grid;
-  width: 100%;
-  grid-template-columns: repeat(2, 50%);
-  grid-auto-rows: 50vw;
-  grid-gap: 2px;
-
-  @include media-min-width($desktop-width) {
-    grid-template-columns: repeat(3, 33.3%);
-    width: 66.6%;
-    grid-auto-rows: 22.2vw;
-  }
+  padding: $padding * 2 $padding;
 }
 
 .Message {
@@ -41,10 +17,18 @@
   justify-content: center;
   align-items: center;
   width: 100%;
+  min-height: 100%;
   position: relative;
-  margin: $margin;
+  margin: $margin 0;
   font-size: $font-size * 1.3;
   text-align: center;
+
+  .GrantButton {
+    margin: $margin;
+    font-size: $font-size;
+    width: 4.5rem;
+    height: 2.5rem;
+  }
 }
 
 .LoaderContainer {

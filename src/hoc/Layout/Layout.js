@@ -81,6 +81,13 @@ class Layout extends PureComponent {
       </NavItem>
     );
 
+    let search = (
+      <NavItem main to={paths.SEARCH} click={this.handleCloseDrawer}>
+        <div className={MAT_ICONS}>search</div>
+        Search
+      </NavItem>
+    );
+
     let about = (
       <NavItem main to={paths.ABOUT} click={this.handleCloseDrawer}>
         <div className={MAT_ICONS}>info</div>
@@ -121,6 +128,7 @@ class Layout extends PureComponent {
           <nav>
             <div className={styles.Primary}>
               {home}
+              {search}
               {about}
               {settings}
               {A2HSButton}
@@ -139,6 +147,7 @@ class Layout extends PureComponent {
                 {login}
               </div>
               {home}
+              {search}
               {about}
               {settings}
               {A2HSButton}

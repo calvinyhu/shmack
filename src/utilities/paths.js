@@ -5,5 +5,6 @@ export const AUTH_SIGNUP = '/auth/signup';
 export const LOGOUT = '/logout';
 export const MORE = '/more';
 export const HOME = '/';
+export const SEARCH = '/search';
 export const SETTINGS = '/settings';
 export const USER = '/user';

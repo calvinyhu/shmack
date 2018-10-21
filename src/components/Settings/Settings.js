@@ -55,6 +55,8 @@ class Settings extends Component {
   render() {
     if (this.props.redirectParent === paths.HOME && this.props.geoLocation)
       return <Redirect to={paths.HOME} />;
+    if (this.props.redirectParent === paths.SEARCH && this.props.geoLocation)
+      return <Redirect to={paths.SEARCH} />;
 
     let geoError = (
       <Modal
