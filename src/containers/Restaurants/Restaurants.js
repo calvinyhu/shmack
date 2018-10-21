@@ -82,22 +82,6 @@ class Restaurants extends Component {
     window.removeEventListener('scroll', this.handleScroll);
   }
 
-  shouldComponentUpdate(nextProps, nextState) {
-    if (
-      nextProps !== this.props ||
-      nextState.isRedirectingToSettings !==
-        this.state.isRedirectingToSettings ||
-      nextState.isScrollingDown !== this.state.isScrollingDown ||
-      nextState.isPageOpen !== this.state.isPageOpen ||
-      nextState.isShowLocationInput !== this.state.isShowLocationInput ||
-      nextState.isShowFilters !== this.state.isShowFilters ||
-      nextState.radius !== this.state.radius ||
-      nextState.id !== this.state.id
-    )
-      return true;
-    return false;
-  }
-
   handleRedirect = () => {
     this.props.onSetRedirectParent(paths.HOME);
     this.props.onRequestLocation(false);

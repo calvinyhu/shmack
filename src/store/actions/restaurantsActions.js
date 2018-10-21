@@ -8,12 +8,6 @@ import {
   NEAR_BY_RADIUS
 } from 'utilities/google';
 
-export const restaurantInputChange = (name, value) => ({
-  type: actionTypes.RESTAURANT_INPUT_CHANGE,
-  name: name,
-  value: value
-});
-
 export const restaurantSearch = (food, location, radius) => dispatch => {
   if (location) startAsyncGoogleRequest(dispatch, food, location, radius);
   else {
@@ -85,6 +79,13 @@ const getGoogleRestaurants = (dispatch, food, lat, long, radius) => {
       else dispatch(restaurantGoogleSearchFail(errorMessage));
     });
 };
+
+export const restaurantInputChange = (name, value) => ({
+  type: actionTypes.RESTAURANT_INPUT_CHANGE,
+  payload: {
+    [name]: value
+  }
+});
 
 const restaurantGoogleSearchStart = () => ({
   type: actionTypes.RESTAURANT_GOOGLE_SEARCH_START,

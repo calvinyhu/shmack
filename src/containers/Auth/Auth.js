@@ -100,6 +100,7 @@ class Auth extends Component {
             name="firstName"
             placeholder="First Name"
             change={this.handleInputChange}
+            value={this.state.firstName.value}
             error={errors.firstName}
           />
           <Input
@@ -111,6 +112,7 @@ class Auth extends Component {
             name="lastName"
             placeholder="Last Name"
             change={this.handleInputChange}
+            value={this.state.lastName.value}
             error={errors.lastName}
           />
         </Aux>
@@ -133,6 +135,7 @@ class Auth extends Component {
           name="email"
           placeholder="Email"
           change={this.handleInputChange}
+          value={this.state.email.value}
           error={errors.email}
         />
         <Input
@@ -144,6 +147,7 @@ class Auth extends Component {
           name="password"
           placeholder="Password"
           change={this.handleInputChange}
+          value={this.state.password.value}
           error={errors.password}
         />
         <div className={styles.FormButton}>
