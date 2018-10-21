@@ -8,7 +8,7 @@
 }
 
 .Margin {
-  margin-bottom: $margin;
+  margin-bottom: $margin * 1.5;
 }
 
 .Error {
@@ -41,16 +41,16 @@
   &:focus + .InputPlaceholder,
   &:valid + .InputPlaceholder {
     font-size: 90%;
-    transform: translateY(-230%);
+    transform: translateY(-100%);
     opacity: 1;
   }
 }
 
 .InputPlaceholder {
   position: absolute;
-  bottom: 0;
+  top: 0;
   left: 0;
-  transform: translateX(1rem) translateY(-50%);
+  transform: translateX(1rem) translateY(50%);
   transition: 0.2s;
   opacity: 0.5;
   margin: 0;

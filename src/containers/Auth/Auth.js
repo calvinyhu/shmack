@@ -35,6 +35,7 @@ class Auth extends Component {
     this.setState({
       [event.target.name]: { value: event.target.value, isTouched: true }
     });
+    if (this.props.error) this.props.onClearError();
   };
 
   handleClearError = () => {
@@ -185,19 +186,7 @@ class Auth extends Component {
     }
 
     const signUpForm = { ...this.state };
-    const errors = validateSignupForm(signUpForm, false);
-    if (this.props.error) {
-      switch (this.props.error.code) {
-        case 'auth/wrong-password':
-          errors.password = 'Wrong Password';
-          break;
-        case 'auth/email-already-in-use':
-          errors.email = 'Email already in use';
-          break;
-        default:
-          break;
-      }
-    }
+    const errors = validateSignupForm(signUpForm, this.props.error);
     const formCTA = this.renderFormCTA(isSigningUp);
     const formElements = this.renderForm(isSigningUp, errors);
     const form = formElements.form;

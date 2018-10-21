@@ -11,7 +11,7 @@ export const isEmpty = value => {
   return value === '';
 };
 
-export const validateSignupForm = signupForm => {
+export const validateSignupForm = (signupForm, serverError = null) => {
   const errors = {};
   const isFirstNameTouched = signupForm.firstName.isTouched;
   const isLastNameTouched = signupForm.lastName.isTouched;
@@ -33,9 +33,25 @@ export const validateSignupForm = signupForm => {
     isPasswordTouched &&
     !validator.isLength(signupForm.password.value, { min: 6 })
   )
-    errors.password = 'Password needs to be at least 6 characters';
+    errors.password = 'Password needs at least 6 characters';
   if (isPasswordTouched && validator.isEmpty(signupForm.password.value))
     errors.password = 'Password is required';
+
+  if (serverError) {
+    switch (serverError.code) {
+      case 'auth/email-already-in-use':
+        errors.email = 'Email already in use';
+        break;
+      case 'auth/user-not-found':
+        errors.email = 'Email not found';
+        break;
+      case 'auth/wrong-password':
+        errors.password = 'Wrong Password';
+        break;
+      default:
+        break;
+    }
+  }
 
   return errors;
 };
