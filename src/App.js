@@ -3,7 +3,6 @@ import { Switch, Route, Redirect, withRouter } from 'react-router-dom';
 import { connect } from 'react-redux';
 
 import * as appActions from 'store/actions/appActions';
-import * as restaurantActions from 'store/actions/restaurantsActions';
 import * as authActions from 'store/actions/authActions';
 import Layout from 'hoc/Layout/Layout';
 import Auth from 'containers/Auth/Auth';
@@ -12,7 +11,6 @@ import LogOut from 'containers/Auth/LogOut/LogOut';
 import About from 'components/About/About';
 import Settings from 'components/Settings/Settings';
 import * as paths from 'utilities/paths';
-import { NEAR_BY_RADIUS } from 'utilities/google';
 
 const mapStateToProps = state => ({
   isAuth: state.auth.isAuth,
@@ -22,15 +20,13 @@ const mapStateToProps = state => ({
 const mapDispatchToProps = {
   onCheckGeoLocatePermission: appActions.checkGeoLocatePermission,
   onBeforeInstallPrompt: appActions.beforeInstallPrompt,
-  onAuthTryAutoLogIn: authActions.authTryAutoLogIn,
-  onGetNearBy: restaurantActions.restaurantSearch
+  onAuthTryAutoLogIn: authActions.authTryAutoLogIn
 };
 
 class App extends Component {
   componentDidMount() {
     this.props.onAuthTryAutoLogIn();
     this.props.onCheckGeoLocatePermission();
-    this.props.onGetNearBy('', '', NEAR_BY_RADIUS);
 
     window.addEventListener('beforeinstallprompt', event => {
       event.preventDefault();

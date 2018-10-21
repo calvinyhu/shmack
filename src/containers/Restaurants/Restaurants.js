@@ -2,7 +2,6 @@ import React, { Component } from 'react';
 import { connect } from 'react-redux';
 import { Redirect } from 'react-router-dom';
 import throttle from 'raf-throttle';
-import Fade from 'react-reveal/Fade';
 
 import styles from './Restaurants.module.scss';
 import * as restaurantActions from 'store/actions/restaurantsActions';
@@ -15,6 +14,7 @@ import Backdrop from 'components/UI/Backdrop/Backdrop';
 import ResPage from 'components/ResPage/ResPage';
 import Filters from 'components/Filters/Filters';
 import SearchBar from 'components/SearchBar/SearchBar';
+import NearBy from 'components/NearBy/NearBy';
 import * as paths from 'utilities/paths';
 import { MAT_ICONS } from 'utilities/styles';
 import {
@@ -51,11 +51,6 @@ const mapDispatchToProps = {
 };
 
 class Restaurants extends Component {
-  restaurants = [];
-  restaurantNames = {};
-  isGoogleRendered = false;
-  restaurantClickHandlers = {};
-
   state = {
     isRedirectingToSettings: false,
     isScrollingDown: false,
@@ -67,6 +62,11 @@ class Restaurants extends Component {
     prevScrollTop: 0,
     radius: 5
   };
+
+  componentDidMount() {
+    if (!this.props.nearByRestaurants)
+      this.props.onGetNearBy('', '', NEAR_BY_RADIUS);
+  }
 
   shouldComponentUpdate(nextProps, nextState) {
     if (
@@ -133,11 +133,6 @@ class Restaurants extends Component {
   handleSearch = event => {
     if (event) event.preventDefault();
 
-    // Reset search state
-    this.restaurants = null;
-    this.restaurantNames = null;
-    this.isGoogleRendered = false;
-
     // Search
     if (this.props.location || this.props.hasGeoLocatePermission) {
       this.props.onRestaurantSearch(
@@ -159,15 +154,18 @@ class Restaurants extends Component {
   handleCloseLocationRequest = () => this.props.onRequestLocation(false);
 
   // Restaurant Page Handles
+  handlePageOpen = (id, res) =>
+    this.setState({ isPageOpen: true, id: id, restaurant: res });
   handlePageClose = () =>
     this.setState({ isPageOpen: false, isScrollingDown: false });
 
   // Restaurant Grid Thumbnail Handles
+  restaurantClickHandlers = {};
   getRestaurantClickHandler = (id, res) => {
     if (!this.restaurantClickHandlers[id]) {
       this.restaurantClickHandlers[id] = () => {
-        this.setState({ isPageOpen: true, id: id, restaurant: res });
-        this.props.onGetPopularItems(id);
+        this.handlePageOpen(id, res);
+        if (this.props.isAuth) this.props.onGetPopularItems(id);
         this.handleHideLocationInput();
         this.handleHideFilters();
       };
@@ -177,71 +175,33 @@ class Restaurants extends Component {
 
   renderThumbnails = () => {
     let restaurants = [];
-    let resNames = {};
-
-    if (this.restaurants) restaurants = [...this.restaurants];
-    if (this.restaurantNames) resNames = { ...this.restaurantNames };
-
-    if (!this.isGoogleRendered && this.props.googleRestaurants) {
+    if (this.props.googleRestaurants) {
       this.props.googleRestaurants.forEach(res => {
-        if (res.photos && !resNames[res.name]) {
-          const photo = res.photos[0];
-          const imgUrl = createGooglePlacePhotoQuery(
-            photo.photo_reference,
-            photo.width
-          );
-          restaurants.push(
-            <Thumbnail
-              key={res.place_id}
-              click={this.getRestaurantClickHandler(res.place_id, res)}
-              img={imgUrl}
-            >
-              <h6>{convertPrice(res.price_level)}</h6>
-              <h6>{res.name}</h6>
-              <h6>{res.rating ? res.rating.toFixed(1) : null}</h6>
-            </Thumbnail>
-          );
-          resNames[res.name] = 1;
-        }
-      });
-      this.isGoogleRendered = true;
-    }
+        if (!res.photos) return;
 
-    this.restaurants = restaurants;
-    this.restaurantNames = resNames;
+        const photo = res.photos[0];
+        const imgUrl = createGooglePlacePhotoQuery(
+          photo.photo_reference,
+          photo.width
+        );
+        restaurants.push(
+          <Thumbnail
+            key={res.place_id}
+            click={this.getRestaurantClickHandler(res.place_id, res)}
+            img={imgUrl}
+          >
+            <h6>{convertPrice(res.price_level)}</h6>
+            <h6>{res.name}</h6>
+            <h6>{res.rating ? res.rating.toFixed(1) : null}</h6>
+          </Thumbnail>
+        );
+      });
+    }
     return restaurants;
   };
 
   // NearBy
   handleRefresh = () => this.props.onGetNearBy('', '', NEAR_BY_RADIUS);
-
-  renderNearByThumbnails = () => {
-    let nearByThumbnails = [];
-    if (this.props.nearByRestaurants) {
-      this.props.nearByRestaurants.forEach(res => {
-        if (res.photos) {
-          const photo = res.photos[0];
-          const imgUrl = createGooglePlacePhotoQuery(
-            photo.photo_reference,
-            photo.width
-          );
-          nearByThumbnails.push(
-            <div key={res.place_id} className={styles.NearByRestaurant}>
-              <Thumbnail
-                click={this.getRestaurantClickHandler(res.place_id, res)}
-                img={imgUrl}
-              >
-                <h6>{convertPrice(res.price_level)}</h6>
-                <h6>{res.name}</h6>
-                <h6>{res.rating ? res.rating.toFixed(1) : null}</h6>
-              </Thumbnail>
-            </div>
-          );
-        }
-      });
-    }
-    return nearByThumbnails;
-  };
 
   render() {
     if (this.state.isRedirectingToSettings)
@@ -256,7 +216,7 @@ class Restaurants extends Component {
       );
 
     let errorMessage = null;
-    if (this.props.googleError && this.props.googleError !== -1) {
+    if (this.props.googleError) {
       errorMessage = (
         <div className={styles.Message}>{this.props.googleError}</div>
       );
@@ -276,8 +236,7 @@ class Restaurants extends Component {
         close={this.handleCloseLocationRequest}
         btnMsg={'Take me there!'}
       >
-        To use current location, <strong>turn on location sharing</strong> in
-        app settings.
+        Turn on location sharing in app settings
       </Modal>
     );
 
@@ -350,55 +309,22 @@ class Restaurants extends Component {
       </div>
     );
 
-    let nearByRestaurants = null;
-    if (this.props.nearByError) {
-      nearByRestaurants = (
-        <div className={styles.NearByMessage}>
-          <p>{this.props.nearByError}</p>
-          <div className={styles.GrantButton}>
-            <Button main click={this.handleRedirect}>
-              Grant
-            </Button>
-          </div>
-        </div>
-      );
-    } else if (!this.props.isNearByLoading) {
-      nearByRestaurants = this.renderNearByThumbnails();
-      if (nearByRestaurants.length === 0) {
-        nearByRestaurants = (
-          <div className={styles.NearByMessage}>
-            <p>
-              There are no restaurants near your current location. Try again or
-              search below.
-            </p>
-          </div>
-        );
-      }
-    }
-
     let nearBy = (
-      <Fade>
-        <div className={styles.NearBy}>
-          <div className={styles.NearByHeader}>
-            <h4>Near You</h4>
-            <div className={styles.NearByRefresh}>
-              <Button clear click={this.handleRefresh}>
-                <div className={MAT_ICONS}>refresh</div>
-              </Button>
-            </div>
-          </div>
-          {nearByRestaurants}
-        </div>
-      </Fade>
-    );
-
-    let nearByContainer = (
-      <div className={styles.NearByContainer}>{nearBy}</div>
+      <NearBy
+        isNearByLoading={this.props.isNearByLoading}
+        nearByError={this.props.nearByError}
+        nearByRestaurants={this.props.nearByRestaurants}
+        getRestaurantClickHandler={(place_id, res) =>
+          this.getRestaurantClickHandler(place_id, res)
+        }
+        handleRedirect={this.handleRedirect}
+        handleRefresh={this.handleRefresh}
+      />
     );
 
     return (
       <div className={styles.Restaurants} onScroll={this.handleScroll}>
-        {nearByContainer}
+        {nearBy}
         {gridContainer}
         {toggleGridButton}
         {filters}

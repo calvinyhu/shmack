@@ -15,9 +15,6 @@ export const restaurantInputChange = (name, value) => ({
 });
 
 export const restaurantSearch = (food, location, radius) => dispatch => {
-  if (radius === NEAR_BY_RADIUS) dispatch(nearBySearchStart());
-  else dispatch(restaurantGoogleSearchStart());
-
   if (location) startAsyncGoogleRequest(dispatch, food, location, radius);
   else {
     if (navigator.permissions) {
@@ -35,15 +32,11 @@ export const restaurantSearch = (food, location, radius) => dispatch => {
           );
         } else {
           if (radius === NEAR_BY_RADIUS) {
-            dispatch(
-              nearBySearchFail(
-                'Grant location to Shmack to see nearby restaurants.'
-              )
-            );
+            const error = 'Your location is unknown. Grant location.';
+            dispatch(nearBySearchFail(error));
           } else {
             dispatch(toggleGeoLocPerm(false));
             dispatch(requestLocation(true));
-            dispatch(restaurantGoogleSearchFail(-1));
           }
         }
       });
@@ -69,6 +62,9 @@ const startAsyncGoogleRequest = (dispatch, food, location, radius) => {
 };
 
 const getGoogleRestaurants = (dispatch, food, lat, long, radius) => {
+  if (radius === NEAR_BY_RADIUS) dispatch(nearBySearchStart());
+  else dispatch(restaurantGoogleSearchStart());
+
   const query = createGoogleNearbySearchQuery(
     food,
     `${lat},${long}`,
@@ -94,7 +90,8 @@ const restaurantGoogleSearchStart = () => ({
     isGoogleLoading: true,
     isSearchSuccess: false,
     isShowGrid: false,
-    googleRestaurants: null
+    googleRestaurants: null,
+    googleError: null
   }
 });
 

@@ -1,0 +1,51 @@
+@import './src/assets/scss/_variables.scss';
+@import './src/assets/scss/_mixins.scss';
+@import './src/assets/scss/_classes.scss';
+
+.NearByContainer {
+  position: absolute;
+  top: 0;
+  left: 50%;
+  transform: translateX(-50%);
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  width: 100%;
+  min-height: 100%;
+
+  .NearBy {
+    width: 100%;
+  }
+
+  .NearByHeader {
+    display: flex;
+    align-items: center;
+    padding: $padding;
+
+    h4,
+    p {
+      margin: 0;
+    }
+
+    .NearByRefresh {
+      margin-left: $margin;
+    }
+  }
+}
+
+.NearByRestaurant {
+  width: 100%;
+  height: 30vh;
+}
+
+.NearByMessage {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  padding: $padding;
+
+  .GrantButton {
+    width: 4.5rem;
+    height: 2.5rem;
+  }
+}
