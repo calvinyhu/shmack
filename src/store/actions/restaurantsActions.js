@@ -87,6 +87,13 @@ export const restaurantInputChange = (name, value) => ({
   }
 });
 
+export const clearError = () => ({
+  type: actionTypes.RESTAURANT_CLEAR_ERROR,
+  payload: {
+    error: null
+  }
+});
+
 const restaurantGoogleSearchStart = () => ({
   type: actionTypes.RESTAURANT_GOOGLE_SEARCH_START,
   payload: {

@@ -102,6 +102,18 @@ class Layout extends PureComponent {
       </NavItem>
     );
 
+    let A2HSButton = null;
+    if (this.props.deferredPrompt) {
+      A2HSButton = (
+        <div className={styles.A2HSButtonContainer}>
+          <Button clear click={this.handleA2HS}>
+            <div className={MAT_ICONS}>add_to_home_screen</div>
+            Add to Home Screen
+          </Button>
+        </div>
+      );
+    }
+
     let drawer = null;
     if (this.props.isAuth) {
       drawer = (
@@ -111,6 +123,7 @@ class Layout extends PureComponent {
               {home}
               {about}
               {settings}
+              {A2HSButton}
             </div>
             {logout}
           </nav>
@@ -128,33 +141,20 @@ class Layout extends PureComponent {
               {home}
               {about}
               {settings}
+              {A2HSButton}
             </div>
           </nav>
         </Drawer>
       );
     }
 
-    let A2HSButton = null;
-    if (this.props.deferredPrompt) {
-      A2HSButton = (
-        <div className={styles.A2HSButtonContainer}>
-          <Button clear click={this.handleA2HS}>
-            <div className={MAT_ICONS}>add_to_home_screen</div>
-          </Button>
-        </div>
-      );
-    }
-
-    let headerClasses = styles.Header;
-    if (this.props.isSearchSuccess) headerClasses += ' ' + styles.BoxShadow;
     const header = (
       <Fade>
-        <header className={headerClasses}>
+        <header className={styles.Header}>
           <div className={styles.DrawerToggle} onClick={this.handleClick}>
             <div className={MAT_ICONS}>menu</div>
           </div>
           <h5>shmack</h5>
-          {A2HSButton}
         </header>
       </Fade>
     );

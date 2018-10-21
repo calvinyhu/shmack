@@ -50,6 +50,7 @@ const mapDispatchToProps = {
   onRequestLocation: restaurantActions.requestLocation,
   onGetNearBy: restaurantActions.restaurantSearch,
   onToggleGrid: restaurantActions.toggleGrid,
+  onClearError: restaurantActions.clearError,
   onGetPopularItems: resPageActions.getItems,
   onSetRedirectParent: appActions.setRedirectParent
 };
@@ -63,7 +64,6 @@ class Restaurants extends Component {
     isShowFilters: false,
     id: null,
     restaurant: null,
-    prevScrollTop: 0,
     radius: 5
   };
 
@@ -79,7 +79,12 @@ class Restaurants extends Component {
   }
 
   componentWillUnmount() {
+    this.props.onClearError();
     window.removeEventListener('scroll', this.handleScroll);
+  }
+
+  componentDidUpdate() {
+    console.log('componentDidUpdate');
   }
 
   handleRedirect = () => {
@@ -98,9 +103,18 @@ class Restaurants extends Component {
       this.setState({ isShowLocationInput: true });
   };
 
-  handleHideLocationInput = () => {
+  hideLocationInput = () => {
     if (this.state.isShowLocationInput)
       this.setState({ isShowLocationInput: false });
+  };
+
+  prevScrollTop = 0;
+  setScrollDirection = scrollTop => {
+    if (this.state.isScrollingDown && scrollTop <= this.prevScrollTop)
+      this.setState({ isScrollingDown: false });
+    else if (!this.state.isScrollingDown && scrollTop > this.prevScrollTop)
+      this.setState({ isScrollingDown: true });
+    this.prevScrollTop = scrollTop;
   };
 
   handleScroll = event => {
@@ -108,12 +122,9 @@ class Restaurants extends Component {
   };
 
   animateSearchBar = scrollTop => {
-    this.setState({
-      isScrollingDown: scrollTop > this.state.prevScrollTop,
-      prevScrollTop: scrollTop
-    });
-    this.handleHideLocationInput();
-    this.handleHideFilters();
+    this.setScrollDirection(scrollTop);
+    this.hideLocationInput();
+    this.hideFilters();
   };
 
   handleToggleFilters = () => {
@@ -122,7 +133,7 @@ class Restaurants extends Component {
     });
   };
 
-  handleHideFilters = () => {
+  hideFilters = () => {
     if (this.state.isShowFilters) this.setState({ isShowFilters: false });
   };
 
@@ -141,8 +152,8 @@ class Restaurants extends Component {
         this.props.location,
         this.state.radius * 1609
       );
-      this.handleHideLocationInput();
-      this.handleHideFilters();
+      this.hideLocationInput();
+      this.hideFilters();
     } else this.props.onRequestLocation(true);
   };
 
@@ -167,8 +178,8 @@ class Restaurants extends Component {
       this.restaurantClickHandlers[id] = () => {
         this.handlePageOpen(id, res);
         if (this.props.isAuth) this.props.onGetPopularItems(id);
-        this.handleHideLocationInput();
-        this.handleHideFilters();
+        this.hideLocationInput();
+        this.hideFilters();
       };
     }
     return this.restaurantClickHandlers[id];
@@ -202,7 +213,10 @@ class Restaurants extends Component {
   };
 
   // NearBy
-  handleRefresh = () => this.props.onGetNearBy('', '', NEAR_BY_RADIUS);
+  handleRefresh = () => {
+    if (!this.props.isNearByLoading)
+      this.props.onGetNearBy('', '', NEAR_BY_RADIUS);
+  };
 
   render() {
     if (this.state.isRedirectingToSettings)

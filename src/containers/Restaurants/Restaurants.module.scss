@@ -54,6 +54,7 @@
   position: relative;
   margin: $margin;
   font-size: $font-size * 1.3;
+  text-align: center;
 
   .GrantButton {
     margin: $margin;
@@ -72,9 +73,9 @@
 
 .ToggleGridButton {
   position: fixed;
-  top: $header-height;
+  top: $margin / 2;
   right: $margin;
-  transform: translateY(-50%) translateX($margin + $fab-size-mini);
+  transform: translateX($margin + $fab-size-mini);
   z-index: 1;
   transition: $transition1;
   width: $fab-size-mini;
@@ -87,9 +88,9 @@
 }
 
 .Show {
-  transform: translateY(-50%) translateX(0);
+  transform: translateX(0);
 }
 
 .Rotate {
-  transform: translateY(-50%) translateX(0) rotateZ(180deg);
+  transform: translateX(0) rotateZ(180deg);
 }

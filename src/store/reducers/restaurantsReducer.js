@@ -32,6 +32,8 @@ const restaurantsReducer = (state = initialState, action) => {
       return { ...state, ...action.payload };
     case actionTypes.TOGGLE_GRID:
       return { ...state, ...action.payload };
+    case actionTypes.RESTAURANT_CLEAR_ERROR:
+      return { ...state, ...action.payload };
     default:
       return state;
   }

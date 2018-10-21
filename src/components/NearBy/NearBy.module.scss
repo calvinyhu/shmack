@@ -12,6 +12,11 @@
   align-items: center;
   width: 100%;
   min-height: 100%;
+  box-shadow: $box-shadow-card;
+
+  @include media-min-width($desktop-width) {
+    width: 66.6%;
+  }
 
   .NearBy {
     width: 100%;

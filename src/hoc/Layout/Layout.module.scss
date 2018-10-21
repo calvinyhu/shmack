@@ -5,12 +5,16 @@
   display: flex;
   justify-content: space-between;
   align-items: center;
-  background: $md-white;
+  background: $main-color;
   padding: $padding / 2;
   position: fixed;
   z-index: 1;
   width: 100%;
   min-height: $header-height;
+
+  @include media-min-width($desktop-width) {
+    box-shadow: $box-shadow;
+  }
 
   .DrawerToggle {
     display: flex;

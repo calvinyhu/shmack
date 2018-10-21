@@ -19,6 +19,10 @@
   z-index: 1;
   transform: translateX(-50%);
 
+  @include media-min-width($desktop-width) {
+    box-shadow: $box-shadow;
+  }
+
   form {
     display: flex;
     align-items: flex-end;
