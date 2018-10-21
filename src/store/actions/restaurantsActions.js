@@ -79,8 +79,10 @@ const getGoogleRestaurants = (dispatch, food, lat, long, radius) => {
       else dispatch(restaurantGoogleSearchSuccess(response.data.results));
     })
     .catch(error => {
-      if (radius === NEAR_BY_RADIUS) dispatch(nearBySearchFail(error.data));
-      else dispatch(restaurantGoogleSearchFail(error.data));
+      const errorMessage =
+        'There seems to be an internal problem. Try again later.';
+      if (radius === NEAR_BY_RADIUS) dispatch(nearBySearchFail(errorMessage));
+      else dispatch(restaurantGoogleSearchFail(errorMessage));
     });
 };
 
@@ -91,7 +93,7 @@ const restaurantGoogleSearchStart = () => ({
     isSearchSuccess: false,
     isShowGrid: false,
     googleRestaurants: null,
-    googleError: null
+    error: null
   }
 });
 
@@ -102,7 +104,7 @@ const restaurantGoogleSearchSuccess = restaurants => ({
     isSearchSuccess: true,
     isShowGrid: true,
     googleRestaurants: restaurants,
-    googleError: null
+    error: null
   }
 });
 
@@ -111,9 +113,9 @@ const restaurantGoogleSearchFail = error => ({
   payload: {
     isGoogleLoading: false,
     isSearchSuccess: false,
-    isShowGrid: true,
+    isShowGrid: false,
     googleRestaurants: null,
-    googleError: error
+    error
   }
 });
 
@@ -129,7 +131,7 @@ const nearBySearchStart = () => ({
   type: actionTypes.NEAR_BY_SEARCH_START,
   payload: {
     isNearByLoading: true,
-    nearByError: null
+    error: null
   }
 });
 
@@ -141,11 +143,11 @@ const nearBySearchSuccess = nearByRestaurants => ({
   }
 });
 
-const nearBySearchFail = nearByError => ({
+const nearBySearchFail = error => ({
   type: actionTypes.NEAR_BY_SEARCH_FAIL,
   payload: {
     isNearByLoading: false,
-    nearByError: nearByError
+    error
   }
 });
 

@@ -187,15 +187,12 @@ class Auth extends Component {
     const signUpForm = { ...this.state };
     const errors = validateSignupForm(signUpForm, false);
     if (this.props.error) {
-      console.log(this.props.error.code);
       switch (this.props.error.code) {
         case 'auth/wrong-password':
           errors.password = 'Wrong Password';
           break;
         case 'auth/email-already-in-use':
           errors.email = 'Email already in use';
-          break;
-        case 'auth/too-many-requests':
           break;
         default:
           break;

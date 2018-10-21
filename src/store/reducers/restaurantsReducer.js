@@ -1,16 +1,15 @@
 import * as actionTypes from 'store/actions/actionTypes';
 
 const initialState = {
-  food: '',
-  location: '',
-  isGoogleLoading: null,
-  googleRestaurants: null,
-  googleError: null,
   isRequestingLocation: false,
   isShowGrid: false,
+  isGoogleLoading: false,
   isNearByLoading: false,
+  food: '',
+  location: '',
+  googleRestaurants: null,
   nearByRestaurants: null,
-  nearByError: null
+  error: null
 };
 
 const restaurantsReducer = (state = initialState, action) => {

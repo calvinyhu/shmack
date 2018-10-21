@@ -24,20 +24,24 @@ import {
 } from 'utilities/google';
 
 const mapStateToProps = state => ({
+  // App
   hasGeoLocatePermission: state.app.hasGeoLocatePermission,
   redirectParent: state.app.redirectParent,
+
+  // Auth
   isAuth: state.auth.isAuth,
+
+  // Restaurants
   isRequestingLocation: state.restaurants.isRequestingLocation,
   isShowGrid: state.restaurants.isShowGrid,
-  food: state.restaurants.food,
-  location: state.restaurants.location,
   isSearchSuccess: state.restaurants.isSearchSuccess,
   isGoogleLoading: state.restaurants.isGoogleLoading,
-  googleRestaurants: state.restaurants.googleRestaurants,
-  googleError: state.restaurants.googleError,
   isNearByLoading: state.restaurants.isNearByLoading,
+  food: state.restaurants.food,
+  location: state.restaurants.location,
+  googleRestaurants: state.restaurants.googleRestaurants,
   nearByRestaurants: state.restaurants.nearByRestaurants,
-  nearByError: state.restaurants.nearByError
+  error: state.restaurants.error
 });
 
 const mapDispatchToProps = {
@@ -216,9 +220,22 @@ class Restaurants extends Component {
       );
 
     let errorMessage = null;
-    if (this.props.googleError) {
+    if (this.props.error) {
+      let grantButton = null;
+      if (this.props.error === 'Your location is unknown. Grant location.') {
+        grantButton = (
+          <div className={styles.GrantButton}>
+            <Button main click={this.handleRedirect}>
+              Grant
+            </Button>
+          </div>
+        );
+      }
       errorMessage = (
-        <div className={styles.Message}>{this.props.googleError}</div>
+        <div className={styles.Message}>
+          {this.props.error}
+          {grantButton}
+        </div>
       );
     }
 
@@ -311,8 +328,8 @@ class Restaurants extends Component {
 
     let nearBy = (
       <NearBy
-        isNearByLoading={this.props.isNearByLoading}
-        nearByError={this.props.nearByError}
+        isLoading={this.props.isNearByLoading || this.props.isGoogleLoading}
+        error={this.props.error}
         nearByRestaurants={this.props.nearByRestaurants}
         getRestaurantClickHandler={(place_id, res) =>
           this.getRestaurantClickHandler(place_id, res)

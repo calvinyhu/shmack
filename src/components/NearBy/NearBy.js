@@ -37,18 +37,7 @@ const NearBy = props => {
   };
 
   let nearByRestaurants = null;
-  if (props.nearByError) {
-    nearByRestaurants = (
-      <div className={styles.NearByMessage}>
-        <p>{props.nearByError}</p>
-        <div className={styles.GrantButton}>
-          <Button main click={props.handleRedirect}>
-            Grant
-          </Button>
-        </div>
-      </div>
-    );
-  } else if (!props.isNearByLoading) {
+  if (!props.isLoading && !props.error) {
     nearByRestaurants = renderNearByThumbnails();
     if (nearByRestaurants.length === 0) {
       nearByRestaurants = (
