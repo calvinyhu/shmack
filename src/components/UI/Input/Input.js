@@ -31,6 +31,7 @@ const input = props => {
 
   return (
     <div className={inputGroupClasses}>
+      <div className={styles.Error}>Required</div>
       <input
         required={props.required}
         className={inputClasses}
