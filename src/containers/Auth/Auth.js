@@ -2,6 +2,7 @@ import React, { Component } from 'react';
 import { Redirect } from 'react-router-dom';
 import { connect } from 'react-redux';
 import Fade from 'react-reveal/Fade';
+import validator from 'validator';
 
 import styles from './Auth.module.scss';
 import * as actions from 'store/actions/authActions';
@@ -23,34 +24,62 @@ const mapDispatchToProps = {
 
 class Auth extends Component {
   state = {
-    firstName: '',
-    lastName: '',
-    email: 'email',
-    password: ''
+    firstName: { value: '', isTouched: false },
+    lastName: { value: '', isTouched: false },
+    email: { value: '', isTouched: false },
+    password: { value: '', isTouched: false }
   };
 
-  shouldComponentUpdate(nextProps, _) {
-    const nextPath = nextProps.location.pathname;
-    return (
-      nextPath !== this.props.location.pathname ||
-      nextProps.isLoading !== this.props.isLoading
-    );
-  }
-
   handleInputChange = event => {
-    this.setState({ [event.target.name]: event.target.value });
+    this.setState({
+      [event.target.name]: { value: event.target.value, isTouched: true }
+    });
   };
 
   handleFormSubmit = event => {
     if (event) event.preventDefault();
     const userInfo = {
-      firstName: this.state.firstName,
-      lastName: this.state.lastName,
-      email: this.state.email,
-      password: this.state.password
+      firstName: this.state.firstName.value,
+      lastName: this.state.lastName.value,
+      email: this.state.email.value,
+      password: this.state.password.value
     };
     const isSigningUp = this.props.location.pathname === paths.AUTH_SIGNUP;
     this.props.onAuth(userInfo, isSigningUp);
+  };
+
+  validate = () => {
+    const errors = {
+      firstName: '',
+      lastName: '',
+      email: '',
+      password: ''
+    };
+    const isFirstNameTouched = this.state.firstName.isTouched;
+    const isLastNameTouched = this.state.lastName.isTouched;
+    const isEmailTouched = this.state.email.isTouched;
+    const isPasswordTouched = this.state.password.isTouched;
+
+    if (isFirstNameTouched && validator.isEmpty(this.state.firstName.value))
+      errors.firstName = 'First Name is required';
+
+    if (isLastNameTouched && validator.isEmpty(this.state.lastName.value))
+      errors.lastName = 'Last Name is required';
+
+    if (isEmailTouched && !validator.isEmail(this.state.email.value))
+      errors.email = 'Invalid email';
+    if (isEmailTouched && validator.isEmpty(this.state.email.value))
+      errors.email = 'Email is required';
+
+    if (
+      isPasswordTouched &&
+      !validator.isLength(this.state.password.value, { min: 6 })
+    )
+      errors.password = 'Password needs to be at least 6 characters';
+    if (isPasswordTouched && validator.isEmpty(this.state.password.value))
+      errors.password = 'Password is required';
+
+    return errors;
   };
 
   renderFormCTA = isSigningUp => {
@@ -59,7 +88,7 @@ class Auth extends Component {
     else return <h3>Welcome back! Log in to access to your places.</h3>;
   };
 
-  renderForm = isSigningUp => {
+  renderForm = (isSigningUp, errors) => {
     let signingUpInputs = null;
     let formButtonName = 'Log In';
     let switchCTA = 'New user?';
@@ -78,6 +107,7 @@ class Auth extends Component {
             name="firstName"
             placeholder="First Name"
             change={this.handleInputChange}
+            error={errors.firstName}
           />
           <Input
             required
@@ -88,6 +118,7 @@ class Auth extends Component {
             name="lastName"
             placeholder="Last Name"
             change={this.handleInputChange}
+            error={errors.lastName}
           />
         </Aux>
       );
@@ -109,6 +140,7 @@ class Auth extends Component {
           name="email"
           placeholder="Email"
           change={this.handleInputChange}
+          error={errors.email}
         />
         <Input
           required
@@ -119,6 +151,7 @@ class Auth extends Component {
           name="password"
           placeholder="Password"
           change={this.handleInputChange}
+          error={errors.password}
         />
         <div className={styles.FormButton}>
           <Button main click={this.handleFormSubmit}>
@@ -164,7 +197,8 @@ class Auth extends Component {
         <div className={styles.Message}>{this.props.error.message}</div>
       );
     } else {
-      const formElements = this.renderForm(isSigningUp);
+      const errors = this.validate();
+      const formElements = this.renderForm(isSigningUp, errors);
       const cta = this.renderFormCTA(isSigningUp);
       formCTA = cta;
       form = formElements.form;

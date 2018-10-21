@@ -29,9 +29,12 @@ const input = props => {
     );
   }
 
+  let error = <p className={styles.Error}>{props.error}</p>;
+  if (props.error) inputClasses += ' ' + styles.ErrorOutline;
+
   return (
     <div className={inputGroupClasses}>
-      <div className={styles.Error}>Required</div>
+      {error}
       <input
         required={props.required}
         className={inputClasses}
