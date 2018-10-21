@@ -27,22 +27,25 @@
     border-color: $opp-adj-color;
     box-shadow: $box-shadow;
   }
+
+  &:focus + .InputPlaceholder,
+  &:valid + .InputPlaceholder {
+    font-size: 90%;
+    transform: translateY(-225%);
+    opacity: 1;
+  }
 }
 
 .InputPlaceholder {
   position: absolute;
-  transition: all 200ms;
+  top: 50%;
+  left: 1rem;
+  transform: translateY(-50%);
+  transition: 0.2s;
   opacity: 0.5;
   margin: 0;
   padding: 0;
   pointer-events: none;
-}
-
-.Input:focus + .InputPlaceholder,
-.Input:valid + .InputPlaceholder {
-  font-size: 75%;
-  transform: translateY(-100%);
-  opacity: 1;
 }
 
 .Line {

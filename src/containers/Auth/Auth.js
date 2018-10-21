@@ -11,13 +11,11 @@ import NavItem from 'components/UI/Button/NavItem/NavItem';
 import Input from 'components/UI/Input/Input';
 import * as paths from 'utilities/paths';
 
-const mapStateToProps = state => {
-  return {
-    loading: state.auth.loading,
-    error: state.auth.error,
-    redirectPath: state.auth.redirectPath
-  };
-};
+const mapStateToProps = state => ({
+  isLoading: state.auth.isLoading,
+  error: state.auth.error,
+  redirectPath: state.auth.redirectPath
+});
 
 const mapDispatchToProps = {
   onAuth: actions.authenticate
@@ -25,23 +23,17 @@ const mapDispatchToProps = {
 
 class Auth extends Component {
   state = {
-    isSigningUp: this.props.location.pathname === paths.AUTH_SIGNUP,
     firstName: '',
     lastName: '',
-    email: '',
+    email: 'email',
     password: ''
   };
-
-  componentWillReceiveProps(nextProps) {
-    const nextPath = nextProps.location.pathname;
-    this.setState({ isSigningUp: nextPath === paths.AUTH_SIGNUP });
-  }
 
   shouldComponentUpdate(nextProps, _) {
     const nextPath = nextProps.location.pathname;
     return (
       nextPath !== this.props.location.pathname ||
-      nextProps.loading !== this.props.loading
+      nextProps.isLoading !== this.props.isLoading
     );
   }
 
@@ -57,32 +49,28 @@ class Auth extends Component {
       email: this.state.email,
       password: this.state.password
     };
-    this.props.onAuth(userInfo, this.state.isSigningUp);
+    const isSigningUp = this.props.location.pathname === paths.AUTH_SIGNUP;
+    this.props.onAuth(userInfo, isSigningUp);
   };
 
-  handleAuthChange = () => {
-    this.setState(prevState => {
-      return { isSigningUp: !prevState.isSigningUp };
-    });
-  };
-
-  renderFormCTA = () => {
-    if (this.state.isSigningUp)
+  renderFormCTA = isSigningUp => {
+    if (isSigningUp)
       return <h3>Hello! Sign up to help vote on popular menu items.</h3>;
     else return <h3>Welcome back! Log in to access to your places.</h3>;
   };
 
-  renderForm = () => {
+  renderForm = isSigningUp => {
     let signingUpInputs = null;
     let formButtonName = 'Log In';
     let switchCTA = 'New user?';
     let switchLink = paths.AUTH_SIGNUP;
     let switchName = 'Sign Up';
 
-    if (this.state.isSigningUp) {
+    if (isSigningUp) {
       signingUpInputs = (
         <Aux>
           <Input
+            required
             medium
             margin
             floatText
@@ -92,6 +80,7 @@ class Auth extends Component {
             change={this.handleInputChange}
           />
           <Input
+            required
             medium
             margin
             floatText
@@ -112,15 +101,17 @@ class Auth extends Component {
       <form className={styles.AuthForm} onSubmit={this.handleFormSubmit}>
         {signingUpInputs}
         <Input
+          required
           medium
           margin
           floatText
-          type="email"
+          type="text"
           name="email"
           placeholder="Email"
           change={this.handleInputChange}
         />
         <Input
+          required
           medium
           margin
           floatText
@@ -140,7 +131,7 @@ class Auth extends Component {
     const formSwitch = (
       <div className={styles.Switch}>
         <p>{switchCTA}</p>
-        <NavItem link to={switchLink} click={this.handleAuthChange}>
+        <NavItem link to={switchLink}>
           {switchName}
         </NavItem>
       </div>
@@ -158,12 +149,13 @@ class Auth extends Component {
     let formCTA = null;
     let form = null;
     let formSwitch = null;
+    const isSigningUp = this.props.location.pathname === paths.AUTH_SIGNUP;
 
-    if (this.props.loading) {
+    if (this.props.isLoading) {
       loadingPrompt = (
         <div className={styles.LoaderContainer}>
           <div className={styles.Loader}>
-            {this.state.isSigningUp ? 'Signing Up...' : 'Logging In...'}
+            {isSigningUp ? 'Signing Up...' : 'Logging In...'}
           </div>
         </div>
       );
@@ -172,8 +164,8 @@ class Auth extends Component {
         <div className={styles.Message}>{this.props.error.message}</div>
       );
     } else {
-      const formElements = this.renderForm();
-      const cta = this.renderFormCTA();
+      const formElements = this.renderForm(isSigningUp);
+      const cta = this.renderFormCTA(isSigningUp);
       formCTA = cta;
       form = formElements.form;
       formSwitch = formElements.formSwitch;

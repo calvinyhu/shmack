@@ -15,7 +15,7 @@ export const authenticate = (info, signingUp) => dispatch => {
           userInfo[val] = info[val] ? info[val] : '';
         });
         dispatch(postUserInfo(userInfo));
-        dispatch(authSuccess(signingUp));
+        dispatch(authSuccess());
       })
       .catch(error => {
         dispatch(authFail(error));
@@ -24,7 +24,7 @@ export const authenticate = (info, signingUp) => dispatch => {
     auth
       .signInWithEmailAndPassword(info.email, info.password)
       .then(_ => {
-        dispatch(authSuccess(signingUp));
+        dispatch(authSuccess());
       })
       .catch(error => {
         dispatch(authFail(error));
@@ -34,7 +34,7 @@ export const authenticate = (info, signingUp) => dispatch => {
 
 export const authTryAutoLogIn = () => dispatch => {
   auth.onAuthStateChanged(user => {
-    if (user) dispatch(authSuccess(false));
+    if (user) dispatch(authSuccess());
   });
 };
 
@@ -52,23 +52,23 @@ export const authLogOut = () => dispatch => {
 const authStart = () => ({
   type: actionTypes.AUTH_START,
   payload: {
-    loading: true
+    isLoading: true
   }
 });
 
-const authSuccess = signingUp => ({
+const authSuccess = () => ({
   type: actionTypes.AUTH_SUCCESS,
   payload: {
     isAuth: true,
-    loading: false,
-    redirectPath: signingUp ? paths.MORE : paths.HOME
+    isLoading: false,
+    redirectPath: paths.HOME
   }
 });
 
 const authFail = error => ({
   type: actionTypes.AUTH_FAIL,
   payload: {
-    loading: false,
+    isLoading: false,
     error: error
   }
 });
@@ -77,7 +77,7 @@ const authLogOutSuccess = () => ({
   type: actionTypes.AUTH_LOGOUT_SUCCESS,
   payload: {
     isAuth: false,
-    loading: false,
+    isLoading: false,
     error: null,
     redirectPath: null
   }
@@ -86,7 +86,7 @@ const authLogOutSuccess = () => ({
 const authLogOutFail = error => ({
   type: actionTypes.AUTH_LOGOUT_FAIL,
   payload: {
-    loading: false,
+    isLoading: false,
     error: error,
     redirectPath: null
   }

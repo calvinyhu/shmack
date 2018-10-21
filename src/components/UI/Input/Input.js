@@ -23,7 +23,7 @@ const input = props => {
   let label = null;
   if (props.floatText) {
     label = (
-      <label className={styles.InputPlaceholder} htmlFor="food">
+      <label className={styles.InputPlaceholder} htmlFor={props.name}>
         {props.placeholder}
       </label>
     );
@@ -32,10 +32,11 @@ const input = props => {
   return (
     <div className={inputGroupClasses}>
       <input
+        required={props.required}
         className={inputClasses}
         type={props.type}
         name={props.name}
-        placeholder={props.placeholder}
+        placeholder={!props.floatText ? props.placeholder : null}
         value={props.value}
         onChange={props.change}
       />
