@@ -60,6 +60,15 @@
   box-shadow: none;
 }
 
+.ClearTouchHover {
+  transition: none;
+  background: transparentize($md-black, 0.93);
+}
+
+.ClearMouseHover {
+  background: transparentize($md-black, 0.93);
+}
+
 .Translucent {
   background: rgba(0, 0, 0, 0.3);
   color: $md-white;

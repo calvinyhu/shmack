@@ -160,8 +160,10 @@ class Layout extends PureComponent {
     const header = (
       <Fade>
         <header className={styles.Header}>
-          <div className={styles.DrawerToggle} onClick={this.handleClick}>
-            <div className={MAT_ICONS}>menu</div>
+          <div className={styles.DrawerToggle}>
+            <Button clear circle click={this.handleClick}>
+              <div className={MAT_ICONS}>menu</div>
+            </Button>
           </div>
           <h5>shmack</h5>
         </header>

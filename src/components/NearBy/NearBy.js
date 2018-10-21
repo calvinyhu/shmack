@@ -58,7 +58,7 @@ const NearBy = props => {
           <div className={styles.NearByHeader}>
             <h4>Near You</h4>
             <div className={styles.NearByRefresh}>
-              <Button clear click={props.handleRefresh}>
+              <Button clear circle small click={props.handleRefresh}>
                 <div className={MAT_ICONS}>refresh</div>
               </Button>
             </div>
