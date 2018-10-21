@@ -12,6 +12,7 @@ export const AUTH_SUCCESS = 'AUTH_SUCCESS';
 export const AUTH_FAIL = 'AUTH_FAIL';
 export const AUTH_LOGOUT_SUCCESS = 'AUTH_LOGOUT_SUCCESS';
 export const AUTH_LOGOUT_FAIL = 'AUTH_LOGOUT_FAIL';
+export const AUTH_CLEAR_ERROR = 'AUTH_CLEAR_ERROR';
 
 // User
 export const USER_POST_INFO_START = 'USER_POST_INFO_START';

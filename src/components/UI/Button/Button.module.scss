@@ -23,6 +23,11 @@
   &:hover {
     cursor: pointer;
   }
+
+  &:disabled {
+    cursor: not-allowed;
+    background: #ccc;
+  }
 }
 
 .Small {

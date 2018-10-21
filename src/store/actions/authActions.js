@@ -49,6 +49,13 @@ export const authLogOut = () => dispatch => {
     });
 };
 
+export const clearError = () => ({
+  type: actionTypes.AUTH_CLEAR_ERROR,
+  payload: {
+    error: null
+  }
+});
+
 const authStart = () => ({
   type: actionTypes.AUTH_START,
   payload: {

@@ -73,7 +73,16 @@ h3 {
 @include loading;
 
 .LoaderContainer {
+  position: absolute;
+  top: 50%;
+  left: 50%;
+  transform: translate(-50%, -50%);
+  z-index: 1;
   width: 4rem;
   height: 4rem;
   margin-bottom: $margin * 6;
+}
+
+.Hide {
+  opacity: 0;
 }

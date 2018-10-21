@@ -2,15 +2,15 @@ import React, { Component } from 'react';
 import { Redirect } from 'react-router-dom';
 import { connect } from 'react-redux';
 import Fade from 'react-reveal/Fade';
-import validator from 'validator';
 
 import styles from './Auth.module.scss';
-import * as actions from 'store/actions/authActions';
+import * as authActions from 'store/actions/authActions';
 import Aux from 'hoc/Auxiliary/Auxiliary';
 import Button from 'components/UI/Button/Button';
 import NavItem from 'components/UI/Button/NavItem/NavItem';
 import Input from 'components/UI/Input/Input';
 import * as paths from 'utilities/paths';
+import { validateSignupForm } from 'utilities/utilities';
 
 const mapStateToProps = state => ({
   isLoading: state.auth.isLoading,
@@ -19,7 +19,8 @@ const mapStateToProps = state => ({
 });
 
 const mapDispatchToProps = {
-  onAuth: actions.authenticate
+  onAuth: authActions.authenticate,
+  onClearError: authActions.clearError
 };
 
 class Auth extends Component {
@@ -36,50 +37,41 @@ class Auth extends Component {
     });
   };
 
-  handleFormSubmit = event => {
-    if (event) event.preventDefault();
-    const userInfo = {
-      firstName: this.state.firstName.value,
-      lastName: this.state.lastName.value,
-      email: this.state.email.value,
-      password: this.state.password.value
-    };
-    const isSigningUp = this.props.location.pathname === paths.AUTH_SIGNUP;
-    this.props.onAuth(userInfo, isSigningUp);
+  handleClearError = () => {
+    this.props.onClearError();
   };
 
-  validate = () => {
-    const errors = {
-      firstName: '',
-      lastName: '',
-      email: '',
-      password: ''
+  handleFormSubmit = event => {
+    if (event) event.preventDefault();
+
+    const isSigningUp = this.props.location.pathname === paths.AUTH_SIGNUP;
+    let newState = {
+      firstName: { ...this.state.firstName },
+      lastName: { ...this.state.lastName },
+      email: { ...this.state.email, isTouched: true },
+      password: { ...this.state.password, isTouched: true }
     };
-    const isFirstNameTouched = this.state.firstName.isTouched;
-    const isLastNameTouched = this.state.lastName.isTouched;
-    const isEmailTouched = this.state.email.isTouched;
-    const isPasswordTouched = this.state.password.isTouched;
 
-    if (isFirstNameTouched && validator.isEmpty(this.state.firstName.value))
-      errors.firstName = 'First Name is required';
+    if (isSigningUp) {
+      newState.firstName.isTouched = true;
+      newState.lastName.isTouched = true;
+    } else {
+      newState.firstName.isTouched = false;
+      newState.lastName.isTouched = false;
+    }
 
-    if (isLastNameTouched && validator.isEmpty(this.state.lastName.value))
-      errors.lastName = 'Last Name is required';
+    const errors = validateSignupForm(newState);
 
-    if (isEmailTouched && !validator.isEmail(this.state.email.value))
-      errors.email = 'Invalid email';
-    if (isEmailTouched && validator.isEmpty(this.state.email.value))
-      errors.email = 'Email is required';
+    if (Object.keys(errors).length === 0) {
+      const userInfo = {
+        firstName: this.state.firstName.value,
+        lastName: this.state.lastName.value,
+        email: this.state.email.value,
+        password: this.state.password.value
+      };
 
-    if (
-      isPasswordTouched &&
-      !validator.isLength(this.state.password.value, { min: 6 })
-    )
-      errors.password = 'Password needs to be at least 6 characters';
-    if (isPasswordTouched && validator.isEmpty(this.state.password.value))
-      errors.password = 'Password is required';
-
-    return errors;
+      this.props.onAuth(userInfo, isSigningUp);
+    } else this.setState(newState);
   };
 
   renderFormCTA = isSigningUp => {
@@ -164,7 +156,7 @@ class Auth extends Component {
     const formSwitch = (
       <div className={styles.Switch}>
         <p>{switchCTA}</p>
-        <NavItem link to={switchLink}>
+        <NavItem link to={switchLink} click={this.handleClearError}>
           {switchName}
         </NavItem>
       </div>
@@ -178,13 +170,11 @@ class Auth extends Component {
       return <Redirect to={this.props.redirectPath} />;
 
     let loadingPrompt = null;
-    let errorMessage = null;
-    let formCTA = null;
-    let form = null;
-    let formSwitch = null;
     const isSigningUp = this.props.location.pathname === paths.AUTH_SIGNUP;
+    let authClasses = styles.Auth;
 
     if (this.props.isLoading) {
+      authClasses += ' ' + styles.Hide;
       loadingPrompt = (
         <div className={styles.LoaderContainer}>
           <div className={styles.Loader}>
@@ -192,30 +182,40 @@ class Auth extends Component {
           </div>
         </div>
       );
-    } else if (this.props.error) {
-      errorMessage = (
-        <div className={styles.Message}>{this.props.error.message}</div>
-      );
-    } else {
-      const errors = this.validate();
-      const formElements = this.renderForm(isSigningUp, errors);
-      const cta = this.renderFormCTA(isSigningUp);
-      formCTA = cta;
-      form = formElements.form;
-      formSwitch = formElements.formSwitch;
     }
+
+    const signUpForm = { ...this.state };
+    const errors = validateSignupForm(signUpForm, false);
+    if (this.props.error) {
+      console.log(this.props.error.code);
+      switch (this.props.error.code) {
+        case 'auth/wrong-password':
+          errors.password = 'Wrong Password';
+          break;
+        case 'auth/email-already-in-use':
+          errors.email = 'Email already in use';
+          break;
+        case 'auth/too-many-requests':
+          break;
+        default:
+          break;
+      }
+    }
+    const formCTA = this.renderFormCTA(isSigningUp);
+    const formElements = this.renderForm(isSigningUp, errors);
+    const form = formElements.form;
+    const formSwitch = formElements.formSwitch;
 
     return (
       <div className={styles.AuthContainer}>
-        <Fade>
-          <div className={styles.Auth}>
-            {loadingPrompt}
-            {errorMessage}
+        <div className={authClasses}>
+          <Fade>
             {formCTA}
             {form}
             {formSwitch}
-          </div>
-        </Fade>
+          </Fade>
+        </div>
+        {loadingPrompt}
       </div>
     );
   }
