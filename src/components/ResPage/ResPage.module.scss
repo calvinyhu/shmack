@@ -91,10 +91,11 @@
 
     .RatingContainer {
       display: flex;
-      align-items: center;
       color: $dark-main-color;
 
       p {
+        line-height: 1.7;
+        margin-right: $margin / 2;
         color: $md-black;
       }
     }

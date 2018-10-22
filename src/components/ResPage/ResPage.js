@@ -95,7 +95,7 @@ class ResPage extends Component {
     return (
       <div className={styles.RatingContainer}>
         <p>{rating ? rating.toFixed(1) : null}</p>
-        {rating ? stars : null}
+        <div className={styles.Stars}>{rating ? stars : null}</div>
       </div>
     );
   };

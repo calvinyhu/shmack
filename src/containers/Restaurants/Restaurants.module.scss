@@ -63,3 +63,16 @@
   margin-bottom: $margin * 6;
   overflow: hidden;
 }
+
+.RatingContainer {
+  display: flex;
+  flex-direction: column;
+
+  p {
+    display: none;
+  }
+
+  .Stars {
+    transform: scale(0.8);
+  }
+}

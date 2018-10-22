@@ -112,12 +112,10 @@ class Layout extends PureComponent {
     let A2HSButton = null;
     if (this.props.deferredPrompt) {
       A2HSButton = (
-        <div className={styles.A2HSButtonContainer}>
-          <Button clear click={this.handleA2HS}>
-            <div className={MAT_ICONS}>add_to_home_screen</div>
-            Add to Home Screen
-          </Button>
-        </div>
+        <Button main click={this.handleA2HS}>
+          <div className={MAT_ICONS}>add_to_home_screen</div>
+          Add to Home Screen
+        </Button>
       );
     }
 
