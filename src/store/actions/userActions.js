@@ -1,9 +1,9 @@
 import * as actionTypes from './actionTypes';
-import { auth, usersColRef } from 'utilities/firebase';
+import { auth, users } from 'utilities/firebase';
 
 export const postUserInfo = info => dispatch => {
   dispatch(postUserInfoStart());
-  usersColRef
+  users
     .doc(auth.currentUser.uid)
     .set(info)
     .then(_ => {

@@ -24,5 +24,6 @@ export const auth = firebase.auth();
 export const firestore = firebase.firestore();
 const settings = { /* your settings... */ timestampsInSnapshots: true };
 firestore.settings(settings);
-export const usersColRef = firestore.collection(labels.USERS);
-export const resColRef = firestore.collection(labels.RESTAURANTS);
+
+export const users = firestore.collection(labels.USERS);
+export const restaurants = firestore.collection(labels.RESTAURANTS);

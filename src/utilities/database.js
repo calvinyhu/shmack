@@ -1,10 +1,6 @@
 // Collections
 export const USERS = 'users';
-export const VOTE_INFO = 'voteInfo';
 export const RESTAURANTS = 'restaurants';
-
-// Documents
-export const PLACES = 'places';
 
 // Fields
 export const FIELDS = {

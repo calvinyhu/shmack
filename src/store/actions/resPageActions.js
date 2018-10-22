@@ -1,10 +1,10 @@
 import * as actionTypes from './actionTypes';
-import { auth, usersColRef, resColRef, firestore } from 'utilities/firebase';
+import { auth, users, restaurants, firestore } from 'utilities/firebase';
 import * as labels from 'utilities/database';
 
 export const getItems = restaurantId => dispatch => {
   dispatch(getItemsStart());
-  resColRef
+  restaurants
     .doc(restaurantId)
     .get()
     .then(doc => {
@@ -16,75 +16,88 @@ export const getItems = restaurantId => dispatch => {
     });
 };
 
-export const postItem = (id, name) => dispatch => {
+export const postItem = (restaurantId, itemName) => dispatch => {
   if (!auth.currentUser) return;
 
-  return firestore
-    .runTransaction(transaction => {
-      const resDocRef = resColRef.doc(id);
-      let resDocRefExists = false;
-      let items = {};
-
-      const userDocRef = usersColRef.doc(auth.currentUser.uid);
-      const voteInfoColRef = userDocRef.collection(labels.VOTE_INFO);
-      const resVoteDocRef = voteInfoColRef.doc(id);
-      let resVoteDocRefExists = false;
-
-      return transaction
-        .get(resDocRef)
-        .then(doc => {
-          if (doc.exists) {
-            items = doc.data();
-            const item = items[name];
-            resDocRefExists = true;
-            if (item) return Promise.reject('Item exists.');
-          }
-          return { likes: 1, dislikes: 0 };
-        })
-        .then(item => {
-          return transaction.get(resVoteDocRef).then(doc => {
-            if (doc.exists) {
-              const voteInfo = doc.data();
-              const vote = voteInfo[name];
-              resVoteDocRefExists = true;
-              if (vote) return { item: item, vote: vote };
-            }
-            return { item: item, vote: { votedUp: 1, votedDown: 0 } };
-          });
-        })
-        .then(data => {
-          const item = data.item;
-          const vote = data.vote;
-
-          if (resDocRefExists) transaction.update(resDocRef, { [name]: item });
-          else transaction.set(resDocRef, { [name]: item });
-
-          if (resVoteDocRefExists)
-            transaction.update(resVoteDocRef, { [name]: vote });
-          else transaction.set(resVoteDocRef, { [name]: vote });
-
-          return { ...items, [name]: item };
-        });
-    })
-    .then(items => {
-      dispatch(postItemSuccess(items));
-    })
-    .catch(error => {
-      dispatch(postItemFail(error));
+  const items = restaurants.doc(restaurantId).collection('items');
+  items
+    .doc(itemName)
+    .get()
+    .then(doc => {
+      if (doc.exists) dispatch(postItemFail('Item exists'));
+      else items.doc(itemName).set({ likes: 0, dislikes: 0 });
     });
 };
+
+// export const postItem = (id, name) => dispatch => {
+//   if (!auth.currentUser) return;
+
+//   return firestore
+//     .runTransaction(transaction => {
+//       const resDocRef = restaurants.doc(id);
+//       let resDocRefExists = false;
+//       let items = {};
+
+//       const userDocRef = users.doc(auth.currentUser.uid);
+//       const voteInfoColRef = userDocRef.collection(labels.RESTAURANTS);
+//       const resVoteDocRef = voteInfoColRef.doc(id);
+//       let resVoteDocRefExists = false;
+
+//       return transaction
+//         .get(resDocRef)
+//         .then(doc => {
+//           if (doc.exists) {
+//             items = doc.data();
+//             const item = items[name];
+//             resDocRefExists = true;
+//             if (item) return Promise.reject('Item exists.');
+//           }
+//           return { likes: 1, dislikes: 0 };
+//         })
+//         .then(item => {
+//           return transaction.get(resVoteDocRef).then(doc => {
+//             if (doc.exists) {
+//               const voteInfo = doc.data();
+//               const vote = voteInfo[name];
+//               resVoteDocRefExists = true;
+//               if (vote) return { item: item, vote: vote };
+//             }
+//             return { item: item, vote: { votedUp: 1, votedDown: 0 } };
+//           });
+//         })
+//         .then(data => {
+//           const item = data.item;
+//           const vote = data.vote;
+
+//           if (resDocRefExists) transaction.update(resDocRef, { [name]: item });
+//           else transaction.set(resDocRef, { [name]: item });
+
+//           if (resVoteDocRefExists)
+//             transaction.update(resVoteDocRef, { [name]: vote });
+//           else transaction.set(resVoteDocRef, { [name]: vote });
+
+//           return { ...items, [name]: item };
+//         });
+//     })
+//     .then(items => {
+//       dispatch(postItemSuccess(items));
+//     })
+//     .catch(error => {
+//       dispatch(postItemFail(error));
+//     });
+// };
 
 export const postVote = (id, name, isUp) => dispatch => {
   if (!auth.currentUser) return;
 
   return firestore
     .runTransaction(transaction => {
-      const resDocRef = resColRef.doc(id);
+      const resDocRef = restaurants.doc(id);
       let resDocRefExists = false;
       let items = {};
 
-      const userDocRef = usersColRef.doc(auth.currentUser.uid);
-      const voteInfoColRef = userDocRef.collection(labels.VOTE_INFO);
+      const userDocRef = users.doc(auth.currentUser.uid);
+      const voteInfoColRef = userDocRef.collection(labels.RESTAURANTS);
       const resVoteDocRef = voteInfoColRef.doc(id);
       let resVoteDocRefExists = false;
 
@@ -173,11 +186,11 @@ const getItemsSuccess = items => ({
   }
 });
 
-const getItemsFail = resPageError => ({
+const getItemsFail = error => ({
   type: actionTypes.GET_ITEMS_FAIL,
   payload: {
     isGettingItems: false,
-    resPageError: resPageError
+    error
   }
 });
 
@@ -185,14 +198,14 @@ const postItemSuccess = items => ({
   type: actionTypes.POST_ITEM_SUCCESS,
   payload: {
     items: items,
-    resPageError: null
+    error: null
   }
 });
 
-export const postItemFail = resPageError => ({
+export const postItemFail = error => ({
   type: actionTypes.POST_ITEM_FAIL,
   payload: {
-    resPageError: resPageError
+    error
   }
 });
 

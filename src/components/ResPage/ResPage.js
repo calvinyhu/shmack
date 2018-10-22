@@ -17,22 +17,17 @@ import Aux from 'hoc/Auxiliary/Auxiliary';
 import { auth } from 'utilities/firebase';
 import poweredByGoogle from 'assets/images/poweredByGoogle.png';
 
-const mapStateToProps = state => {
-  return {
-    isGettingItems: state.resPage.isGettingItems,
-    items: state.resPage.items,
-    resPageError: state.resPage.resPageError,
-    userPlaces: state.user.userPlaces
-  };
-};
+const mapStateToProps = state => ({
+  isGettingItems: state.resPage.isGettingItems,
+  items: state.resPage.items,
+  error: state.resPage.error,
+  userPlaces: state.user.userPlaces
+});
 
-const mapDispatchToProps = dispatch => {
-  return {
-    onPostItem: (id, item) => dispatch(actions.postItem(id, item)),
-    onPostVote: (id, name, likes, dislikes) =>
-      dispatch(actions.postVote(id, name, likes, dislikes)),
-    onPostItemFail: error => dispatch(actions.postItemFail(error))
-  };
+const mapDispatchToProps = {
+  onPostItem: actions.postItem,
+  onPostVote: actions.postVote,
+  onPostItemFail: actions.postItemFail
 };
 
 class ResPage extends Component {
@@ -118,7 +113,7 @@ class ResPage extends Component {
                 placeholder={'New Item'}
                 value={this.state.newItem}
                 change={this.handleInputChange}
-                error={this.props.resPageError}
+                error={this.props.error}
               />
             </div>
             <div className={styles.AddItemSubmitButton}>
