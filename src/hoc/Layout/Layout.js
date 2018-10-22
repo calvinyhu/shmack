@@ -109,7 +109,9 @@ class Layout extends PureComponent {
       A2HSButton = (
         <div className={styles.A2HSButton}>
           <Button clear leftAlign click={this.handleA2HS}>
-            <div className={MAT_ICONS}>add_to_home_screen</div>
+            <div className={MAT_ICONS + ' ' + styles.Icon}>
+              add_to_home_screen
+            </div>
             Add to Home Screen
           </Button>
         </div>
