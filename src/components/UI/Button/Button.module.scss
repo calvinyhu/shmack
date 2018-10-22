@@ -30,6 +30,10 @@
   }
 }
 
+.FlexStart {
+  justify-content: flex-start;
+}
+
 .Small {
   padding: $padding-tiny $padding / 2;
 }

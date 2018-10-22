@@ -1,18 +1,18 @@
 import React from 'react';
-import Fade from 'react-reveal';
+import Reveal from 'react-reveal/Reveal';
 
 import styles from './About.module.scss';
 
 const about = () => {
   return (
     <div className={styles.About}>
-      <Fade>
+      <Reveal>
         <header>
           <h1>ABOUT</h1>
           <h1>SHMACK</h1>
         </header>
         <main>
-          <Fade up>
+          <Reveal effect={styles.BlockSlideFadeIn}>
             <p className={styles.SectionTitle}>What is Shmack?</p>
             <p>
               Shmack provides a simple, easy-to-use, and fast user experience
@@ -47,9 +47,9 @@ const about = () => {
                 Calvin
               </a>
             </p>
-          </Fade>
+          </Reveal>
         </main>
-      </Fade>
+      </Reveal>
     </div>
   );
 };

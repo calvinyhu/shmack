@@ -58,52 +58,47 @@ class Layout extends PureComponent {
     );
 
     let signup = (
-      <NavItem
-        main
-        borderMain
-        to={paths.AUTH_SIGNUP}
-        click={this.handleCloseDrawer}
-      >
+      <NavItem clear to={paths.AUTH_SIGNUP} click={this.handleCloseDrawer}>
         Sign Up
       </NavItem>
     );
 
     let login = (
-      <NavItem main to={paths.AUTH_LOGIN} click={this.handleCloseDrawer}>
+      <NavItem clear to={paths.AUTH_LOGIN} click={this.handleCloseDrawer}>
         Login
       </NavItem>
     );
 
     let home = (
-      <NavItem main to={paths.HOME} click={this.handleCloseDrawer}>
+      <NavItem clear to={paths.HOME} click={this.handleCloseDrawer}>
         <div className={MAT_ICONS}>home</div>
         Home
       </NavItem>
     );
 
     let search = (
-      <NavItem main to={paths.SEARCH} click={this.handleCloseDrawer}>
+      <NavItem clear to={paths.SEARCH} click={this.handleCloseDrawer}>
         <div className={MAT_ICONS}>search</div>
         Search
       </NavItem>
     );
 
     let about = (
-      <NavItem main to={paths.ABOUT} click={this.handleCloseDrawer}>
+      <NavItem clear to={paths.ABOUT} click={this.handleCloseDrawer}>
         <div className={MAT_ICONS}>info</div>
         About
       </NavItem>
     );
 
     let settings = (
-      <NavItem main to={paths.SETTINGS} click={this.handleCloseDrawer}>
+      <NavItem clear to={paths.SETTINGS} click={this.handleCloseDrawer}>
         <div className={MAT_ICONS}>settings</div>
         Settings
       </NavItem>
     );
 
     let logout = (
-      <NavItem main to={paths.LOGOUT} click={this.handleCloseDrawer}>
+      <NavItem clear to={paths.LOGOUT} click={this.handleCloseDrawer}>
         <div className={MAT_ICONS}>logout</div>
         Log Out
       </NavItem>
@@ -112,10 +107,12 @@ class Layout extends PureComponent {
     let A2HSButton = null;
     if (this.props.deferredPrompt) {
       A2HSButton = (
-        <Button main click={this.handleA2HS}>
-          <div className={MAT_ICONS}>add_to_home_screen</div>
-          Add to Home Screen
-        </Button>
+        <div className={styles.A2HSButton}>
+          <Button clear leftAlign click={this.handleA2HS}>
+            <div className={MAT_ICONS}>add_to_home_screen</div>
+            Add to Home Screen
+          </Button>
+        </div>
       );
     }
 
@@ -172,10 +169,10 @@ class Layout extends PureComponent {
 
     return (
       <Aux>
-        {backdrop}
-        {drawer}
         {header}
         {main}
+        {backdrop}
+        {drawer}
       </Aux>
     );
   }

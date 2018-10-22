@@ -10,6 +10,7 @@
   position: relative;
   padding: $padding;
   transition: $transition1;
+  background: $md-white;
 
   @include media-min-width($desktop-width) {
     padding: $padding * 2 $padding;
@@ -43,6 +44,5 @@
   transform: translate(-50%, -50%);
   width: 4rem;
   height: 4rem;
-  margin-bottom: $margin * 6;
   overflow: hidden;
 }

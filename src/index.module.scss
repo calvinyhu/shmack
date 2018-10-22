@@ -3,7 +3,12 @@
 body {
   margin: 0;
   padding: 0;
-  background: $md-white;
+  background: $main-color;
+  color: $md-black;
   font-family: 'Noto Sans', sans-serif;
   overflow-y: scroll;
+
+  ::selection {
+    background: $main-color;
+  }
 }

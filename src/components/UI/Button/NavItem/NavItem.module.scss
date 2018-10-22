@@ -4,11 +4,9 @@
 .NavItem {
   display: flex;
   align-items: center;
-  padding: $padding-tiny $padding;
-  margin-bottom: $margin / 2;
+  padding: 0 $padding;
   min-width: 6rem;
   height: 3rem;
-  border-radius: $border-radius-button;
   transition: $transition1;
   font-weight: bold;
 
@@ -46,7 +44,7 @@
   }
 }
 
-.Main {
+.Clear {
   color: $md-black;
 
   &:hover {
@@ -55,15 +53,15 @@
   }
 }
 
-.MainTouchHover {
+.ClearTouchHover {
   transition: none;
-  background: $dark-main-color;
+  background: transparentize($md-black, 0.93);
 }
 
-.MainMouseHover {
-  background: $dark-main-color;
+.ClearMouseHover {
+  background: transparentize($md-black, 0.93);
 }
 
 .BorderMain {
-  border: 1px solid $darker-main-color;
+  border: 1px solid $md-black;
 }

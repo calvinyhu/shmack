@@ -1,5 +1,6 @@
 @import './src/assets/scss/_variables.scss';
 @import './src/assets/scss/_mixins.scss';
+@import './src/assets/scss/_classes.scss';
 
 .About {
   display: flex;
@@ -7,6 +8,7 @@
   align-items: center;
   width: 100%;
   min-height: 100%;
+  background: $md-white;
 
   header {
     display: flex;
