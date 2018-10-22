@@ -4,7 +4,6 @@ import Fade from 'react-reveal/Fade';
 import styles from './NearBy.module.scss';
 import Thumbnail from 'components/Thumbnail/Thumbnail';
 import Button from 'components/UI/Button/Button';
-import { MAT_ICONS } from 'utilities/styles';
 import Fa from '../UI/Icon/Fa';
 import {
   createGooglePlacePhotoQuery,

@@ -14,7 +14,6 @@ import Fa from 'components/UI/Icon/Fa';
 import ResPage from 'components/ResPage/ResPage';
 import Filters from 'components/Filters/Filters';
 import SearchBar from 'components/SearchBar/SearchBar';
-import { MAT_ICONS } from 'utilities/styles';
 import * as paths from 'utilities/paths';
 import {
   createGooglePlacePhotoQuery,

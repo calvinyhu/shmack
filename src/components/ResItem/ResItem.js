@@ -4,7 +4,6 @@ import { connect } from 'react-redux';
 import styles from './ResItem.module.scss';
 import * as actions from 'store/actions/resPageActions';
 import Button from 'components/UI/Button/Button';
-import { MAT_ICONS } from 'utilities/styles';
 import Fa from '../UI/Icon/Fa';
 
 const mapStateToProps = state => {
