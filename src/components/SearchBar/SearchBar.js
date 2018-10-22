@@ -1,10 +1,11 @@
 import React from 'react';
 import Fade from 'react-reveal/Fade';
+import RFSearch from 'react-feather/dist/icons/search';
+import RFFilter from 'react-feather/dist/icons/filter';
 
 import styles from './SearchBar.module.scss';
 import Input from 'components/UI/Input/Input';
 import Button from 'components/UI/Button/Button';
-import Fa from 'components/UI/Icon/Fa';
 
 const searchBar = props => {
   let searchBarClasses = styles.SearchBar;
@@ -45,6 +46,7 @@ const searchBar = props => {
                 placeholder={foodInputPlaceholder}
                 value={props.food}
                 change={props.handleInputChange}
+                noError
               />
             </div>
             <div className={locationInputContainerClasses}>
@@ -56,18 +58,19 @@ const searchBar = props => {
                 placeholder="Your Location"
                 value={props.location}
                 change={props.handleInputChange}
+                noError
               />
             </div>
           </div>
           <div className={searchButtonClasses}>
             <Button main click={props.handleSearch}>
-              <Fa>fas fa-search</Fa>
+              <RFSearch />
             </Button>
           </div>
         </form>
         <div className={searchButtonClasses}>
           <Button main click={props.handleToggleFilters}>
-            <Fa>fas fa-filter</Fa>
+            <RFFilter />
           </Button>
         </div>
       </Fade>

@@ -2,6 +2,7 @@ import React, { Component } from 'react';
 import { connect } from 'react-redux';
 import { Redirect } from 'react-router-dom';
 import Fade from 'react-reveal/Fade';
+import RFNav from 'react-feather/dist/icons/navigation';
 
 import styles from './Settings.module.scss';
 import {
@@ -11,7 +12,6 @@ import {
   setRedirectParent,
   checkGeoLocatePermission
 } from 'store/actions/appActions';
-import Fa from 'components/UI/Icon/Fa';
 import Modal from 'components/UI/Modal/Modal';
 import * as paths from 'utilities/paths';
 
@@ -88,7 +88,7 @@ class Settings extends Component {
           <h5>Settings</h5>
           <div className={styles.Setting}>
             <div className={styles.Label}>
-              <Fa>fas fa-location-arrow</Fa>
+              <RFNav />
               <p>Location Sharing</p>
             </div>
             <label className={styles.SwitchTrack}>

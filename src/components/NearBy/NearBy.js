@@ -1,5 +1,6 @@
 import React from 'react';
 import Fade from 'react-reveal/Fade';
+import RFRefresh from 'react-feather/dist/icons/refresh-cw';
 
 import styles from './NearBy.module.scss';
 import Thumbnail from 'components/Thumbnail/Thumbnail';
@@ -15,8 +16,8 @@ const NearBy = props => {
   const getPrice = price => {
     return (
       <div className={styles.PriceLevel}>
-        {convertPrice(price).map(sign => (
-          <Fa>{sign}</Fa>
+        {convertPrice(price).map((sign, index) => (
+          <Fa key={index}>{sign}</Fa>
         ))}
       </div>
     );
@@ -81,7 +82,7 @@ const NearBy = props => {
             <h4>Near You</h4>
             <div className={styles.NearByRefresh}>
               <Button clear circle small click={props.handleRefresh}>
-                <Fa>fas fa-redo-alt</Fa>
+                <RFRefresh />
               </Button>
             </div>
           </div>

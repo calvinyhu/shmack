@@ -170,8 +170,8 @@ class Restaurants extends Component {
   getPrice = price => {
     return (
       <div className={styles.PriceLevel}>
-        {convertPrice(price).map(sign => (
-          <Fa>{sign}</Fa>
+        {convertPrice(price).map((sign, index) => (
+          <Fa key={index}>{sign}</Fa>
         ))}
       </div>
     );

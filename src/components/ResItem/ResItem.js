@@ -1,10 +1,11 @@
 import React, { PureComponent } from 'react';
 import { connect } from 'react-redux';
+import RFThumbsUp from 'react-feather/dist/icons/thumbs-up';
+import RFThumbsDown from 'react-feather/dist/icons/thumbs-down';
 
 import styles from './ResItem.module.scss';
 import * as actions from 'store/actions/resPageActions';
 import Button from 'components/UI/Button/Button';
-import Fa from '../UI/Icon/Fa';
 
 const mapStateToProps = state => {
   return {
@@ -53,7 +54,7 @@ class ResItem extends PureComponent {
                 this.props.items[this.props.name].dislikes
               )}
             >
-              <Fa>far fa-thumbs-up</Fa>
+              <RFThumbsUp />
             </Button>
           </div>
           <p>{this.props.items[this.props.name].dislikes}</p>
@@ -68,7 +69,7 @@ class ResItem extends PureComponent {
                 this.props.items[this.props.name].dislikes
               )}
             >
-              <Fa>far fa-thumbs-down</Fa>
+              <RFThumbsDown />
             </Button>
           </div>
         </div>

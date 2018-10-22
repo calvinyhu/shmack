@@ -1,10 +1,11 @@
 import React, { Component } from 'react';
 import { connect } from 'react-redux';
+import RFArrowLeft from 'react-feather/dist/icons/arrow-left';
+import RFPlus from 'react-feather/dist/icons/plus';
 
 import styles from './ResPage.module.scss';
 import Button from 'components/UI/Button/Button';
 import Input from 'components/UI/Input/Input';
-import { MAT_ICONS } from 'utilities/styles';
 import {
   createGooglePlacePhotoQuery,
   convertPrice,
@@ -62,8 +63,8 @@ class ResPage extends Component {
   getPrice = price => {
     return (
       <div className={styles.PriceLevel}>
-        {convertPrice(price).map(sign => (
-          <Fa>{sign}</Fa>
+        {convertPrice(price).map((sign, index) => (
+          <Fa key={index}>{sign}</Fa>
         ))}
       </div>
     );
@@ -111,7 +112,6 @@ class ResPage extends Component {
           <form className={styles.AddItem} onSubmit={this.getSubmitHandler(id)}>
             <div className={styles.AddItemInputContainer}>
               <Input
-                // small
                 line
                 type={'text'}
                 name={'item'}
@@ -123,7 +123,7 @@ class ResPage extends Component {
             </div>
             <div className={styles.AddItemSubmitButton}>
               <Button circle clear click={this.getSubmitHandler(id)}>
-                <Fa>fas fa-plus</Fa>
+                <RFPlus />
               </Button>
             </div>
           </form>
@@ -145,7 +145,7 @@ class ResPage extends Component {
           <div className={styles.ImgContainer}>
             <div className={styles.BackButton}>
               <Button translucent circle click={this.props.close}>
-                <div className={MAT_ICONS}>arrow_back</div>
+                <RFArrowLeft />
               </Button>
             </div>
             <img src={imgSrc} alt="restaurant" />

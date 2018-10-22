@@ -9,7 +9,8 @@
   transition: $transition1;
   font-weight: bold;
 
-  div {
+  div,
+  svg {
     margin-right: $margin;
   }
 }

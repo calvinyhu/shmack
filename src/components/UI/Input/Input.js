@@ -30,10 +30,8 @@ const input = props => {
   }
 
   let error = null;
-  if (props.error) {
-    error = <p className={styles.Error}>{props.error}</p>;
-    inputClasses += ' ' + styles.ErrorOutline;
-  }
+  if (!props.noError) error = <p className={styles.Error}>{props.error}</p>;
+  if (props.error) inputClasses += ' ' + styles.ErrorOutline;
 
   return (
     <div className={inputGroupClasses}>

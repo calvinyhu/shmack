@@ -1,6 +1,13 @@
 import React, { PureComponent } from 'react';
 import Fade from 'react-reveal/Fade';
 import { connect } from 'react-redux';
+import RFHome from 'react-feather/dist/icons/home';
+import RFSearch from 'react-feather/dist/icons/search';
+import RFInfo from 'react-feather/dist/icons/info';
+import RFSliders from 'react-feather/dist/icons/sliders';
+import RFLogout from 'react-feather/dist/icons/log-out';
+import RFPhone from 'react-feather/dist/icons/smartphone';
+import RFMenu from 'react-feather/dist/icons/menu';
 
 import styles from './Layout.module.scss';
 import {
@@ -12,8 +19,6 @@ import Backdrop from 'components/UI/Backdrop/Backdrop';
 import Drawer from 'components/UI/Drawer/Drawer';
 import Button from 'components/UI/Button/Button';
 import NavItem from 'components/UI/Button/NavItem/NavItem';
-import Fa from 'components/UI/Icon/Fa';
-import { MAT_ICONS } from 'utilities/styles';
 import * as paths from 'utilities/paths';
 
 const mapStateToProps = state => {
@@ -72,35 +77,35 @@ class Layout extends PureComponent {
 
     let home = (
       <NavItem clear to={paths.HOME} click={this.handleCloseDrawer}>
-        <Fa>fas fa-home</Fa>
+        <RFHome />
         Home
       </NavItem>
     );
 
     let search = (
       <NavItem clear to={paths.SEARCH} click={this.handleCloseDrawer}>
-        <Fa>fas fa-search</Fa>
+        <RFSearch />
         Search
       </NavItem>
     );
 
     let about = (
       <NavItem clear to={paths.ABOUT} click={this.handleCloseDrawer}>
-        <Fa>fas fa-info</Fa>
+        <RFInfo />
         About
       </NavItem>
     );
 
     let settings = (
       <NavItem clear to={paths.SETTINGS} click={this.handleCloseDrawer}>
-        <Fa>fas fa-cog</Fa>
+        <RFSliders />
         Settings
       </NavItem>
     );
 
     let logout = (
       <NavItem clear to={paths.LOGOUT} click={this.handleCloseDrawer}>
-        <Fa>fas fa-sign-out-alt</Fa>
+        <RFLogout />
         Log Out
       </NavItem>
     );
@@ -110,7 +115,7 @@ class Layout extends PureComponent {
       A2HSButton = (
         <div className={styles.A2HSButton}>
           <Button clear leftAlign click={this.handleA2HS}>
-            <Fa>fas fa-mobile-alt</Fa>
+            <RFPhone />
             <p>Add to Home Screen</p>
           </Button>
         </div>
@@ -158,7 +163,7 @@ class Layout extends PureComponent {
         <header className={styles.Header}>
           <div className={styles.DrawerToggle}>
             <Button clear circle click={this.handleClick}>
-              <div className={MAT_ICONS}>menu</div>
+              <RFMenu />
             </Button>
           </div>
           <h5>shmack</h5>
