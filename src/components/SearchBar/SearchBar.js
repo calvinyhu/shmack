@@ -4,7 +4,7 @@ import Fade from 'react-reveal/Fade';
 import styles from './SearchBar.module.scss';
 import Input from 'components/UI/Input/Input';
 import Button from 'components/UI/Button/Button';
-import { MAT_ICONS } from 'utilities/styles';
+import Fa from 'components/UI/Icon/Fa';
 
 const searchBar = props => {
   let searchBarClasses = styles.SearchBar;
@@ -61,13 +61,13 @@ const searchBar = props => {
           </div>
           <div className={searchButtonClasses}>
             <Button main click={props.handleSearch}>
-              <div className={MAT_ICONS}>search</div>
+              <Fa small>fa-search</Fa>
             </Button>
           </div>
         </form>
         <div className={searchButtonClasses}>
           <Button main click={props.handleToggleFilters}>
-            <div className={MAT_ICONS}>filter_list</div>
+            <Fa small>fa-filter</Fa>
           </Button>
         </div>
       </Fade>

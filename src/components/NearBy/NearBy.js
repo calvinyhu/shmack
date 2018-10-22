@@ -10,6 +10,7 @@ import {
   convertPrice,
   convertRating
 } from 'utilities/google';
+import Fa from '../UI/Icon/Fa';
 
 const NearBy = props => {
   const getStars = rating => {
@@ -77,7 +78,7 @@ const NearBy = props => {
             <h4>Near You</h4>
             <div className={styles.NearByRefresh}>
               <Button clear circle small click={props.handleRefresh}>
-                <div className={MAT_ICONS}>refresh</div>
+                <Fa>fa-redo-alt</Fa>
               </Button>
             </div>
           </div>

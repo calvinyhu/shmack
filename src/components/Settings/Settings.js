@@ -4,7 +4,6 @@ import { Redirect } from 'react-router-dom';
 import Fade from 'react-reveal/Fade';
 
 import styles from './Settings.module.scss';
-import * as paths from 'utilities/paths';
 import {
   geoLocate,
   geoClear,
@@ -12,8 +11,9 @@ import {
   setRedirectParent,
   checkGeoLocatePermission
 } from 'store/actions/appActions';
+import Fa from 'components/UI/Icon/Fa';
 import Modal from 'components/UI/Modal/Modal';
-import { MAT_ICONS } from 'utilities/styles';
+import * as paths from 'utilities/paths';
 
 const mapStateToProps = state => {
   return {
@@ -86,12 +86,9 @@ class Settings extends Component {
       <div className={styles.Settings}>
         <Fade>
           <h5>Settings</h5>
-          {/* <div className={styles.ImgContainer}>
-          <div className={MAT_ICONS}>location_on</div>
-        </div> */}
           <div className={styles.Setting}>
             <div className={styles.Label}>
-              <div className={MAT_ICONS}>location_on</div>
+              <Fa>fa-location-arrow</Fa>
               <p>Location Sharing</p>
             </div>
             <label className={styles.SwitchTrack}>

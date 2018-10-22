@@ -12,6 +12,7 @@ import Backdrop from 'components/UI/Backdrop/Backdrop';
 import Drawer from 'components/UI/Drawer/Drawer';
 import Button from 'components/UI/Button/Button';
 import NavItem from 'components/UI/Button/NavItem/NavItem';
+import Fa from 'components/UI/Icon/Fa';
 import { MAT_ICONS } from 'utilities/styles';
 import * as paths from 'utilities/paths';
 
@@ -71,35 +72,35 @@ class Layout extends PureComponent {
 
     let home = (
       <NavItem clear to={paths.HOME} click={this.handleCloseDrawer}>
-        <div className={MAT_ICONS}>home</div>
+        <Fa>fa-home</Fa>
         Home
       </NavItem>
     );
 
     let search = (
       <NavItem clear to={paths.SEARCH} click={this.handleCloseDrawer}>
-        <div className={MAT_ICONS}>search</div>
+        <Fa>fa-search</Fa>
         Search
       </NavItem>
     );
 
     let about = (
       <NavItem clear to={paths.ABOUT} click={this.handleCloseDrawer}>
-        <div className={MAT_ICONS}>info</div>
+        <Fa>fa-info</Fa>
         About
       </NavItem>
     );
 
     let settings = (
       <NavItem clear to={paths.SETTINGS} click={this.handleCloseDrawer}>
-        <div className={MAT_ICONS}>settings</div>
+        <Fa>fa-sliders-h</Fa>
         Settings
       </NavItem>
     );
 
     let logout = (
       <NavItem clear to={paths.LOGOUT} click={this.handleCloseDrawer}>
-        <div className={MAT_ICONS}>logout</div>
+        <Fa>fa-sign-out-alt</Fa>
         Log Out
       </NavItem>
     );
