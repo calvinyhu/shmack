@@ -5,7 +5,11 @@ import styles from './ResPage.module.scss';
 import Button from 'components/UI/Button/Button';
 import Input from 'components/UI/Input/Input';
 import { MAT_ICONS } from 'utilities/styles';
-import { createGooglePlacePhotoQuery, convertPrice } from 'utilities/google';
+import {
+  createGooglePlacePhotoQuery,
+  convertPrice,
+  convertRating
+} from 'utilities/google';
 import * as actions from 'store/actions/resPageActions';
 import ResItem from 'components/ResItem/ResItem';
 import Aux from 'hoc/Auxiliary/Auxiliary';
@@ -55,42 +59,11 @@ class ResPage extends Component {
   };
 
   convertRating = rating => {
-    if (rating > 5) rating = 5;
-    if (rating < 0) rating = 0;
-
-    let stars = [];
-    let filled;
-    for (filled = 0; filled < rating - 1; filled++) {
-      stars.push(
-        <div key={filled} className={MAT_ICONS}>
-          star
-        </div>
-      );
-    }
-
-    let remainder = rating - filled;
-    remainder = remainder.toFixed(1);
-    if (remainder >= 0.8) {
-      stars.push(
-        <div key={remainder} className={MAT_ICONS}>
-          star
-        </div>
-      );
-    } else if (remainder >= 0.3) {
-      stars.push(
-        <div key={remainder} className={MAT_ICONS}>
-          star_half
-        </div>
-      );
-    }
-
-    for (let empty = stars.length; empty < 5; empty++) {
-      stars.push(
-        <div key={empty} className={MAT_ICONS}>
-          star_border
-        </div>
-      );
-    }
+    const stars = convertRating(rating).map((star, index) => (
+      <div key={index} className={MAT_ICONS}>
+        {star}
+      </div>
+    ));
 
     return (
       <div className={styles.RatingContainer}>

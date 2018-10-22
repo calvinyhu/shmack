@@ -5,9 +5,27 @@ import styles from './NearBy.module.scss';
 import Thumbnail from 'components/Thumbnail/Thumbnail';
 import Button from 'components/UI/Button/Button';
 import { MAT_ICONS } from 'utilities/styles';
-import { createGooglePlacePhotoQuery, convertPrice } from 'utilities/google';
+import {
+  createGooglePlacePhotoQuery,
+  convertPrice,
+  convertRating
+} from 'utilities/google';
 
 const NearBy = props => {
+  const getStars = rating => {
+    const stars = convertRating(rating).map((star, index) => (
+      <div key={index} className={MAT_ICONS}>
+        {star}
+      </div>
+    ));
+
+    return (
+      <div className={styles.RatingContainer}>
+        <div className={styles.Stars}>{rating ? stars : null}</div>
+      </div>
+    );
+  };
+
   const renderNearByThumbnails = () => {
     let nearByThumbnails = [];
     if (props.nearByRestaurants) {
@@ -26,7 +44,7 @@ const NearBy = props => {
               >
                 <h6>{convertPrice(res.price_level)}</h6>
                 <h6>{res.name}</h6>
-                <h6>{res.rating ? res.rating.toFixed(1) : null}</h6>
+                <h6>{res.rating ? getStars(res.rating) : null}</h6>
               </Thumbnail>
             </div>
           );

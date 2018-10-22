@@ -15,7 +15,11 @@ import Filters from 'components/Filters/Filters';
 import SearchBar from 'components/SearchBar/SearchBar';
 import { MAT_ICONS } from 'utilities/styles';
 import * as paths from 'utilities/paths';
-import { createGooglePlacePhotoQuery, convertPrice } from 'utilities/google';
+import {
+  createGooglePlacePhotoQuery,
+  convertPrice,
+  convertRating
+} from 'utilities/google';
 
 const mapStateToProps = state => ({
   // App
@@ -163,43 +167,12 @@ class Restaurants extends Component {
     return this.restaurantClickHandlers[id];
   };
 
-  convertRating = rating => {
-    if (rating > 5) rating = 5;
-    if (rating < 0) rating = 0;
-
-    let stars = [];
-    let filled;
-    for (filled = 0; filled < rating - 1; filled++) {
-      stars.push(
-        <div key={filled} className={MAT_ICONS}>
-          star
-        </div>
-      );
-    }
-
-    let remainder = rating - filled;
-    remainder = remainder.toFixed(1);
-    if (remainder >= 0.8) {
-      stars.push(
-        <div key={remainder} className={MAT_ICONS}>
-          star
-        </div>
-      );
-    } else if (remainder >= 0.3) {
-      stars.push(
-        <div key={remainder} className={MAT_ICONS}>
-          star_half
-        </div>
-      );
-    }
-
-    for (let empty = stars.length; empty < 5; empty++) {
-      stars.push(
-        <div key={empty} className={MAT_ICONS}>
-          star_border
-        </div>
-      );
-    }
+  getStars = rating => {
+    const stars = convertRating(rating).map((star, index) => (
+      <div key={index} className={MAT_ICONS}>
+        {star}
+      </div>
+    ));
 
     return (
       <div className={styles.RatingContainer}>
@@ -228,7 +201,7 @@ class Restaurants extends Component {
           >
             <h6>{convertPrice(res.price_level)}</h6>
             <h6>{res.name}</h6>
-            <h6>{res.rating ? this.convertRating(res.rating) : null}</h6>
+            <h6>{res.rating ? this.getStars(res.rating) : null}</h6>
           </Thumbnail>
         );
       });

@@ -73,3 +73,18 @@ export const convertPrice = value => {
       return '';
   }
 };
+
+export const convertRating = rating => {
+  if (!rating) return [];
+  if (rating > 5) rating = 5;
+  if (rating < 0) rating = 0;
+  let stars = [];
+  let filled;
+  for (filled = 0; filled < rating - 1; filled++) stars.push('star');
+  let remainder = rating - filled;
+  remainder = remainder.toFixed(1);
+  if (remainder >= 0.8) stars.push('star');
+  else if (remainder >= 0.3) stars.push('star_half');
+  for (let empty = stars.length; empty < 5; empty++) stars.push('star_border');
+  return stars;
+};
