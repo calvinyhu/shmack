@@ -93,7 +93,7 @@ class Layout extends PureComponent {
 
     let settings = (
       <NavItem clear to={paths.SETTINGS} click={this.handleCloseDrawer}>
-        <Fa>fas fa-sliders-h</Fa>
+        <Fa>fas fa-cog</Fa>
         Settings
       </NavItem>
     );
@@ -110,7 +110,7 @@ class Layout extends PureComponent {
       A2HSButton = (
         <div className={styles.A2HSButton}>
           <Button clear leftAlign click={this.handleA2HS}>
-            <div className={MAT_ICONS}>add_to_home_screen</div>
+            <Fa>fas fa-mobile-alt</Fa>
             <p>Add to Home Screen</p>
           </Button>
         </div>
