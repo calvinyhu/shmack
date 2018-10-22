@@ -18,15 +18,11 @@ const about = () => {
               Shmack provides a simple, easy-to-use, and fast user experience
               for viewing and editing food that people eat at restaurants.
             </p>
-            <p className={styles.SectionTitle}>
-              How is this different from Yelp, Google, or other food apps?
-            </p>
             <p>
               This app is not for finding the next best restaurant; it is for
-              finding the next best <i>item</i> at the restaurant. There is not
-              a lot of easily accessible data on what specific items people
-              order, but Shmack wants to make that data accessible to the users
-              who provide that data.
+              finding the next best <i>food</i> at the restaurant. There is not
+              a lot of easily accessible information on what specific items
+              people order, but Shmack wants to make that accessible.
             </p>
             <p className={styles.SectionTitle}>How can you help?</p>
             <p>
@@ -35,7 +31,7 @@ const about = () => {
               useful it is to them.
             </p>
             <p className={styles.SectionTitle}>
-              Please help Shmack grow. Thank you!
+              Help others discover the best foods to eat. Thank you!
             </p>
             <p>
               -{' '}

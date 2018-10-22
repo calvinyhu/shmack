@@ -2,7 +2,6 @@ import React, { Component } from 'react';
 import { connect } from 'react-redux';
 import { Redirect } from 'react-router-dom';
 import Fade from 'react-reveal/Fade';
-import RFNav from 'react-feather/dist/icons/navigation';
 
 import styles from './Settings.module.scss';
 import {
@@ -13,6 +12,7 @@ import {
   checkGeoLocatePermission
 } from 'store/actions/appActions';
 import Modal from 'components/UI/Modal/Modal';
+import Rf from 'components/UI/Icon/Rf/Rf';
 import * as paths from 'utilities/paths';
 
 const mapStateToProps = state => {
@@ -88,7 +88,7 @@ class Settings extends Component {
           <h5>Settings</h5>
           <div className={styles.Setting}>
             <div className={styles.Label}>
-              <RFNav />
+              <Rf>nav</Rf>
               <p>Location Sharing</p>
             </div>
             <label className={styles.SwitchTrack}>

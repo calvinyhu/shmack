@@ -1,11 +1,11 @@
 import React from 'react';
 import Fade from 'react-reveal/Fade';
-import RFRefresh from 'react-feather/dist/icons/refresh-cw';
 
 import styles from './NearBy.module.scss';
 import Thumbnail from 'components/Thumbnail/Thumbnail';
 import Button from 'components/UI/Button/Button';
-import Fa from '../UI/Icon/Fa';
+import Fa from 'components/UI/Icon/Fa/Fa';
+import Rf from 'components/UI/Icon/Rf/Rf';
 import {
   createGooglePlacePhotoQuery,
   convertPrice,
@@ -79,10 +79,10 @@ const NearBy = props => {
       <Fade>
         <div className={styles.NearBy}>
           <div className={styles.NearByHeader}>
-            <h4>Near You</h4>
+            <h5>Near You</h5>
             <div className={styles.NearByRefresh}>
               <Button clear circle small click={props.handleRefresh}>
-                <RFRefresh />
+                <Rf>refresh</Rf>
               </Button>
             </div>
           </div>

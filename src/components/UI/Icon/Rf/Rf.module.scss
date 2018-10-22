@@ -1,0 +1,13 @@
+@import './src/assets/scss/_variables.scss';
+
+.Icon {
+  color: $md-black;
+  width: $font-size * 1.2;
+  height: $font-size * 1.2;
+  user-select: none;
+  pointer-events: none;
+}
+
+.White {
+  color: $md-white;
+}

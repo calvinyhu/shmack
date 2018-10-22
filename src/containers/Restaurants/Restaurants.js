@@ -10,7 +10,7 @@ import * as resPageActions from 'store/actions/resPageActions';
 import Thumbnail from 'components/Thumbnail/Thumbnail';
 import Modal from 'components/UI/Modal/Modal';
 import Backdrop from 'components/UI/Backdrop/Backdrop';
-import Fa from 'components/UI/Icon/Fa';
+import Fa from 'components/UI/Icon/Fa/Fa';
 import ResPage from 'components/ResPage/ResPage';
 import Filters from 'components/Filters/Filters';
 import SearchBar from 'components/SearchBar/SearchBar';
@@ -68,10 +68,6 @@ class Restaurants extends Component {
   componentWillUnmount() {
     this.props.onClearError();
     window.removeEventListener('scroll', this.handleScroll);
-  }
-
-  componentDidUpdate() {
-    console.log('componentDidUpdate');
   }
 
   handleRedirect = () => {

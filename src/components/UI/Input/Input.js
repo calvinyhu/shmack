@@ -35,6 +35,7 @@ const input = props => {
 
   return (
     <div className={inputGroupClasses}>
+      {error}
       <input
         required={props.required}
         className={inputClasses}
@@ -45,7 +46,6 @@ const input = props => {
         onChange={props.change}
       />
       {label}
-      {error}
     </div>
   );
 };

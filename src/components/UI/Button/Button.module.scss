@@ -12,7 +12,6 @@
   border-radius: $border-radius-button;
   box-shadow: $box-shadow;
   transition: $transition1;
-  font-weight: bold;
   appearance: none;
   user-select: none;
 
@@ -28,6 +27,10 @@
     cursor: not-allowed;
     background: #ccc;
   }
+}
+
+.Bold {
+  font-weight: bold;
 }
 
 .FlexStart {
@@ -76,7 +79,15 @@
 .Translucent {
   background: rgba(0, 0, 0, 0.3);
   color: $md-white;
-  box-shadow: none;
+}
+
+.TranslucentTouchHover {
+  transition: none;
+  background: rgba(0, 0, 0, 0.6);
+}
+
+.TranslucentMouseHover {
+  background: rgba(0, 0, 0, 0.6);
 }
 
 .Main {

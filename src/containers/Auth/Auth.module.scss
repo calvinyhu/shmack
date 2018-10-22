@@ -5,6 +5,7 @@
 .AuthContainer {
   position: relative;
   width: 100%;
+  height: 100%;
   overflow-y: auto;
   background: $md-white;
 }
@@ -16,7 +17,7 @@
   align-items: center;
   flex-shrink: 0;
   width: 100%;
-  min-height: 100vh;
+  min-height: 100%;
   height: auto;
   padding: $padding;
   position: relative;
@@ -40,12 +41,8 @@ h3 {
   .FormButton {
     width: 100%;
     height: 3rem;
+    margin-top: $margin * 1.25;
   }
-}
-
-.FormInputs {
-  position: relative;
-  width: 100%;
 }
 
 .Switch {

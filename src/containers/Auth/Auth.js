@@ -151,7 +151,7 @@ class Auth extends Component {
           error={errors.password}
         />
         <div className={styles.FormButton}>
-          <Button main click={this.handleFormSubmit}>
+          <Button main bold click={this.handleFormSubmit}>
             {formButtonName}
           </Button>
         </div>
@@ -161,7 +161,7 @@ class Auth extends Component {
     const formSwitch = (
       <div className={styles.Switch}>
         <p>{switchCTA}</p>
-        <NavItem link to={switchLink} click={this.handleClearError}>
+        <NavItem bold link to={switchLink} click={this.handleClearError}>
           {switchName}
         </NavItem>
       </div>

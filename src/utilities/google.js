@@ -60,23 +60,9 @@ export const createGooglePlacePhotoQuery = (photoreference, maxwidth) => {
 };
 
 export const convertPrice = value => {
-  switch (value) {
-    case 1:
-      return ['fas fa-dollar-sign'];
-    case 2:
-      return ['fas fa-dollar-sign', 'fas fa-dollar-sign'];
-    case 3:
-      return ['fas fa-dollar-sign', 'fas fa-dollar-sign', 'fas fa-dollar-sign'];
-    case 4:
-      return [
-        'fas fa-dollar-sign',
-        'fas fa-dollar-sign',
-        'fas fa-dollar-sign',
-        'fas fa-dollar-sign'
-      ];
-    default:
-      return [];
-  }
+  let signs = [];
+  for (let i = 0; i < value; i++) signs.push('dollar-sign');
+  return signs;
 };
 
 export const convertRating = rating => {

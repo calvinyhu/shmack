@@ -76,11 +76,11 @@
     margin-bottom: $margin;
 
     .ResIsOpen {
-      color: $pastel-green;
+      color: green;
     }
 
     .ResIsClosed {
-      color: $pastel-red;
+      color: red;
     }
   }
 
@@ -92,7 +92,6 @@
 
     .PriceLevel {
       display: flex;
-      color: $pastel-green;
     }
 
     .RatingContainer {
@@ -143,7 +142,7 @@
   padding-top: $padding-tiny;
 
   .AddItemMessage {
-    color: $pastel-red;
+    color: red;
   }
 
   h5 {
@@ -161,7 +160,7 @@
 .AddItem {
   display: flex;
   justify-content: space-between;
-  align-items: flex-start;
+  align-items: flex-end;
   width: 100%;
 
   .AddItemInputContainer {
@@ -171,7 +170,7 @@
   .AddItemSubmitButton {
     width: $fab-size-mini;
     height: $fab-size-mini;
-    margin-top: $margin / 4;
+    margin-bottom: $margin / 3.5;
   }
 }
 

@@ -55,6 +55,7 @@ $light-main-color: #ffe2c4;
 $main-color: #ffd1a0;
 $dark-main-color: #ffbf7d;
 $darker-main-color: #d9954d;
+$main-color-trans: transparentize($main-color, 0.1);
 
 $lighter-adj-color: #fff8e7;
 $light-adj-color: #ffeec4;

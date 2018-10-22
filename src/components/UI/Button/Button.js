@@ -51,17 +51,22 @@ class Button extends PureComponent {
     if (this.props.translucent) buttonClasses += ' ' + styles.Translucent;
     if (this.props.noShadow) buttonClasses += ' ' + styles.NoShadow;
     if (this.props.leftAlign) buttonClasses += ' ' + styles.FlexStart;
+    if (this.props.bold) buttonClasses += ' ' + styles.Bold;
 
     // Hover effects
     if (this.state.isTouch) {
       if (this.props.main) buttonClasses += ' ' + styles.MainTouchHover;
       if (this.props.clear) buttonClasses += ' ' + styles.ClearTouchHover;
+      if (this.props.translucent)
+        buttonClasses += ' ' + styles.TranslucentTouchHover;
       this.isTouched = true;
     }
 
     if (!this.isTouched && this.state.isMouse) {
       if (this.props.main) buttonClasses += ' ' + styles.MainMouseHover;
       if (this.props.clear) buttonClasses += ' ' + styles.ClearMouseHover;
+      if (this.props.translucent)
+        buttonClasses += ' ' + styles.TranslucentMouseHover;
     }
 
     return (

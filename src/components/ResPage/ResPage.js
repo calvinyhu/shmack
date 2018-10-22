@@ -1,7 +1,5 @@
 import React, { Component } from 'react';
 import { connect } from 'react-redux';
-import RFArrowLeft from 'react-feather/dist/icons/arrow-left';
-import RFPlus from 'react-feather/dist/icons/plus';
 
 import styles from './ResPage.module.scss';
 import Button from 'components/UI/Button/Button';
@@ -13,10 +11,11 @@ import {
 } from 'utilities/google';
 import * as actions from 'store/actions/resPageActions';
 import ResItem from 'components/ResItem/ResItem';
+import Fa from 'components/UI/Icon/Fa/Fa';
+import Rf from 'components/UI/Icon/Rf/Rf';
 import Aux from 'hoc/Auxiliary/Auxiliary';
 import { auth } from 'utilities/firebase';
 import poweredByGoogle from 'assets/images/poweredByGoogle.png';
-import Fa from '../UI/Icon/Fa';
 
 const mapStateToProps = state => {
   return {
@@ -64,7 +63,8 @@ class ResPage extends Component {
     return (
       <div className={styles.PriceLevel}>
         {convertPrice(price).map((sign, index) => (
-          <Fa key={index}>{sign}</Fa>
+          <Rf key={index}>{sign}</Rf>
+          // <Fa key={index}>{sign}</Fa>
         ))}
       </div>
     );
@@ -123,7 +123,7 @@ class ResPage extends Component {
             </div>
             <div className={styles.AddItemSubmitButton}>
               <Button circle clear click={this.getSubmitHandler(id)}>
-                <RFPlus />
+                <Rf>plus</Rf>
               </Button>
             </div>
           </form>
@@ -145,7 +145,7 @@ class ResPage extends Component {
           <div className={styles.ImgContainer}>
             <div className={styles.BackButton}>
               <Button translucent circle click={this.props.close}>
-                <RFArrowLeft />
+                <Rf white>arrow-left</Rf>
               </Button>
             </div>
             <img src={imgSrc} alt="restaurant" />

@@ -19,34 +19,34 @@ export const validateSignupForm = (signupForm, serverError = null) => {
   const isPasswordTouched = signupForm.password.isTouched;
 
   if (isFirstNameTouched && validator.isEmpty(signupForm.firstName.value))
-    errors.firstName = 'First Name is required';
+    errors.firstName = 'Required';
 
   if (isLastNameTouched && validator.isEmpty(signupForm.lastName.value))
-    errors.lastName = 'Last Name is required';
+    errors.lastName = 'Required';
 
   if (isEmailTouched && !validator.isEmail(signupForm.email.value))
-    errors.email = 'Invalid email';
+    errors.email = 'Invalid';
   if (isEmailTouched && validator.isEmpty(signupForm.email.value))
-    errors.email = 'Email is required';
+    errors.email = 'Required';
 
   if (
     isPasswordTouched &&
     !validator.isLength(signupForm.password.value, { min: 6 })
   )
-    errors.password = 'Password needs at least 6 characters';
+    errors.password = 'Needs at least 6 chars';
   if (isPasswordTouched && validator.isEmpty(signupForm.password.value))
-    errors.password = 'Password is required';
+    errors.password = 'Required';
 
   if (serverError) {
     switch (serverError.code) {
       case 'auth/email-already-in-use':
-        errors.email = 'Email already in use';
+        errors.email = 'Already in use';
         break;
       case 'auth/user-not-found':
-        errors.email = 'Email not found';
+        errors.email = 'Not found';
         break;
       case 'auth/wrong-password':
-        errors.password = 'Wrong Password';
+        errors.password = 'Incorrect';
         break;
       default:
         break;

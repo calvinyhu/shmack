@@ -1,13 +1,7 @@
 import React, { PureComponent } from 'react';
 import Fade from 'react-reveal/Fade';
 import { connect } from 'react-redux';
-import RFHome from 'react-feather/dist/icons/home';
-import RFSearch from 'react-feather/dist/icons/search';
-import RFInfo from 'react-feather/dist/icons/info';
-import RFSliders from 'react-feather/dist/icons/sliders';
-import RFLogout from 'react-feather/dist/icons/log-out';
-import RFPhone from 'react-feather/dist/icons/smartphone';
-import RFMenu from 'react-feather/dist/icons/menu';
+import Rf from 'components/UI/Icon/Rf/Rf';
 
 import styles from './Layout.module.scss';
 import {
@@ -77,35 +71,35 @@ class Layout extends PureComponent {
 
     let home = (
       <NavItem clear to={paths.HOME} click={this.handleCloseDrawer}>
-        <RFHome />
+        <Rf>home</Rf>
         Home
       </NavItem>
     );
 
     let search = (
       <NavItem clear to={paths.SEARCH} click={this.handleCloseDrawer}>
-        <RFSearch />
+        <Rf>search</Rf>
         Search
       </NavItem>
     );
 
     let about = (
       <NavItem clear to={paths.ABOUT} click={this.handleCloseDrawer}>
-        <RFInfo />
+        <Rf>info</Rf>
         About
       </NavItem>
     );
 
     let settings = (
       <NavItem clear to={paths.SETTINGS} click={this.handleCloseDrawer}>
-        <RFSliders />
+        <Rf>sliders</Rf>
         Settings
       </NavItem>
     );
 
     let logout = (
       <NavItem clear to={paths.LOGOUT} click={this.handleCloseDrawer}>
-        <RFLogout />
+        <Rf>logout</Rf>
         Log Out
       </NavItem>
     );
@@ -115,7 +109,7 @@ class Layout extends PureComponent {
       A2HSButton = (
         <div className={styles.A2HSButton}>
           <Button clear leftAlign click={this.handleA2HS}>
-            <RFPhone />
+            <Rf>phone</Rf>
             <p>Add to Home Screen</p>
           </Button>
         </div>
@@ -163,7 +157,7 @@ class Layout extends PureComponent {
         <header className={styles.Header}>
           <div className={styles.DrawerToggle}>
             <Button clear circle click={this.handleClick}>
-              <RFMenu />
+              <Rf>menu</Rf>
             </Button>
           </div>
           <h5>shmack</h5>

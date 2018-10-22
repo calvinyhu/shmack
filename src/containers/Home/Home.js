@@ -106,7 +106,7 @@ class Home extends Component {
       if (this.props.error === 'Your location is unknown. Grant location.') {
         grantButton = (
           <div className={styles.GrantButton}>
-            <Button main click={this.handleRedirect}>
+            <Button bold main click={this.handleRedirect}>
               Grant
             </Button>
           </div>

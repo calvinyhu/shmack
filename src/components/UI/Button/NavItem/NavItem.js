@@ -25,6 +25,7 @@ class NavItem extends Button {
     if (this.props.link) navItemClasses += ' ' + styles.Link;
     if (this.props.clear) navItemClasses += ' ' + styles.Clear;
     if (this.props.borderMain) navItemClasses += ' ' + styles.BorderMain;
+    if (this.props.bold) navItemClasses += ' ' + styles.Bold;
 
     if (this.state.isTouch) {
       if (this.props.clear) navItemClasses += ' ' + styles.ClearTouchHover;
