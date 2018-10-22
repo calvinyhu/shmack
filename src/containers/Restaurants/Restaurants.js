@@ -10,6 +10,7 @@ import * as resPageActions from 'store/actions/resPageActions';
 import Thumbnail from 'components/Thumbnail/Thumbnail';
 import Modal from 'components/UI/Modal/Modal';
 import Backdrop from 'components/UI/Backdrop/Backdrop';
+import Fa from 'components/UI/Icon/Fa';
 import ResPage from 'components/ResPage/ResPage';
 import Filters from 'components/Filters/Filters';
 import SearchBar from 'components/SearchBar/SearchBar';
@@ -167,11 +168,19 @@ class Restaurants extends Component {
     return this.restaurantClickHandlers[id];
   };
 
+  getPrice = price => {
+    return (
+      <div className={styles.PriceLevel}>
+        {convertPrice(price).map(sign => (
+          <Fa>{sign}</Fa>
+        ))}
+      </div>
+    );
+  };
+
   getStars = rating => {
     const stars = convertRating(rating).map((star, index) => (
-      <div key={index} className={MAT_ICONS}>
-        {star}
-      </div>
+      <Fa key={index}>{star}</Fa>
     ));
 
     return (
@@ -199,7 +208,7 @@ class Restaurants extends Component {
             click={this.getRestaurantClickHandler(res.place_id, res)}
             img={imgUrl}
           >
-            <h6>{convertPrice(res.price_level)}</h6>
+            <h6>{this.getPrice(res.price_level)}</h6>
             <h6>{res.name}</h6>
             <h6>{res.rating ? this.getStars(res.rating) : null}</h6>
           </Thumbnail>

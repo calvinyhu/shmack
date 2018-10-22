@@ -15,6 +15,7 @@ import ResItem from 'components/ResItem/ResItem';
 import Aux from 'hoc/Auxiliary/Auxiliary';
 import { auth } from 'utilities/firebase';
 import poweredByGoogle from 'assets/images/poweredByGoogle.png';
+import Fa from '../UI/Icon/Fa';
 
 const mapStateToProps = state => {
   return {
@@ -58,11 +59,19 @@ class ResPage extends Component {
     } else this.props.onPostItemFail('The item name is required.');
   };
 
-  convertRating = rating => {
-    const stars = convertRating(rating).map((star, index) => (
-      <div key={index} className={MAT_ICONS}>
-        {star}
+  getPrice = price => {
+    return (
+      <div className={styles.PriceLevel}>
+        {convertPrice(price).map(sign => (
+          <Fa>{sign}</Fa>
+        ))}
       </div>
+    );
+  };
+
+  getRating = rating => {
+    const stars = convertRating(rating).map((star, index) => (
+      <Fa key={index}>{star}</Fa>
     ));
 
     return (
@@ -82,8 +91,8 @@ class ResPage extends Component {
         res.photos[0].width
       );
       const name = res.name;
-      const price = convertPrice(res.price_level);
-      const rating = this.convertRating(res.rating);
+      const price = this.getPrice(res.price_level);
+      const rating = this.getRating(res.rating);
       let open = null;
       let isResOpen = null;
       if (res.opening_hours) {
@@ -102,18 +111,19 @@ class ResPage extends Component {
           <form className={styles.AddItem} onSubmit={this.getSubmitHandler(id)}>
             <div className={styles.AddItemInputContainer}>
               <Input
-                small
+                // small
                 line
                 type={'text'}
                 name={'item'}
                 placeholder={'New Item'}
                 value={this.state.newItem}
                 change={this.handleInputChange}
+                error={this.props.resPageError}
               />
             </div>
             <div className={styles.AddItemSubmitButton}>
               <Button circle clear click={this.getSubmitHandler(id)}>
-                <div className={MAT_ICONS}>add</div>
+                <Fa>fas fa-plus</Fa>
               </Button>
             </div>
           </form>
@@ -126,7 +136,6 @@ class ResPage extends Component {
           <Aux>
             <ul>{items}</ul>
             {addItem}
-            <p className={styles.AddItemMessage}>{this.props.resPageError}</p>
           </Aux>
         );
       }
@@ -162,7 +171,7 @@ class ResPage extends Component {
               </div>
             </div>
             <div className={styles.Popular}>
-              <h6>What's Good?</h6>
+              <h5>What's Good?</h5>
               {popular}
             </div>
           </div>

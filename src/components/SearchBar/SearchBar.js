@@ -61,13 +61,13 @@ const searchBar = props => {
           </div>
           <div className={searchButtonClasses}>
             <Button main click={props.handleSearch}>
-              <Fa small>fa-search</Fa>
+              <Fa>fas fa-search</Fa>
             </Button>
           </div>
         </form>
         <div className={searchButtonClasses}>
           <Button main click={props.handleToggleFilters}>
-            <Fa small>fa-filter</Fa>
+            <Fa>fas fa-filter</Fa>
           </Button>
         </div>
       </Fade>

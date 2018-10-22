@@ -88,7 +88,7 @@ class Settings extends Component {
           <h5>Settings</h5>
           <div className={styles.Setting}>
             <div className={styles.Label}>
-              <Fa>fa-location-arrow</Fa>
+              <Fa>fas fa-location-arrow</Fa>
               <p>Location Sharing</p>
             </div>
             <label className={styles.SwitchTrack}>

@@ -5,26 +5,30 @@ import styles from './NearBy.module.scss';
 import Thumbnail from 'components/Thumbnail/Thumbnail';
 import Button from 'components/UI/Button/Button';
 import { MAT_ICONS } from 'utilities/styles';
+import Fa from '../UI/Icon/Fa';
 import {
   createGooglePlacePhotoQuery,
   convertPrice,
   convertRating
 } from 'utilities/google';
-import Fa from '../UI/Icon/Fa';
 
 const NearBy = props => {
-  const getStars = rating => {
-    const stars = convertRating(rating).map((star, index) => (
-      <div key={index} className={MAT_ICONS}>
-        {star}
-      </div>
-    ));
-
+  const getPrice = price => {
     return (
-      <div className={styles.RatingContainer}>
-        <div className={styles.Stars}>{rating ? stars : null}</div>
+      <div className={styles.PriceLevel}>
+        {convertPrice(price).map(sign => (
+          <Fa>{sign}</Fa>
+        ))}
       </div>
     );
+  };
+
+  const getStars = rating => {
+    const stars = convertRating(rating).map((star, index) => (
+      <Fa key={index}>{star}</Fa>
+    ));
+
+    return <div className={styles.Stars}>{rating ? stars : null}</div>;
   };
 
   const renderNearByThumbnails = () => {
@@ -43,7 +47,7 @@ const NearBy = props => {
                 click={props.getRestaurantClickHandler(res.place_id, res)}
                 img={imgUrl}
               >
-                <h6>{convertPrice(res.price_level)}</h6>
+                <h6>{getPrice(res.price_level)}</h6>
                 <h6>{res.name}</h6>
                 <h6>{res.rating ? getStars(res.rating) : null}</h6>
               </Thumbnail>
@@ -78,7 +82,7 @@ const NearBy = props => {
             <h4>Near You</h4>
             <div className={styles.NearByRefresh}>
               <Button clear circle small click={props.handleRefresh}>
-                <Fa>fa-redo-alt</Fa>
+                <Fa>fas fa-redo-alt</Fa>
               </Button>
             </div>
           </div>

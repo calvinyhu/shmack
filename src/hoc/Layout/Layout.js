@@ -72,35 +72,35 @@ class Layout extends PureComponent {
 
     let home = (
       <NavItem clear to={paths.HOME} click={this.handleCloseDrawer}>
-        <Fa>fa-home</Fa>
+        <Fa>fas fa-home</Fa>
         Home
       </NavItem>
     );
 
     let search = (
       <NavItem clear to={paths.SEARCH} click={this.handleCloseDrawer}>
-        <Fa>fa-search</Fa>
+        <Fa>fas fa-search</Fa>
         Search
       </NavItem>
     );
 
     let about = (
       <NavItem clear to={paths.ABOUT} click={this.handleCloseDrawer}>
-        <Fa>fa-info</Fa>
+        <Fa>fas fa-info</Fa>
         About
       </NavItem>
     );
 
     let settings = (
       <NavItem clear to={paths.SETTINGS} click={this.handleCloseDrawer}>
-        <Fa>fa-sliders-h</Fa>
+        <Fa>fas fa-sliders-h</Fa>
         Settings
       </NavItem>
     );
 
     let logout = (
       <NavItem clear to={paths.LOGOUT} click={this.handleCloseDrawer}>
-        <Fa>fa-sign-out-alt</Fa>
+        <Fa>fas fa-sign-out-alt</Fa>
         Log Out
       </NavItem>
     );

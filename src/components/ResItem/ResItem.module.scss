@@ -5,11 +5,8 @@ li {
   display: flex;
   justify-content: space-between;
   align-items: center;
-  margin-bottom: $margin * 1.2;
-
-  &:last-child {
-    margin-bottom: 0;
-  }
+  margin-bottom: $margin;
+  color: $md-black;
 
   p {
     margin: 0;
@@ -20,12 +17,16 @@ li {
     justify-content: center;
     align-items: center;
 
-    button {
-      color: $pastel-red;
+    p {
+      margin: 0;
+    }
+
+    .Thumb {
+      width: $fab-size-mini;
+      height: $fab-size-mini;
 
       &:first-of-type {
-        margin-right: $margin * 1.5;
-        color: $pastel-green;
+        margin-right: $margin;
       }
     }
   }
