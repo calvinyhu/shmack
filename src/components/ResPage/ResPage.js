@@ -38,8 +38,12 @@ class ResPage extends Component {
 
   handleSubmit = (event, id) => {
     if (event) event.preventDefault();
-    if (this.state.newItem) {
-      this.props.onPostItem(id, this.state.newItem);
+
+    let modifiedItem = null;
+    if (this.state.newItem) modifiedItem = this.state.newItem.trim();
+
+    if (modifiedItem) {
+      this.props.onPostItem(id, modifiedItem.toLowerCase());
       this.setState({ newItem: '' });
     } else this.props.onPostItemFail('The item name is required.');
   };
