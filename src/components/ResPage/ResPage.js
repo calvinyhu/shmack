@@ -20,8 +20,7 @@ import poweredByGoogle from 'assets/images/poweredByGoogle.png';
 const mapStateToProps = state => ({
   isGettingItems: state.resPage.isGettingItems,
   items: state.resPage.items,
-  error: state.resPage.error,
-  userPlaces: state.user.userPlaces
+  error: state.resPage.error
 });
 
 const mapDispatchToProps = {
@@ -31,20 +30,11 @@ const mapDispatchToProps = {
 };
 
 class ResPage extends Component {
-  submitHandlers = {};
-
   state = {
-    items: null,
     newItem: ''
   };
 
   handleInputChange = event => this.setState({ newItem: event.target.value });
-
-  getSubmitHandler = id => {
-    if (!this.submitHandlers[id])
-      this.submitHandlers[id] = event => this.handleSubmit(event, id);
-    return this.submitHandlers[id];
-  };
 
   handleSubmit = (event, id) => {
     if (event) event.preventDefault();
@@ -54,12 +44,18 @@ class ResPage extends Component {
     } else this.props.onPostItemFail('The item name is required.');
   };
 
+  submitHandlers = {};
+  getSubmitHandler = id => {
+    if (!this.submitHandlers[id])
+      this.submitHandlers[id] = event => this.handleSubmit(event, id);
+    return this.submitHandlers[id];
+  };
+
   getPrice = price => {
     return (
       <div className={styles.PriceLevel}>
         {convertPrice(price).map((sign, index) => (
           <Rf key={index}>{sign}</Rf>
-          // <Fa key={index}>{sign}</Fa>
         ))}
       </div>
     );
@@ -180,33 +176,17 @@ class ResPage extends Component {
   renderItems = () => {
     let items = null;
 
-    let userPlaceRes = null;
-
-    if (this.props.userPlaces)
-      userPlaceRes = this.props.userPlaces[this.props.id];
-
-    if (this.props.items) {
+    if (this.props.items && Object.keys(this.props.items).length > 0) {
       items = [];
       const names = Object.keys(this.props.items);
       names.forEach(name => {
-        let userPlacesName = null;
-        if (userPlaceRes) userPlacesName = userPlaceRes[name];
-
-        let votedUp = false;
-        let votedDown = false;
-
-        if (userPlacesName) {
-          votedUp = userPlacesName.votedUp;
-          votedDown = userPlacesName.votedDown;
-        }
-
         items.push(
           <ResItem
             key={name}
-            name={name}
             id={this.props.id}
-            votedUp={votedUp}
-            votedDown={votedDown}
+            name={name}
+            likes={this.props.items[name].likes}
+            dislikes={this.props.items[name].dislikes}
           />
         );
       });

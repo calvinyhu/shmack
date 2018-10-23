@@ -7,6 +7,7 @@ import styles from './Restaurants.module.scss';
 import * as restaurantActions from 'store/actions/restaurantsActions';
 import * as appActions from 'store/actions/appActions';
 import * as resPageActions from 'store/actions/resPageActions';
+import * as userActions from 'store/actions/userActions';
 import Thumbnail from 'components/Thumbnail/Thumbnail';
 import Modal from 'components/UI/Modal/Modal';
 import Backdrop from 'components/UI/Backdrop/Backdrop';
@@ -46,7 +47,8 @@ const mapDispatchToProps = {
   onRequestLocation: restaurantActions.requestLocation,
   onClearError: restaurantActions.clearError,
   onGetPopularItems: resPageActions.getItems,
-  onSetRedirectParent: appActions.setRedirectParent
+  onSetRedirectParent: appActions.setRedirectParent,
+  onGetUserVotes: userActions.getUserVotes
 };
 
 class Restaurants extends Component {
@@ -154,8 +156,11 @@ class Restaurants extends Component {
   getRestaurantClickHandler = (id, res) => {
     if (!this.restaurantClickHandlers[id]) {
       this.restaurantClickHandlers[id] = () => {
+        if (this.props.isAuth) {
+          this.props.onGetPopularItems(id);
+          this.props.onGetUserVotes(id);
+        }
         this.handlePageOpen(id, res);
-        if (this.props.isAuth) this.props.onGetPopularItems(id);
         this.hideLocationInput();
         this.hideFilters();
       };

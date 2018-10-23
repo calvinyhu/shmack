@@ -21,6 +21,7 @@ const Rf = props => {
   let iconClasses = styles.Icon;
 
   if (props.white) iconClasses += ' ' + styles.White;
+  if (props.darkMain) iconClasses += ' ' + styles.DarkMain;
 
   switch (props.children) {
     case 'arrow-left':

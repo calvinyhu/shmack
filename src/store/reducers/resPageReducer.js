@@ -14,12 +14,18 @@ const resPageReducer = (state = initialState, action) => {
       return { ...state, ...action.payload };
     case actionTypes.GET_ITEMS_FAIL:
       return { ...state, ...action.payload };
-    case actionTypes.POST_ITEM_SUCCESS:
-      return { ...state, ...action.payload };
+    case actionTypes.POST_ITEM_SUCCESS: {
+      const items = { ...state.items, ...action.payload.item };
+      const newState = { ...state, items, error: action.payload.error };
+      return newState;
+    }
     case actionTypes.POST_ITEM_FAIL:
       return { ...state, ...action.payload };
-    case actionTypes.POST_VOTE_SUCCESS:
-      return { ...state, ...action.payload };
+    case actionTypes.POST_VOTE_SUCCESS: {
+      const items = { ...state.items, ...action.payload.item };
+      const newState = { ...state, items, error: action.payload.error };
+      return newState;
+    }
     case actionTypes.POST_VOTE_FAIL:
       return { ...state, ...action.payload };
     default:
