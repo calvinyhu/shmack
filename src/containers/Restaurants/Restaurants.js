@@ -46,6 +46,7 @@ const mapDispatchToProps = {
   onRestaurantSearch: restaurantActions.restaurantSearch,
   onRequestLocation: restaurantActions.requestLocation,
   onClearError: restaurantActions.clearError,
+  onClearResPageError: resPageActions.clearError,
   onGetPopularItems: resPageActions.getItems,
   onSetRedirectParent: appActions.setRedirectParent,
   onGetUserVotes: userActions.getUserVotes
@@ -160,6 +161,7 @@ class Restaurants extends Component {
           this.props.onGetPopularItems(id);
           this.props.onGetUserVotes(id);
         }
+        this.props.onClearResPageError();
         this.handlePageOpen(id, res);
         this.hideLocationInput();
         this.hideFilters();

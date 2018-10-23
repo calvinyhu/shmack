@@ -123,3 +123,10 @@ const postVoteSuccess = item => ({
     error: null
   }
 });
+
+export const clearError = () => ({
+  type: actionTypes.RESPAGE_CLEAR_ERROR,
+  payload: {
+    error: null
+  }
+});

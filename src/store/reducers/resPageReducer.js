@@ -28,6 +28,8 @@ const resPageReducer = (state = initialState, action) => {
     }
     case actionTypes.POST_VOTE_FAIL:
       return { ...state, ...action.payload };
+    case actionTypes.RESPAGE_CLEAR_ERROR:
+      return { ...state, ...action.payload };
     default:
       return state;
   }
