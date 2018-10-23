@@ -1,6 +1,5 @@
 import * as actionTypes from './actionTypes';
 import { auth, restaurants } from 'utilities/firebase';
-import { postUserVote } from 'store/actions/userActions';
 
 export const getItems = restaurantId => dispatch => {
   dispatch(getItemsStart());
@@ -33,10 +32,12 @@ export const postItem = (restaurantId, itemName) => dispatch => {
     });
 };
 
-export const postVote = (restaurantId, itemName, isUp) => dispatch => {
+export const postRestaurantVote = (
+  restaurantId,
+  itemName,
+  isUp
+) => dispatch => {
   if (!auth.currentUser) return;
-
-  dispatch(postUserVote(restaurantId, itemName, isUp));
 
   const items = restaurants.doc(restaurantId).collection('items');
   items

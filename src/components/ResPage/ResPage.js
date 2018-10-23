@@ -9,7 +9,7 @@ import {
   convertPrice,
   convertRating
 } from 'utilities/google';
-import * as actions from 'store/actions/resPageActions';
+import * as resPageActions from 'store/actions/resPageActions';
 import ResItem from 'components/ResItem/ResItem';
 import Fa from 'components/UI/Icon/Fa/Fa';
 import Rf from 'components/UI/Icon/Rf/Rf';
@@ -24,9 +24,8 @@ const mapStateToProps = state => ({
 });
 
 const mapDispatchToProps = {
-  onPostItem: actions.postItem,
-  onPostVote: actions.postVote,
-  onPostItemFail: actions.postItemFail
+  onPostItem: resPageActions.postItem,
+  onPostItemFail: resPageActions.postItemFail
 };
 
 class ResPage extends Component {
