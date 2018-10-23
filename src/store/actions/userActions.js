@@ -70,7 +70,7 @@ const postUserInfoStart = () => ({
   type: actionTypes.USER_POST_INFO_START,
   payload: {
     posting: true,
-    error: null
+    error: {}
   }
 });
 
@@ -79,7 +79,7 @@ const postUserInfoSuccess = userInfo => ({
   payload: {
     posting: false,
     postSuccess: true,
-    error: null
+    error: {}
   }
 });
 
@@ -88,7 +88,7 @@ const postUserInfoFail = error => ({
   payload: {
     posting: false,
     postSuccess: false,
-    error: error
+    error
   }
 });
 

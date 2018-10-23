@@ -1,6 +1,7 @@
 import React, { Component } from 'react';
 import { Switch, Route, Redirect, withRouter } from 'react-router-dom';
 import { connect } from 'react-redux';
+import PropTypes from 'prop-types';
 
 import * as appActions from 'store/actions/appActions';
 import * as authActions from 'store/actions/authActions';
@@ -67,6 +68,13 @@ class App extends Component {
     return <Layout isAuth={this.props.isAuth}>{routes}</Layout>;
   }
 }
+
+App.propTypes = {
+  isAuth: PropTypes.bool.isRequired,
+  onAuthTryAutoLogIn: PropTypes.func.isRequired,
+  onCheckGeoLocatePermission: PropTypes.func.isRequired,
+  onBeforeInstallPrompt: PropTypes.func.isRequired
+};
 
 // Need @withRouter to wrap App if connecting App to store
 export default withRouter(

@@ -1,5 +1,6 @@
 import React from 'react';
 import Fade from 'react-reveal/Fade';
+import PropTypes from 'prop-types';
 
 import styles from './NearBy.module.scss';
 import Thumbnail from 'components/Thumbnail/Thumbnail';
@@ -12,7 +13,7 @@ import {
   convertRating
 } from 'utilities/google';
 
-const NearBy = props => {
+const nearBy = props => {
   const getPrice = price => {
     return (
       <div className={styles.PriceLevel}>
@@ -60,7 +61,7 @@ const NearBy = props => {
   };
 
   let nearByRestaurants = null;
-  if (!props.isLoading && !props.error) {
+  if (!props.isLoading && !props.error.message) {
     nearByRestaurants = renderNearByThumbnails();
     if (nearByRestaurants.length === 0) {
       nearByRestaurants = (
@@ -93,4 +94,12 @@ const NearBy = props => {
   );
 };
 
-export default NearBy;
+nearBy.propTypes = {
+  isLoading: PropTypes.bool.isRequired,
+  nearByRestaurants: PropTypes.array,
+  error: PropTypes.object,
+  getRestaurantClickHandler: PropTypes.func.isRequired,
+  handleRefresh: PropTypes.func.isRequired
+};
+
+export default nearBy;

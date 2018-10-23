@@ -2,6 +2,7 @@ import React, { Component } from 'react';
 import { Redirect } from 'react-router-dom';
 import { connect } from 'react-redux';
 import Fade from 'react-reveal/Fade';
+import PropTypes from 'prop-types';
 
 import styles from './Auth.module.scss';
 import * as authActions from 'store/actions/authActions';
@@ -210,6 +211,15 @@ class Auth extends Component {
     );
   }
 }
+
+Auth.propTypes = {
+  isLoading: PropTypes.bool.isRequired,
+  redirectPath: PropTypes.string.isRequired,
+  location: PropTypes.object.isRequired,
+  error: PropTypes.object.isRequired,
+  onClearError: PropTypes.func.isRequired,
+  onAuth: PropTypes.func.isRequired
+};
 
 export default connect(
   mapStateToProps,

@@ -3,10 +3,10 @@ import * as actionTypes from 'store/actions/actionTypes';
 const initialState = {
   hasGeoLocatePermission: false,
   isLocating: false,
-  geoLocation: null,
-  error: null,
-  deferredPrompt: null,
-  redirectParent: null
+  geoLocation: {},
+  geoError: {},
+  deferredPrompt: {},
+  redirectParent: ''
 };
 
 const appReducer = (state = initialState, action) => {

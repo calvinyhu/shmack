@@ -5,6 +5,7 @@
   "dependencies": {
     "axios": "^0.18.0",
     "node-sass": "^4.9.4",
+    "prop-types": "^15.6.2",
     "raf-throttle": "^2.0.3",
     "react": "^16.5.2",
     "react-dom": "^16.5.2",

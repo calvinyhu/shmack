@@ -3,7 +3,7 @@ import * as actionTypes from 'store/actions/actionTypes';
 const initialState = {
   isAuth: false,
   isLoading: false,
-  error: null,
+  error: {},
   redirectPath: ''
 };
 

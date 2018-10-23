@@ -1,5 +1,6 @@
 import React, { PureComponent } from 'react';
 import { connect } from 'react-redux';
+import PropTypes from 'prop-types';
 
 import styles from './ResItem.module.scss';
 import * as resPageActions from 'store/actions/resPageActions';
@@ -38,11 +39,17 @@ class ResItem extends PureComponent {
 
   render() {
     let isVotedUp = false;
-    if (this.props.votes && this.props.votes.likes.includes(this.props.name))
+    if (
+      this.props.votes.likes &&
+      this.props.votes.likes.includes(this.props.name)
+    )
       isVotedUp = true;
 
     let isVotedDown = false;
-    if (this.props.votes && this.props.votes.dislikes.includes(this.props.name))
+    if (
+      this.props.votes.dislikes &&
+      this.props.votes.dislikes.includes(this.props.name)
+    )
       isVotedDown = true;
 
     return (
@@ -66,6 +73,16 @@ class ResItem extends PureComponent {
     );
   }
 }
+
+ResItem.propTypes = {
+  onPostRestaurantVote: PropTypes.func.isRequired,
+  onPostUserVote: PropTypes.func.isRequired,
+  id: PropTypes.string.isRequired,
+  name: PropTypes.string.isRequired,
+  votes: PropTypes.object.isRequired,
+  likes: PropTypes.number.isRequired,
+  dislikes: PropTypes.number.isRequired
+};
 
 export default connect(
   mapStateToProps,

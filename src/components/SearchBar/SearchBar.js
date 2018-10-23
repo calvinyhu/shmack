@@ -1,5 +1,6 @@
 import React from 'react';
 import Fade from 'react-reveal/Fade';
+import PropTypes from 'prop-types';
 
 import styles from './SearchBar.module.scss';
 import Input from 'components/UI/Input/Input';
@@ -38,6 +39,7 @@ const searchBar = props => {
               onClick={props.handleShowLocationInput}
             >
               <Input
+                required={false}
                 small
                 id="food"
                 type="text"
@@ -50,6 +52,7 @@ const searchBar = props => {
             </div>
             <div className={locationInputContainerClasses}>
               <Input
+                required={false}
                 small
                 id="location"
                 type="text"
@@ -77,6 +80,19 @@ const searchBar = props => {
   );
 
   return bar;
+};
+
+searchBar.propTypes = {
+  isScrollingDown: PropTypes.bool.isRequired,
+  isGoogleLoading: PropTypes.bool.isRequired,
+  isShowFilters: PropTypes.bool.isRequired,
+  isShowLocationInput: PropTypes.bool.isRequired,
+  food: PropTypes.string.isRequired,
+  location: PropTypes.string.isRequired,
+  handleSearch: PropTypes.func.isRequired,
+  handleShowLocationInput: PropTypes.func.isRequired,
+  handleInputChange: PropTypes.func.isRequired,
+  handleToggleFilters: PropTypes.func.isRequired
 };
 
 export default searchBar;

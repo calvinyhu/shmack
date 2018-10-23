@@ -1,6 +1,7 @@
 import React, { Component } from 'react';
 import { Redirect } from 'react-router-dom';
 import { connect } from 'react-redux';
+import PropTypes from 'prop-types';
 
 import * as authActions from 'store/actions/authActions';
 
@@ -17,6 +18,10 @@ class LogOut extends Component {
     return <Redirect to="/" />;
   }
 }
+
+LogOut.propTypes = {
+  onAuthLogOut: PropTypes.func.isRequired
+};
 
 export default connect(
   null,

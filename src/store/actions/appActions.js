@@ -21,11 +21,13 @@ export const geoLocate = () => dispatch => {
         dispatch(geoSuccess(position));
       },
       error => {
-        dispatch(geoFail(geoErrorHandler(error)));
+        const message = geoErrorHandler(error);
+        dispatch(geoFail({ code: error.code, message }));
       }
     );
   } else {
-    dispatch(geoFail('Sorry, this browser does not support geo location'));
+    const message = 'Sorry, this browser does not support geo location';
+    dispatch(geoFail({ message }));
   }
 };
 
@@ -40,8 +42,8 @@ const geoStart = () => ({
   type: actionTypes.GEO_START,
   payload: {
     isLocating: true,
-    geoLocation: null,
-    error: null
+    geoLocation: {},
+    geoError: {}
   }
 });
 
@@ -54,21 +56,21 @@ const geoSuccess = geoLocation => ({
   }
 });
 
-const geoFail = error => ({
+const geoFail = geoError => ({
   type: actionTypes.GEO_FAIL,
   payload: {
     isLocating: false,
     hasGeoLocatePermission: false,
-    geoLocation: null,
-    error: error
+    geoLocation: {},
+    geoError: geoError
   }
 });
 
 export const geoClear = () => ({
   type: actionTypes.GEO_CLEAR,
   payload: {
-    geolocation: null,
-    error: null
+    geolocation: {},
+    geoError: {}
   }
 });
 

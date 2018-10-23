@@ -1,6 +1,7 @@
 import React, { Component } from 'react';
 import { connect } from 'react-redux';
 import { Redirect } from 'react-router-dom';
+import PropTypes from 'prop-types';
 
 import styles from './Home.module.scss';
 import * as restaurantActions from 'store/actions/restaurantsActions';
@@ -24,6 +25,7 @@ const mapDispatchToProps = {
   onClearError: restaurantActions.clearError,
   onRequestLocation: restaurantActions.requestLocation,
   onGetPopularItems: resPageActions.getItems,
+  onClearResPageError: resPageActions.clearError,
   onSetRedirectParent: appActions.setRedirectParent
 };
 
@@ -38,9 +40,9 @@ class Home extends Component {
 
   componentDidMount() {
     if (
-      !this.props.nearByRestaurants &&
+      this.props.nearByRestaurants.length === 0 &&
       !this.props.isNearByLoading &&
-      !this.props.error
+      !this.props.error.message
     )
       this.props.onGetNearBy('', '', NEAR_BY_RADIUS);
   }
@@ -73,6 +75,7 @@ class Home extends Component {
       this.restaurantClickHandlers[id] = () => {
         this.handlePageOpen(id, res);
         if (this.props.isAuth) this.props.onGetPopularItems(id);
+        this.props.onClearResPageError();
       };
     }
     return this.restaurantClickHandlers[id];
@@ -101,9 +104,11 @@ class Home extends Component {
           <div className={styles.Loader}>Searching...</div>
         </div>
       );
-    } else if (this.props.error) {
+    } else if (this.props.error.message) {
       let grantButton = null;
-      if (this.props.error === 'Your location is unknown. Grant location.') {
+      if (
+        this.props.error.message === 'Your location is unknown. Grant location.'
+      ) {
         grantButton = (
           <div className={styles.GrantButton}>
             <Button bold main click={this.handleRedirect}>
@@ -114,7 +119,7 @@ class Home extends Component {
       }
       errorMessage = (
         <div className={styles.Message}>
-          {this.props.error}
+          {this.props.error.message}
           {grantButton}
         </div>
       );
@@ -143,6 +148,18 @@ class Home extends Component {
     );
   }
 }
+
+Home.propTypes = {
+  isAuth: PropTypes.bool.isRequired,
+  isNearByLoading: PropTypes.bool.isRequired,
+  error: PropTypes.object.isRequired,
+  nearByRestaurants: PropTypes.array.isRequired,
+  onClearError: PropTypes.func.isRequired,
+  onSetRedirectParent: PropTypes.func.isRequired,
+  onRequestLocation: PropTypes.func.isRequired,
+  onGetNearBy: PropTypes.func.isRequired,
+  onGetPopularItems: PropTypes.func.isRequired
+};
 
 export default connect(
   mapStateToProps,

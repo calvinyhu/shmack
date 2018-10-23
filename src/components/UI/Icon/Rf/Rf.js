@@ -1,4 +1,5 @@
 import React from 'react';
+import PropTypes from 'prop-types';
 import ArrowLeft from 'react-feather/dist/icons/arrow-left';
 import Dollar from 'react-feather/dist/icons/dollar-sign';
 import Filter from 'react-feather/dist/icons/filter';
@@ -57,6 +58,12 @@ const Rf = props => {
     default:
       return null;
   }
+};
+
+Rf.propTypes = {
+  white: PropTypes.bool,
+  darkMain: PropTypes.bool,
+  children: PropTypes.string.isRequired
 };
 
 export default Rf;

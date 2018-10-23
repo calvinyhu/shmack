@@ -26,8 +26,8 @@ export const restaurantSearch = (food, location, radius) => dispatch => {
           );
         } else {
           if (radius === NEAR_BY_RADIUS) {
-            const error = 'Your location is unknown. Grant location.';
-            dispatch(nearBySearchFail(error));
+            const message = 'Your location is unknown. Grant location.';
+            dispatch(nearBySearchFail({ message }));
           } else {
             dispatch(toggleGeoLocPerm(false));
             dispatch(requestLocation(true));
@@ -50,7 +50,7 @@ const startAsyncGoogleRequest = (dispatch, food, location, radius) => {
         return getGoogleRestaurants(dispatch, food, lat, long, radius);
       })
       .catch(error => {
-        dispatch(restaurantGoogleSearchFail(error.data));
+        dispatch(restaurantGoogleSearchFail(error));
       });
   }
 };
@@ -73,10 +73,9 @@ const getGoogleRestaurants = (dispatch, food, lat, long, radius) => {
       else dispatch(restaurantGoogleSearchSuccess(response.data.results));
     })
     .catch(error => {
-      const errorMessage =
-        'There seems to be an internal problem. Try again later.';
-      if (radius === NEAR_BY_RADIUS) dispatch(nearBySearchFail(errorMessage));
-      else dispatch(restaurantGoogleSearchFail(errorMessage));
+      const message = 'There seems to be an internal problem. Try again later.';
+      if (radius === NEAR_BY_RADIUS) dispatch(nearBySearchFail({ message }));
+      else dispatch(restaurantGoogleSearchFail({ message }));
     });
 };
 
@@ -90,7 +89,7 @@ export const restaurantInputChange = (name, value) => ({
 export const clearError = () => ({
   type: actionTypes.RESTAURANT_CLEAR_ERROR,
   payload: {
-    error: null
+    error: {}
   }
 });
 
@@ -100,8 +99,8 @@ const restaurantGoogleSearchStart = () => ({
     isGoogleLoading: true,
     isSearchSuccess: false,
     isShowGrid: false,
-    googleRestaurants: null,
-    error: null
+    googleRestaurants: [],
+    error: {}
   }
 });
 
@@ -112,7 +111,7 @@ const restaurantGoogleSearchSuccess = restaurants => ({
     isSearchSuccess: true,
     isShowGrid: true,
     googleRestaurants: restaurants,
-    error: null
+    error: {}
   }
 });
 
@@ -122,7 +121,7 @@ const restaurantGoogleSearchFail = error => ({
     isGoogleLoading: false,
     isSearchSuccess: false,
     isShowGrid: false,
-    googleRestaurants: null,
+    googleRestaurants: [],
     error
   }
 });
@@ -139,7 +138,7 @@ const nearBySearchStart = () => ({
   type: actionTypes.NEAR_BY_SEARCH_START,
   payload: {
     isNearByLoading: true,
-    error: null
+    error: {}
   }
 });
 

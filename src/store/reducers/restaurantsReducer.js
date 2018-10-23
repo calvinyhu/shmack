@@ -4,11 +4,12 @@ const initialState = {
   isRequestingLocation: false,
   isGoogleLoading: false,
   isNearByLoading: false,
+  isSearchSuccess: false,
   food: '',
   location: '',
-  googleRestaurants: null,
-  nearByRestaurants: null,
-  error: null
+  googleRestaurants: [],
+  nearByRestaurants: [],
+  error: {}
 };
 
 const restaurantsReducer = (state = initialState, action) => {

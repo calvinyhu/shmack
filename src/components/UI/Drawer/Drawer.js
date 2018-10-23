@@ -1,4 +1,5 @@
 import React from 'react';
+import PropTypes from 'prop-types';
 
 import styles from './Drawer.module.scss';
 
@@ -18,6 +19,13 @@ const drawer = props => {
   }
 
   return <div className={drawerClasses}>{props.children}</div>;
+};
+
+drawer.propTypes = {
+  left: PropTypes.bool,
+  right: PropTypes.bool,
+  isOpen: PropTypes.bool.isRequired,
+  children: PropTypes.element.isRequired
 };
 
 export default drawer;

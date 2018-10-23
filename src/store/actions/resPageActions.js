@@ -23,8 +23,10 @@ export const postItem = (restaurantId, itemName) => dispatch => {
     .doc(itemName)
     .get()
     .then(doc => {
-      if (doc.exists) dispatch(postItemFail('Item exists'));
-      else {
+      if (doc.exists) {
+        const message = 'Item exists';
+        dispatch(postItemFail({ message }));
+      } else {
         const data = { likes: [], dislikes: [] };
         items.doc(itemName).set(data);
         dispatch(postItemSuccess({ [itemName]: { likes: 0, dislikes: 0 } }));
@@ -82,7 +84,7 @@ const getItemsStart = () => ({
   type: actionTypes.GET_ITEMS_START,
   payload: {
     isGettingItems: true,
-    items: null
+    items: {}
   }
 });
 
@@ -90,7 +92,7 @@ const getItemsSuccess = items => ({
   type: actionTypes.GET_ITEMS_SUCCESS,
   payload: {
     isGettingItems: false,
-    items: items
+    items
   }
 });
 
@@ -105,8 +107,8 @@ const getItemsFail = error => ({
 const postItemSuccess = item => ({
   type: actionTypes.POST_ITEM_SUCCESS,
   payload: {
-    item: item,
-    error: null
+    item,
+    error: {}
   }
 });
 
@@ -120,14 +122,14 @@ export const postItemFail = error => ({
 const postVoteSuccess = item => ({
   type: actionTypes.POST_VOTE_SUCCESS,
   payload: {
-    item: item,
-    error: null
+    item,
+    error: {}
   }
 });
 
 export const clearError = () => ({
   type: actionTypes.RESPAGE_CLEAR_ERROR,
   payload: {
-    error: null
+    error: {}
   }
 });

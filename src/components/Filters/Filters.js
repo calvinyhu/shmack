@@ -1,4 +1,5 @@
 import React from 'react';
+import PropTypes from 'prop-types';
 
 import styles from './Filters.module.scss';
 import Button from 'components/UI/Button/Button';
@@ -26,7 +27,7 @@ const filters = props => {
       <header>
         <p>Filters</p>
         <div className={styles.FiltersApplyContainer}>
-          <Button main small click={props.search}>
+          <Button main small click={props.apply}>
             Apply
           </Button>
         </div>
@@ -37,21 +38,21 @@ const filters = props => {
           <p
             id={RADIUS.ONE}
             className={radiusClasses[RADIUS.ONE]}
-            onClick={props.clickRadius}
+            onClick={props.changeRadius}
           >
             {RADIUS.ONE}
           </p>
           <p
             id={RADIUS.FIVE}
             className={radiusClasses[RADIUS.FIVE]}
-            onClick={props.clickRadius}
+            onClick={props.changeRadius}
           >
             {RADIUS.FIVE}
           </p>
           <p
             id={RADIUS.TEN}
             className={radiusClasses[RADIUS.TEN]}
-            onClick={props.clickRadius}
+            onClick={props.changeRadius}
           >
             {RADIUS.TEN}
           </p>
@@ -61,6 +62,14 @@ const filters = props => {
   );
 
   return filtersContainer;
+};
+
+filters.propTypes = {
+  isOpen: PropTypes.bool.isRequired,
+  isLifted: PropTypes.bool.isRequired,
+  options: PropTypes.object.isRequired,
+  apply: PropTypes.func.isRequired,
+  changeRadius: PropTypes.func.isRequired
 };
 
 export default filters;

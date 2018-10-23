@@ -2,6 +2,7 @@ import React, { Component } from 'react';
 import { connect } from 'react-redux';
 import { Redirect } from 'react-router-dom';
 import throttle from 'raf-throttle';
+import PropTypes from 'prop-types';
 
 import styles from './Restaurants.module.scss';
 import * as restaurantActions from 'store/actions/restaurantsActions';
@@ -123,7 +124,7 @@ class Restaurants extends Component {
     if (this.state.isShowFilters) this.setState({ isShowFilters: false });
   };
 
-  handleClickRadius = event => this.setState({ radius: event.target.id });
+  handleChangeRadius = event => this.setState({ radius: event.target.id });
 
   handleSearch = event => {
     if (event) event.preventDefault();
@@ -230,10 +231,10 @@ class Restaurants extends Component {
         isOpen={this.state.isShowFilters}
         isLifted={
           this.state.isShowFilters &&
-          (this.state.isShowLocationInput || this.props.location)
+          (this.state.isShowLocationInput || this.props.location.length > 0)
         }
-        clickRadius={this.handleClickRadius}
-        search={this.handleSearch}
+        changeRadius={this.handleChangeRadius}
+        apply={this.handleSearch}
         options={options}
       />
     );
@@ -241,7 +242,7 @@ class Restaurants extends Component {
     const searchBar = (
       <SearchBar
         isScrollingDown={this.state.isScrollingDown}
-        isGoogleLoading={this.state.isGoogleLoading}
+        isGoogleLoading={this.props.isGoogleLoading}
         isShowFilters={this.state.isShowFilters}
         isShowLocationInput={this.state.isShowLocationInput}
         food={this.props.food}
@@ -291,8 +292,10 @@ class Restaurants extends Component {
           <div className={styles.Loader}>Searching...</div>
         </div>
       );
-    } else if (this.props.error) {
-      errorMessage = <div className={styles.Message}>{this.props.error}</div>;
+    } else if (this.props.error.message) {
+      errorMessage = (
+        <div className={styles.Message}>{this.props.error.message}</div>
+      );
     } else {
       let restaurants = this.renderThumbnails();
       if (restaurants.length > 0) {
@@ -329,6 +332,26 @@ class Restaurants extends Component {
     );
   }
 }
+
+Restaurants.propTypes = {
+  isRequestingLocation: PropTypes.bool.isRequired,
+  isGoogleLoading: PropTypes.bool.isRequired,
+  isSearchSuccess: PropTypes.bool.isRequired,
+  isAuth: PropTypes.bool.isRequired,
+  hasGeoLocatePermission: PropTypes.bool.isRequired,
+  food: PropTypes.string.isRequired,
+  location: PropTypes.string.isRequired,
+  googleRestaurants: PropTypes.array.isRequired,
+  error: PropTypes.object.isRequired,
+  onRestaurantSearch: PropTypes.func.isRequired,
+  onGetPopularItems: PropTypes.func.isRequired,
+  onGetUserVotes: PropTypes.func.isRequired,
+  onClearResPageError: PropTypes.func.isRequired,
+  onClearError: PropTypes.func.isRequired,
+  onSetRedirectParent: PropTypes.func.isRequired,
+  onRequestLocation: PropTypes.func.isRequired,
+  onRestaurantInputChange: PropTypes.func.isRequired
+};
 
 export default connect(
   mapStateToProps,

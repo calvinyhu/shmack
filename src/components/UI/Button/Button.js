@@ -1,4 +1,5 @@
 import React, { PureComponent } from 'react';
+import PropTypes from 'prop-types';
 
 import styles from './Button.module.scss';
 
@@ -84,5 +85,20 @@ class Button extends PureComponent {
     );
   }
 }
+
+Button.propTypes = {
+  link: PropTypes.bool,
+  small: PropTypes.bool,
+  circle: PropTypes.bool,
+  main: PropTypes.bool,
+  clear: PropTypes.bool,
+  translucent: PropTypes.bool,
+  noShadow: PropTypes.bool,
+  leftAlign: PropTypes.bool,
+  bold: PropTypes.bool,
+  disabled: PropTypes.bool,
+  click: PropTypes.func,
+  children: PropTypes.any
+};
 
 export default Button;

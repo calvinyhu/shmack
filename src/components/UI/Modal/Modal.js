@@ -1,4 +1,5 @@
 import React from 'react';
+import PropTypes from 'prop-types';
 
 import styles from './Modal.module.scss';
 import Button from 'components/UI/Button/Button';
@@ -18,6 +19,13 @@ const modal = props => {
       </div>
     </div>
   );
+};
+
+modal.propTypes = {
+  isOpen: PropTypes.bool.isRequired,
+  children: PropTypes.string.isRequired,
+  btnMsg: PropTypes.string.isRequired,
+  click: PropTypes.func.isRequired
 };
 
 export default modal;

@@ -2,6 +2,7 @@ import React, { PureComponent } from 'react';
 import Fade from 'react-reveal/Fade';
 import { connect } from 'react-redux';
 import Rf from 'components/UI/Icon/Rf/Rf';
+import PropTypes from 'prop-types';
 
 import styles from './Layout.module.scss';
 import {
@@ -43,7 +44,7 @@ class Layout extends PureComponent {
   handleCloseDrawer = () => this.setState({ isDrawerOpen: false });
 
   handleA2HS = () => {
-    if (this.props.deferredPrompt) {
+    if (this.props.deferredPrompt.prompt) {
       this.props.deferredPrompt.prompt();
       this.props.onClearDeferredPrompt();
     }
@@ -105,7 +106,7 @@ class Layout extends PureComponent {
     );
 
     let A2HSButton = null;
-    if (this.props.deferredPrompt) {
+    if (this.props.deferredPrompt.prompt) {
       A2HSButton = (
         <div className={styles.A2HSButton}>
           <Button clear leftAlign click={this.handleA2HS}>
@@ -177,6 +178,13 @@ class Layout extends PureComponent {
     );
   }
 }
+
+Layout.propTypes = {
+  isAuth: PropTypes.bool.isRequired,
+  deferredPrompt: PropTypes.object.isRequired,
+  children: PropTypes.element.isRequired,
+  onClearDeferredPrompt: PropTypes.func.isRequired
+};
 
 export default connect(
   mapStateToProps,

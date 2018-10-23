@@ -1,5 +1,6 @@
 import React from 'react';
 import Fade from 'react-reveal/Fade';
+import PropTypes from 'prop-types';
 
 import styles from './Thumbnail.module.scss';
 
@@ -14,6 +15,12 @@ const thumbnail = props => {
       </div>
     </Fade>
   );
+};
+
+thumbnail.propTypes = {
+  click: PropTypes.func.isRequired,
+  img: PropTypes.string.isRequired,
+  children: PropTypes.arrayOf(PropTypes.object).isRequired
 };
 
 export default thumbnail;

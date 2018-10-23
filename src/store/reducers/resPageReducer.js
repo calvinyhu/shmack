@@ -2,8 +2,8 @@ import * as actionTypes from 'store/actions/actionTypes';
 
 const initialState = {
   isGettingItems: false,
-  items: null,
-  error: null
+  items: {},
+  error: {}
 };
 
 const resPageReducer = (state = initialState, action) => {

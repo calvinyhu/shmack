@@ -1,4 +1,5 @@
 import React from 'react';
+import PropTypes from 'prop-types';
 
 import styles from './Input.module.scss';
 
@@ -48,6 +49,23 @@ const input = props => {
       {label}
     </div>
   );
+};
+
+input.propTypes = {
+  line: PropTypes.bool,
+  small: PropTypes.bool,
+  medium: PropTypes.bool,
+  margin: PropTypes.bool,
+  transparent: PropTypes.bool,
+  noError: PropTypes.bool,
+  floatText: PropTypes.bool,
+  required: PropTypes.bool.isRequired,
+  error: PropTypes.string,
+  type: PropTypes.string.isRequired,
+  name: PropTypes.string.isRequired,
+  placeholder: PropTypes.string.isRequired,
+  value: PropTypes.string.isRequired,
+  change: PropTypes.func.isRequired
 };
 
 export default input;

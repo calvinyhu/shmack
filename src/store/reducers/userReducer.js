@@ -3,8 +3,8 @@ import * as actionTypes from 'store/actions/actionTypes';
 const initialState = {
   posting: false,
   postSuccess: false,
-  votes: null,
-  error: null
+  votes: {},
+  error: {}
 };
 
 const userReducer = (state = initialState, action) => {

@@ -1,5 +1,6 @@
 import React, { Component } from 'react';
 import { connect } from 'react-redux';
+import PropTypes from 'prop-types';
 
 import styles from './ResPage.module.scss';
 import Button from 'components/UI/Button/Button';
@@ -44,7 +45,10 @@ class ResPage extends Component {
     if (modifiedItem) {
       this.props.onPostItem(id, modifiedItem.toLowerCase());
       this.setState({ newItem: '' });
-    } else this.props.onPostItemFail('The item name is required.');
+    } else {
+      const message = 'The item name is required.';
+      this.props.onPostItemFail({ message });
+    }
   };
 
   submitHandlers = {};
@@ -106,13 +110,14 @@ class ResPage extends Component {
           <form className={styles.AddItem} onSubmit={this.getSubmitHandler(id)}>
             <div className={styles.AddItemInputContainer}>
               <Input
+                required={false}
                 line
                 type={'text'}
                 name={'item'}
                 placeholder={'New Item'}
                 value={this.state.newItem}
                 change={this.handleInputChange}
-                error={this.props.error}
+                error={this.props.error.message}
               />
             </div>
             <div className={styles.AddItemSubmitButton}>
@@ -214,6 +219,18 @@ class ResPage extends Component {
     return <div className={resPageClasses}>{pageContent}</div>;
   }
 }
+
+ResPage.propTypes = {
+  isOpen: PropTypes.bool.isRequired,
+  isGettingItems: PropTypes.bool.isRequired,
+  id: PropTypes.string,
+  restaurant: PropTypes.object,
+  error: PropTypes.object,
+  items: PropTypes.object,
+  onPostItem: PropTypes.func.isRequired,
+  onPostItemFail: PropTypes.func.isRequired,
+  close: PropTypes.func.isRequired
+};
 
 export default connect(
   mapStateToProps,

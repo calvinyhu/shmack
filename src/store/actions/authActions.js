@@ -52,7 +52,7 @@ export const authLogOut = () => dispatch => {
 export const clearError = () => ({
   type: actionTypes.AUTH_CLEAR_ERROR,
   payload: {
-    error: null
+    error: {}
   }
 });
 
@@ -85,8 +85,8 @@ const authLogOutSuccess = () => ({
   payload: {
     isAuth: false,
     isLoading: false,
-    error: null,
-    redirectPath: null
+    error: {},
+    redirectPath: ''
   }
 });
 
@@ -95,6 +95,6 @@ const authLogOutFail = error => ({
   payload: {
     isLoading: false,
     error: error,
-    redirectPath: null
+    redirectPath: ''
   }
 });

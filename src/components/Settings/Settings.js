@@ -2,6 +2,7 @@ import React, { Component } from 'react';
 import { connect } from 'react-redux';
 import { Redirect } from 'react-router-dom';
 import Fade from 'react-reveal/Fade';
+import PropTypes from 'prop-types';
 
 import styles from './Settings.module.scss';
 import {
@@ -19,7 +20,7 @@ const mapStateToProps = state => {
   return {
     hasGeoLocatePermission: state.app.hasGeoLocatePermission,
     isLocating: state.app.isLocating,
-    geoError: state.app.error,
+    geoError: state.app.geoError,
     geoLocation: state.app.geoLocation,
     redirectParent: state.app.redirectParent
   };
@@ -53,19 +54,22 @@ class Settings extends Component {
   clear = () => this.props.onClear();
 
   render() {
-    if (this.props.redirectParent === paths.HOME && this.props.geoLocation)
+    if (this.props.redirectParent === paths.HOME && this.props.geoLocation.lat)
       return <Redirect to={paths.HOME} />;
-    if (this.props.redirectParent === paths.SEARCH && this.props.geoLocation)
+    if (
+      this.props.redirectParent === paths.SEARCH &&
+      this.props.geoLocation.lat
+    )
       return <Redirect to={paths.SEARCH} />;
 
-    let geoError = (
+    const geoError = (
       <Modal
-        isOpen={this.props.geoError}
+        isOpen={this.props.geoError.message ? true : false}
         click={this.clear}
         close={this.clear}
         btnMsg={'Okay!'}
       >
-        {this.props.geoError}
+        {this.props.geoError.message ? this.props.geoError.message : ''}
       </Modal>
     );
 
@@ -101,12 +105,24 @@ class Settings extends Component {
               <div className={styles.SwitchThumb}>{loader}</div>
             </label>
           </div>
-          {geoError}
         </Fade>
+        {geoError}
       </div>
     );
   }
 }
+
+Settings.propTypes = {
+  isLocating: PropTypes.bool.isRequired,
+  hasGeoLocatePermission: PropTypes.bool.isRequired,
+  redirectParent: PropTypes.string,
+  geoLocation: PropTypes.object,
+  geoError: PropTypes.object,
+  onSetRedirectParent: PropTypes.func.isRequired,
+  onClear: PropTypes.func.isRequired,
+  onToggleGeoLocPerm: PropTypes.func.isRequired,
+  onGeoLocate: PropTypes.func.isRequired
+};
 
 export default connect(
   mapStateToProps,
