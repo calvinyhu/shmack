@@ -1,5 +1,5 @@
 import * as actionTypes from './actionTypes';
-import { auth, restaurants } from 'utilities/firebase';
+import { auth, restaurants, CIDS } from 'utilities/firebase';
 
 export const getItems = restaurantId => dispatch => {
   dispatch(getItemsStart());
@@ -18,7 +18,7 @@ export const getItems = restaurantId => dispatch => {
 export const postItem = (restaurantId, itemName) => dispatch => {
   if (!auth.currentUser) return;
 
-  const items = restaurants.doc(restaurantId).collection('items');
+  const items = restaurants.doc(restaurantId).collection(CIDS.ITEMS);
   items
     .doc(itemName)
     .get()
@@ -41,7 +41,7 @@ export const postRestaurantVote = (
 ) => dispatch => {
   if (!auth.currentUser) return;
 
-  const items = restaurants.doc(restaurantId).collection('items');
+  const items = restaurants.doc(restaurantId).collection(CIDS.ITEMS);
   items
     .doc(itemName)
     .get()

@@ -106,20 +106,18 @@ class Home extends Component {
       );
     } else if (this.props.error.message) {
       let grantButton = null;
-      if (
-        this.props.error.message === 'Your location is unknown. Grant location.'
-      ) {
+      if (this.props.error.code === 'locationOff') {
         grantButton = (
           <div className={styles.GrantButton}>
             <Button bold main click={this.handleRedirect}>
-              Grant
+              Take me there
             </Button>
           </div>
         );
       }
       errorMessage = (
         <div className={styles.Message}>
-          {this.props.error.message}
+          To see popular foods nearby, turn on location.
           {grantButton}
         </div>
       );

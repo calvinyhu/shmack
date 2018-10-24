@@ -12,6 +12,7 @@ import {
   setRedirectParent,
   checkGeoLocatePermission
 } from 'store/actions/appActions';
+import Backdrop from 'components/UI/Backdrop/Backdrop';
 import Modal from 'components/UI/Modal/Modal';
 import Rf from 'components/UI/Icon/Rf/Rf';
 import * as paths from 'utilities/paths';
@@ -20,6 +21,7 @@ const mapStateToProps = state => {
   return {
     hasGeoLocatePermission: state.app.hasGeoLocatePermission,
     isLocating: state.app.isLocating,
+    isError: state.app.isError,
     geoError: state.app.geoError,
     geoLocation: state.app.geoLocation,
     redirectParent: state.app.redirectParent
@@ -62,12 +64,16 @@ class Settings extends Component {
     )
       return <Redirect to={paths.SEARCH} />;
 
+    const backdrop = (
+      <Backdrop isOpen={this.props.isError} click={this.clear} />
+    );
+
     const geoError = (
       <Modal
-        isOpen={this.props.geoError.message ? true : false}
+        isOpen={this.props.isError}
         click={this.clear}
         close={this.clear}
-        btnMsg={'Okay!'}
+        btnMsg={'Okay'}
       >
         {this.props.geoError.message ? this.props.geoError.message : ''}
       </Modal>
@@ -106,6 +112,7 @@ class Settings extends Component {
             </label>
           </div>
         </Fade>
+        {backdrop}
         {geoError}
       </div>
     );

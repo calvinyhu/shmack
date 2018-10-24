@@ -44,13 +44,10 @@
   align-items: center;
   border: none;
   padding: 0;
+  cursor: pointer;
 
   &:focus {
     outline: none;
-  }
-
-  &:hover {
-    cursor: pointer;
   }
 }
 

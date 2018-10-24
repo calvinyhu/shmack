@@ -278,9 +278,9 @@ class Restaurants extends Component {
         isOpen={this.props.isRequestingLocation}
         click={this.handleRedirect}
         close={this.handleCloseLocationRequest}
-        btnMsg={'Take me there!'}
+        btnMsg={'Take me there'}
       >
-        Turn on location sharing in app settings
+        To use your current location, turn on location sharing in app settings
       </Modal>
     );
 

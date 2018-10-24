@@ -13,7 +13,7 @@ const modal = props => {
     <div className={modalClasses}>
       <p>{props.children}</p>
       <div className={styles.ModalButton}>
-        <Button main click={props.click}>
+        <Button main bold click={props.click}>
           {props.btnMsg}
         </Button>
       </div>

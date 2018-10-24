@@ -3,6 +3,7 @@ import * as actionTypes from 'store/actions/actionTypes';
 const initialState = {
   hasGeoLocatePermission: false,
   isLocating: false,
+  isError: false,
   geoLocation: {},
   geoError: {},
   deferredPrompt: {},

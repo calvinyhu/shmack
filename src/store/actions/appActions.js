@@ -43,7 +43,8 @@ const geoStart = () => ({
   payload: {
     isLocating: true,
     geoLocation: {},
-    geoError: {}
+    geoError: {},
+    isError: false
   }
 });
 
@@ -62,7 +63,8 @@ const geoFail = geoError => ({
     isLocating: false,
     hasGeoLocatePermission: false,
     geoLocation: {},
-    geoError: geoError
+    geoError: geoError,
+    isError: true
   }
 });
 
@@ -70,7 +72,7 @@ export const geoClear = () => ({
   type: actionTypes.GEO_CLEAR,
   payload: {
     geolocation: {},
-    geoError: {}
+    isError: false
   }
 });
 

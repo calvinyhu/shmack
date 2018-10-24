@@ -26,8 +26,9 @@ export const restaurantSearch = (food, location, radius) => dispatch => {
           );
         } else {
           if (radius === NEAR_BY_RADIUS) {
-            const message = 'Your location is unknown. Grant location.';
-            dispatch(nearBySearchFail({ message }));
+            const code = 'locationOff';
+            const message = 'Location is off.';
+            dispatch(nearBySearchFail({ code, message }));
           } else {
             dispatch(toggleGeoLocPerm(false));
             dispatch(requestLocation(true));
@@ -50,7 +51,9 @@ const startAsyncGoogleRequest = (dispatch, food, location, radius) => {
         return getGoogleRestaurants(dispatch, food, lat, long, radius);
       })
       .catch(error => {
-        dispatch(restaurantGoogleSearchFail(error));
+        const message =
+          "We can't get your location right now. Try again later.";
+        dispatch(restaurantGoogleSearchFail({ message }));
       });
   }
 };
@@ -73,7 +76,8 @@ const getGoogleRestaurants = (dispatch, food, lat, long, radius) => {
       else dispatch(restaurantGoogleSearchSuccess(response.data.results));
     })
     .catch(error => {
-      const message = 'There seems to be an internal problem. Try again later.';
+      const message =
+        "We can't reach Google services right now. Try again later.";
       if (radius === NEAR_BY_RADIUS) dispatch(nearBySearchFail({ message }));
       else dispatch(restaurantGoogleSearchFail({ message }));
     });

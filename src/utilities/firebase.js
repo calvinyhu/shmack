@@ -3,7 +3,6 @@ import 'firebase/auth';
 import 'firebase/firestore';
 
 import { GOOGLE_FIREBASE_API_KEY } from '../secrets';
-import * as labels from './database';
 
 // Initialize firebase
 firebase.initializeApp({
@@ -25,5 +24,22 @@ export const firestore = firebase.firestore();
 const settings = { /* your settings... */ timestampsInSnapshots: true };
 firestore.settings(settings);
 
-export const users = firestore.collection(labels.USERS);
-export const restaurants = firestore.collection(labels.RESTAURANTS);
+// Collection Ids
+export const CIDS = {
+  USERS: 'users',
+  RESTAURANTS: 'restaurants',
+  ITEMS: 'items'
+};
+
+// User Collection Fields
+export const USER_FIELDS = {
+  EMAIL: 'email',
+  FIRST_NAME: 'firstName',
+  LAST_NAME: 'lastName',
+  LOCATION: 'location',
+  PROFILE_PICTURE: 'profilePicture'
+};
+
+// Root Collections
+export const users = firestore.collection(CIDS.USERS);
+export const restaurants = firestore.collection(CIDS.RESTAURANTS);
