@@ -92,7 +92,7 @@ class Settings extends Component {
           <h5>Settings</h5>
           <div className={styles.Setting}>
             <div className={styles.Label}>
-              <Rf>nav</Rf>
+              <Rf sm>nav</Rf>
               <p>Location Sharing</p>
             </div>
             <label className={styles.SwitchTrack}>

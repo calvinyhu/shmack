@@ -62,7 +62,9 @@ class ResPage extends Component {
     return (
       <div className={styles.PriceLevel}>
         {convertPrice(price).map((sign, index) => (
-          <Rf key={index}>{sign}</Rf>
+          <Rf key={index} sm>
+            {sign}
+          </Rf>
         ))}
       </div>
     );
@@ -122,7 +124,7 @@ class ResPage extends Component {
             </div>
             <div className={styles.AddItemSubmitButton}>
               <Button circle clear click={this.getSubmitHandler(id)}>
-                <Rf>plus</Rf>
+                <Rf sm>plus</Rf>
               </Button>
             </div>
           </form>
@@ -144,7 +146,9 @@ class ResPage extends Component {
           <div className={styles.ImgContainer}>
             <div className={styles.BackButton}>
               <Button translucent circle click={this.props.close}>
-                <Rf white>arrow-left</Rf>
+                <Rf sm white>
+                  arrow-left
+                </Rf>
               </Button>
             </div>
             <img src={imgSrc} alt="restaurant" />

@@ -66,13 +66,13 @@ const searchBar = props => {
           </div>
           <div className={searchButtonClasses}>
             <Button main click={props.handleSearch}>
-              <Rf>search</Rf>
+              <Rf sm>search</Rf>
             </Button>
           </div>
         </form>
         <div className={searchButtonClasses}>
           <Button main click={props.handleToggleFilters}>
-            <Rf>filter</Rf>
+            <Rf sm>filter</Rf>
           </Button>
         </div>
       </Fade>

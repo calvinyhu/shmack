@@ -2,10 +2,20 @@
 
 .Icon {
   color: $md-black;
-  width: $font-size * 1.2;
-  height: $font-size * 1.2;
+  width: $font-size * 1.5;
+  height: $font-size * 1.5;
   user-select: none;
   pointer-events: none;
+}
+
+.Sm {
+  width: $font-size * 1.2;
+  height: $font-size * 1.2;
+}
+
+.Lg {
+  width: $font-size * 2;
+  height: $font-size * 2;
 }
 
 .White {

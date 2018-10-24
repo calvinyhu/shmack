@@ -21,6 +21,8 @@ import styles from './Rf.module.scss';
 const Rf = props => {
   let iconClasses = styles.Icon;
 
+  if (props.sm) iconClasses += ' ' + styles.Sm;
+  if (props.lg) iconClasses += ' ' + styles.Lg;
   if (props.white) iconClasses += ' ' + styles.White;
   if (props.darkMain) iconClasses += ' ' + styles.DarkMain;
 

@@ -14,13 +14,10 @@
   transition: $transition1;
   appearance: none;
   user-select: none;
+  cursor: pointer;
 
   &:focus {
     outline: none;
-  }
-
-  &:hover {
-    cursor: pointer;
   }
 
   &:disabled {

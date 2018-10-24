@@ -13,6 +13,7 @@ import Thumbnail from 'components/Thumbnail/Thumbnail';
 import Modal from 'components/UI/Modal/Modal';
 import Backdrop from 'components/UI/Backdrop/Backdrop';
 import Fa from 'components/UI/Icon/Fa/Fa';
+import Rf from 'components/UI/Icon/Rf/Rf';
 import ResPage from 'components/ResPage/ResPage';
 import Filters from 'components/Filters/Filters';
 import SearchBar from 'components/SearchBar/SearchBar';
@@ -175,7 +176,9 @@ class Restaurants extends Component {
     return (
       <div className={styles.PriceLevel}>
         {convertPrice(price).map((sign, index) => (
-          <Fa key={index}>{sign}</Fa>
+          <Rf key={index} sm white>
+            {sign}
+          </Rf>
         ))}
       </div>
     );

@@ -18,7 +18,9 @@ const nearBy = props => {
     return (
       <div className={styles.PriceLevel}>
         {convertPrice(price).map((sign, index) => (
-          <Fa key={index}>{sign}</Fa>
+          <Rf key={index} white sm>
+            {sign}
+          </Rf>
         ))}
       </div>
     );
@@ -83,7 +85,7 @@ const nearBy = props => {
             <h5>Near You</h5>
             <div className={styles.NearByRefresh}>
               <Button clear circle small click={props.handleRefresh}>
-                <Rf>refresh</Rf>
+                <Rf sm>refresh</Rf>
               </Button>
             </div>
           </div>

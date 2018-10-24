@@ -72,35 +72,35 @@ class Layout extends PureComponent {
 
     let home = (
       <NavItem clear to={paths.HOME} click={this.handleCloseDrawer}>
-        <Rf>home</Rf>
+        <Rf sm>home</Rf>
         Home
       </NavItem>
     );
 
     let search = (
       <NavItem clear to={paths.SEARCH} click={this.handleCloseDrawer}>
-        <Rf>search</Rf>
+        <Rf sm>search</Rf>
         Search
       </NavItem>
     );
 
     let about = (
       <NavItem clear to={paths.ABOUT} click={this.handleCloseDrawer}>
-        <Rf>info</Rf>
+        <Rf sm>info</Rf>
         About
       </NavItem>
     );
 
     let settings = (
       <NavItem clear to={paths.SETTINGS} click={this.handleCloseDrawer}>
-        <Rf>sliders</Rf>
+        <Rf sm>sliders</Rf>
         Settings
       </NavItem>
     );
 
     let logout = (
       <NavItem clear to={paths.LOGOUT} click={this.handleCloseDrawer}>
-        <Rf>logout</Rf>
+        <Rf sm>logout</Rf>
         Log Out
       </NavItem>
     );
@@ -110,7 +110,7 @@ class Layout extends PureComponent {
       A2HSButton = (
         <div className={styles.A2HSButton}>
           <Button clear leftAlign click={this.handleA2HS}>
-            <Rf>phone</Rf>
+            <Rf sm>phone</Rf>
             <p>Add to Home Screen</p>
           </Button>
         </div>
@@ -158,7 +158,7 @@ class Layout extends PureComponent {
         <header className={styles.Header}>
           <div className={styles.DrawerToggle}>
             <Button clear circle click={this.handleClick}>
-              <Rf>menu</Rf>
+              <Rf sm>menu</Rf>
             </Button>
           </div>
           <h5>shmack</h5>

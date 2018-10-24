@@ -59,13 +59,17 @@ class ResItem extends PureComponent {
           <p>{this.props.likes}</p>
           <div className={styles.Thumb}>
             <Button clear circle click={this.handleVoteUp}>
-              <Rf darkMain={isVotedUp}>thumbs-up</Rf>
+              <Rf sm darkMain={isVotedUp}>
+                thumbs-up
+              </Rf>
             </Button>
           </div>
           <p>{this.props.dislikes}</p>
           <div className={styles.Thumb}>
             <Button clear circle click={this.handleVoteDown}>
-              <Rf darkMain={isVotedDown}>thumbs-down</Rf>
+              <Rf sm darkMain={isVotedDown}>
+                thumbs-down
+              </Rf>
             </Button>
           </div>
         </div>
