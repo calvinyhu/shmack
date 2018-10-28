@@ -1,14 +1,16 @@
 import React from 'react';
 import PropTypes from 'prop-types';
+import classnames from 'classnames';
 
 import styles from './Fa.module.scss';
 
 const Fa = props => {
-  let faClasses = props.children;
-
-  if (props.bare) faClasses += ' ' + styles.Bare;
-  else faClasses += ' ' + styles.Fa;
-  if (props.lg) faClasses += ' fa-lg';
+  const faClasses = classnames({
+    [props.children]: true,
+    [styles.Bare]: props.bare,
+    [styles.Fa]: !props.bare,
+    'fa-lg': props.lg
+  });
 
   return <div className={faClasses} />;
 };

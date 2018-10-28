@@ -1,5 +1,6 @@
 import React, { PureComponent } from 'react';
 import PropTypes from 'prop-types';
+import classnames from 'classnames';
 
 import styles from './Button.module.scss';
 
@@ -42,33 +43,26 @@ class Button extends PureComponent {
   handleMouseLeave = () => this.setState({ isMouse: false });
 
   render() {
-    let buttonClasses = styles.Button;
-
-    if (this.props.link) buttonClasses = styles.PlaceholderLink;
-    if (this.props.small) buttonClasses += ' ' + styles.Small;
-    if (this.props.circle) buttonClasses += ' ' + styles.Circle;
-    if (this.props.main) buttonClasses += ' ' + styles.Main;
-    if (this.props.clear) buttonClasses += ' ' + styles.Clear;
-    if (this.props.translucent) buttonClasses += ' ' + styles.Translucent;
-    if (this.props.noShadow) buttonClasses += ' ' + styles.NoShadow;
-    if (this.props.leftAlign) buttonClasses += ' ' + styles.FlexStart;
-    if (this.props.bold) buttonClasses += ' ' + styles.Bold;
-
-    // Hover effects
-    if (this.state.isTouch) {
-      if (this.props.main) buttonClasses += ' ' + styles.MainTouchHover;
-      if (this.props.clear) buttonClasses += ' ' + styles.ClearTouchHover;
-      if (this.props.translucent)
-        buttonClasses += ' ' + styles.TranslucentTouchHover;
-      this.isTouched = true;
-    }
-
-    if (!this.isTouched && this.state.isMouse) {
-      if (this.props.main) buttonClasses += ' ' + styles.MainMouseHover;
-      if (this.props.clear) buttonClasses += ' ' + styles.ClearMouseHover;
-      if (this.props.translucent)
-        buttonClasses += ' ' + styles.TranslucentMouseHover;
-    }
+    const buttonClasses = classnames({
+      [styles.Button]: true,
+      [styles.PlaceholderLink]: this.props.link,
+      [styles.Small]: this.props.small,
+      [styles.Circle]: this.props.circle,
+      [styles.Main]: this.props.main,
+      [styles.Clear]: this.props.clear,
+      [styles.Translucent]: this.props.translucent,
+      [styles.NoShadow]: this.props.noShadow,
+      [styles.FlexStart]: this.props.leftAlign,
+      [styles.Bold]: this.props.bold,
+      [styles.MainTouchHover]: this.state.isTouch && this.props.main,
+      [styles.ClearTouchHover]: this.state.isTouch && this.props.clear,
+      [styles.TranslucentTouchHover]:
+        this.state.isTouch && this.props.translucent,
+      [styles.MainMouseHover]: this.state.isMouse && this.props.main,
+      [styles.ClearMouseHover]: this.state.isMouse && this.props.clear,
+      [styles.TranslucentMouseHover]:
+        this.state.isMouse && this.props.translucent
+    });
 
     return (
       <button

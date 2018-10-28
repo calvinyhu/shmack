@@ -1,24 +1,23 @@
 import React from 'react';
 import PropTypes from 'prop-types';
+import classnames from 'classnames';
 
 import styles from './Input.module.scss';
 
 const input = props => {
-  let inputGroupClasses = styles.InputGroup;
-  let inputClasses = styles.Input;
+  const inputGroupClasses = classnames({
+    [styles.InputGroup]: true,
+    [styles.Margin]: props.margin
+  });
 
-  // Style
-  if (props.line) inputClasses += ' ' + styles.Line;
-
-  // Padding
-  if (props.small) inputClasses += ' ' + styles.Small;
-  if (props.medium) inputClasses += ' ' + styles.Medium;
-
-  // Margin
-  if (props.margin) inputGroupClasses += ' ' + styles.Margin;
-
-  // Color
-  if (props.transparent) inputClasses += ' ' + styles.Transparent;
+  const inputClasses = classnames({
+    [styles.Input]: true,
+    [styles.Line]: props.line,
+    [styles.Small]: props.small,
+    [styles.Medium]: props.medium,
+    [styles.Transparent]: props.transparent,
+    [styles.ErrorOutline]: props.error
+  });
 
   // Label
   let label = null;
@@ -32,7 +31,6 @@ const input = props => {
 
   let error = null;
   if (!props.noError) error = <p className={styles.Error}>{props.error}</p>;
-  if (props.error) inputClasses += ' ' + styles.ErrorOutline;
 
   return (
     <div className={inputGroupClasses}>

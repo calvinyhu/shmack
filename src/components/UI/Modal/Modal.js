@@ -1,13 +1,16 @@
 import React from 'react';
 import PropTypes from 'prop-types';
+import classnames from 'classnames';
 
 import styles from './Modal.module.scss';
 import Button from 'components/UI/Button/Button';
 
 const modal = props => {
-  let modalClasses = styles.Modal;
-  if (props.isOpen) modalClasses += ' ' + styles.OpenModal;
-  else modalClasses += ' ' + styles.CloseModal;
+  const modalClasses = classnames({
+    [styles.Modal]: true,
+    [styles.OpenModal]: props.isOpen,
+    [styles.CloseModal]: !props.isOpen
+  });
 
   return (
     <div className={modalClasses}>

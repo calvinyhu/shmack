@@ -1,6 +1,7 @@
 import React from 'react';
 import Fade from 'react-reveal/Fade';
 import PropTypes from 'prop-types';
+import classnames from 'classnames';
 
 import styles from './SearchBar.module.scss';
 import Input from 'components/UI/Input/Input';
@@ -8,26 +9,31 @@ import Button from 'components/UI/Button/Button';
 import Rf from '../UI/Icon/Rf/Rf';
 
 const searchBar = props => {
-  let searchBarClasses = styles.SearchBar;
+  const searchBarClasses = classnames({
+    [styles.SearchBar]: true,
+    [styles.HideSearchBar]: props.isScrollingDown || props.isGoogleLoading,
+    [styles.SearchBarBoxShadow]: props.isShowFilters,
+    [styles.ExtendSearchBar]: props.isShowLocationInput || props.location
+  });
 
-  if (props.isScrollingDown || props.isGoogleLoading)
-    searchBarClasses += ' ' + styles.HideSearchBar;
+  const foodInputContainerClasses = classnames({
+    [styles.FoodInputContainer]: true,
+    [styles.SlideYFoodInput]: props.isShowLocationInput || props.location
+  });
 
-  if (props.isShowFilters) searchBarClasses += ' ' + styles.SearchBarBoxShadow;
+  const locationInputContainerClasses = classnames({
+    [styles.LocationInputContainer]: true,
+    [styles.Show]: props.isShowLocationInput || props.location
+  });
 
-  let foodInputContainerClasses = styles.FoodInputContainer;
-  let locationInputContainerClasses = styles.LocationInputContainer;
-  let searchButtonClasses = styles.SearchButton;
-  let foodInputPlaceholder = props.isShowLocationInput
+  const searchButtonClasses = classnames({
+    [styles.SearchButton]: true,
+    [styles.ExtendSearchButton]: props.isShowLocationInput || props.location
+  });
+
+  const foodInputPlaceholder = props.isShowLocationInput
     ? 'Food'
     : 'Food at Your Location';
-
-  if (props.isShowLocationInput || props.location) {
-    searchBarClasses += ' ' + styles.ExtendSearchBar;
-    foodInputContainerClasses += ' ' + styles.SlideYFoodInput;
-    locationInputContainerClasses += ' ' + styles.Show;
-    searchButtonClasses += ' ' + styles.ExtendSearchButton;
-  }
 
   let bar = (
     <div className={searchBarClasses}>

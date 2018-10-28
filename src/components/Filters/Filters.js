@@ -1,5 +1,6 @@
 import React from 'react';
 import PropTypes from 'prop-types';
+import classnames from 'classnames';
 
 import styles from './Filters.module.scss';
 import Button from 'components/UI/Button/Button';
@@ -11,15 +12,13 @@ const RADIUS = {
 };
 
 const filters = props => {
-  let filtersClasses = styles.Filters;
+  const filtersClasses = classnames({
+    [styles.Filters]: true,
+    [styles.SlideYFilters]: props.isOpen,
+    [styles.LiftFilters]: props.isLifted
+  });
 
-  if (props.isOpen) {
-    filtersClasses += ' ' + styles.SlideYFilters;
-
-    if (props.isLifted) filtersClasses += ' ' + styles.LiftFilters;
-  }
-
-  let radiusClasses = {};
+  const radiusClasses = {};
   radiusClasses[props.options.radius] = styles.ActiveRadius;
 
   let filtersContainer = (

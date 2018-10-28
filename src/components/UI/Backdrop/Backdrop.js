@@ -1,13 +1,15 @@
 import React from 'react';
 import PropTypes from 'prop-types';
+import classnames from 'classnames';
 
 import styles from './Backdrop.module.scss';
 
 const backdrop = props => {
-  let backdropClasses = styles.Backdrop;
-
-  if (props.isOpen) backdropClasses += ' ' + styles.OpenBackdrop;
-  else backdropClasses += ' ' + styles.CloseBackdrop;
+  const backdropClasses = classnames({
+    [styles.Backdrop]: true,
+    [styles.OpenBackdrop]: props.isOpen,
+    [styles.CloseBackdrop]: !props.isOpen
+  });
 
   return <div className={backdropClasses} onClick={props.click} />;
 };

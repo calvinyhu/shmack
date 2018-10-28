@@ -3,6 +3,7 @@ import { connect } from 'react-redux';
 import { Redirect } from 'react-router-dom';
 import Fade from 'react-reveal/Fade';
 import PropTypes from 'prop-types';
+import classnames from 'classnames';
 
 import styles from './Settings.module.scss';
 import {
@@ -79,12 +80,14 @@ class Settings extends Component {
       </Modal>
     );
 
-    let inputClasses = null;
-    let loaderClasses = styles.LoaderContainer;
-    if (this.props.isLocating) {
-      inputClasses = styles.InputLoading;
-      loaderClasses += ' ' + styles.Show;
-    }
+    const inputClasses = classnames({
+      [styles.InputLoading]: this.props.isLocating
+    });
+
+    const loaderClasses = classnames({
+      [styles.LoaderContainer]: true,
+      [styles.Show]: this.props.isLocating
+    });
 
     let loader = (
       <div className={loaderClasses}>

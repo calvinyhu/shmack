@@ -1,22 +1,19 @@
 import React from 'react';
 import PropTypes from 'prop-types';
+import classnames from 'classnames';
 
 import styles from './Drawer.module.scss';
 
 const drawer = props => {
-  let drawerClasses = null;
+  const drawerClasses = classnames({
+    [styles.LeftDrawer]: props.left,
+    [styles.OpenDrawer]: props.left && props.isOpen,
+    [styles.CloseLeftDrawer]: props.left && !props.isOpen,
 
-  if (props.left) {
-    drawerClasses = styles.LeftDrawer;
-    if (props.isOpen) drawerClasses += ' ' + styles.OpenDrawer;
-    else drawerClasses += ' ' + styles.CloseLeftDrawer;
-  }
-
-  if (props.right) {
-    drawerClasses = styles.RightDrawer;
-    if (props.isOpen) drawerClasses += ' ' + styles.OpenDrawer;
-    else drawerClasses += ' ' + styles.CloseRightDrawer;
-  }
+    [styles.RightDrawer]: props.right,
+    [styles.OpenDrawer]: props.right && props.isOpen,
+    [styles.CloseRightDrawer]: props.right && !props.isOpen
+  });
 
   return <div className={drawerClasses}>{props.children}</div>;
 };

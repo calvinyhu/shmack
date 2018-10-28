@@ -1,6 +1,7 @@
 import React from 'react';
 import { NavLink } from 'react-router-dom';
 import PropTypes from 'prop-types';
+import classnames from 'classnames';
 
 import styles from './NavItem.module.scss';
 import Button from '../Button';
@@ -21,23 +22,21 @@ class NavItem extends Button {
   };
 
   render() {
-    let navItemClasses = styles.NavItem;
+    if (this.state.isTouch) this.isTouched = true;
 
-    if (this.props.link) navItemClasses += ' ' + styles.Link;
-    if (this.props.clear) navItemClasses += ' ' + styles.Clear;
-    if (this.props.borderMain) navItemClasses += ' ' + styles.BorderMain;
-    if (this.props.bold) navItemClasses += ' ' + styles.Bold;
-
-    if (this.state.isTouch) {
-      if (this.props.clear) navItemClasses += ' ' + styles.ClearTouchHover;
-      if (this.props.link) navItemClasses += ' ' + styles.LinkTouchHover;
-      this.isTouched = true;
-    }
-
-    if (!this.isTouched && this.state.isMouse) {
-      if (this.props.clear) navItemClasses += ' ' + styles.ClearMouseHover;
-      if (this.props.link) navItemClasses += ' ' + styles.LinkMouseHover;
-    }
+    const navItemClasses = classnames({
+      [styles.NavItem]: true,
+      [styles.Link]: this.props.link,
+      [styles.Clear]: this.props.clear,
+      [styles.BorderMain]: this.props.borderMain,
+      [styles.Bold]: this.props.bold,
+      [styles.ClearTouchHover]: this.state.isTouch && this.props.clear,
+      [styles.LinkTouchHover]: this.state.isTouch && this.props.link,
+      [styles.ClearMouseHover]:
+        !this.isTouched && this.state.isMouse && this.props.clear,
+      [styles.LinkMouseHover]:
+        !this.isTouched && this.state.isMouse && this.props.link
+    });
 
     return (
       <NavLink

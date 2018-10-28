@@ -1,5 +1,6 @@
 import React from 'react';
 import PropTypes from 'prop-types';
+import classnames from 'classnames';
 import ArrowLeft from 'react-feather/dist/icons/arrow-left';
 import Dollar from 'react-feather/dist/icons/dollar-sign';
 import Filter from 'react-feather/dist/icons/filter';
@@ -19,12 +20,13 @@ import ThumbsUp from 'react-feather/dist/icons/thumbs-up';
 import styles from './Rf.module.scss';
 
 const Rf = props => {
-  let iconClasses = styles.Icon;
-
-  if (props.sm) iconClasses += ' ' + styles.Sm;
-  if (props.lg) iconClasses += ' ' + styles.Lg;
-  if (props.white) iconClasses += ' ' + styles.White;
-  if (props.darkMain) iconClasses += ' ' + styles.DarkMain;
+  const iconClasses = classnames({
+    [styles.Icon]: true,
+    [styles.Sm]: props.sm,
+    [styles.Lg]: props.lg,
+    [styles.White]: props.white,
+    [styles.DarkMain]: props.darkMain
+  });
 
   switch (props.children) {
     case 'arrow-left':
