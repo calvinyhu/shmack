@@ -26,7 +26,7 @@ export const restaurantSearch = (food, location, radius) => dispatch => {
             error => console.log(error)
           );
         } else {
-          if (radius === NEAR_BY_RADIUS) {
+          if (radius === NEAR_BY_RADIUS || radius === AT_RADIUS) {
             const code = 'locationOff';
             const message = 'Location is off.';
             dispatch(nearBySearchFail({ code, message }));
