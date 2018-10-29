@@ -1,0 +1,24 @@
+@import './src/assets/scss/_variables.scss';
+@import './src/assets/scss/_mixins.scss';
+
+.DragDrawer {
+  height: 100vh;
+  width: 80vw;
+  max-width: 25rem;
+  position: fixed;
+  top: 0;
+  left: 0;
+  z-index: 2;
+  transition: $transition1;
+  background: $main-color;
+}
+
+.TouchBar {
+  position: absolute;
+  top: 0;
+  right: -1rem;
+  display: inline-block;
+  width: 1rem;
+  height: 100vh;
+  background: transparent;
+}

@@ -1,8 +1,8 @@
 import React, { PureComponent } from 'react';
 import Fade from 'react-reveal/Fade';
 import { connect } from 'react-redux';
-import Rf from 'components/UI/Icon/Rf/Rf';
 import PropTypes from 'prop-types';
+import throttle from 'raf-throttle';
 
 import styles from './Layout.module.scss';
 import {
@@ -11,9 +11,9 @@ import {
 } from 'store/actions/appActions';
 import Aux from 'hoc/Auxiliary/Auxiliary';
 import Backdrop from 'components/UI/Backdrop/Backdrop';
-import DragDrawer from 'components/UI/DragDrawer/DragDrawer';
-import Drawer from 'components/UI/Drawer/Drawer';
+import DragDrawer from '../../components/UI/DragDrawer/DragDrawer';
 import Button from 'components/UI/Button/Button';
+import Rf from 'components/UI/Icon/Rf/Rf';
 import NavItem from 'components/UI/Button/NavItem/NavItem';
 import * as paths from 'utilities/paths';
 
@@ -39,17 +39,61 @@ class Layout extends PureComponent {
     onClearDeferredPrompt: PropTypes.func.isRequired
   };
 
+  constructor(props) {
+    super(props);
+    this.drawerRef = React.createRef();
+  }
+
+  startX = 0;
+  prevOffsetX = 0;
+  maxOffsetX = 0;
+
   state = {
-    isDrawerOpen: false
+    isDrawerOpen: false,
+    offsetX: null
   };
+
+  componentDidMount() {
+    if (this.drawerRef.current) {
+      this.maxOffsetX = -this.drawerRef.current.drawerRef.current.clientWidth;
+      this.setState({ offsetX: this.maxOffsetX });
+    }
+  }
 
   handleClick = () => {
     this.setState(prevState => {
-      return { isDrawerOpen: !prevState.isDrawerOpen };
+      return {
+        isDrawerOpen: !prevState.isDrawerOpen,
+        offsetX: prevState.offsetX === 0 ? this.maxOffsetX : 0
+      };
     });
   };
 
-  handleCloseDrawer = () => this.setState({ isDrawerOpen: false });
+  handleCloseDrawer = () =>
+    this.setState({ isDrawerOpen: false, offsetX: this.maxOffsetX });
+
+  handleTouchStart = event => {
+    this.prevOffsetX = this.state.offsetX;
+    this.startX = event.touches[0].clientX;
+  };
+
+  handleTouchMove = event => {
+    throttle(this.animateDrawer(event.touches[0].clientX));
+  };
+
+  animateDrawer = clientX => {
+    let offsetX = clientX - this.startX + this.prevOffsetX;
+    offsetX = offsetX > 0 ? 0 : offsetX;
+    offsetX = offsetX < this.maxOffsetX ? this.maxOffsetX : offsetX;
+    this.setState({ offsetX });
+  };
+
+  handleTouchEnd = () => {
+    if (this.state.offsetX >= this.maxOffsetX / 2)
+      this.setState({ offsetX: 0, isDrawerOpen: true });
+    if (this.state.offsetX < this.maxOffsetX / 2)
+      this.setState({ offsetX: this.maxOffsetX, isDrawerOpen: false });
+  };
 
   handleA2HS = () => {
     if (this.props.deferredPrompt.prompt) {
@@ -125,10 +169,16 @@ class Layout extends PureComponent {
       );
     }
 
-    let drawer = null;
+    let dragDrawer = null;
     if (this.props.isAuth) {
-      drawer = (
-        <Drawer left isOpen={this.state.isDrawerOpen}>
+      dragDrawer = (
+        <DragDrawer
+          ref={this.drawerRef}
+          offsetX={this.state.offsetX}
+          touchStart={this.handleTouchStart}
+          touchMove={this.handleTouchMove}
+          touchEnd={this.handleTouchEnd}
+        >
           <nav>
             <div className={styles.Primary}>
               {home}
@@ -139,11 +189,17 @@ class Layout extends PureComponent {
             </div>
             {logout}
           </nav>
-        </Drawer>
+        </DragDrawer>
       );
     } else {
-      drawer = (
-        <Drawer left isOpen={this.state.isDrawerOpen}>
+      dragDrawer = (
+        <DragDrawer
+          ref={this.drawerRef}
+          offsetX={this.state.offsetX}
+          touchStart={this.handleTouchStart}
+          touchMove={this.handleTouchMove}
+          touchEnd={this.handleTouchEnd}
+        >
           <nav>
             <div className={styles.Primary}>
               <div className={styles.AuthLinks}>
@@ -157,7 +213,7 @@ class Layout extends PureComponent {
               {A2HSButton}
             </div>
           </nav>
-        </Drawer>
+        </DragDrawer>
       );
     }
 
@@ -181,7 +237,7 @@ class Layout extends PureComponent {
         {header}
         {main}
         {backdrop}
-        {drawer}
+        {dragDrawer}
       </Aux>
     );
   }
