@@ -15,8 +15,16 @@ class DragDrawer extends Component {
   }
 
   render() {
-    const style = { transform: `translateX(${this.props.offsetX}px)` };
+    const style = {
+      transform: `translateX(${this.props.offsetX}px)`,
+      transition: `0.1s`
+    };
     if (this.props.offsetX === null) style.transform = 'translateX(-100%)';
+    else if (
+      this.props.offsetX === 0 ||
+      this.props.offsetX === this.props.maxOffsetX
+    )
+      style.transition = `0.5s cubic-bezier(0.26, 0.94, 0.58, 1)`;
 
     return (
       <div

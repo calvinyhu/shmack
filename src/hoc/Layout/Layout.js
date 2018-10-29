@@ -88,11 +88,17 @@ class Layout extends PureComponent {
     this.setState({ offsetX });
   };
 
-  handleTouchEnd = () => {
-    if (this.state.offsetX >= this.maxOffsetX / 2)
-      this.setState({ offsetX: 0, isDrawerOpen: true });
-    if (this.state.offsetX < this.maxOffsetX / 2)
-      this.setState({ offsetX: this.maxOffsetX, isDrawerOpen: false });
+  handleTouchEnd = event => {
+    const percent = 1 - this.state.offsetX / this.maxOffsetX;
+    console.log(percent);
+    if (this.state.isDrawerOpen) {
+      if (percent <= 0.8)
+        this.setState({ offsetX: this.maxOffsetX, isDrawerOpen: false });
+      else this.setState({ offsetX: 0, isDrawerOpen: true });
+    } else {
+      if (percent >= 0.2) this.setState({ offsetX: 0, isDrawerOpen: true });
+      else this.setState({ offsetX: this.maxOffsetX, isDrawerOpen: false });
+    }
   };
 
   handleA2HS = () => {
@@ -175,6 +181,7 @@ class Layout extends PureComponent {
         <DragDrawer
           ref={this.drawerRef}
           offsetX={this.state.offsetX}
+          maxOffsetX={this.maxOffsetX}
           touchStart={this.handleTouchStart}
           touchMove={this.handleTouchMove}
           touchEnd={this.handleTouchEnd}
@@ -196,6 +203,7 @@ class Layout extends PureComponent {
         <DragDrawer
           ref={this.drawerRef}
           offsetX={this.state.offsetX}
+          maxOffsetX={this.maxOffsetX}
           touchStart={this.handleTouchStart}
           touchMove={this.handleTouchMove}
           touchEnd={this.handleTouchEnd}
