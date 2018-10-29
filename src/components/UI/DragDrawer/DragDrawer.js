@@ -15,16 +15,17 @@ class DragDrawer extends Component {
   }
 
   render() {
-    const style = {
-      transform: `translateX(${this.props.offsetX}px)`,
-      transition: `0.1s`
-    };
+    const style = { transform: `translateX(${this.props.offsetX}px)` };
+
     if (this.props.offsetX === null) style.transform = 'translateX(-100%)';
     else if (
       this.props.offsetX === 0 ||
       this.props.offsetX === this.props.maxOffsetX
     )
       style.transition = `0.5s cubic-bezier(0.26, 0.94, 0.58, 1)`;
+
+    let touchBar = null;
+    if (!this.props.isOpen) touchBar = <div className={styles.TouchBar} />;
 
     return (
       <div
@@ -36,7 +37,7 @@ class DragDrawer extends Component {
         onTouchEnd={this.props.touchEnd}
       >
         {this.props.children}
-        <div className={styles.TouchBar} />
+        {touchBar}
       </div>
     );
   }

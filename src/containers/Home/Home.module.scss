@@ -23,11 +23,8 @@
   flex-direction: column;
   justify-content: center;
   align-items: center;
-  align-self: center;
-  width: 100%;
-  height: 100%;
   position: relative;
-  margin: $margin 0;
+  margin: auto;
   font-size: $font-size * 1.3;
 
   .GrantButton {

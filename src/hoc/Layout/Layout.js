@@ -50,7 +50,8 @@ class Layout extends PureComponent {
 
   state = {
     isDrawerOpen: false,
-    offsetX: null
+    offsetX: null,
+    percent: 0
   };
 
   componentDidMount() {
@@ -85,12 +86,12 @@ class Layout extends PureComponent {
     let offsetX = clientX - this.startX + this.prevOffsetX;
     offsetX = offsetX > 0 ? 0 : offsetX;
     offsetX = offsetX < this.maxOffsetX ? this.maxOffsetX : offsetX;
-    this.setState({ offsetX });
+    const percent = 1 - offsetX / this.maxOffsetX;
+    this.setState({ offsetX, percent });
   };
 
-  handleTouchEnd = event => {
+  handleTouchEnd = () => {
     const percent = 1 - this.state.offsetX / this.maxOffsetX;
-    console.log(percent);
     if (this.state.isDrawerOpen) {
       if (percent <= 0.8)
         this.setState({ offsetX: this.maxOffsetX, isDrawerOpen: false });
@@ -113,6 +114,7 @@ class Layout extends PureComponent {
       <Backdrop
         isOpen={this.state.isDrawerOpen}
         click={this.handleCloseDrawer}
+        percent={this.state.percent}
       />
     );
 
@@ -175,55 +177,51 @@ class Layout extends PureComponent {
       );
     }
 
-    let dragDrawer = null;
+    let nav = null;
     if (this.props.isAuth) {
-      dragDrawer = (
-        <DragDrawer
-          ref={this.drawerRef}
-          offsetX={this.state.offsetX}
-          maxOffsetX={this.maxOffsetX}
-          touchStart={this.handleTouchStart}
-          touchMove={this.handleTouchMove}
-          touchEnd={this.handleTouchEnd}
-        >
-          <nav>
-            <div className={styles.Primary}>
-              {home}
-              {search}
-              {about}
-              {settings}
-              {A2HSButton}
-            </div>
-            {logout}
-          </nav>
-        </DragDrawer>
+      nav = (
+        <nav>
+          <div className={styles.Primary}>
+            {home}
+            {search}
+            {about}
+            {settings}
+            {A2HSButton}
+          </div>
+          {logout}
+        </nav>
       );
     } else {
-      dragDrawer = (
-        <DragDrawer
-          ref={this.drawerRef}
-          offsetX={this.state.offsetX}
-          maxOffsetX={this.maxOffsetX}
-          touchStart={this.handleTouchStart}
-          touchMove={this.handleTouchMove}
-          touchEnd={this.handleTouchEnd}
-        >
-          <nav>
-            <div className={styles.Primary}>
-              <div className={styles.AuthLinks}>
-                {signup}
-                {login}
-              </div>
-              {home}
-              {search}
-              {about}
-              {settings}
-              {A2HSButton}
+      nav = (
+        <nav>
+          <div className={styles.Primary}>
+            <div className={styles.AuthLinks}>
+              {signup}
+              {login}
             </div>
-          </nav>
-        </DragDrawer>
+            {home}
+            {search}
+            {about}
+            {settings}
+            {A2HSButton}
+          </div>
+        </nav>
       );
     }
+
+    const dragDrawer = (
+      <DragDrawer
+        ref={this.drawerRef}
+        isOpen={this.state.isDrawerOpen}
+        offsetX={this.state.offsetX}
+        maxOffsetX={this.maxOffsetX}
+        touchStart={this.handleTouchStart}
+        touchMove={this.handleTouchMove}
+        touchEnd={this.handleTouchEnd}
+      >
+        {nav}
+      </DragDrawer>
+    );
 
     const header = (
       <Fade>
