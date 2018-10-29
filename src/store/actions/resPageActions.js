@@ -10,8 +10,9 @@ export const getItems = restaurantId => dispatch => {
       if (doc.exists) dispatch(getItemsSuccess(doc.data()));
       else dispatch(getItemsSuccess(null));
     })
-    .catch(error => {
-      dispatch(getItemsFail(error.response));
+    .catch(_ => {
+      const message = 'Failed getting items';
+      dispatch(getItemsFail({ message }));
     });
 };
 

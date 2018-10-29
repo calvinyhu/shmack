@@ -105,10 +105,10 @@ export const clearError = () => ({
 const restaurantGoogleSearchStart = () => ({
   type: actionTypes.RESTAURANT_GOOGLE_SEARCH_START,
   payload: {
-    isGoogleLoading: true,
+    isSearchLoading: true,
     isSearchSuccess: false,
     isShowGrid: false,
-    googleRestaurants: [],
+    searchRestaurants: [],
     error: {}
   }
 });
@@ -116,10 +116,10 @@ const restaurantGoogleSearchStart = () => ({
 const restaurantGoogleSearchSuccess = restaurants => ({
   type: actionTypes.RESTAURANT_GOOGLE_SEARCH_SUCCESS,
   payload: {
-    isGoogleLoading: false,
+    isSearchLoading: false,
     isSearchSuccess: true,
     isShowGrid: true,
-    googleRestaurants: restaurants,
+    searchRestaurants: restaurants,
     error: {}
   }
 });
@@ -127,10 +127,10 @@ const restaurantGoogleSearchSuccess = restaurants => ({
 const restaurantGoogleSearchFail = error => ({
   type: actionTypes.RESTAURANT_GOOGLE_SEARCH_FAIL,
   payload: {
-    isGoogleLoading: false,
+    isSearchLoading: false,
     isSearchSuccess: false,
     isShowGrid: false,
-    googleRestaurants: [],
+    searchRestaurants: [],
     error
   }
 });
@@ -138,7 +138,7 @@ const restaurantGoogleSearchFail = error => ({
 export const requestLocation = value => ({
   type: actionTypes.RESTAURANT_REQUESTING_LOCATION,
   payload: {
-    isGoogleLoading: false,
+    isSearchLoading: false,
     isRequestingLocation: value
   }
 });

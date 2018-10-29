@@ -7,17 +7,15 @@ import styles from './Home.module.scss';
 import * as restaurantActions from 'store/actions/restaurantsActions';
 import * as appActions from 'store/actions/appActions';
 import * as resPageActions from 'store/actions/resPageActions';
+import * as userActions from 'store/actions/userActions';
 import Thumbnail from 'components/Thumbnail/Thumbnail';
 import ResPage from 'components/ResPage/ResPage';
 import Button from 'components/UI/Button/Button';
 import Rf from 'components/UI/Icon/Rf/Rf';
-import Fa from 'components/UI/Icon/Fa/Fa';
 import {
   AT_RADIUS,
   NEAR_BY_RADIUS,
-  createGooglePlacePhotoQuery,
-  convertPrice,
-  convertRating
+  createGooglePlacePhotoQuery
 } from 'utilities/google';
 import * as paths from 'utilities/paths';
 
@@ -37,7 +35,8 @@ const mapDispatchToProps = {
   onRequestLocation: restaurantActions.requestLocation,
   onGetPopularItems: resPageActions.getItems,
   onClearResPageError: resPageActions.clearError,
-  onSetRedirectParent: appActions.setRedirectParent
+  onSetRedirectParent: appActions.setRedirectParent,
+  onGetUserVotes: userActions.getUserVotes
 };
 
 class Home extends Component {
@@ -50,14 +49,14 @@ class Home extends Component {
     onSetRedirectParent: PropTypes.func.isRequired,
     onRequestLocation: PropTypes.func.isRequired,
     onGetNearBy: PropTypes.func.isRequired,
-    onGetPopularItems: PropTypes.func.isRequired
+    onGetPopularItems: PropTypes.func.isRequired,
+    onGetUserVotes: PropTypes.func.isRequired
   };
 
   state = {
     isRedirectingToSettings: false,
     isScrollingDown: false,
     isPageOpen: false,
-    id: null,
     restaurant: null
   };
 
@@ -99,64 +98,46 @@ class Home extends Component {
   };
 
   // Restaurant Page Handles
-  handlePageOpen = (id, res) =>
-    this.setState({ isPageOpen: true, id: id, restaurant: res });
+  handlePageOpen = restaurant =>
+    this.setState({ isPageOpen: true, restaurant });
   handlePageClose = () =>
     this.setState({ isPageOpen: false, isScrollingDown: false });
 
   // Restaurant Grid Thumbnail Handles
   restaurantClickHandlers = {};
-  getRestaurantClickHandler = (id, res) => {
-    if (!this.restaurantClickHandlers[id]) {
-      this.restaurantClickHandlers[id] = () => {
-        this.handlePageOpen(id, res);
-        if (this.props.isAuth) this.props.onGetPopularItems(id);
+  getRestaurantClickHandler = restaurant => {
+    if (!this.restaurantClickHandlers[restaurant.place_id]) {
+      this.restaurantClickHandlers[restaurant.place_id] = () => {
+        if (this.props.isAuth) {
+          this.props.onGetPopularItems(restaurant.place_id);
+          this.props.onGetUserVotes(restaurant.place_id);
+        }
         this.props.onClearResPageError();
+        this.handlePageOpen(restaurant);
       };
     }
-    return this.restaurantClickHandlers[id];
-  };
-
-  getPrice = price => {
-    return (
-      <div className={styles.PriceLevel}>
-        {convertPrice(price).map((sign, index) => (
-          <Rf key={index} white sm>
-            {sign}
-          </Rf>
-        ))}
-      </div>
-    );
-  };
-
-  getStars = rating => {
-    const stars = convertRating(rating).map((star, index) => (
-      <Fa key={index}>{star}</Fa>
-    ));
-
-    return <div className={styles.Stars}>{rating ? stars : null}</div>;
+    return this.restaurantClickHandlers[restaurant.place_id];
   };
 
   renderThumbnails = restaurants => {
     let thumbanils = [];
     if (restaurants) {
-      restaurants.forEach(res => {
-        if (res.photos) {
-          const photo = res.photos[0];
+      restaurants.forEach(restaurant => {
+        if (restaurant.photos) {
+          const photo = restaurant.photos[0];
           const imgUrl = createGooglePlacePhotoQuery(
             photo.photo_reference,
             photo.width
           );
           thumbanils.push(
-            <div key={res.place_id} className={styles.NearByRestaurant}>
+            <div key={restaurant.place_id} className={styles.NearByRestaurant}>
               <Thumbnail
-                click={this.getRestaurantClickHandler(res.place_id, res)}
+                click={this.getRestaurantClickHandler(restaurant)}
                 img={imgUrl}
-              >
-                <h6>{this.getPrice(res.price_level)}</h6>
-                <h6>{res.name}</h6>
-                <h6>{res.rating ? this.getStars(res.rating) : null}</h6>
-              </Thumbnail>
+                price={restaurant.price_level}
+                name={restaurant.name}
+                rating={restaurant.rating}
+              />
             </div>
           );
         }
@@ -172,7 +153,6 @@ class Home extends Component {
     const resPage = (
       <ResPage
         isOpen={this.state.isPageOpen}
-        id={this.state.id}
         restaurant={this.state.restaurant}
         close={this.handlePageClose}
       />

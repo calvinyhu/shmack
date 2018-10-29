@@ -2,13 +2,13 @@ import * as actionTypes from 'store/actions/actionTypes';
 
 const initialState = {
   isRequestingLocation: false,
-  isGoogleLoading: false,
+  isSearchLoading: false,
   isAtLoading: false,
   isNearByLoading: false,
   isSearchSuccess: false,
   food: '',
   location: '',
-  googleRestaurants: [],
+  searchRestaurants: [],
   atRestaurants: [],
   nearByRestaurants: [],
   error: {}

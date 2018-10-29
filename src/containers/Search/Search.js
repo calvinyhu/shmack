@@ -4,7 +4,7 @@ import { Redirect } from 'react-router-dom';
 import throttle from 'raf-throttle';
 import PropTypes from 'prop-types';
 
-import styles from './Restaurants.module.scss';
+import styles from './Search.module.scss';
 import * as restaurantActions from 'store/actions/restaurantsActions';
 import * as appActions from 'store/actions/appActions';
 import * as resPageActions from 'store/actions/resPageActions';
@@ -12,17 +12,11 @@ import * as userActions from 'store/actions/userActions';
 import Thumbnail from 'components/Thumbnail/Thumbnail';
 import Modal from 'components/UI/Modal/Modal';
 import Backdrop from 'components/UI/Backdrop/Backdrop';
-import Fa from 'components/UI/Icon/Fa/Fa';
-import Rf from 'components/UI/Icon/Rf/Rf';
 import ResPage from 'components/ResPage/ResPage';
 import Filters from 'components/Filters/Filters';
 import SearchBar from 'components/SearchBar/SearchBar';
 import * as paths from 'utilities/paths';
-import {
-  createGooglePlacePhotoQuery,
-  convertPrice,
-  convertRating
-} from 'utilities/google';
+import { createGooglePlacePhotoQuery } from 'utilities/google';
 
 const mapStateToProps = state => ({
   // App
@@ -35,11 +29,11 @@ const mapStateToProps = state => ({
   // Restaurants
   isRequestingLocation: state.restaurants.isRequestingLocation,
   isShowGrid: state.restaurants.isShowGrid,
+  isSearchLoading: state.restaurants.isSearchLoading,
   isSearchSuccess: state.restaurants.isSearchSuccess,
-  isGoogleLoading: state.restaurants.isGoogleLoading,
   food: state.restaurants.food,
   location: state.restaurants.location,
-  googleRestaurants: state.restaurants.googleRestaurants,
+  searchRestaurants: state.restaurants.searchRestaurants,
   error: state.restaurants.error
 });
 
@@ -54,16 +48,16 @@ const mapDispatchToProps = {
   onGetUserVotes: userActions.getUserVotes
 };
 
-class Restaurants extends Component {
+class Search extends Component {
   static propTypes = {
     isRequestingLocation: PropTypes.bool.isRequired,
-    isGoogleLoading: PropTypes.bool.isRequired,
+    isSearchLoading: PropTypes.bool.isRequired,
     isSearchSuccess: PropTypes.bool.isRequired,
     isAuth: PropTypes.bool.isRequired,
     hasGeoLocatePermission: PropTypes.bool.isRequired,
     food: PropTypes.string.isRequired,
     location: PropTypes.string.isRequired,
-    googleRestaurants: PropTypes.array.isRequired,
+    searchRestaurants: PropTypes.array.isRequired,
     error: PropTypes.object.isRequired,
     onRestaurantSearch: PropTypes.func.isRequired,
     onGetPopularItems: PropTypes.func.isRequired,
@@ -81,7 +75,6 @@ class Restaurants extends Component {
     isPageOpen: false,
     isShowLocationInput: false,
     isShowFilters: false,
-    id: null,
     restaurant: null,
     radius: 5
   };
@@ -153,7 +146,7 @@ class Restaurants extends Component {
     // Search
     if (
       (this.props.location || this.props.hasGeoLocatePermission) &&
-      !this.props.isGoogleLoading
+      !this.props.isSearchLoading
     ) {
       this.props.onRestaurantSearch(
         this.props.food,
@@ -169,58 +162,33 @@ class Restaurants extends Component {
   handleCloseLocationRequest = () => this.props.onRequestLocation(false);
 
   // Restaurant Page Handles
-  handlePageOpen = (id, res) =>
-    this.setState({ isPageOpen: true, id: id, restaurant: res });
+  handlePageOpen = restaurant =>
+    this.setState({ isPageOpen: true, restaurant });
   handlePageClose = () =>
     this.setState({ isPageOpen: false, isScrollingDown: false });
 
   // Restaurant Grid Thumbnail Handles
   restaurantClickHandlers = {};
-  getRestaurantClickHandler = (id, res) => {
-    if (!this.restaurantClickHandlers[id]) {
-      this.restaurantClickHandlers[id] = () => {
+  getRestaurantClickHandler = restaurant => {
+    if (!this.restaurantClickHandlers[restaurant.place_id]) {
+      this.restaurantClickHandlers[restaurant.place_id] = () => {
         if (this.props.isAuth) {
-          this.props.onGetPopularItems(id);
-          this.props.onGetUserVotes(id);
+          this.props.onGetPopularItems(restaurant.place_id);
+          this.props.onGetUserVotes(restaurant.place_id);
         }
         this.props.onClearResPageError();
-        this.handlePageOpen(id, res);
+        this.handlePageOpen(restaurant);
         this.hideLocationInput();
         this.hideFilters();
       };
     }
-    return this.restaurantClickHandlers[id];
-  };
-
-  getPrice = price => {
-    return (
-      <div className={styles.PriceLevel}>
-        {convertPrice(price).map((sign, index) => (
-          <Rf key={index} sm white>
-            {sign}
-          </Rf>
-        ))}
-      </div>
-    );
-  };
-
-  getStars = rating => {
-    const stars = convertRating(rating).map((star, index) => (
-      <Fa key={index}>{star}</Fa>
-    ));
-
-    return (
-      <div className={styles.RatingContainer}>
-        <p>{rating ? rating.toFixed(1) : null}</p>
-        <div className={styles.Stars}>{rating ? stars : null}</div>
-      </div>
-    );
+    return this.restaurantClickHandlers[restaurant.place_id];
   };
 
   renderThumbnails = () => {
     let restaurants = [];
-    if (this.props.googleRestaurants) {
-      this.props.googleRestaurants.forEach(res => {
+    if (this.props.searchRestaurants) {
+      this.props.searchRestaurants.forEach(res => {
         if (!res.photos) return;
 
         const photo = res.photos[0];
@@ -231,13 +199,12 @@ class Restaurants extends Component {
         restaurants.push(
           <Thumbnail
             key={res.place_id}
-            click={this.getRestaurantClickHandler(res.place_id, res)}
+            click={this.getRestaurantClickHandler(res)}
             img={imgUrl}
-          >
-            <h6>{this.getPrice(res.price_level)}</h6>
-            <h6>{res.name}</h6>
-            <h6>{res.rating ? this.getStars(res.rating) : null}</h6>
-          </Thumbnail>
+            price={res.price_level}
+            name={res.name}
+            rating={res.rating}
+          />
         );
       });
     }
@@ -265,7 +232,7 @@ class Restaurants extends Component {
     const searchBar = (
       <SearchBar
         isScrollingDown={this.state.isScrollingDown}
-        isGoogleLoading={this.props.isGoogleLoading}
+        isSearchLoading={this.props.isSearchLoading}
         isShowFilters={this.state.isShowFilters}
         isShowLocationInput={this.state.isShowLocationInput}
         food={this.props.food}
@@ -280,7 +247,6 @@ class Restaurants extends Component {
     const resPage = (
       <ResPage
         isOpen={this.state.isPageOpen}
-        id={this.state.id}
         restaurant={this.state.restaurant}
         close={this.handlePageClose}
       />
@@ -309,7 +275,7 @@ class Restaurants extends Component {
     let restaurantsGrid = null;
     let gridContainer = null;
 
-    if (this.props.isGoogleLoading) {
+    if (this.props.isSearchLoading) {
       loadingMessage = (
         <div className={styles.LoaderContainer}>
           <div className={styles.Loader}>Searching...</div>
@@ -359,4 +325,4 @@ class Restaurants extends Component {
 export default connect(
   mapStateToProps,
   mapDispatchToProps
-)(Restaurants);
+)(Search);

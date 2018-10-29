@@ -43,10 +43,6 @@
   overflow: hidden;
 }
 
-@import './src/assets/scss/_variables.scss';
-@import './src/assets/scss/_mixins.scss';
-@import './src/assets/scss/_classes.scss';
-
 .NearByContainer {
   position: relative;
   display: flex;
@@ -99,12 +95,4 @@
   flex-direction: column;
   align-items: center;
   padding: $padding;
-}
-
-.PriceLevel {
-  display: flex;
-}
-
-.Stars {
-  display: flex;
 }

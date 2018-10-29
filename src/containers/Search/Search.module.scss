@@ -62,20 +62,3 @@
   height: 4rem;
   overflow: hidden;
 }
-
-.PriceLevel {
-  display: flex;
-}
-
-.RatingContainer {
-  display: flex;
-  flex-direction: column;
-
-  p {
-    display: none;
-  }
-
-  .Stars {
-    display: flex;
-  }
-}

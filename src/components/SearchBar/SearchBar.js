@@ -11,7 +11,7 @@ import Rf from '../UI/Icon/Rf/Rf';
 const searchBar = props => {
   searchBar.propTypes = {
     isScrollingDown: PropTypes.bool.isRequired,
-    isGoogleLoading: PropTypes.bool.isRequired,
+    isSearchLoading: PropTypes.bool.isRequired,
     isShowFilters: PropTypes.bool.isRequired,
     isShowLocationInput: PropTypes.bool.isRequired,
     food: PropTypes.string.isRequired,
@@ -24,7 +24,7 @@ const searchBar = props => {
 
   const searchBarClasses = classnames({
     [styles.SearchBar]: true,
-    [styles.HideSearchBar]: props.isScrollingDown || props.isGoogleLoading,
+    [styles.HideSearchBar]: props.isScrollingDown || props.isSearchLoading,
     [styles.SearchBarBoxShadow]: props.isShowFilters,
     [styles.ExtendSearchBar]: props.isShowLocationInput || props.location
   });

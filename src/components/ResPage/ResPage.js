@@ -33,7 +33,6 @@ class ResPage extends Component {
   static propTypes = {
     isOpen: PropTypes.bool.isRequired,
     isGettingItems: PropTypes.bool.isRequired,
-    id: PropTypes.string,
     restaurant: PropTypes.object,
     error: PropTypes.object,
     items: PropTypes.object,
@@ -48,26 +47,22 @@ class ResPage extends Component {
 
   handleInputChange = event => this.setState({ newItem: event.target.value });
 
-  handleSubmit = (event, id) => {
+  handleSubmit = event => {
     if (event) event.preventDefault();
 
     let modifiedItem = null;
     if (this.state.newItem) modifiedItem = this.state.newItem.trim();
 
     if (modifiedItem) {
-      this.props.onPostItem(id, modifiedItem.toLowerCase());
+      this.props.onPostItem(
+        this.props.restaurant.place_id,
+        modifiedItem.toLowerCase()
+      );
       this.setState({ newItem: '' });
     } else {
       const message = 'The item name is required.';
       this.props.onPostItemFail({ message });
     }
-  };
-
-  submitHandlers = {};
-  getSubmitHandler = id => {
-    if (!this.submitHandlers[id])
-      this.submitHandlers[id] = event => this.handleSubmit(event, id);
-    return this.submitHandlers[id];
   };
 
   getPrice = price => {
@@ -98,7 +93,6 @@ class ResPage extends Component {
   renderPageContent = () => {
     if (this.props.restaurant) {
       const res = this.props.restaurant;
-      const id = res.place_id;
       const imgSrc = createGooglePlacePhotoQuery(
         res.photos[0].photo_reference,
         res.photos[0].width
@@ -121,7 +115,7 @@ class ResPage extends Component {
       let addItem = null;
       if (!this.props.isGettingItems) {
         addItem = (
-          <form className={styles.AddItem} onSubmit={this.getSubmitHandler(id)}>
+          <form className={styles.AddItem} onSubmit={this.handleSubmit}>
             <div className={styles.AddItemInputContainer}>
               <Input
                 required={false}
@@ -135,7 +129,7 @@ class ResPage extends Component {
               />
             </div>
             <div className={styles.AddItemSubmitButton}>
-              <Button circle clear click={this.getSubmitHandler(id)}>
+              <Button circle clear click={this.handleSubmit}>
                 <Rf sm>plus</Rf>
               </Button>
             </div>
@@ -207,7 +201,7 @@ class ResPage extends Component {
         items.push(
           <ResItem
             key={name}
-            id={this.props.id}
+            id={this.props.restaurant.place_id}
             name={name}
             likes={this.props.items[name].likes}
             dislikes={this.props.items[name].dislikes}
