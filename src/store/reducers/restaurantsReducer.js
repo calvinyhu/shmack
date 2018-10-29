@@ -3,11 +3,13 @@ import * as actionTypes from 'store/actions/actionTypes';
 const initialState = {
   isRequestingLocation: false,
   isGoogleLoading: false,
+  isAtLoading: false,
   isNearByLoading: false,
   isSearchSuccess: false,
   food: '',
   location: '',
   googleRestaurants: [],
+  atRestaurants: [],
   nearByRestaurants: [],
   error: {}
 };
@@ -29,6 +31,12 @@ const restaurantsReducer = (state = initialState, action) => {
     case actionTypes.NEAR_BY_SEARCH_SUCCESS:
       return { ...state, ...action.payload };
     case actionTypes.NEAR_BY_SEARCH_FAIL:
+      return { ...state, ...action.payload };
+    case actionTypes.AT_SEARCH_START:
+      return { ...state, ...action.payload };
+    case actionTypes.AT_SEARCH_SUCCESS:
+      return { ...state, ...action.payload };
+    case actionTypes.AT_SEARCH_FAIL:
       return { ...state, ...action.payload };
     case actionTypes.RESTAURANT_CLEAR_ERROR:
       return { ...state, ...action.payload };

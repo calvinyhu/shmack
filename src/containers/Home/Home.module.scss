@@ -4,7 +4,8 @@
 
 .Home {
   display: flex;
-  justify-content: center;
+  flex-direction: column;
+  align-items: center;
   width: 100%;
   min-height: 100%;
   position: relative;
@@ -39,11 +40,74 @@
 }
 
 .LoaderContainer {
-  position: absolute;
-  top: 50%;
-  left: 50%;
-  transform: translate(-50%, -50%);
+  position: relative;
   width: 4rem;
   height: 4rem;
   overflow: hidden;
+}
+
+@import './src/assets/scss/_variables.scss';
+@import './src/assets/scss/_mixins.scss';
+@import './src/assets/scss/_classes.scss';
+
+.NearByContainer {
+  position: relative;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  width: 100%;
+  min-height: 100%;
+  overflow: hidden;
+
+  @include media-min-width($desktop-width) {
+    width: 66.6%;
+  }
+
+  .NearBy {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    width: 100%;
+    position: relative;
+  }
+
+  .NearByHeader {
+    display: flex;
+    width: 100%;
+    justify-content: space-between;
+    align-items: center;
+    margin-bottom: $margin;
+
+    h5,
+    p {
+      margin: 0;
+    }
+
+    .NearByRefresh {
+      margin-left: $margin;
+      width: $fab-size-mini;
+      height: $fab-size-mini;
+    }
+  }
+}
+
+.NearByRestaurant {
+  width: 100%;
+  height: 30vh;
+  margin-bottom: $margin;
+}
+
+.NearByMessage {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  padding: $padding;
+}
+
+.PriceLevel {
+  display: flex;
+}
+
+.Stars {
+  display: flex;
 }

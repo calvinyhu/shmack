@@ -3,6 +3,7 @@ import axios from 'axios';
 import * as actionTypes from './actionTypes';
 import { toggleGeoLocPerm } from './appActions';
 import {
+  AT_RADIUS,
   createGoogleGeocodeLookupQuery,
   createGoogleNearbySearchQuery,
   NEAR_BY_RADIUS
@@ -60,6 +61,7 @@ const startAsyncGoogleRequest = (dispatch, food, location, radius) => {
 
 const getGoogleRestaurants = (dispatch, food, lat, long, radius) => {
   if (radius === NEAR_BY_RADIUS) dispatch(nearBySearchStart());
+  else if (radius === AT_RADIUS) dispatch(atSearchStart());
   else dispatch(restaurantGoogleSearchStart());
 
   const query = createGoogleNearbySearchQuery(
@@ -73,12 +75,15 @@ const getGoogleRestaurants = (dispatch, food, lat, long, radius) => {
     .then(response => {
       if (radius === NEAR_BY_RADIUS)
         dispatch(nearBySearchSuccess(response.data.results));
+      else if (radius === AT_RADIUS)
+        dispatch(atSearchSuccess(response.data.results));
       else dispatch(restaurantGoogleSearchSuccess(response.data.results));
     })
     .catch(error => {
       const message =
         "We can't reach Google services right now. Try again later.";
       if (radius === NEAR_BY_RADIUS) dispatch(nearBySearchFail({ message }));
+      else if (radius === AT_RADIUS) dispatch(atSearchFail({ message }));
       else dispatch(restaurantGoogleSearchFail({ message }));
     });
 };
@@ -158,6 +163,30 @@ const nearBySearchFail = error => ({
   type: actionTypes.NEAR_BY_SEARCH_FAIL,
   payload: {
     isNearByLoading: false,
+    error
+  }
+});
+
+const atSearchStart = () => ({
+  type: actionTypes.AT_SEARCH_START,
+  payload: {
+    isAtLoading: true,
+    error: {}
+  }
+});
+
+const atSearchSuccess = atRestaurants => ({
+  type: actionTypes.AT_SEARCH_SUCCESS,
+  payload: {
+    isAtLoading: false,
+    atRestaurants: atRestaurants
+  }
+});
+
+const atSearchFail = error => ({
+  type: actionTypes.AT_SEARCH_FAIL,
+  payload: {
+    isAtLoading: false,
     error
   }
 });
