@@ -40,6 +40,18 @@ const mapDispatchToProps = dispatch => {
 };
 
 class Settings extends Component {
+  static propTypes = {
+    isLocating: PropTypes.bool.isRequired,
+    hasGeoLocatePermission: PropTypes.bool.isRequired,
+    redirectParent: PropTypes.string,
+    geoLocation: PropTypes.object,
+    geoError: PropTypes.object,
+    onSetRedirectParent: PropTypes.func.isRequired,
+    onClear: PropTypes.func.isRequired,
+    onToggleGeoLocPerm: PropTypes.func.isRequired,
+    onGeoLocate: PropTypes.func.isRequired
+  };
+
   componentWillUnmount() {
     this.props.onSetRedirectParent(null);
     this.props.onClear();
@@ -121,18 +133,6 @@ class Settings extends Component {
     );
   }
 }
-
-Settings.propTypes = {
-  isLocating: PropTypes.bool.isRequired,
-  hasGeoLocatePermission: PropTypes.bool.isRequired,
-  redirectParent: PropTypes.string,
-  geoLocation: PropTypes.object,
-  geoError: PropTypes.object,
-  onSetRedirectParent: PropTypes.func.isRequired,
-  onClear: PropTypes.func.isRequired,
-  onToggleGeoLocPerm: PropTypes.func.isRequired,
-  onGeoLocate: PropTypes.func.isRequired
-};
 
 export default connect(
   mapStateToProps,

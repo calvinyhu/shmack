@@ -30,6 +30,18 @@ const mapDispatchToProps = {
 };
 
 class ResPage extends Component {
+  static propTypes = {
+    isOpen: PropTypes.bool.isRequired,
+    isGettingItems: PropTypes.bool.isRequired,
+    id: PropTypes.string,
+    restaurant: PropTypes.object,
+    error: PropTypes.object,
+    items: PropTypes.object,
+    onPostItem: PropTypes.func.isRequired,
+    onPostItemFail: PropTypes.func.isRequired,
+    close: PropTypes.func.isRequired
+  };
+
   state = {
     newItem: ''
   };
@@ -223,18 +235,6 @@ class ResPage extends Component {
     return <div className={resPageClasses}>{pageContent}</div>;
   }
 }
-
-ResPage.propTypes = {
-  isOpen: PropTypes.bool.isRequired,
-  isGettingItems: PropTypes.bool.isRequired,
-  id: PropTypes.string,
-  restaurant: PropTypes.object,
-  error: PropTypes.object,
-  items: PropTypes.object,
-  onPostItem: PropTypes.func.isRequired,
-  onPostItemFail: PropTypes.func.isRequired,
-  close: PropTypes.func.isRequired
-};
 
 export default connect(
   mapStateToProps,

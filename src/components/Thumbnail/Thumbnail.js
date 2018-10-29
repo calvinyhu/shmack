@@ -5,6 +5,12 @@ import PropTypes from 'prop-types';
 import styles from './Thumbnail.module.scss';
 
 const thumbnail = props => {
+  thumbnail.propTypes = {
+    click: PropTypes.func.isRequired,
+    img: PropTypes.string.isRequired,
+    children: PropTypes.arrayOf(PropTypes.object).isRequired
+  };
+
   return (
     <Fade>
       <div className={styles.Thumbnail} onClick={props.click}>
@@ -15,12 +21,6 @@ const thumbnail = props => {
       </div>
     </Fade>
   );
-};
-
-thumbnail.propTypes = {
-  click: PropTypes.func.isRequired,
-  img: PropTypes.string.isRequired,
-  children: PropTypes.arrayOf(PropTypes.object).isRequired
 };
 
 export default thumbnail;

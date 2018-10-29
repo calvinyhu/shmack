@@ -20,6 +20,16 @@ const mapDispatchToProps = {
 const DELAY = 500;
 
 class ResItem extends PureComponent {
+  static propTypes = {
+    onPostRestaurantVote: PropTypes.func.isRequired,
+    onPostUserVote: PropTypes.func.isRequired,
+    id: PropTypes.string.isRequired,
+    name: PropTypes.string.isRequired,
+    votes: PropTypes.object.isRequired,
+    likes: PropTypes.number.isRequired,
+    dislikes: PropTypes.number.isRequired
+  };
+
   upTimer = null;
   downTimer = null;
 
@@ -77,16 +87,6 @@ class ResItem extends PureComponent {
     );
   }
 }
-
-ResItem.propTypes = {
-  onPostRestaurantVote: PropTypes.func.isRequired,
-  onPostUserVote: PropTypes.func.isRequired,
-  id: PropTypes.string.isRequired,
-  name: PropTypes.string.isRequired,
-  votes: PropTypes.object.isRequired,
-  likes: PropTypes.number.isRequired,
-  dislikes: PropTypes.number.isRequired
-};
 
 export default connect(
   mapStateToProps,

@@ -5,6 +5,13 @@ import classnames from 'classnames';
 import styles from './Drawer.module.scss';
 
 const drawer = props => {
+  drawer.propTypes = {
+    left: PropTypes.bool,
+    right: PropTypes.bool,
+    isOpen: PropTypes.bool.isRequired,
+    children: PropTypes.element.isRequired
+  };
+
   const drawerClasses = classnames({
     [styles.LeftDrawer]: props.left,
     [styles.OpenDrawer]: props.left && props.isOpen,
@@ -16,13 +23,6 @@ const drawer = props => {
   });
 
   return <div className={drawerClasses}>{props.children}</div>;
-};
-
-drawer.propTypes = {
-  left: PropTypes.bool,
-  right: PropTypes.bool,
-  isOpen: PropTypes.bool.isRequired,
-  children: PropTypes.element.isRequired
 };
 
 export default drawer;

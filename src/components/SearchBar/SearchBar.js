@@ -9,6 +9,19 @@ import Button from 'components/UI/Button/Button';
 import Rf from '../UI/Icon/Rf/Rf';
 
 const searchBar = props => {
+  searchBar.propTypes = {
+    isScrollingDown: PropTypes.bool.isRequired,
+    isGoogleLoading: PropTypes.bool.isRequired,
+    isShowFilters: PropTypes.bool.isRequired,
+    isShowLocationInput: PropTypes.bool.isRequired,
+    food: PropTypes.string.isRequired,
+    location: PropTypes.string.isRequired,
+    handleSearch: PropTypes.func.isRequired,
+    handleShowLocationInput: PropTypes.func.isRequired,
+    handleInputChange: PropTypes.func.isRequired,
+    handleToggleFilters: PropTypes.func.isRequired
+  };
+
   const searchBarClasses = classnames({
     [styles.SearchBar]: true,
     [styles.HideSearchBar]: props.isScrollingDown || props.isGoogleLoading,
@@ -86,19 +99,6 @@ const searchBar = props => {
   );
 
   return bar;
-};
-
-searchBar.propTypes = {
-  isScrollingDown: PropTypes.bool.isRequired,
-  isGoogleLoading: PropTypes.bool.isRequired,
-  isShowFilters: PropTypes.bool.isRequired,
-  isShowLocationInput: PropTypes.bool.isRequired,
-  food: PropTypes.string.isRequired,
-  location: PropTypes.string.isRequired,
-  handleSearch: PropTypes.func.isRequired,
-  handleShowLocationInput: PropTypes.func.isRequired,
-  handleInputChange: PropTypes.func.isRequired,
-  handleToggleFilters: PropTypes.func.isRequired
 };
 
 export default searchBar;

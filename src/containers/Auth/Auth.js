@@ -25,6 +25,15 @@ const mapDispatchToProps = {
 };
 
 class Auth extends Component {
+  static propTypes = {
+    isLoading: PropTypes.bool.isRequired,
+    redirectPath: PropTypes.string.isRequired,
+    location: PropTypes.object.isRequired,
+    error: PropTypes.object.isRequired,
+    onClearError: PropTypes.func.isRequired,
+    onAuth: PropTypes.func.isRequired
+  };
+
   state = {
     firstName: { value: '', isTouched: false },
     lastName: { value: '', isTouched: false },
@@ -211,15 +220,6 @@ class Auth extends Component {
     );
   }
 }
-
-Auth.propTypes = {
-  isLoading: PropTypes.bool.isRequired,
-  redirectPath: PropTypes.string.isRequired,
-  location: PropTypes.object.isRequired,
-  error: PropTypes.object.isRequired,
-  onClearError: PropTypes.func.isRequired,
-  onAuth: PropTypes.func.isRequired
-};
 
 export default connect(
   mapStateToProps,

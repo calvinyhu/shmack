@@ -20,6 +20,12 @@ import ThumbsUp from 'react-feather/dist/icons/thumbs-up';
 import styles from './Rf.module.scss';
 
 const Rf = props => {
+  Rf.propTypes = {
+    white: PropTypes.bool,
+    darkMain: PropTypes.bool,
+    children: PropTypes.string.isRequired
+  };
+
   const iconClasses = classnames({
     [styles.Icon]: true,
     [styles.Sm]: props.sm,
@@ -62,12 +68,6 @@ const Rf = props => {
     default:
       return null;
   }
-};
-
-Rf.propTypes = {
-  white: PropTypes.bool,
-  darkMain: PropTypes.bool,
-  children: PropTypes.string.isRequired
 };
 
 export default Rf;

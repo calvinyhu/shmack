@@ -55,6 +55,26 @@ const mapDispatchToProps = {
 };
 
 class Restaurants extends Component {
+  static propTypes = {
+    isRequestingLocation: PropTypes.bool.isRequired,
+    isGoogleLoading: PropTypes.bool.isRequired,
+    isSearchSuccess: PropTypes.bool.isRequired,
+    isAuth: PropTypes.bool.isRequired,
+    hasGeoLocatePermission: PropTypes.bool.isRequired,
+    food: PropTypes.string.isRequired,
+    location: PropTypes.string.isRequired,
+    googleRestaurants: PropTypes.array.isRequired,
+    error: PropTypes.object.isRequired,
+    onRestaurantSearch: PropTypes.func.isRequired,
+    onGetPopularItems: PropTypes.func.isRequired,
+    onGetUserVotes: PropTypes.func.isRequired,
+    onClearResPageError: PropTypes.func.isRequired,
+    onClearError: PropTypes.func.isRequired,
+    onSetRedirectParent: PropTypes.func.isRequired,
+    onRequestLocation: PropTypes.func.isRequired,
+    onRestaurantInputChange: PropTypes.func.isRequired
+  };
+
   state = {
     isRedirectingToSettings: false,
     isScrollingDown: false,
@@ -335,26 +355,6 @@ class Restaurants extends Component {
     );
   }
 }
-
-Restaurants.propTypes = {
-  isRequestingLocation: PropTypes.bool.isRequired,
-  isGoogleLoading: PropTypes.bool.isRequired,
-  isSearchSuccess: PropTypes.bool.isRequired,
-  isAuth: PropTypes.bool.isRequired,
-  hasGeoLocatePermission: PropTypes.bool.isRequired,
-  food: PropTypes.string.isRequired,
-  location: PropTypes.string.isRequired,
-  googleRestaurants: PropTypes.array.isRequired,
-  error: PropTypes.object.isRequired,
-  onRestaurantSearch: PropTypes.func.isRequired,
-  onGetPopularItems: PropTypes.func.isRequired,
-  onGetUserVotes: PropTypes.func.isRequired,
-  onClearResPageError: PropTypes.func.isRequired,
-  onClearError: PropTypes.func.isRequired,
-  onSetRedirectParent: PropTypes.func.isRequired,
-  onRequestLocation: PropTypes.func.isRequired,
-  onRestaurantInputChange: PropTypes.func.isRequired
-};
 
 export default connect(
   mapStateToProps,

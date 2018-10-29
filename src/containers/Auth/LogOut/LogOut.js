@@ -10,6 +10,10 @@ const mapDispatchToProps = {
 };
 
 class LogOut extends Component {
+  static propTypes = {
+    onAuthLogOut: PropTypes.func.isRequired
+  };
+
   componentDidMount() {
     this.props.onAuthLogOut();
   }
@@ -18,10 +22,6 @@ class LogOut extends Component {
     return <Redirect to="/" />;
   }
 }
-
-LogOut.propTypes = {
-  onAuthLogOut: PropTypes.func.isRequired
-};
 
 export default connect(
   null,

@@ -11,6 +11,7 @@ import {
 } from 'store/actions/appActions';
 import Aux from 'hoc/Auxiliary/Auxiliary';
 import Backdrop from 'components/UI/Backdrop/Backdrop';
+import DragDrawer from 'components/UI/DragDrawer/DragDrawer';
 import Drawer from 'components/UI/Drawer/Drawer';
 import Button from 'components/UI/Button/Button';
 import NavItem from 'components/UI/Button/NavItem/NavItem';
@@ -31,6 +32,13 @@ const mapDispatchToProps = dispatch => {
 };
 
 class Layout extends PureComponent {
+  static propTypes = {
+    isAuth: PropTypes.bool.isRequired,
+    deferredPrompt: PropTypes.object.isRequired,
+    children: PropTypes.element.isRequired,
+    onClearDeferredPrompt: PropTypes.func.isRequired
+  };
+
   state = {
     isDrawerOpen: false
   };
@@ -178,13 +186,6 @@ class Layout extends PureComponent {
     );
   }
 }
-
-Layout.propTypes = {
-  isAuth: PropTypes.bool.isRequired,
-  deferredPrompt: PropTypes.object.isRequired,
-  children: PropTypes.element.isRequired,
-  onClearDeferredPrompt: PropTypes.func.isRequired
-};
 
 export default connect(
   mapStateToProps,

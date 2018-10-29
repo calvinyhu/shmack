@@ -7,6 +7,16 @@ import styles from './NavItem.module.scss';
 import Button from '../Button';
 
 class NavItem extends Button {
+  static propTypes = {
+    link: PropTypes.bool,
+    borderMain: PropTypes.bool,
+    bold: PropTypes.bool,
+    clear: PropTypes.bool,
+    to: PropTypes.string.isRequired,
+    click: PropTypes.func.isRequired,
+    children: PropTypes.any
+  };
+
   handleTouchEnd = event => {
     const touch = event.changedTouches[0];
     const withinX =
@@ -53,15 +63,5 @@ class NavItem extends Button {
     );
   }
 }
-
-NavItem.propTypes = {
-  link: PropTypes.bool,
-  borderMain: PropTypes.bool,
-  bold: PropTypes.bool,
-  clear: PropTypes.bool,
-  to: PropTypes.string.isRequired,
-  click: PropTypes.func.isRequired,
-  children: PropTypes.any
-};
 
 export default NavItem;

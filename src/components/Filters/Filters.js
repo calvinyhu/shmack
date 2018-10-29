@@ -12,6 +12,14 @@ const RADIUS = {
 };
 
 const filters = props => {
+  filters.propTypes = {
+    isOpen: PropTypes.bool.isRequired,
+    isLifted: PropTypes.bool.isRequired,
+    options: PropTypes.object.isRequired,
+    apply: PropTypes.func.isRequired,
+    changeRadius: PropTypes.func.isRequired
+  };
+
   const filtersClasses = classnames({
     [styles.Filters]: true,
     [styles.SlideYFilters]: props.isOpen,
@@ -61,14 +69,6 @@ const filters = props => {
   );
 
   return filtersContainer;
-};
-
-filters.propTypes = {
-  isOpen: PropTypes.bool.isRequired,
-  isLifted: PropTypes.bool.isRequired,
-  options: PropTypes.object.isRequired,
-  apply: PropTypes.func.isRequired,
-  changeRadius: PropTypes.func.isRequired
 };
 
 export default filters;

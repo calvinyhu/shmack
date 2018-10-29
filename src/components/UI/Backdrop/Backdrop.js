@@ -5,6 +5,11 @@ import classnames from 'classnames';
 import styles from './Backdrop.module.scss';
 
 const backdrop = props => {
+  backdrop.propTypes = {
+    isOpen: PropTypes.bool.isRequired,
+    click: PropTypes.func.isRequired
+  };
+
   const backdropClasses = classnames({
     [styles.Backdrop]: true,
     [styles.OpenBackdrop]: props.isOpen,
@@ -12,11 +17,6 @@ const backdrop = props => {
   });
 
   return <div className={backdropClasses} onClick={props.click} />;
-};
-
-backdrop.propTypes = {
-  isOpen: PropTypes.bool.isRequired,
-  click: PropTypes.func.isRequired
 };
 
 export default backdrop;

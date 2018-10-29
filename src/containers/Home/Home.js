@@ -41,6 +41,18 @@ const mapDispatchToProps = {
 };
 
 class Home extends Component {
+  static propTypes = {
+    isAuth: PropTypes.bool.isRequired,
+    isNearByLoading: PropTypes.bool.isRequired,
+    error: PropTypes.object.isRequired,
+    nearByRestaurants: PropTypes.array.isRequired,
+    onClearError: PropTypes.func.isRequired,
+    onSetRedirectParent: PropTypes.func.isRequired,
+    onRequestLocation: PropTypes.func.isRequired,
+    onGetNearBy: PropTypes.func.isRequired,
+    onGetPopularItems: PropTypes.func.isRequired
+  };
+
   state = {
     isRedirectingToSettings: false,
     isScrollingDown: false,
@@ -273,18 +285,6 @@ class Home extends Component {
     );
   }
 }
-
-Home.propTypes = {
-  isAuth: PropTypes.bool.isRequired,
-  isNearByLoading: PropTypes.bool.isRequired,
-  error: PropTypes.object.isRequired,
-  nearByRestaurants: PropTypes.array.isRequired,
-  onClearError: PropTypes.func.isRequired,
-  onSetRedirectParent: PropTypes.func.isRequired,
-  onRequestLocation: PropTypes.func.isRequired,
-  onGetNearBy: PropTypes.func.isRequired,
-  onGetPopularItems: PropTypes.func.isRequired
-};
 
 export default connect(
   mapStateToProps,
