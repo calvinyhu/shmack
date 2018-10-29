@@ -2,7 +2,6 @@ import React, { Component } from 'react';
 import { connect } from 'react-redux';
 import { Redirect } from 'react-router-dom';
 import PropTypes from 'prop-types';
-import Fade from 'react-reveal/Fade';
 
 import styles from './Home.module.scss';
 import * as restaurantActions from 'store/actions/restaurantsActions';
@@ -202,8 +201,8 @@ class Home extends Component {
           atRestaurants = (
             <div className={styles.NearByMessage}>
               <p>
-                There are no restaurants at your current location. Try again or
-                manually search.
+                There are no restaurants at your current location. Refresh or
+                search.
               </p>
             </div>
           );
@@ -214,7 +213,7 @@ class Home extends Component {
         <div className={styles.NearByContainer}>
           <div className={styles.NearBy}>
             <div className={styles.NearByHeader}>
-              <h5>Are you at?</h5>
+              <h5>Are you at...</h5>
               <div className={styles.NearByRefresh}>
                 <Button clear circle small click={this.handleAtRefresh}>
                   <Rf sm>refresh</Rf>
@@ -239,8 +238,8 @@ class Home extends Component {
           nearByRestaurants = (
             <div className={styles.NearByMessage}>
               <p>
-                There are no restaurants near your current location. Try again
-                or manually search.
+                There are no restaurants near your current location. Refresh or
+                search.
               </p>
             </div>
           );
