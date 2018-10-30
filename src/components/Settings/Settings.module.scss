@@ -5,6 +5,7 @@
 .Settings {
   display: flex;
   flex-direction: column;
+  align-items: center;
   padding: $padding;
   width: 100%;
   min-height: 100%;
@@ -14,6 +15,7 @@
     text-align: center;
     font-weight: bold;
     margin-bottom: $margin;
+    max-width: 30rem;
   }
 }
 
@@ -27,6 +29,7 @@
   justify-content: space-between;
   align-items: center;
   width: 100%;
+  max-width: 30rem;
   margin-bottom: $margin;
 }
 
