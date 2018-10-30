@@ -1,6 +1,8 @@
 import * as actionTypes from 'store/actions/actionTypes';
 
 const initialState = {
+  isGettingPlaces: false,
+  places: [],
   posting: false,
   postSuccess: false,
   votes: {},
@@ -18,6 +20,12 @@ const userReducer = (state = initialState, action) => {
     case actionTypes.USER_GET_VOTES:
       return { ...state, ...action.payload };
     case actionTypes.USER_POST_VOTES:
+      return { ...state, ...action.payload };
+    case actionTypes.USER_GET_PLACES_START:
+      return { ...state, ...action.payload };
+    case actionTypes.USER_GET_PLACES_SUCCESS:
+      return { ...state, ...action.payload };
+    case actionTypes.USER_GET_PLACES_FAIL:
       return { ...state, ...action.payload };
     default:
       return state;

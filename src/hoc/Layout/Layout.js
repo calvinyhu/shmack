@@ -144,6 +144,13 @@ class Layout extends PureComponent {
       </NavItem>
     );
 
+    let myPlaces = (
+      <NavItem clear to={paths.MY_PLACES} click={this.handleCloseDrawer}>
+        <Rf sm>map-pin</Rf>
+        My Places
+      </NavItem>
+    );
+
     let about = (
       <NavItem clear to={paths.ABOUT} click={this.handleCloseDrawer}>
         <Rf sm>info</Rf>
@@ -184,6 +191,7 @@ class Layout extends PureComponent {
           <div className={styles.Primary}>
             {home}
             {search}
+            {myPlaces}
             {about}
             {settings}
             {A2HSButton}

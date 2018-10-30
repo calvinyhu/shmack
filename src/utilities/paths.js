@@ -7,4 +7,4 @@ export const MORE = '/more';
 export const HOME = '/';
 export const SEARCH = '/search';
 export const SETTINGS = '/settings';
-export const USER = '/user';
+export const MY_PLACES = '/myplaces';

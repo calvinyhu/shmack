@@ -33,7 +33,7 @@ export const createGoogleFindPlaceQuery = (food, location) => {
 };
 
 export const createGooglePlaceDetailsQuery = placeid => {
-  const fields = 'name,photo,rating,price_level,place_id';
+  const fields = 'name,photo,rating,price_level,place_id,vicinity';
   const parameters = `key=${GOOGLE_PLACES_API_KEY}&placeid=${placeid}&fields=${fields}`;
   return (
     CORS +

@@ -1,5 +1,8 @@
+import axios from 'axios';
+
 import * as actionTypes from './actionTypes';
 import { auth, users, CIDS } from '../../utilities/firebase';
+import { createGooglePlaceDetailsQuery } from '../../utilities/google';
 
 export const postUserInfo = info => dispatch => {
   if (!auth.currentUser) return;
@@ -69,6 +72,69 @@ export const postUserVote = (restaurantId, itemName, isUp) => dispatch => {
     dispatch(postUserVotesSuccess(data));
   });
 };
+
+export const getPlaces = () => dispatch => {
+  dispatch(getPlacesStart());
+
+  const restaurants = users
+    .doc(auth.currentUser.uid)
+    .collection(CIDS.RESTAURANTS);
+
+  restaurants
+    .get()
+    .then(querySnapshot => {
+      const queries = [];
+      const places = [];
+
+      querySnapshot.forEach(doc => {
+        const query = createGooglePlaceDetailsQuery(doc.id);
+        const placePromise = axios.get(query);
+        queries.push(placePromise);
+      });
+
+      axios
+        .all(queries)
+        .then(responses => {
+          responses.forEach(response => {
+            const result = response.data.result;
+            places.push(result);
+          });
+          dispatch(getPlacesSuccess(places));
+        })
+        .catch(error => {
+          const message = 'Failed to get user places';
+          dispatch(getPlacesFail({ message }));
+        });
+    })
+    .catch(error => {
+      const message = 'Failed to get user places';
+      dispatch(getPlacesFail({ message }));
+    });
+};
+
+const getPlacesStart = () => ({
+  type: actionTypes.USER_GET_PLACES_START,
+  payload: {
+    isGettingPlaces: true,
+    error: {}
+  }
+});
+
+const getPlacesSuccess = places => ({
+  type: actionTypes.USER_GET_PLACES_SUCCESS,
+  payload: {
+    isGettingPlaces: false,
+    places
+  }
+});
+
+const getPlacesFail = error => ({
+  type: actionTypes.USER_GET_PLACES_FAIL,
+  payload: {
+    isGettingPlaces: false,
+    error
+  }
+});
 
 const postUserInfoStart = () => ({
   type: actionTypes.USER_POST_INFO_START,

@@ -9,6 +9,7 @@ import Layout from 'hoc/Layout/Layout';
 import Auth from 'containers/Auth/Auth';
 import Home from 'containers/Home/Home';
 import Search from 'containers/Search/Search';
+import User from 'containers/User/User';
 import LogOut from 'containers/Auth/LogOut/LogOut';
 import About from 'components/About/About';
 import Settings from 'components/Settings/Settings';
@@ -44,6 +45,7 @@ class App extends Component {
         <Switch>
           <Route exact path={paths.HOME} component={Home} />
           <Route exact path={paths.SEARCH} component={Search} />
+          <Route exact path={paths.MY_PLACES} component={User} />
           <Route exact path={paths.ABOUT} component={About} />
           <Route exact path={paths.SETTINGS} component={Settings} />
           <Route exact path={paths.LOGOUT} component={LogOut} />

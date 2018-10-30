@@ -7,6 +7,7 @@ import Filter from 'react-feather/dist/icons/filter';
 import Home from 'react-feather/dist/icons/home';
 import Info from 'react-feather/dist/icons/info';
 import Logout from 'react-feather/dist/icons/log-out';
+import MapPin from 'react-feather/dist/icons/map-pin';
 import Menu from 'react-feather/dist/icons/menu';
 import Nav from 'react-feather/dist/icons/navigation';
 import Phone from 'react-feather/dist/icons/smartphone';
@@ -47,6 +48,8 @@ const Rf = props => {
       return <Info className={iconClasses} />;
     case 'logout':
       return <Logout className={iconClasses} />;
+    case 'map-pin':
+      return <MapPin className={iconClasses} />;
     case 'menu':
       return <Menu className={iconClasses} />;
     case 'nav':
