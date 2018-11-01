@@ -49,7 +49,7 @@ class Button extends PureComponent {
       touch.clientY <= this.touchBounds.bot &&
       touch.clientY >= this.touchBounds.top;
 
-    if (this.props.click && withinX && withinY) this.props.click();
+    if (this.props.click && withinX && withinY) this.props.click(event);
 
     this.setState({ isTouch: false });
   };
@@ -81,8 +81,9 @@ class Button extends PureComponent {
 
     return (
       <button
-        disabled={this.props.disabled}
+        id={this.props.id}
         className={buttonClasses}
+        disabled={this.props.disabled}
         onTouchStart={this.handleTouchStart}
         onTouchEnd={this.handleTouchEnd}
         onMouseEnter={this.handleMouseEnter}

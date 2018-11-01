@@ -1,0 +1,12 @@
+@import './src/assets/scss/_variables.scss';
+@import './src/assets/scss/_mixins.scss';
+@import './src/assets/scss/_classes.scss';
+
+.Filter {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  width: 100%;
+  font-size: $font-size / 1.2;
+  margin-bottom: $margin / 2;
+}

@@ -1,5 +1,5 @@
 import React, { Component } from 'react';
-import { Redirect } from 'react-router-dom';
+import { Redirect, withRouter } from 'react-router-dom';
 import { connect } from 'react-redux';
 import Fade from 'react-reveal/Fade';
 import PropTypes from 'prop-types';
@@ -48,14 +48,12 @@ class Auth extends Component {
     if (this.props.error) this.props.onClearError();
   };
 
-  handleClearError = () => {
-    this.props.onClearError();
-  };
+  handleClearError = () => this.props.onClearError();
 
   handleFormSubmit = event => {
     if (event) event.preventDefault();
 
-    const isSigningUp = this.props.location.pathname === paths.AUTH_SIGNUP;
+    const isSigningUp = this.props.location.pathname === paths.SIGNUP;
     let newState = {
       firstName: { ...this.state.firstName },
       lastName: { ...this.state.lastName },
@@ -95,7 +93,7 @@ class Auth extends Component {
     let signingUpInputs = null;
     let formButtonName = 'Log In';
     let switchCTA = 'New user?';
-    let switchLink = paths.AUTH_SIGNUP;
+    let switchLink = paths.SIGNUP;
     let switchName = 'Sign Up';
 
     if (isSigningUp) {
@@ -129,7 +127,7 @@ class Auth extends Component {
       );
       formButtonName = 'Sign Up';
       switchCTA = 'Existing user?';
-      switchLink = paths.AUTH_LOGIN;
+      switchLink = paths.LOGIN;
       switchName = 'Log In';
     }
 
@@ -185,7 +183,7 @@ class Auth extends Component {
       return <Redirect to={this.props.redirectPath} />;
 
     let loadingPrompt = null;
-    const isSigningUp = this.props.location.pathname === paths.AUTH_SIGNUP;
+    const isSigningUp = this.props.location.pathname === paths.SIGNUP;
     let authClasses = styles.Auth;
 
     if (this.props.isLoading) {
@@ -221,7 +219,9 @@ class Auth extends Component {
   }
 }
 
-export default connect(
-  mapStateToProps,
-  mapDispatchToProps
-)(Auth);
+export default withRouter(
+  connect(
+    mapStateToProps,
+    mapDispatchToProps
+  )(Auth)
+);

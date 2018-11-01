@@ -119,13 +119,13 @@ class Layout extends PureComponent {
     );
 
     let signup = (
-      <NavItem clear to={paths.AUTH_SIGNUP} click={this.handleCloseDrawer}>
+      <NavItem clear to={paths.SIGNUP} click={this.handleCloseDrawer}>
         Sign Up
       </NavItem>
     );
 
     let login = (
-      <NavItem clear to={paths.AUTH_LOGIN} click={this.handleCloseDrawer}>
+      <NavItem clear to={paths.LOGIN} click={this.handleCloseDrawer}>
         Login
       </NavItem>
     );

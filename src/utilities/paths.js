@@ -1,7 +1,6 @@
 export const ABOUT = '/about';
-export const AUTH = '/auth';
-export const AUTH_LOGIN = '/auth/login';
-export const AUTH_SIGNUP = '/auth/signup';
+export const LOGIN = '/login';
+export const SIGNUP = '/signup';
 export const LOGOUT = '/logout';
 export const MORE = '/more';
 export const HOME = '/';

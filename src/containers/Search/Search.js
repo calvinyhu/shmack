@@ -138,7 +138,9 @@ class Search extends Component {
     if (this.state.isShowFilters) this.setState({ isShowFilters: false });
   };
 
-  handleChangeRadius = event => this.setState({ radius: event.target.id });
+  handleChangeRadius = event => {
+    if (event) this.setState({ radius: event.target.id });
+  };
 
   handleSearch = event => {
     if (event) event.preventDefault();
@@ -215,7 +217,7 @@ class Search extends Component {
     if (this.state.isRedirectingToSettings)
       return <Redirect to={paths.SETTINGS} />;
 
-    const options = { radius: this.state.radius };
+    const selectedOptions = { radius: this.state.radius };
     const filters = (
       <Filters
         isOpen={this.state.isShowFilters}
@@ -223,9 +225,9 @@ class Search extends Component {
           this.state.isShowFilters &&
           (this.state.isShowLocationInput || this.props.location.length > 0)
         }
-        changeRadius={this.handleChangeRadius}
         apply={this.handleSearch}
-        options={options}
+        changeRadius={this.handleChangeRadius}
+        selectedOptions={selectedOptions}
       />
     );
 

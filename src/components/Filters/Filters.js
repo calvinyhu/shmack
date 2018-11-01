@@ -3,19 +3,14 @@ import PropTypes from 'prop-types';
 import classnames from 'classnames';
 
 import styles from './Filters.module.scss';
-import Button from 'components/UI/Button/Button';
-
-const RADIUS = {
-  ONE: 1,
-  FIVE: 5,
-  TEN: 10
-};
+import Filter from '../Filter/Filter';
+import Button from '../UI/Button/Button';
 
 const filters = props => {
   filters.propTypes = {
     isOpen: PropTypes.bool.isRequired,
     isLifted: PropTypes.bool.isRequired,
-    options: PropTypes.object.isRequired,
+    selectedOptions: PropTypes.object.isRequired,
     apply: PropTypes.func.isRequired,
     changeRadius: PropTypes.func.isRequired
   };
@@ -25,9 +20,6 @@ const filters = props => {
     [styles.SlideYFilters]: props.isOpen,
     [styles.LiftFilters]: props.isLifted
   });
-
-  const radiusClasses = {};
-  radiusClasses[props.options.radius] = styles.ActiveRadius;
 
   let filtersContainer = (
     <div className={filtersClasses}>
@@ -39,32 +31,12 @@ const filters = props => {
           </Button>
         </div>
       </header>
-      <div className={styles.Filter}>
-        <p>Radius (mi)</p>
-        <div className={styles.FilterOptions}>
-          <p
-            id={RADIUS.ONE}
-            className={radiusClasses[RADIUS.ONE]}
-            onClick={props.changeRadius}
-          >
-            {RADIUS.ONE}
-          </p>
-          <p
-            id={RADIUS.FIVE}
-            className={radiusClasses[RADIUS.FIVE]}
-            onClick={props.changeRadius}
-          >
-            {RADIUS.FIVE}
-          </p>
-          <p
-            id={RADIUS.TEN}
-            className={radiusClasses[RADIUS.TEN]}
-            onClick={props.changeRadius}
-          >
-            {RADIUS.TEN}
-          </p>
-        </div>
-      </div>
+      <Filter
+        name="Radius (mi)"
+        options={[1, 5, 10]}
+        selectedOption={props.selectedOptions.radius}
+        click={props.changeRadius}
+      />
     </div>
   );
 

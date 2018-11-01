@@ -49,7 +49,8 @@ class App extends Component {
           <Route exact path={paths.ABOUT} component={About} />
           <Route exact path={paths.SETTINGS} component={Settings} />
           <Route exact path={paths.LOGOUT} component={LogOut} />
-          <Route path={paths.AUTH} component={Auth} />
+          <Route exact path={paths.LOGIN} component={Auth} />
+          <Route exact path={paths.SIGNUP} component={Auth} />
           <Redirect to={paths.HOME} />
         </Switch>
       );
@@ -60,8 +61,8 @@ class App extends Component {
           <Route exact path={paths.SEARCH} component={Search} />
           <Route exact path={paths.ABOUT} component={About} />
           <Route exact path={paths.SETTINGS} component={Settings} />
-          <Route exact path={paths.AUTH_SIGNUP} component={Auth} />
-          <Route exact path={paths.AUTH_LOGIN} component={Auth} />
+          <Route exact path={paths.SIGNUP} component={Auth} />
+          <Route exact path={paths.LOGIN} component={Auth} />
           <Redirect to={paths.HOME} />
         </Switch>
       );
