@@ -22,7 +22,7 @@ const filterOptions = props => {
 
       return (
         <div key={option} className={optionClasses}>
-          <Button clear id={option} click={props.click}>
+          <Button clear id={option} name={props.name} click={props.click}>
             {option}
           </Button>
         </div>

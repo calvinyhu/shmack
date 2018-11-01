@@ -138,8 +138,8 @@ class Search extends Component {
     if (this.state.isShowFilters) this.setState({ isShowFilters: false });
   };
 
-  handleChangeRadius = event => {
-    if (event) this.setState({ radius: event.target.id });
+  handleChangeFilterOption = event => {
+    if (event) this.setState({ [event.target.name]: event.target.id });
   };
 
   handleSearch = event => {
@@ -220,13 +220,14 @@ class Search extends Component {
     const selectedOptions = { radius: this.state.radius };
     const filters = (
       <Filters
-        isOpen={this.state.isShowFilters}
+        isOpen={!this.state.isScrollingDown && this.state.isShowFilters}
         isLifted={
+          !this.state.isScrollingDown &&
           this.state.isShowFilters &&
           (this.state.isShowLocationInput || this.props.location.length > 0)
         }
         apply={this.handleSearch}
-        changeRadius={this.handleChangeRadius}
+        changeFilterOption={this.handleChangeFilterOption}
         selectedOptions={selectedOptions}
       />
     );

@@ -6,8 +6,9 @@ import FilterOptions from '../FilterOptions/FilterOptions';
 const filter = props => {
   return (
     <div className={styles.Filter}>
-      <p>{props.name}</p>
+      <p>{props.label}</p>
       <FilterOptions
+        name={props.name}
         options={props.options}
         selectedOption={props.selectedOption}
         click={props.click}

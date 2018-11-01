@@ -12,7 +12,7 @@ const filters = props => {
     isLifted: PropTypes.bool.isRequired,
     selectedOptions: PropTypes.object.isRequired,
     apply: PropTypes.func.isRequired,
-    changeRadius: PropTypes.func.isRequired
+    changeFilterOption: PropTypes.func.isRequired
   };
 
   const filtersClasses = classnames({
@@ -32,10 +32,11 @@ const filters = props => {
         </div>
       </header>
       <Filter
-        name="Radius (mi)"
+        label="Radius (mi)"
+        name="radius"
         options={[1, 5, 10]}
         selectedOption={props.selectedOptions.radius}
-        click={props.changeRadius}
+        click={props.changeFilterOption}
       />
     </div>
   );

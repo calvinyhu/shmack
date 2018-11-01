@@ -82,6 +82,7 @@ class Button extends PureComponent {
     return (
       <button
         id={this.props.id}
+        name={this.props.name}
         className={buttonClasses}
         disabled={this.props.disabled}
         onTouchStart={this.handleTouchStart}
