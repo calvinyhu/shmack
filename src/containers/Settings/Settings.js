@@ -69,13 +69,16 @@ class Settings extends Component {
   clear = () => this.props.onClear();
 
   render() {
-    if (this.props.redirectParent === paths.HOME && this.props.geoLocation.lat)
-      return <Redirect to={paths.HOME} />;
-    if (
-      this.props.redirectParent === paths.SEARCH &&
-      this.props.geoLocation.lat
-    )
-      return <Redirect to={paths.SEARCH} />;
+    if (this.props.geoLocation.lat) {
+      switch (this.props.redirectParent) {
+        case paths.HOME:
+          return <Redirect to={paths.HOME} />;
+        case paths.SEARCH:
+          return <Redirect to={paths.SEARCH} />;
+        default:
+          break;
+      }
+    }
 
     const backdrop = (
       <Backdrop isOpen={this.props.isError} click={this.clear} />

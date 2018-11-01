@@ -10,7 +10,7 @@ import Logout from 'react-feather/dist/icons/log-out';
 import MapPin from 'react-feather/dist/icons/map-pin';
 import Menu from 'react-feather/dist/icons/menu';
 import Nav from 'react-feather/dist/icons/navigation';
-import Phone from 'react-feather/dist/icons/smartphone';
+import Smartphone from 'react-feather/dist/icons/smartphone';
 import Plus from 'react-feather/dist/icons/plus';
 import Refresh from 'react-feather/dist/icons/refresh-cw';
 import Search from 'react-feather/dist/icons/search';
@@ -54,8 +54,8 @@ const Rf = props => {
       return <Menu className={iconClasses} />;
     case 'nav':
       return <Nav className={iconClasses} />;
-    case 'phone':
-      return <Phone className={iconClasses} />;
+    case 'smartphone':
+      return <Smartphone className={iconClasses} />;
     case 'plus':
       return <Plus className={iconClasses} />;
     case 'refresh':

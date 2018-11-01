@@ -11,8 +11,8 @@ import Home from 'containers/Home/Home';
 import Search from 'containers/Search/Search';
 import User from 'containers/User/User';
 import LogOut from 'containers/Auth/LogOut/LogOut';
+import Settings from 'containers/Settings/Settings';
 import About from 'components/About/About';
-import Settings from 'components/Settings/Settings';
 import * as paths from 'utilities/paths';
 
 const mapStateToProps = state => ({

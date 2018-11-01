@@ -1,5 +1,5 @@
 import React, { Component } from 'react';
-import { Redirect, withRouter } from 'react-router-dom';
+import { Redirect } from 'react-router-dom';
 import { connect } from 'react-redux';
 import Fade from 'react-reveal/Fade';
 import PropTypes from 'prop-types';
@@ -219,9 +219,7 @@ class Auth extends Component {
   }
 }
 
-export default withRouter(
-  connect(
-    mapStateToProps,
-    mapDispatchToProps
-  )(Auth)
-);
+export default connect(
+  mapStateToProps,
+  mapDispatchToProps
+)(Auth);
