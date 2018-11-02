@@ -29,13 +29,13 @@ const profile = props => {
   return (
     <div className={styles.Profile}>
       <Fade>
+        <div className={styles.ProfilePicture}>
+          <img src={props.photoURL} alt="Profile" />
+        </div>
         <div className={styles.EditProfileButton}>
           <Button main click={props.handleToggleEditProfile}>
             Edit
           </Button>
-        </div>
-        <div className={styles.ProfilePicture}>
-          <img src={props.photoURL} alt="Profile" />
         </div>
         <div className={styles.ProfileInfo}>
           <h3>{props.displayName}</h3>

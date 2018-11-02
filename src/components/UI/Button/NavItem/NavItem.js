@@ -1,5 +1,5 @@
 import React from 'react';
-import { NavLink } from 'react-router-dom';
+import { NavLink, withRouter } from 'react-router-dom';
 import PropTypes from 'prop-types';
 import classnames from 'classnames';
 
@@ -52,7 +52,9 @@ class NavItem extends Button {
 
     return (
       <NavLink
+        exact
         className={navItemClasses}
+        activeClassName={styles.Active}
         to={this.props.to}
         onTouchStart={this.handleTouchStart}
         onTouchEnd={this.handleTouchEnd}
@@ -66,4 +68,4 @@ class NavItem extends Button {
   }
 }
 
-export default NavItem;
+export default withRouter(NavItem);

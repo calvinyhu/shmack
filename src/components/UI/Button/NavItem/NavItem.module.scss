@@ -71,3 +71,7 @@
 .Tall {
   height: 5rem;
 }
+
+.Active {
+  background: transparentize($md-black, 0.93);
+}
