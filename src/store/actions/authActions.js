@@ -18,8 +18,7 @@ export const authenticate = (info, signingUp) => dispatch => {
         dispatch(authSuccess());
       })
       .catch(error => {
-        const message = 'Failed to sign up user';
-        dispatch(authFail({ message }));
+        dispatch(authFail(error));
       });
   } else {
     auth
@@ -28,9 +27,8 @@ export const authenticate = (info, signingUp) => dispatch => {
         dispatch(getUserInfo());
         dispatch(authSuccess());
       })
-      .catch(_ => {
-        const message = 'Failed to login user';
-        dispatch(authFail({ message }));
+      .catch(error => {
+        dispatch(authFail(error));
       });
   }
 };
