@@ -118,54 +118,61 @@ class Layout extends PureComponent {
       />
     );
 
-    let signup = (
+    const signup = (
       <NavItem clear to={paths.SIGNUP} click={this.handleCloseDrawer}>
         Sign Up
       </NavItem>
     );
 
-    let login = (
+    const login = (
       <NavItem clear to={paths.LOGIN} click={this.handleCloseDrawer}>
         Login
       </NavItem>
     );
 
-    let home = (
+    const user = (
+      <NavItem clear to={paths.USER} click={this.handleCloseDrawer}>
+        <Rf sm>user</Rf>
+        User
+      </NavItem>
+    );
+
+    const home = (
       <NavItem clear to={paths.HOME} click={this.handleCloseDrawer}>
         <Rf sm>home</Rf>
         Home
       </NavItem>
     );
 
-    let search = (
+    const search = (
       <NavItem clear to={paths.SEARCH} click={this.handleCloseDrawer}>
         <Rf sm>search</Rf>
         Search
       </NavItem>
     );
 
-    let myPlaces = (
+    const myPlaces = (
       <NavItem clear to={paths.MY_PLACES} click={this.handleCloseDrawer}>
         <Rf sm>map-pin</Rf>
         My Places
       </NavItem>
     );
 
-    let about = (
+    const about = (
       <NavItem clear to={paths.ABOUT} click={this.handleCloseDrawer}>
         <Rf sm>info</Rf>
         About
       </NavItem>
     );
 
-    let settings = (
+    const settings = (
       <NavItem clear to={paths.SETTINGS} click={this.handleCloseDrawer}>
         <Rf sm>sliders</Rf>
         Settings
       </NavItem>
     );
 
-    let logout = (
+    const logout = (
       <NavItem clear to={paths.LOGOUT} click={this.handleCloseDrawer}>
         <Rf sm>logout</Rf>
         Log Out
@@ -189,6 +196,7 @@ class Layout extends PureComponent {
       nav = (
         <nav>
           <div className={styles.Primary}>
+            {user}
             {home}
             {search}
             {myPlaces}

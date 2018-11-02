@@ -7,9 +7,10 @@ import * as appActions from 'store/actions/appActions';
 import * as authActions from 'store/actions/authActions';
 import Layout from 'hoc/Layout/Layout';
 import Auth from 'containers/Auth/Auth';
+import User from 'containers/User/User';
 import Home from 'containers/Home/Home';
 import Search from 'containers/Search/Search';
-import User from 'containers/User/User';
+import MyPlaces from 'containers/MyPlaces/MyPlaces';
 import LogOut from 'containers/Auth/LogOut/LogOut';
 import Settings from 'containers/Settings/Settings';
 import About from 'components/About/About';
@@ -43,9 +44,10 @@ class App extends Component {
     if (this.props.isAuth) {
       routes = (
         <Switch>
+          <Route exact path={paths.USER} component={User} />
           <Route exact path={paths.HOME} component={Home} />
           <Route exact path={paths.SEARCH} component={Search} />
-          <Route exact path={paths.MY_PLACES} component={User} />
+          <Route exact path={paths.MY_PLACES} component={MyPlaces} />
           <Route exact path={paths.ABOUT} component={About} />
           <Route exact path={paths.SETTINGS} component={Settings} />
           <Route exact path={paths.LOGOUT} component={LogOut} />

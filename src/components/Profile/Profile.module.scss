@@ -2,17 +2,9 @@
 @import './src/assets/scss/_mixins.scss';
 @import './src/assets/scss/_classes.scss';
 
-.User {
-  width: 100%;
-  min-height: 100%;
-  display: flex;
-  flex-direction: column;
-  align-items: center;
-}
-
 .Profile {
   width: 100%;
-  max-width: 25rem;
+  max-width: 40rem;
   display: flex;
   flex-direction: column;
   justify-content: center;
@@ -27,8 +19,8 @@
     position: absolute;
     right: 1rem;
     top: 1rem;
-    width: 4rem;
-    height: 1.5rem;
+    width: 3rem;
+    height: 1.8rem;
     font-size: $font-size / 1.1;
   }
 
@@ -49,7 +41,13 @@
     width: 100%;
     display: flex;
     flex-direction: column;
+    align-items: center;
     margin-top: $margin;
+
+    h3 {
+      width: fit-content;
+      margin-bottom: $margin;
+    }
 
     .Email {
       display: flex;
@@ -57,36 +55,10 @@
       align-items: center;
 
       .VerifyEmailButton {
-        height: 1.5rem;
-        width: 4rem;
+        height: 1.8rem;
+        width: 6.5rem;
         font-size: $font-size / 1.1;
       }
     }
   }
-}
-
-.ProfileEditor {
-  position: fixed;
-  width: 100%;
-  height: 100vh;
-  transform: translateX(100%);
-  transition: $transition1;
-  background: $md-white;
-  padding: $padding;
-
-  .FormButtons {
-    display: flex;
-    width: 100%;
-    justify-content: space-around;
-    margin-top: $margin;
-
-    .FormButton {
-      width: $fab-size-mini;
-      height: $fab-size-mini;
-    }
-  }
-}
-
-.OpenProfileEditor {
-  transform: translateX(0);
 }

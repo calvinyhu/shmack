@@ -1,7 +1,7 @@
 import * as actionTypes from 'store/actions/actionTypes';
 import * as paths from 'utilities/paths';
 import { auth, USER_FIELDS } from 'utilities/firebase';
-import { postUserInfo } from './userActions';
+import { getUserInfo, postUserInfo } from './userActions';
 
 export const authenticate = (info, signingUp) => dispatch => {
   dispatch(authStart());
@@ -10,30 +10,50 @@ export const authenticate = (info, signingUp) => dispatch => {
       .createUserWithEmailAndPassword(info.email, info.password)
       .then(_ => {
         const userInfo = {};
-        Object.values(USER_FIELDS).forEach(val => {
-          userInfo[val] = info[val] ? info[val] : '';
+        USER_FIELDS.forEach(field => {
+          userInfo[field] = info[field] ? info[field] : '';
         });
         dispatch(postUserInfo(userInfo));
+        dispatch(verifyEmail());
         dispatch(authSuccess());
       })
       .catch(error => {
-        dispatch(authFail(error));
+        const message = 'Failed to sign up user';
+        dispatch(authFail({ message }));
       });
   } else {
     auth
       .signInWithEmailAndPassword(info.email, info.password)
       .then(_ => {
+        dispatch(getUserInfo());
         dispatch(authSuccess());
       })
-      .catch(error => {
-        dispatch(authFail(error));
+      .catch(_ => {
+        const message = 'Failed to login user';
+        dispatch(authFail({ message }));
       });
   }
 };
 
+export const verifyEmail = () => dispatch => {
+  if (!auth.currentUser || auth.currentUser.emailVerified) return;
+
+  auth.currentUser
+    .sendEmailVerification()
+    .then(() => {
+      console.log('Email verification sent');
+    })
+    .catch(_ => {
+      console.log('Email verification error');
+    });
+};
+
 export const authTryAutoLogIn = () => dispatch => {
   auth.onAuthStateChanged(user => {
-    if (user) dispatch(authSuccess());
+    if (user) {
+      dispatch(getUserInfo());
+      dispatch(authSuccess());
+    }
   });
 };
 
@@ -43,8 +63,9 @@ export const authLogOut = () => dispatch => {
     .then(_ => {
       dispatch(authLogOutSuccess());
     })
-    .catch(error => {
-      dispatch(authLogOutFail(error));
+    .catch(_ => {
+      const message = 'Failed to log out user';
+      dispatch(authLogOutFail({ message }));
     });
 };
 

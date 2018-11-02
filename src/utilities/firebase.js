@@ -31,14 +31,8 @@ export const CIDS = {
   ITEMS: 'items'
 };
 
-// User Collection Fields
-export const USER_FIELDS = {
-  EMAIL: 'email',
-  FIRST_NAME: 'firstName',
-  LAST_NAME: 'lastName',
-  LOCATION: 'location',
-  PROFILE_PICTURE: 'profilePicture'
-};
+// User Document Fields
+export const USER_FIELDS = ['email', 'firstName', 'lastName'];
 
 // Root Collections
 export const users = firestore.collection(CIDS.USERS);

@@ -2,6 +2,7 @@ import React from 'react';
 import PropTypes from 'prop-types';
 import classnames from 'classnames';
 import ArrowLeft from 'react-feather/dist/icons/arrow-left';
+import Check from 'react-feather/dist/icons/check';
 import Dollar from 'react-feather/dist/icons/dollar-sign';
 import Filter from 'react-feather/dist/icons/filter';
 import Home from 'react-feather/dist/icons/home';
@@ -17,6 +18,8 @@ import Search from 'react-feather/dist/icons/search';
 import Sliders from 'react-feather/dist/icons/sliders';
 import ThumbsDown from 'react-feather/dist/icons/thumbs-down';
 import ThumbsUp from 'react-feather/dist/icons/thumbs-up';
+import User from 'react-feather/dist/icons/user';
+import X from 'react-feather/dist/icons/x';
 
 import styles from './Rf.module.scss';
 
@@ -38,6 +41,8 @@ const Rf = props => {
   switch (props.children) {
     case 'arrow-left':
       return <ArrowLeft className={iconClasses} />;
+    case 'check':
+      return <Check className={iconClasses} />;
     case 'dollar-sign':
       return <Dollar className={iconClasses} />;
     case 'filter':
@@ -68,6 +73,10 @@ const Rf = props => {
       return <ThumbsDown className={iconClasses} />;
     case 'thumbs-up':
       return <ThumbsUp className={iconClasses} />;
+    case 'user':
+      return <User className={iconClasses} />;
+    case 'x':
+      return <X className={iconClasses} />;
     default:
       return null;
   }

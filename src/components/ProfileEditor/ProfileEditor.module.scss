@@ -1,0 +1,43 @@
+@import './src/assets/scss/_classes.scss';
+@import './src/assets/scss/_variables.scss';
+
+.ProfileEditor {
+  position: fixed;
+  width: 100%;
+  max-width: 45rem;
+  height: 100vh;
+  transform: translateY(2%);
+  transition: opacity $transition1, z-index 0s $transition-duration1,
+    transform $transition1;
+  background: $md-white;
+  padding: $padding;
+  display: flex;
+  flex-direction: column;
+  opacity: 0;
+  z-index: -1;
+
+  .FormButtons {
+    display: flex;
+    width: 100%;
+    justify-content: space-around;
+    margin-top: $margin;
+
+    .FormButton {
+      width: $fab-size-mini;
+      height: $fab-size-mini;
+    }
+  }
+}
+
+.OpenProfileEditor {
+  transform: translateY(0);
+  opacity: 1;
+  z-index: 0;
+  transition: opacity $transition1, transform $transition1;
+}
+
+.LoaderContainer {
+  align-self: center;
+  width: 4rem;
+  height: 4rem;
+}

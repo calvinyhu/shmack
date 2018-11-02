@@ -3,126 +3,135 @@ import { connect } from 'react-redux';
 import PropTypes from 'prop-types';
 
 import styles from './User.module.scss';
-import * as userActions from 'store/actions/userActions';
-import * as resPageActions from 'store/actions/resPageActions';
-import { createGooglePlacePhotoQuery } from 'utilities/google';
-import Thumbnail from 'components/Thumbnail/Thumbnail';
-import ResPage from 'components/ResPage/ResPage';
-import Button from 'components/UI/Button/Button';
-import Rf from 'components/UI/Icon/Rf/Rf';
+import { auth } from '../../utilities/firebase';
+import * as authActions from '../../store/actions/authActions';
+import * as userActions from '../../store/actions/userActions';
+import Profile from '../../components/Profile/Profile';
+import ProfileEditor from '../../components/ProfileEditor/ProfileEditor';
+import profile_placeholder from '../../assets/images/profile_placeholder.jpeg';
 
 const mapStateToProps = state => ({
-  isAuth: state.auth.isAuth,
-  isGettingPlaces: state.user.isGettingPlaces,
-  places: state.user.places
+  firstName: state.user.firstName,
+  lastName: state.user.lastName
 });
 
 const mapDispatchToProps = {
-  onGetPlaces: userActions.getPlaces,
-  onGetUserVotes: userActions.getUserVotes,
-  onGetPopularItems: resPageActions.getItems,
-  onClearResPageError: resPageActions.clearError
+  onPostUserInfo: userActions.postUserInfo,
+  onVerifyEmail: authActions.verifyEmail
 };
 
 class User extends Component {
   static propTypes = {
-    places: PropTypes.array,
-    onClearResPageError: PropTypes.func.isRequired
+    onPostUserInfo: PropTypes.func.isRequired,
+    onVerifyEmail: PropTypes.func.isRequired
   };
 
   state = {
-    isPageOpen: false,
-    restaurant: null
-  };
-
-  componentDidMount() {
-    if (this.props.places.length === 0) this.props.onGetPlaces();
-  }
-
-  handleAtRefresh = () => {
-    if (!this.props.isGettingPlaces) this.props.onGetPlaces();
-  };
-
-  // Restaurant Page Handles
-  handlePageOpen = restaurant =>
-    this.setState({ isPageOpen: true, restaurant });
-  handlePageClose = () => this.setState({ isPageOpen: false });
-
-  // Restaurant Grid Thumbnail Handles
-  restaurantClickHandlers = {};
-  getRestaurantClickHandler = place => {
-    if (!this.restaurantClickHandlers[place.place_id]) {
-      this.restaurantClickHandlers[place.place_id] = () => {
-        if (this.props.isAuth) {
-          this.props.onGetPopularItems(place.place_id);
-          this.props.onGetUserVotes(place.place_id);
-        }
-        this.props.onClearResPageError();
-        this.handlePageOpen(place);
-      };
+    isEditingProfile: false,
+    isSaving: false,
+    isEmailVerified: auth.currentUser ? auth.currentUser.emailVerified : false,
+    profile: {
+      photoURL:
+        auth.currentUser && auth.currentUser.photoURL
+          ? auth.currentUser.photoURL
+          : profile_placeholder,
+      displayName: auth.currentUser ? auth.currentUser.displayName : '',
+      email: auth.currentUser ? auth.currentUser.email : '',
+      firstName: this.props.firstName,
+      lastName: this.props.lastName
     }
-    return this.restaurantClickHandlers[place.place_id];
   };
 
-  renderThumbnails = places => {
-    if (this.props.isGettingPlaces) {
-      return (
-        <div className={styles.LoaderContainer}>
-          <div className={styles.Loader} />
-        </div>
-      );
-    } else if (places.length <= 0) return [];
+  prevProfile = {
+    photoURL:
+      auth.currentUser && auth.currentUser.photoURL
+        ? auth.currentUser.photoURL
+        : profile_placeholder,
+    displayName: auth.currentUser ? auth.currentUser.displayName : '',
+    email: auth.currentUser ? auth.currentUser.email : '',
+    firstName: this.props.firstName,
+    lastName: this.props.lastName
+  };
 
-    const thumbnails = [];
-    places.forEach(place => {
-      if (!place.photos) return;
-      const photo = place.photos[0];
-      const imgUrl = createGooglePlacePhotoQuery(
-        photo.photo_reference,
-        photo.width
-      );
-      const thumbnail = (
-        <div key={place.place_id} className={styles.ThumbnailContainer}>
-          <Thumbnail
-            click={this.getRestaurantClickHandler(place)}
-            img={imgUrl}
-            price={place.price_level}
-            name={place.name}
-            rating={place.rating}
-          />
-        </div>
-      );
-      thumbnails.push(thumbnail);
+  handleToggleEditProfile = () => {
+    this.setState(prevState => {
+      return { isEditingProfile: !prevState.isEditingProfile };
     });
+  };
 
-    return thumbnails;
+  handleInputChange = event => {
+    const profile = { ...this.state.profile };
+    profile[event.target.name] = event.target.value;
+    this.setState({ profile });
+  };
+
+  handleSave = () => {
+    if (!auth.currentUser) {
+      this.handleCancel();
+      return;
+    }
+
+    this.setState({ isSaving: true });
+
+    const newInfo = {
+      firstName: this.state.profile.firstName,
+      lastName: this.state.profile.lastName
+    };
+    this.props.onPostUserInfo(newInfo);
+
+    const newProfile = {
+      displayName:
+        this.state.profile.firstName + ' ' + this.state.profile.lastName
+    };
+    auth.currentUser
+      .updateProfile(newProfile)
+      .then(_ => {
+        const profile = { ...this.state.profile };
+        profile.displayName = auth.currentUser.displayName;
+        this.setState({ isSaving: false, profile });
+        this.prevProfile = profile;
+        this.handleToggleEditProfile();
+      })
+      .catch(_ => {
+        this.setState({ isSaving: false });
+        this.handleCancel();
+      });
+  };
+
+  handleCancel = () => {
+    this.setState({ ...this.state, profile: this.prevProfile });
+    this.handleToggleEditProfile();
   };
 
   render() {
-    const thumbnails = this.renderThumbnails(this.props.places);
+    const profile = (
+      <Profile
+        isEmailVerified={this.state.isEmailVerified}
+        photoURL={this.state.profile.photoURL}
+        displayName={this.state.profile.displayName}
+        email={this.state.profile.email}
+        handleToggleEditProfile={this.handleToggleEditProfile}
+        onVerifyEmail={this.props.onVerifyEmail}
+      />
+    );
 
-    const resPage = (
-      <ResPage
-        isOpen={this.state.isPageOpen}
-        restaurant={this.state.restaurant}
-        close={this.handlePageClose}
+    const profileEditor = (
+      <ProfileEditor
+        isEditingProfile={this.state.isEditingProfile}
+        isSaving={this.state.isSaving}
+        firstName={this.state.profile.firstName}
+        lastName={this.state.profile.lastName}
+        email={this.state.profile.email}
+        handleInputChange={this.handleInputChange}
+        handleSave={this.handleSave}
+        handleCancel={this.handleCancel}
       />
     );
 
     return (
       <div className={styles.User}>
-        <div className={styles.Places}>
-          <header>
-            <h5>Your Places</h5>
-            <div className={styles.Refresh}>
-              <Button clear circle small click={this.handleAtRefresh}>
-                <Rf sm>refresh</Rf>
-              </Button>
-            </div>
-          </header>
-          {thumbnails}
-        </div>
-        {resPage}
+        {profile}
+        {profileEditor}
       </div>
     );
   }

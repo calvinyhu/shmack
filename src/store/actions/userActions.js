@@ -4,6 +4,19 @@ import * as actionTypes from './actionTypes';
 import { auth, users, CIDS } from '../../utilities/firebase';
 import { createGooglePlaceDetailsQuery } from '../../utilities/google';
 
+export const getUserInfo = () => dispatch => {
+  if (!auth.currentUser) return;
+
+  dispatch(getUserInfoStart());
+  users
+    .doc(auth.currentUser.uid)
+    .get()
+    .then(doc => {
+      if (!doc.exists) return;
+      dispatch(getUserInfoSuccess(doc.data()));
+    });
+};
+
 export const postUserInfo = info => dispatch => {
   if (!auth.currentUser) return;
 
@@ -112,6 +125,52 @@ export const getPlaces = () => dispatch => {
     });
 };
 
+const getUserInfoStart = () => ({
+  type: actionTypes.USER_GET_INFO_START,
+  payload: {
+    isGettingUserInfo: true,
+    error: {}
+  }
+});
+
+const getUserInfoSuccess = userInfo => ({
+  type: actionTypes.USER_GET_INFO_SUCCESS,
+  payload: {
+    isGettingUserInfo: false,
+    firstName: userInfo.firstName,
+    lastName: userInfo.lastName,
+    error: {}
+  }
+});
+
+const postUserInfoStart = () => ({
+  type: actionTypes.USER_POST_INFO_START,
+  payload: {
+    isPostingUserInfo: true,
+    error: {}
+  }
+});
+
+const postUserInfoSuccess = userInfo => ({
+  type: actionTypes.USER_POST_INFO_SUCCESS,
+  payload: {
+    isPostingUserInfo: false,
+    isPostSuccess: true,
+    firstName: userInfo.firstName,
+    lastName: userInfo.lastName,
+    error: {}
+  }
+});
+
+const postUserInfoFail = error => ({
+  type: actionTypes.USER_POST_INFO_FAIL,
+  payload: {
+    isPostingUserInfo: false,
+    isPostSuccess: false,
+    error
+  }
+});
+
 const getPlacesStart = () => ({
   type: actionTypes.USER_GET_PLACES_START,
   payload: {
@@ -132,32 +191,6 @@ const getPlacesFail = error => ({
   type: actionTypes.USER_GET_PLACES_FAIL,
   payload: {
     isGettingPlaces: false,
-    error
-  }
-});
-
-const postUserInfoStart = () => ({
-  type: actionTypes.USER_POST_INFO_START,
-  payload: {
-    posting: true,
-    error: {}
-  }
-});
-
-const postUserInfoSuccess = userInfo => ({
-  type: actionTypes.USER_POST_INFO_SUCCESS,
-  payload: {
-    posting: false,
-    postSuccess: true,
-    error: {}
-  }
-});
-
-const postUserInfoFail = error => ({
-  type: actionTypes.USER_POST_INFO_FAIL,
-  payload: {
-    posting: false,
-    postSuccess: false,
     error
   }
 });
