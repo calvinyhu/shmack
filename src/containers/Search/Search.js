@@ -1,6 +1,7 @@
 import React, { Component } from 'react';
 import { connect } from 'react-redux';
 import { Redirect } from 'react-router-dom';
+import Fade from 'react-reveal/Fade';
 import throttle from 'raf-throttle';
 import PropTypes from 'prop-types';
 
@@ -306,7 +307,9 @@ class Search extends Component {
         );
       }
       gridContainer = (
-        <div className={styles.GridContainer}>{restaurantsGrid}</div>
+        <div className={styles.GridContainer}>
+          <Fade>{restaurantsGrid}</Fade>
+        </div>
       );
     }
 

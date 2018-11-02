@@ -1,6 +1,7 @@
 import React, { Component } from 'react';
 import { connect } from 'react-redux';
 import { Redirect } from 'react-router-dom';
+import Fade from 'react-reveal/Fade';
 import PropTypes from 'prop-types';
 
 import styles from './Home.module.scss';
@@ -174,10 +175,12 @@ class Home extends Component {
         );
       }
       errorMessage = (
-        <div className={styles.Message}>
-          To see popular foods nearby, turn on location.
-          {grantButton}
-        </div>
+        <Fade>
+          <div className={styles.Message}>
+            To see popular foods nearby, turn on location.
+            {grantButton}
+          </div>
+        </Fade>
       );
     } else {
       let atRestaurants = null;

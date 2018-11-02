@@ -12,6 +12,7 @@ class NavItem extends Button {
     borderMain: PropTypes.bool,
     bold: PropTypes.bool,
     clear: PropTypes.bool,
+    tall: PropTypes.bool,
     to: PropTypes.string.isRequired,
     click: PropTypes.func.isRequired,
     children: PropTypes.any
@@ -38,6 +39,7 @@ class NavItem extends Button {
       [styles.NavItem]: true,
       [styles.Link]: this.props.link,
       [styles.Clear]: this.props.clear,
+      [styles.Tall]: this.props.tall,
       [styles.BorderMain]: this.props.borderMain,
       [styles.Bold]: this.props.bold,
       [styles.ClearTouchHover]: this.state.isTouch && this.props.clear,

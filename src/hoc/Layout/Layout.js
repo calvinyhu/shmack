@@ -15,12 +15,15 @@ import DragDrawer from '../../components/UI/DragDrawer/DragDrawer';
 import Button from 'components/UI/Button/Button';
 import Rf from 'components/UI/Icon/Rf/Rf';
 import NavItem from 'components/UI/Button/NavItem/NavItem';
-import * as paths from 'utilities/paths';
+import * as paths from '../../utilities/paths';
+import { auth } from '../../utilities/firebase';
+import profile_placeholder from '../../assets/images/profile_placeholder.jpeg';
 
 const mapStateToProps = state => {
   return {
+    isSearchSuccess: state.restaurants.isSearchSuccess,
     deferredPrompt: state.app.deferredPrompt,
-    isSearchSuccess: state.restaurants.isSearchSuccess
+    firstName: state.user.firstName
   };
 };
 
@@ -131,9 +134,21 @@ class Layout extends PureComponent {
     );
 
     const user = (
-      <NavItem clear to={paths.USER} click={this.handleCloseDrawer}>
-        <Rf sm>user</Rf>
-        User
+      <NavItem clear tall to={paths.USER} click={this.handleCloseDrawer}>
+        <div className={styles.ProfilePicture}>
+          <img
+            src={
+              auth.currentUser && auth.currentUser.photoURL
+                ? auth.currentUser.photoURL
+                : profile_placeholder
+            }
+            alt="Profile"
+          />
+        </div>
+        <div className={styles.ProfileName}>
+          <h5>Hi, {this.props.firstName ? this.props.firstName : 'there'}</h5>
+          <p>View Profile</p>
+        </div>
       </NavItem>
     );
 

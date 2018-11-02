@@ -13,12 +13,19 @@
   padding: $padding;
   display: flex;
   flex-direction: column;
+  align-items: center;
   opacity: 0;
   z-index: -1;
+
+  form {
+    width: 100%;
+    max-width: 25rem;
+  }
 
   .FormButtons {
     display: flex;
     width: 100%;
+    max-width: 25rem;
     justify-content: space-around;
     margin-top: $margin;
 

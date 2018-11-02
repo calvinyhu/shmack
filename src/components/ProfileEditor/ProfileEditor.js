@@ -37,7 +37,10 @@ const profileEditor = props => {
     <div className={profileEditorClasses}>
       <form>
         <Input
-          required={false}
+          small
+          margin
+          floatText
+          required
           line
           type="text"
           name="firstName"
@@ -46,7 +49,10 @@ const profileEditor = props => {
           change={props.handleInputChange}
         />
         <Input
-          required={false}
+          small
+          margin
+          floatText
+          required
           line
           type="text"
           name="lastName"
@@ -55,6 +61,9 @@ const profileEditor = props => {
           change={props.handleInputChange}
         />
         <Input
+          small
+          margin
+          floatText
           required
           line
           type="text"

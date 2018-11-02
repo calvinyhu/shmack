@@ -23,7 +23,7 @@ export const postUserInfo = info => dispatch => {
   dispatch(postUserInfoStart());
   users
     .doc(auth.currentUser.uid)
-    .set(info)
+    .set(info, { merge: true })
     .then(_ => {
       dispatch(postUserInfoSuccess(info));
     })
