@@ -1,6 +1,6 @@
 import * as actionTypes from 'store/actions/actionTypes';
 import * as paths from 'utilities/paths';
-import { auth, USER_FIELDS } from 'utilities/firebase';
+import { auth, USER_FIELDS } from '../../utilities/firebase';
 import { getUserInfo, postUserInfo } from './userActions';
 
 export const authenticate = (info, signingUp) => dispatch => {
@@ -44,6 +44,26 @@ export const verifyEmail = () => dispatch => {
     .catch(_ => {
       console.log('Email verification error');
     });
+};
+
+export const checkForVerificationCode = search => dispatch => {
+  if (!search || !search.includes('mode=verifyEmail')) return;
+  const params = search.split('&');
+
+  for (const param of params) {
+    if (param.includes('oobCode')) {
+      const code = param.split('=');
+      applyVerificationCode(code[1]);
+      break;
+    }
+  }
+};
+
+const applyVerificationCode = code => dispatch => {
+  auth
+    .applyActionCode(code)
+    .then(_ => console.log('Applied verification code'))
+    .catch(error => console.log(error));
 };
 
 export const authTryAutoLogIn = () => dispatch => {

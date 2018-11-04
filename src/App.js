@@ -24,13 +24,15 @@ const mapStateToProps = state => ({
 const mapDispatchToProps = {
   onCheckGeoLocatePermission: appActions.checkGeoLocatePermission,
   onBeforeInstallPrompt: appActions.beforeInstallPrompt,
-  onAuthTryAutoLogIn: authActions.authTryAutoLogIn
+  onAuthTryAutoLogIn: authActions.authTryAutoLogIn,
+  onCheckForVerificationCode: authActions.checkForVerificationCode
 };
 
 class App extends Component {
   componentDidMount() {
     this.props.onAuthTryAutoLogIn();
     this.props.onCheckGeoLocatePermission();
+    this.props.onCheckForVerificationCode(this.props.location.search);
 
     window.addEventListener('beforeinstallprompt', event => {
       event.preventDefault();

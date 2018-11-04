@@ -54,10 +54,30 @@
       flex-flow: column wrap;
       align-items: center;
 
+      p {
+        margin-bottom: $margin / 3;
+      }
+
       .VerifyEmailButton {
         height: 1.8rem;
         width: 6.5rem;
         font-size: $font-size / 1.1;
+      }
+
+      .VerifiedEmailBlurb {
+        display: flex;
+        align-items: center;
+        color: $darker-main-color;
+        font-size: $font-size / 1.2;
+
+        p {
+          margin: 0;
+          margin-right: $margin / 2;
+        }
+
+        svg {
+          transform: scale(0.8);
+        }
       }
     }
   }

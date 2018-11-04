@@ -4,6 +4,7 @@ import PropTypes from 'prop-types';
 
 import styles from './Profile.module.scss';
 import Button from '../UI/Button/Button';
+import Rf from '../UI/Icon/Rf/Rf';
 
 const profile = props => {
   profile.propTypes = {
@@ -22,6 +23,15 @@ const profile = props => {
         <Button main click={props.onVerifyEmail}>
           Verify Email
         </Button>
+      </div>
+    );
+  } else {
+    verifyEmailButton = (
+      <div className={styles.VerifiedEmailBlurb}>
+        <p>Verified Email</p>
+        <Rf darkerMain sm>
+          check-circle
+        </Rf>
       </div>
     );
   }

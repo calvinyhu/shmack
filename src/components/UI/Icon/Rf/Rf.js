@@ -3,6 +3,7 @@ import PropTypes from 'prop-types';
 import classnames from 'classnames';
 import ArrowLeft from 'react-feather/dist/icons/arrow-left';
 import Check from 'react-feather/dist/icons/check';
+import CheckCircle from 'react-feather/dist/icons/check-circle';
 import Dollar from 'react-feather/dist/icons/dollar-sign';
 import Filter from 'react-feather/dist/icons/filter';
 import Home from 'react-feather/dist/icons/home';
@@ -35,7 +36,8 @@ const Rf = props => {
     [styles.Sm]: props.sm,
     [styles.Lg]: props.lg,
     [styles.White]: props.white,
-    [styles.DarkMain]: props.darkMain
+    [styles.DarkMain]: props.darkMain,
+    [styles.DarkerMain]: props.darkerMain
   });
 
   switch (props.children) {
@@ -43,6 +45,8 @@ const Rf = props => {
       return <ArrowLeft className={iconClasses} />;
     case 'check':
       return <Check className={iconClasses} />;
+    case 'check-circle':
+      return <CheckCircle className={iconClasses} />;
     case 'dollar-sign':
       return <Dollar className={iconClasses} />;
     case 'filter':
