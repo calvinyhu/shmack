@@ -48,12 +48,12 @@ export const verifyEmail = () => dispatch => {
 
 export const checkForVerificationCode = search => dispatch => {
   if (!search || !search.includes('mode=verifyEmail')) return;
-  const params = search.split('&');
 
+  const params = search.split('&');
   for (const param of params) {
     if (param.includes('oobCode')) {
       const code = param.split('=');
-      applyVerificationCode(code[1]);
+      dispatch(applyVerificationCode(code[1]));
       break;
     }
   }
