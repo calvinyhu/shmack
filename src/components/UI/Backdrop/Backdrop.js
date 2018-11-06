@@ -7,7 +7,8 @@ import styles from './Backdrop.module.scss';
 const backdrop = props => {
   backdrop.propTypes = {
     isOpen: PropTypes.bool.isRequired,
-    click: PropTypes.func.isRequired
+    click: PropTypes.func.isRequired,
+    percent: PropTypes.number
   };
 
   const backdropClasses = classnames({
@@ -16,7 +17,26 @@ const backdrop = props => {
     [styles.CloseBackdrop]: !props.isOpen
   });
 
-  return <div className={backdropClasses} onClick={props.click} />;
+  let style = null;
+  if (props.percent) {
+    style = { opacity: props.percent, zIndex: 2, transition: 'none' };
+
+    if (props.percent === 0) {
+      style.opacity = 0;
+      style.zIndex = -1;
+      style.transition =
+        'opacity 0.5s cubic-bezier(0.26, 0.94, 0.58, 1), z-index 0s 0.5s cubic-bezier(0.26, 0.94, 0.58, 1)';
+    }
+    if (props.percent === 1) {
+      style.opacity = 1;
+      style.zIndex = 2;
+      style.transition = 'opacity 0.5s cubic-bezier(0.26, 0.94, 0.58, 1)';
+    }
+  }
+
+  return (
+    <div style={style} className={backdropClasses} onClick={props.click} />
+  );
 };
 
 export default backdrop;

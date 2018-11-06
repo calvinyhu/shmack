@@ -68,13 +68,19 @@ class Layout extends PureComponent {
     this.setState(prevState => {
       return {
         isDrawerOpen: !prevState.isDrawerOpen,
-        offsetX: prevState.offsetX === 0 ? this.maxOffsetX : 0
+        offsetX: prevState.offsetX === 0 ? this.maxOffsetX : 0,
+        percent: 1
       };
     });
   };
 
-  handleCloseDrawer = () =>
-    this.setState({ isDrawerOpen: false, offsetX: this.maxOffsetX });
+  handleCloseDrawer = () => {
+    this.setState({
+      isDrawerOpen: false,
+      offsetX: this.maxOffsetX,
+      percent: 0
+    });
+  };
 
   handleTouchStart = event => {
     this.prevOffsetX = this.state.offsetX;
@@ -96,12 +102,23 @@ class Layout extends PureComponent {
   handleTouchEnd = () => {
     const percent = 1 - this.state.offsetX / this.maxOffsetX;
     if (this.state.isDrawerOpen) {
-      if (percent <= 0.8)
-        this.setState({ offsetX: this.maxOffsetX, isDrawerOpen: false });
-      else this.setState({ offsetX: 0, isDrawerOpen: true });
+      if (percent <= 0.8) {
+        this.setState({
+          offsetX: this.maxOffsetX,
+          isDrawerOpen: false,
+          percent: 0
+        });
+      } else this.setState({ offsetX: 0, isDrawerOpen: true, percent: 1 });
     } else {
-      if (percent >= 0.2) this.setState({ offsetX: 0, isDrawerOpen: true });
-      else this.setState({ offsetX: this.maxOffsetX, isDrawerOpen: false });
+      if (percent >= 0.2)
+        this.setState({ offsetX: 0, isDrawerOpen: true, percent: 1 });
+      else {
+        this.setState({
+          offsetX: this.maxOffsetX,
+          isDrawerOpen: false,
+          percent: 0
+        });
+      }
     }
   };
 

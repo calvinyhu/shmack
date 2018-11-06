@@ -33,7 +33,7 @@ class DragDrawer extends Component {
       this.props.offsetX === 0 ||
       this.props.offsetX === this.props.maxOffsetX
     )
-      style.transition = `0.5s cubic-bezier(0.26, 0.94, 0.58, 1)`;
+      style.transition = `0.3s cubic-bezier(0.26, 0.94, 0.58, 1)`;
 
     const touchBarClasses = classnames({
       [styles.TouchBar]: true,
