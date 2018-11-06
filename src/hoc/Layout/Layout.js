@@ -246,6 +246,7 @@ class Layout extends PureComponent {
         isOpen={this.state.isDrawerOpen}
         offsetX={this.state.offsetX}
         maxOffsetX={this.maxOffsetX}
+        close={this.handleCloseDrawer}
         touchStart={this.handleTouchStart}
         touchMove={this.handleTouchMove}
         touchEnd={this.handleTouchEnd}

@@ -1,6 +1,7 @@
 @import './src/assets/scss/_variables.scss';
 @import './src/assets/scss/_mixins.scss';
 
+/********************************* Base *************************************/
 .Button {
   display: flex;
   justify-content: center;
@@ -26,19 +27,9 @@
   }
 }
 
-.Bold {
-  font-weight: bold;
-}
+/********************************* Types *************************************/
 
-.FlexStart {
-  justify-content: flex-start;
-}
-
-.Small {
-  padding: $padding-tiny $padding / 2;
-}
-
-.PlaceholderLink {
+.Link {
   display: flex;
   justify-content: center;
   align-items: center;
@@ -51,9 +42,17 @@
   }
 }
 
+/********************************* Shape *************************************/
+
 .Circle {
   border-radius: 50%;
 }
+
+.Small {
+  padding: $padding-tiny $padding / 2;
+}
+
+/********************************* Color *************************************/
 
 .Clear {
   background: transparent;
@@ -110,6 +109,16 @@
   background: $opp-color;
 }
 
+/********************************* Other *************************************/
+
 .NoShadow {
   box-shadow: none;
+}
+
+.FlexStart {
+  justify-content: flex-start;
+}
+
+.Bold {
+  font-weight: bold;
 }

@@ -1,11 +1,18 @@
 import React, { Component } from 'react';
 import PropTypes from 'prop-types';
-// import throttle from 'raf-throttle';
+import classnames from 'classnames';
 
 import styles from './DragDrawer.module.scss';
 
 class DragDrawer extends Component {
   static propTypes = {
+    isOpen: PropTypes.bool.isRequired,
+    maxOffsetX: PropTypes.number.isRequired,
+    offsetX: PropTypes.number,
+    close: PropTypes.func.isRequired,
+    touchStart: PropTypes.func.isRequired,
+    touchMove: PropTypes.func.isRequired,
+    touchEnd: PropTypes.func.isRequired,
     children: PropTypes.element
   };
 
@@ -13,6 +20,10 @@ class DragDrawer extends Component {
     super(props);
     this.drawerRef = React.createRef();
   }
+
+  handleClick = () => {
+    if (this.props.isOpen) this.props.close();
+  };
 
   render() {
     const style = { transform: `translateX(${this.props.offsetX}px)` };
@@ -24,8 +35,13 @@ class DragDrawer extends Component {
     )
       style.transition = `0.5s cubic-bezier(0.26, 0.94, 0.58, 1)`;
 
-    let touchBar = null;
-    if (!this.props.isOpen) touchBar = <div className={styles.TouchBar} />;
+    const touchBarClasses = classnames({
+      [styles.TouchBar]: true,
+      [styles.ExpandTouchBar]: this.props.isOpen
+    });
+    let touchBar = (
+      <div className={touchBarClasses} onClick={this.handleClick} />
+    );
 
     return (
       <div

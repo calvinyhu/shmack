@@ -60,7 +60,7 @@ class Button extends PureComponent {
   render() {
     const buttonClasses = classnames({
       [styles.Button]: true,
-      [styles.PlaceholderLink]: this.props.link,
+      [styles.Link]: this.props.link,
       [styles.Small]: this.props.small,
       [styles.Circle]: this.props.circle,
       [styles.Main]: this.props.main,
