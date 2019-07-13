@@ -15,7 +15,7 @@ const Root = ({ children, initialState = {} }) => {
   const store = createStore(
     rootReducer,
     initialState,
-    composeEnhancers(applyMiddleware(thunk))
+    composeEnhancers(applyMiddleware(thunk)),
   );
   return (
     <Provider store={store}>

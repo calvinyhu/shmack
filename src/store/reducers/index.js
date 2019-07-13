@@ -10,7 +10,7 @@ const rootReducer = combineReducers({
   auth: authReducer,
   restaurants: restaurantsReducer,
   resPage: resPageReducer,
-  user: userReducer
+  user: userReducer,
 });
 
 export default rootReducer;
