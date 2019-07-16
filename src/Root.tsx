@@ -11,7 +11,12 @@ const composeEnhancers =
     ? (window as any).__REDUX_DEVTOOLS_EXTENSION_COMPOSE__
     : null) || compose;
 
-const Root = ({ children, initialState = {} }) => {
+interface RootProps {
+  children: React.ReactElement;
+  initialState?: object;
+}
+
+const Root = ({ children, initialState = {} }: RootProps) => {
   const store = createStore(
     rootReducer,
     initialState,
