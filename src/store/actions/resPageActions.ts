@@ -152,7 +152,7 @@ const postVoteSuccess = (item: object): PostVoteSuccessAction => ({
   },
 });
 
-export const clearError = (): ResPageClearErrorAction => ({
+export const clearResPageError = (): ResPageClearErrorAction => ({
   type: RESPAGE_CLEAR_ERROR,
   payload: {
     error: {},

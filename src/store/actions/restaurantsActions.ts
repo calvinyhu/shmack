@@ -143,7 +143,7 @@ export const restaurantInputChange = (
   },
 });
 
-export const clearError = (): RestaurantClearErrorAction => ({
+export const clearRestaurantsError = (): RestaurantClearErrorAction => ({
   type: RESTAURANT_CLEAR_ERROR,
   payload: {
     error: {},

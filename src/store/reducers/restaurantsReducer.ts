@@ -1,4 +1,17 @@
-import * as actionTypes from 'store/actions/actionTypes';
+import {
+  RESTAURANT_INPUT_CHANGE,
+  RESTAURANT_GOOGLE_SEARCH_START,
+  RESTAURANT_GOOGLE_SEARCH_SUCCESS,
+  RESTAURANT_GOOGLE_SEARCH_FAIL,
+  RESTAURANT_REQUESTING_LOCATION,
+  NEAR_BY_SEARCH_START,
+  NEAR_BY_SEARCH_SUCCESS,
+  NEAR_BY_SEARCH_FAIL,
+  AT_SEARCH_START,
+  AT_SEARCH_SUCCESS,
+  AT_SEARCH_FAIL,
+  RESTAURANT_CLEAR_ERROR,
+} from 'store/actions';
 import { RestaurantAction } from 'store/actions/restaurantActions.models';
 
 export interface RestaurantsState {
@@ -34,18 +47,18 @@ const restaurantsReducer = (
   action: RestaurantAction,
 ): RestaurantsState => {
   switch (action.type) {
-    case actionTypes.RESTAURANT_INPUT_CHANGE:
-    case actionTypes.RESTAURANT_GOOGLE_SEARCH_START:
-    case actionTypes.RESTAURANT_GOOGLE_SEARCH_SUCCESS:
-    case actionTypes.RESTAURANT_GOOGLE_SEARCH_FAIL:
-    case actionTypes.RESTAURANT_REQUESTING_LOCATION:
-    case actionTypes.NEAR_BY_SEARCH_START:
-    case actionTypes.NEAR_BY_SEARCH_SUCCESS:
-    case actionTypes.NEAR_BY_SEARCH_FAIL:
-    case actionTypes.AT_SEARCH_START:
-    case actionTypes.AT_SEARCH_SUCCESS:
-    case actionTypes.AT_SEARCH_FAIL:
-    case actionTypes.RESTAURANT_CLEAR_ERROR:
+    case RESTAURANT_INPUT_CHANGE:
+    case RESTAURANT_GOOGLE_SEARCH_START:
+    case RESTAURANT_GOOGLE_SEARCH_SUCCESS:
+    case RESTAURANT_GOOGLE_SEARCH_FAIL:
+    case RESTAURANT_REQUESTING_LOCATION:
+    case NEAR_BY_SEARCH_START:
+    case NEAR_BY_SEARCH_SUCCESS:
+    case NEAR_BY_SEARCH_FAIL:
+    case AT_SEARCH_START:
+    case AT_SEARCH_SUCCESS:
+    case AT_SEARCH_FAIL:
+    case RESTAURANT_CLEAR_ERROR:
       return { ...state, ...action.payload };
     default:
       return state;

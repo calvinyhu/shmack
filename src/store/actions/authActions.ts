@@ -1,5 +1,12 @@
-import * as actionTypes from 'store/actions/actionTypes';
-import * as paths from 'utilities/paths';
+import {
+  AUTH_CLEAR_ERROR,
+  AUTH_START,
+  AUTH_SUCCESS,
+  AUTH_FAIL,
+  AUTH_LOGOUT_SUCCESS,
+  AUTH_LOGOUT_FAIL,
+} from './';
+import { HOME } from 'utilities/paths';
 import { auth, USER_FIELDS } from '../../utilities/firebase';
 import { getUserInfo, postUserInfo } from './userActions';
 import {
@@ -107,31 +114,31 @@ export const authLogOut = () => (dispatch: Dispatch) => {
     });
 };
 
-export const clearError = (): AuthClearErrorAction => ({
-  type: actionTypes.AUTH_CLEAR_ERROR,
+export const clearAuthError = (): AuthClearErrorAction => ({
+  type: AUTH_CLEAR_ERROR,
   payload: {
     error: {},
   },
 });
 
 const authStart = (): AuthStartAction => ({
-  type: actionTypes.AUTH_START,
+  type: AUTH_START,
   payload: {
     isLoading: true,
   },
 });
 
 const authSuccess = (): AuthSuccessAction => ({
-  type: actionTypes.AUTH_SUCCESS,
+  type: AUTH_SUCCESS,
   payload: {
     isAuth: true,
     isLoading: false,
-    redirectPath: paths.HOME,
+    redirectPath: HOME,
   },
 });
 
 const authFail = (error: object): AuthFailAction => ({
-  type: actionTypes.AUTH_FAIL,
+  type: AUTH_FAIL,
   payload: {
     isLoading: false,
     error,
@@ -139,7 +146,7 @@ const authFail = (error: object): AuthFailAction => ({
 });
 
 const authLogOutSuccess = (): AuthLogoutSuccessAction => ({
-  type: actionTypes.AUTH_LOGOUT_SUCCESS,
+  type: AUTH_LOGOUT_SUCCESS,
   payload: {
     isAuth: false,
     isLoading: false,
@@ -149,7 +156,7 @@ const authLogOutSuccess = (): AuthLogoutSuccessAction => ({
 });
 
 const authLogOutFail = (error: object): AuthLogoutFailAction => ({
-  type: actionTypes.AUTH_LOGOUT_FAIL,
+  type: AUTH_LOGOUT_FAIL,
   payload: {
     isLoading: false,
     error,

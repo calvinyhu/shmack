@@ -35,18 +35,18 @@ const mapStateToProps = state => ({
   food: state.restaurants.food,
   location: state.restaurants.location,
   searchRestaurants: state.restaurants.searchRestaurants,
-  error: state.restaurants.error
+  error: state.restaurants.error,
 });
 
 const mapDispatchToProps = {
   onRestaurantInputChange: restaurantActions.restaurantInputChange,
   onRestaurantSearch: restaurantActions.restaurantSearch,
   onRequestLocation: restaurantActions.requestLocation,
-  onClearError: restaurantActions.clearError,
-  onClearResPageError: resPageActions.clearError,
+  onClearRestaurantsError: restaurantActions.clearRestaurantsError,
+  onClearResPageError: resPageActions.clearResPageError,
   onGetPopularItems: resPageActions.getItems,
   onSetRedirectParent: appActions.setRedirectParent,
-  onGetUserVotes: userActions.getUserVotes
+  onGetUserVotes: userActions.getUserVotes,
 };
 
 class Search extends Component {
@@ -64,10 +64,10 @@ class Search extends Component {
     onGetPopularItems: PropTypes.func.isRequired,
     onGetUserVotes: PropTypes.func.isRequired,
     onClearResPageError: PropTypes.func.isRequired,
-    onClearError: PropTypes.func.isRequired,
+    onClearRestaurantsError: PropTypes.func.isRequired,
     onSetRedirectParent: PropTypes.func.isRequired,
     onRequestLocation: PropTypes.func.isRequired,
-    onRestaurantInputChange: PropTypes.func.isRequired
+    onRestaurantInputChange: PropTypes.func.isRequired,
   };
 
   state = {
@@ -77,7 +77,7 @@ class Search extends Component {
     isShowLocationInput: false,
     isShowFilters: false,
     restaurant: null,
-    radius: 5
+    radius: 5,
   };
 
   componentDidMount() {
@@ -85,7 +85,7 @@ class Search extends Component {
   }
 
   componentWillUnmount() {
-    this.props.onClearError();
+    this.props.onClearRestaurantsError();
     window.removeEventListener('scroll', this.handleScroll);
   }
 
@@ -154,7 +154,7 @@ class Search extends Component {
       this.props.onRestaurantSearch(
         this.props.food,
         this.props.location,
-        this.state.radius * 1609
+        this.state.radius * 1609,
       );
       this.hideLocationInput();
       this.hideFilters();
@@ -197,7 +197,7 @@ class Search extends Component {
         const photo = res.photos[0];
         const imgUrl = createGooglePlacePhotoQuery(
           photo.photo_reference,
-          photo.width
+          photo.width,
         );
         restaurants.push(
           <Thumbnail
@@ -207,7 +207,7 @@ class Search extends Component {
             price={res.price_level}
             name={res.name}
             rating={res.rating}
-          />
+          />,
         );
       });
     }
@@ -330,5 +330,5 @@ class Search extends Component {
 
 export default connect(
   mapStateToProps,
-  mapDispatchToProps
+  mapDispatchToProps,
 )(Search);

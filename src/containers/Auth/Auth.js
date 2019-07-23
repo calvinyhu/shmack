@@ -16,12 +16,12 @@ import { validateSignupForm } from 'utilities/utilities';
 const mapStateToProps = state => ({
   isLoading: state.auth.isLoading,
   error: state.auth.error,
-  redirectPath: state.auth.redirectPath
+  redirectPath: state.auth.redirectPath,
 });
 
 const mapDispatchToProps = {
   onAuth: authActions.authenticate,
-  onClearError: authActions.clearError
+  onClearError: authActions.clearAuthError,
 };
 
 class Auth extends Component {
@@ -31,19 +31,19 @@ class Auth extends Component {
     location: PropTypes.object.isRequired,
     error: PropTypes.object.isRequired,
     onClearError: PropTypes.func.isRequired,
-    onAuth: PropTypes.func.isRequired
+    onAuth: PropTypes.func.isRequired,
   };
 
   state = {
     firstName: { value: '', isTouched: false },
     lastName: { value: '', isTouched: false },
     email: { value: '', isTouched: false },
-    password: { value: '', isTouched: false }
+    password: { value: '', isTouched: false },
   };
 
   handleInputChange = event => {
     this.setState({
-      [event.target.name]: { value: event.target.value, isTouched: true }
+      [event.target.name]: { value: event.target.value, isTouched: true },
     });
     if (this.props.error) this.props.onClearError();
   };
@@ -58,7 +58,7 @@ class Auth extends Component {
       firstName: { ...this.state.firstName },
       lastName: { ...this.state.lastName },
       email: { ...this.state.email, isTouched: true },
-      password: { ...this.state.password, isTouched: true }
+      password: { ...this.state.password, isTouched: true },
     };
 
     if (isSigningUp) {
@@ -76,7 +76,7 @@ class Auth extends Component {
         firstName: this.state.firstName.value,
         lastName: this.state.lastName.value,
         email: this.state.email.value,
-        password: this.state.password.value
+        password: this.state.password.value,
       };
 
       this.props.onAuth(userInfo, isSigningUp);
@@ -221,5 +221,5 @@ class Auth extends Component {
 
 export default connect(
   mapStateToProps,
-  mapDispatchToProps
+  mapDispatchToProps,
 )(Auth);

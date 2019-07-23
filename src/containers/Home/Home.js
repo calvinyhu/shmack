@@ -16,7 +16,7 @@ import Rf from 'components/UI/Icon/Rf/Rf';
 import {
   AT_RADIUS,
   NEAR_BY_RADIUS,
-  createGooglePlacePhotoQuery
+  createGooglePlacePhotoQuery,
 } from 'utilities/google';
 import * as paths from 'utilities/paths';
 
@@ -26,18 +26,18 @@ const mapStateToProps = state => ({
   isNearByLoading: state.restaurants.isNearByLoading,
   atRestaurants: state.restaurants.atRestaurants,
   nearByRestaurants: state.restaurants.nearByRestaurants,
-  error: state.restaurants.error
+  error: state.restaurants.error,
 });
 
 const mapDispatchToProps = {
   onGetAt: restaurantActions.restaurantSearch,
   onGetNearBy: restaurantActions.restaurantSearch,
-  onClearError: restaurantActions.clearError,
+  onClearRestaurantsError: restaurantActions.clearRestaurantsError,
   onRequestLocation: restaurantActions.requestLocation,
   onGetPopularItems: resPageActions.getItems,
-  onClearResPageError: resPageActions.clearError,
+  onClearResPageError: resPageActions.clearResPageError,
   onSetRedirectParent: appActions.setRedirectParent,
-  onGetUserVotes: userActions.getUserVotes
+  onGetUserVotes: userActions.getUserVotes,
 };
 
 class Home extends Component {
@@ -46,19 +46,19 @@ class Home extends Component {
     isNearByLoading: PropTypes.bool.isRequired,
     error: PropTypes.object.isRequired,
     nearByRestaurants: PropTypes.array.isRequired,
-    onClearError: PropTypes.func.isRequired,
+    onClearRestaurantsError: PropTypes.func.isRequired,
     onSetRedirectParent: PropTypes.func.isRequired,
     onRequestLocation: PropTypes.func.isRequired,
     onGetNearBy: PropTypes.func.isRequired,
     onGetPopularItems: PropTypes.func.isRequired,
-    onGetUserVotes: PropTypes.func.isRequired
+    onGetUserVotes: PropTypes.func.isRequired,
   };
 
   state = {
     isRedirectingToSettings: false,
     isScrollingDown: false,
     isPageOpen: false,
-    restaurant: null
+    restaurant: null,
   };
 
   componentDidMount() {
@@ -80,7 +80,7 @@ class Home extends Component {
   }
 
   componentWillUnmount() {
-    this.props.onClearError();
+    this.props.onClearRestaurantsError();
   }
 
   handleRedirect = () => {
@@ -128,7 +128,7 @@ class Home extends Component {
           const photo = restaurant.photos[0];
           const imgUrl = createGooglePlacePhotoQuery(
             photo.photo_reference,
-            photo.width
+            photo.width,
           );
           thumbanils.push(
             <div key={restaurant.place_id} className={styles.NearByRestaurant}>
@@ -139,7 +139,7 @@ class Home extends Component {
                 name={restaurant.name}
                 rating={restaurant.rating}
               />
-            </div>
+            </div>,
           );
         }
       });
@@ -271,5 +271,5 @@ class Home extends Component {
 
 export default connect(
   mapStateToProps,
-  mapDispatchToProps
+  mapDispatchToProps,
 )(Home);

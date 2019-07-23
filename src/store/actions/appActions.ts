@@ -8,7 +8,7 @@ import {
   BEFORE_INSTALL_PROMPT,
   CLEAR_DEFERRED_PROMPT,
   SET_REDIRECT_PARENT,
-} from 'store/actions';
+} from './';
 import {
   GeoStartAction,
   GeoClearAction,

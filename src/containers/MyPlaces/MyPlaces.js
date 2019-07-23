@@ -14,25 +14,25 @@ import Rf from 'components/UI/Icon/Rf/Rf';
 const mapStateToProps = state => ({
   isAuth: state.auth.isAuth,
   isGettingPlaces: state.user.isGettingPlaces,
-  places: state.user.places
+  places: state.user.places,
 });
 
 const mapDispatchToProps = {
   onGetPlaces: userActions.getPlaces,
   onGetUserVotes: userActions.getUserVotes,
   onGetPopularItems: resPageActions.getItems,
-  onClearResPageError: resPageActions.clearError
+  onClearResPageError: resPageActions.clearResPageError,
 };
 
 class MyPlaces extends Component {
   static propTypes = {
     places: PropTypes.array,
-    onClearResPageError: PropTypes.func.isRequired
+    onClearResPageError: PropTypes.func.isRequired,
   };
 
   state = {
     isPageOpen: false,
-    restaurant: null
+    restaurant: null,
   };
 
   componentDidMount() {
@@ -79,7 +79,7 @@ class MyPlaces extends Component {
       const photo = place.photos[0];
       const imgUrl = createGooglePlacePhotoQuery(
         photo.photo_reference,
-        photo.width
+        photo.width,
       );
       const thumbnail = (
         <div key={place.place_id} className={styles.ThumbnailContainer}>
@@ -130,5 +130,5 @@ class MyPlaces extends Component {
 
 export default connect(
   mapStateToProps,
-  mapDispatchToProps
+  mapDispatchToProps,
 )(MyPlaces);

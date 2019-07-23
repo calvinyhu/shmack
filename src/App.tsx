@@ -2,8 +2,12 @@ import React, { useEffect } from 'react';
 import { Switch, Route, Redirect, withRouter } from 'react-router-dom';
 import { useDispatch, useSelector } from 'react-redux';
 
-import * as appActions from 'store/actions/appActions';
-import * as authActions from 'store/actions/authActions';
+import {
+  authTryAutoLogIn,
+  beforeInstallPrompt,
+  checkForVerificationCode,
+  checkGeoLocatePermission,
+} from 'store/actions';
 import { RootState } from 'store/reducers';
 import Layout from 'hoc/Layout/Layout';
 import Auth from 'containers/Auth/Auth';
@@ -14,7 +18,17 @@ import MyPlaces from 'containers/MyPlaces/MyPlaces';
 import LogOut from 'containers/Auth/LogOut/LogOut';
 import Settings from 'containers/Settings/Settings';
 import About from 'components/About/About';
-import * as paths from 'utilities/paths';
+import {
+  USER,
+  MY_PLACES,
+  LOGOUT,
+  SEARCH,
+  ABOUT,
+  SETTINGS,
+  SIGNUP,
+  LOGIN,
+  HOME,
+} from 'utilities/paths';
 
 interface AppProps {
   location: Location;
@@ -25,13 +39,13 @@ const App = ({ location }: AppProps) => {
   const dispatch = useDispatch();
 
   useEffect(() => {
-    dispatch(appActions.checkGeoLocatePermission());
-    dispatch(authActions.authTryAutoLogIn());
-    dispatch(authActions.checkForVerificationCode(location.search));
+    dispatch(checkGeoLocatePermission());
+    dispatch(authTryAutoLogIn());
+    dispatch(checkForVerificationCode(location.search));
 
     window.addEventListener('beforeinstallprompt', event => {
       event.preventDefault();
-      dispatch(appActions.beforeInstallPrompt());
+      dispatch(beforeInstallPrompt());
     });
   });
 
@@ -40,28 +54,28 @@ const App = ({ location }: AppProps) => {
   if (isAuth) {
     routes = (
       <Switch>
-        <Route exact path={paths.USER} component={User} />
-        <Route exact path={paths.HOME} component={Home} />
-        <Route exact path={paths.SEARCH} component={Search} />
-        <Route exact path={paths.MY_PLACES} component={MyPlaces} />
-        <Route exact path={paths.ABOUT} component={About} />
-        <Route exact path={paths.SETTINGS} component={Settings} />
-        <Route exact path={paths.LOGOUT} component={LogOut} />
-        <Route exact path={paths.LOGIN} component={Auth} />
-        <Route exact path={paths.SIGNUP} component={Auth} />
-        <Redirect to={paths.HOME} />
+        <Route exact path={USER} component={User} />
+        <Route exact path={HOME} component={Home} />
+        <Route exact path={SEARCH} component={Search} />
+        <Route exact path={MY_PLACES} component={MyPlaces} />
+        <Route exact path={ABOUT} component={About} />
+        <Route exact path={SETTINGS} component={Settings} />
+        <Route exact path={LOGOUT} component={LogOut} />
+        <Route exact path={LOGIN} component={Auth} />
+        <Route exact path={SIGNUP} component={Auth} />
+        <Redirect to={HOME} />
       </Switch>
     );
   } else {
     routes = (
       <Switch>
-        <Route exact path={paths.HOME} component={Home} />
-        <Route exact path={paths.SEARCH} component={Search} />
-        <Route exact path={paths.ABOUT} component={About} />
-        <Route exact path={paths.SETTINGS} component={Settings} />
-        <Route exact path={paths.SIGNUP} component={Auth} />
-        <Route exact path={paths.LOGIN} component={Auth} />
-        <Redirect to={paths.HOME} />
+        <Route exact path={HOME} component={Home} />
+        <Route exact path={SEARCH} component={Search} />
+        <Route exact path={ABOUT} component={About} />
+        <Route exact path={SETTINGS} component={Settings} />
+        <Route exact path={SIGNUP} component={Auth} />
+        <Route exact path={LOGIN} component={Auth} />
+        <Redirect to={HOME} />
       </Switch>
     );
   }
