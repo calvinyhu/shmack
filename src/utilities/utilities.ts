@@ -1,18 +1,27 @@
 import validator from 'validator';
+import { FormErrors, AuthState } from 'containers/Auth/Auth.models';
 
-export const updateObject = (oldObject, newObject) => {
+export const updateObject = (oldObject: any, newObject: any) => {
   return {
     ...oldObject,
-    ...newObject
+    ...newObject,
   };
 };
 
-export const isEmpty = value => {
+export const isEmpty = (value: string) => {
   return value === '';
 };
 
-export const validateSignupForm = (signupForm, serverError = null) => {
-  const errors = {};
+export const validateSignupForm = (
+  signupForm: AuthState,
+  serverError: any = {},
+) => {
+  const errors: FormErrors = {
+    firstName: '',
+    lastName: '',
+    email: '',
+    password: '',
+  };
   const isFirstNameTouched = signupForm.firstName.isTouched;
   const isLastNameTouched = signupForm.lastName.isTouched;
   const isEmailTouched = signupForm.email.isTouched;
